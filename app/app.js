@@ -13,8 +13,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router/immutable';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 import history from 'utils/history';
-import 'sanitize.css/sanitize.css';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import theme from 'utils/theme';
 
 // Import root app
 import App from 'containers/App';
@@ -40,13 +42,18 @@ const MOUNT_NODE = document.getElementById('app');
 
 const render = messages => {
   ReactDOM.render(
-    <Provider store={store}>
-      <LanguageProvider messages={messages}>
-        <ConnectedRouter history={history}>
-          <App />
-        </ConnectedRouter>
-      </LanguageProvider>
-    </Provider>,
+    <div>
+      <CssBaseline />
+      <Provider store={store}>
+        <LanguageProvider messages={messages}>
+          <ConnectedRouter history={history}>
+            <MuiThemeProvider theme={theme}>
+              <App />
+            </MuiThemeProvider>
+          </ConnectedRouter>
+        </LanguageProvider>
+      </Provider>
+    </div>,
     MOUNT_NODE,
   );
 };
