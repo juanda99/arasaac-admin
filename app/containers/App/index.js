@@ -12,7 +12,7 @@ import { Switch, Route } from 'react-router-dom';
 
 import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
-import AppBar from 'components/AppBar';
+import Header from 'containers/Header';
 
 import GlobalStyle from '../../global-styles';
 
@@ -20,7 +20,7 @@ export default function App() {
   return (
     <div>
       <Switch>
-        <AppBar />
+        <Header />
         <Route exact path="/" component={HomePage} />
         <Route component={NotFoundPage} />
       </Switch>

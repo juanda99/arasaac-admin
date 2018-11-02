@@ -1,5 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 
+export const drawerWidth = 240;
+
 const GlobalStyle = createGlobalStyle`
   html,
   body {
