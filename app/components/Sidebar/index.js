@@ -8,7 +8,6 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import Collapse from '@material-ui/core/Collapse';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import ExpandLess from '@material-ui/icons/ExpandLess';
@@ -50,82 +49,7 @@ class SideBar extends React.Component {
         <div className={classes.toolbar} role="button">
           ARASAAC
         </div>
-        <Divider />
-        <List>
-          <ListItem button onClick={this.handleClickPictograms}>
-            <ListItemIcon>
-              <PictogramsIcon />
-            </ListItemIcon>
-            <ListItemText
-              inset
-              primary={<FormattedMessage {...messages.pictograms} />}
-            />
-            {this.state.openPictograms ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
-          <Collapse in={this.state.openPictograms} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <ListItem button className={classes.nested}>
-                <ListItemIcon>
-                  <PictogramUploadIcon />
-                </ListItemIcon>
-                <ListItemText
-                  inset
-                  primary={<FormattedMessage {...messages.uploadPictograms} />}
-                />
-              </ListItem>
-              <ListItem button className={classes.nested}>
-                <ListItemIcon>
-                  <TagsIcon />
-                </ListItemIcon>
-                <ListItemText
-                  inset
-                  primary={<FormattedMessage {...messages.tagPictograms} />}
-                />
-              </ListItem>
-            </List>
-          </Collapse>
-          <ListItem button onClick={this.handleClickNews}>
-            <ListItemIcon>
-              <NewsIcon />
-            </ListItemIcon>
-            <ListItemText
-              inset
-              primary={<FormattedMessage {...messages.news} />}
-            />
-            {this.state.openNews ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
-          <Collapse in={this.state.openNews} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <ListItem button className={classes.nested}>
-                <ListItemIcon>
-                  <CreateIcon />
-                </ListItemIcon>
-                <ListItemText
-                  inset
-                  primary={<FormattedMessage {...messages.createNew} />}
-                />
-              </ListItem>
-              <ListItem button className={classes.nested}>
-                <ListItemIcon>
-                  <SearchIcon />
-                </ListItemIcon>
-                <ListItemText
-                  inset
-                  primary={<FormattedMessage {...messages.searchNews} />}
-                />
-              </ListItem>
-            </List>
-          </Collapse>
-          <ListItem button>
-            <ListItemIcon>
-              <UsersIcon />
-            </ListItemIcon>
-            <ListItemText
-              inset
-              primary={<FormattedMessage {...messages.users} />}
-            />
-          </ListItem>
-        </List>
+
         <Divider />
         <List>
           {['All mail', 'Trash', 'Spam'].map((text, index) => (
@@ -179,6 +103,10 @@ SideBar.propTypes = {
   theme: PropTypes.object.isRequired,
   mobileOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
+  routes: PropTypes.array.isRequired,
+  logoText: PropTypes.string.isRequired,
+  logo: PropTypes.string.isRequired,
+  handleDrawerToggle: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles, { withTheme: true })(SideBar);

@@ -49,6 +49,7 @@ const render = messages => {
           <ConnectedRouter history={history}>
             <MuiThemeProvider theme={theme}>
               <App />
+              <p>Pruebarrrrrr</p>
             </MuiThemeProvider>
           </ConnectedRouter>
         </LanguageProvider>

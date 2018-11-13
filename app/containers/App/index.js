@@ -7,24 +7,67 @@
  *
  */
 
-import React from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
+import withStyles from '@material-ui/core/styles/withStyles';
 
 import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
-import Header from 'containers/Header';
+import Header from 'components/Header';
+import Sidebar from 'components/Sidebar';
+import logo from 'images/arasaac-logo.svg';
+import routes from '../../routes';
 
 import GlobalStyle from '../../global-styles';
+import style from './style';
 
-export default function App() {
-  return (
-    <div>
-      <Switch>
-        <Header />
-        <Route exact path="/" component={HomePage} />
-        <Route component={NotFoundPage} />
-      </Switch>
-      <GlobalStyle />
-    </div>
-  );
+const switchRoutes = (
+  <Switch>
+    {routes.map((prop, key) => (
+      <Route path={prop.path} component={prop.component} key={key} />
+    ))}
+  </Switch>
+);
+
+export class App extends Component {
+  static propTypes = {
+    classes: PropTypes.object.isRequired,
+  };
+
+  state = {
+    mobileOpen: false,
+  };
+
+  handleDrawerToggle = () => {
+    this.setState(state => ({ mobileOpen: !state.mobileOpen }));
+  };
+
+  render() {
+    const { classes } = this.props;
+    return (
+      <div className={classes.wrapper}>
+        <Sidebar
+          routes={routes}
+          logoText="ARASAAC"
+          logo={logo}
+          handleDrawerToggle={this.handleDrawerToggle}
+          mobileOpen={this.state.mobileOpen}
+          onClose={this.handleDrawerToggle}
+        />
+        <div className={classes.mainPanel} ref="mainPanel">
+          <Header
+            routes={routes}
+            handleDrawerToggle={this.handleDrawerToggle}
+          />
+          <div className={classes.content}>
+            <div className={classes.container}>{switchRoutes}</div>
+          </div>
+        </div>
+        <GlobalStyle />
+      </div>
+    );
+  }
 }
+
+export default withStyles(style)(App);

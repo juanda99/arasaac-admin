@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -7,12 +7,13 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import MenuIcon from '@material-ui/icons/Menu';
+import Hidden from '@material-ui/core/Hidden';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import styles from './styles';
 
-class MenuAppBar extends React.Component {
+class Header extends Component {
   state = {
     auth: true,
     anchorEl: null,
@@ -30,12 +31,8 @@ class MenuAppBar extends React.Component {
     this.setState({ anchorEl: null });
   };
 
-  handleShowSidebar = () => {
-    this.props.onClick();
-  };
-
   render() {
-    const { classes } = this.props;
+    const { classes, handleDrawerToggle } = this.props;
     const { auth, anchorEl } = this.state;
     const open = Boolean(anchorEl);
 
@@ -84,15 +81,22 @@ class MenuAppBar extends React.Component {
             </div>
           )}
           {!auth && <Button color="inherit">Login</Button>}
+          <Hidden mdUp implementation="css">
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerToggle}
+            />
+          </Hidden>
         </Toolbar>
       </AppBar>
     );
   }
 }
 
-MenuAppBar.propTypes = {
+Header.propTypes = {
   classes: PropTypes.object.isRequired,
-  onClick: PropTypes.func.isRequired,
+  handleDrawerToggle: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(MenuAppBar);
+export default withStyles(styles, { withTheme: true })(Header);
