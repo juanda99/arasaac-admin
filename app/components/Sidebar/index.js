@@ -19,13 +19,11 @@ class SideBar extends React.Component {
   };
 
   handleIsOpen = key => {
-    const isOpen = this.state.isOpen[key] || false;
-    this.setState(prevState => ({
-      isOpen: {
-        key: !isOpen,
-        ...prevState.isOpen,
-      },
-    }));
+    this.setState(prevState => {
+      const state = { isOpen: prevState.isOpen };
+      state.isOpen[key] = !prevState.isOpen[key];
+      return state;
+    });
   };
 
   handleDrawerToggle = () => {
@@ -36,15 +34,22 @@ class SideBar extends React.Component {
     const { classes, theme, logo, routes } = this.props;
     const links = (
       <List className={classes.list}>
-        {routes.map((route, key) => (
-          /* eslint-disable-next-line react/no-array-index-key */
-          { route.children ? (
-              <MenuItem {...route} key={key} onClick={handleIsOpen} open={this.state.isOpen[key] />
-            ): (
-              <MenuItem {...route} key={key} onClick={handleIsOpen} />
-            )
-          } 
-        ))}
+        {routes.map(
+          (route, key) =>
+            route.children ? (
+              <MenuItem
+                {...route}
+                /* eslint-disable-next-line react/no-array-index-key */
+                key={key}
+                item={key}
+                handleIsOpen={() => this.handleIsOpen(key)}
+                open={this.state.isOpen[key]}
+              />
+            ) : (
+              /* eslint-disable-next-line react/no-array-index-key */
+              <MenuItem {...route} key={key} item={key} />
+            ),
+        )}
       </List>
     );
 

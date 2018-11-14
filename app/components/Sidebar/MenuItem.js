@@ -11,12 +11,13 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 
 const MenuItem = props => {
-  const { title, icon, children, path, open, handleOpen } = props;
+  const { title, icon, children, path, open, handleIsOpen, item } = props;
+  const prueba = () => handleIsOpen(item);
   return (
     <div>
       {children ? (
         <div>
-          <ListItem button onClick={handleOpen}>
+          <ListItem button onClick={prueba}>
             <ListItemIcon>
               {typeof icon === 'string' ? <Icon>{icon}</Icon> : <props.icon />}
             </ListItemIcon>
@@ -25,9 +26,9 @@ const MenuItem = props => {
           </ListItem>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              {children.map((child, key) => (
+              {children.map((child, index) => (
                 /* eslint-disable-next-line react/no-array-index-key */
-                <NavLink to={child.path} key={key}>
+                <NavLink to={child.path} key={index}>
                   <ListItem button>
                     <ListItemIcon>
                       {typeof child.icon === 'string' ? (
@@ -62,8 +63,9 @@ MenuItem.propTypes = {
   icon: PropTypes.func.isRequired,
   children: PropTypes.array,
   path: PropTypes.string,
-  open: PropTypes.bool.isRequired,
-  onClick: PropTypes.func,
+  open: PropTypes.bool,
+  handleIsOpen: PropTypes.func,
+  item: PropTypes.number.isRequired,
 };
 
 export default MenuItem;
