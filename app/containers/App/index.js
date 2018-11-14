@@ -12,8 +12,6 @@ import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
 import withStyles from '@material-ui/core/styles/withStyles';
 
-import HomePage from 'containers/HomePage/Loadable';
-import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Header from 'components/Header';
 import Sidebar from 'components/Sidebar';
 import logo from 'images/arasaac-logo.svg';
@@ -55,7 +53,7 @@ export class App extends Component {
           mobileOpen={this.state.mobileOpen}
           onClose={this.handleDrawerToggle}
         />
-        <div className={classes.mainPanel} ref="mainPanel">
+        <div className={classes.mainPanel}>
           <Header
             routes={routes}
             handleDrawerToggle={this.handleDrawerToggle}

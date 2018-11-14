@@ -58,7 +58,6 @@ const sidebarRoutes = [
     icon: UsersIcon,
     component: Users,
   },
-  { redirect: true, path: '/', to: '/home', navbarName: 'Redirect' },
 ];
 
 export default sidebarRoutes;

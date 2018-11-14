@@ -10,31 +10,22 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import PictogramUploadIcon from '@material-ui/icons/AddPhotoAlternate';
-import PictogramsIcon from '@material-ui/icons/Collections';
-import TagsIcon from '@material-ui/icons/Style';
-import UsersIcon from '@material-ui/icons/People';
-import NewsIcon from '@material-ui/icons/Chat';
-import CreateIcon from '@material-ui/icons/Create';
-import SearchIcon from '@material-ui/icons/Search';
-import { FormattedMessage } from 'react-intl';
-import styles from './styles';
-import messages from './messages';
+import MenuItem from './MenuItem';
+import styles from './style';
 
 class SideBar extends React.Component {
   state = {
-    openPictograms: true,
-    openNews: true,
+    isOpen: {},
   };
 
-  handleClickPictograms = () => {
-    this.setState(state => ({ openPictograms: !state.openPictograms }));
-  };
-
-  handleClickNews = () => {
-    this.setState(state => ({ openNews: !state.openNews }));
+  handleIsOpen = key => {
+    const isOpen = this.state.isOpen[key] || false;
+    this.setState(prevState => ({
+      isOpen: {
+        key: !isOpen,
+        ...prevState.isOpen,
+      },
+    }));
   };
 
   handleDrawerToggle = () => {
@@ -42,14 +33,28 @@ class SideBar extends React.Component {
   };
 
   render() {
-    const { classes, theme } = this.props;
+    const { classes, theme, logo, routes } = this.props;
+    const links = (
+      <List className={classes.list}>
+        {routes.map((route, key) => (
+          /* eslint-disable-next-line react/no-array-index-key */
+          { route.children ? (
+              <MenuItem {...route} key={key} onClick={handleIsOpen} open={this.state.isOpen[key] />
+            ): (
+              <MenuItem {...route} key={key} onClick={handleIsOpen} />
+            )
+          } 
+        ))}
+      </List>
+    );
 
     const drawer = (
       <div>
         <div className={classes.toolbar} role="button">
           ARASAAC
+          {logo ? <img className={classes.logo} src={logo} alt="logo" /> : ''}
         </div>
-
+        {links}
         <Divider />
         <List>
           {['All mail', 'Trash', 'Spam'].map((text, index) => (
