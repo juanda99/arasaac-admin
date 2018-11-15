@@ -26,12 +26,12 @@ class SideBar extends React.Component {
     });
   };
 
-  handleDrawerToggle = () => {
-    this.props.onClose();
+  toggleSidebar = () => {
+    this.props.handleSidebarToggle();
   };
 
   render() {
-    const { classes, theme, logo, routes } = this.props;
+    const { classes, theme, logo, routes, open } = this.props;
     const links = (
       <List className={classes.list}>
         {routes.map(
@@ -80,8 +80,8 @@ class SideBar extends React.Component {
           <Drawer
             variant="temporary"
             anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-            open={this.props.mobileOpen}
-            onClose={this.handleDrawerToggle}
+            open={open}
+            onClose={this.toggleSidebar}
             classes={{
               paper: classes.drawerPaper,
             }}
@@ -111,12 +111,12 @@ class SideBar extends React.Component {
 SideBar.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
-  mobileOpen: PropTypes.bool.isRequired,
+  open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   routes: PropTypes.array.isRequired,
   logoText: PropTypes.string.isRequired,
   logo: PropTypes.string.isRequired,
-  handleDrawerToggle: PropTypes.func.isRequired,
+  handleSidebarToggle: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles, { withTheme: true })(SideBar);

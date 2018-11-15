@@ -31,22 +31,28 @@ class Header extends Component {
     this.setState({ anchorEl: null });
   };
 
+  toggleSidebar = () => {
+    this.props.handleSidebarToggle();
+  };
+
   render() {
-    const { classes, handleDrawerToggle } = this.props;
+    const { classes } = this.props;
     const { auth, anchorEl } = this.state;
     const open = Boolean(anchorEl);
 
     return (
       <AppBar className={classes.appBar} position="static">
         <Toolbar>
-          <IconButton
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="Menu"
-            onClick={this.handleShowSidebar}
-          >
-            <MenuIcon />
-          </IconButton>
+          <Hidden mdUp>
+            <IconButton
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="Open menu"
+              onClick={this.toggleSidebar}
+            >
+              <MenuIcon />
+            </IconButton>
+          </Hidden>
           <Typography variant="h6" color="inherit" className={classes.grow}>
             Arasaac Management
           </Typography>
@@ -81,13 +87,6 @@ class Header extends Component {
             </div>
           )}
           {!auth && <Button color="inherit">Login</Button>}
-          <Hidden mdUp implementation="css">
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              onClick={handleDrawerToggle}
-            />
-          </Hidden>
         </Toolbar>
       </AppBar>
     );
@@ -96,7 +95,7 @@ class Header extends Component {
 
 Header.propTypes = {
   classes: PropTypes.object.isRequired,
-  handleDrawerToggle: PropTypes.func.isRequired,
+  handleSidebarToggle: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles, { withTheme: true })(Header);

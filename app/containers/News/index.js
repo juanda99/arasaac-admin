@@ -17,9 +17,17 @@ import messages from './messages';
 export default class News extends React.PureComponent {
   render() {
     return (
-      <h1>
-        <FormattedMessage {...messages.header} />
-      </h1>
+      <div>
+        <h1>
+          <FormattedMessage {...messages.header} />
+        </h1>
+        <p>
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Natus ipsam
+          mollitia, excepturi incidunt impedit, a nulla voluptatibus ducimus ad,
+          quasi labore consectetur expedita? Consequuntur eaque natus eum
+          dolore, unde eius.
+        </p>
+      </div>
     );
   }
 }

@@ -14,6 +14,7 @@ const styles = theme => ({
   },
   grow: {
     flexGrow: 1,
+    paddingLeft: 80,
   },
 });
 

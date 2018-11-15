@@ -9,9 +9,20 @@ import { NavLink } from 'react-router-dom';
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
+import { withStyles } from '@material-ui/core/styles';
+import styles from './style';
 
 const MenuItem = props => {
-  const { title, icon, children, path, open, handleIsOpen, item } = props;
+  const {
+    title,
+    icon,
+    children,
+    path,
+    open,
+    handleIsOpen,
+    item,
+    classes,
+  } = props;
   const prueba = () => handleIsOpen(item);
   return (
     <div>
@@ -21,10 +32,15 @@ const MenuItem = props => {
             <ListItemIcon>
               {typeof icon === 'string' ? <Icon>{icon}</Icon> : <props.icon />}
             </ListItemIcon>
-            <ListItemText inset primary={title} />
+            <ListItemText primary={title} />
             {open ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
-          <Collapse in={open} timeout="auto" unmountOnExit>
+          <Collapse
+            in={open}
+            timeout="auto"
+            unmountOnExit
+            className={classes.subMenu}
+          >
             <List component="div" disablePadding>
               {children.map((child, index) => (
                 /* eslint-disable-next-line react/no-array-index-key */
@@ -37,7 +53,7 @@ const MenuItem = props => {
                         <child.icon />
                       )}
                     </ListItemIcon>
-                    <ListItemText inset primary={child.title} />
+                    <ListItemText primary={child.title} />
                   </ListItem>
                 </NavLink>
               ))}
@@ -66,6 +82,7 @@ MenuItem.propTypes = {
   open: PropTypes.bool,
   handleIsOpen: PropTypes.func,
   item: PropTypes.number.isRequired,
+  classes: PropTypes.object.isRequired,
 };
 
-export default MenuItem;
+export default withStyles(styles, { withTheme: true })(MenuItem);

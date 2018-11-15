@@ -1,12 +1,3 @@
-/**
- *
- * App.js
- *
- * This component is the skeleton around the actual pages, and should only
- * contain code that should be seen on all pages. (e.g. navigation bar)
- *
- */
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
@@ -20,13 +11,21 @@ import routes from '../../routes';
 import GlobalStyle from '../../global-styles';
 import style from './style';
 
-const switchRoutes = (
-  <Switch>
-    {routes.map((prop, key) => (
-      <Route path={prop.path} component={prop.component} key={key} />
-    ))}
-  </Switch>
-);
+const getRoutes = () =>
+  routes.map((route, key) => {
+    if (route.children) {
+      return route.children.map((subRoute, subkey) => (
+        <Route
+          path={subRoute.path}
+          component={subRoute.component}
+          /* eslint-disable-next-line react/no-array-index-key */
+          key={`${key}-${subkey}`}
+        />
+      ));
+    }
+    /* eslint-disable-next-line react/no-array-index-key */
+    return <Route path={route.path} component={route.component} key={key} />;
+  });
 
 export class App extends Component {
   static propTypes = {
@@ -34,11 +33,11 @@ export class App extends Component {
   };
 
   state = {
-    mobileOpen: false,
+    sidebarOpen: false,
   };
 
-  handleDrawerToggle = () => {
-    this.setState(state => ({ mobileOpen: !state.mobileOpen }));
+  handleSidebarToggle = () => {
+    this.setState(state => ({ sidebarOpen: !state.sidebarOpen }));
   };
 
   render() {
@@ -49,17 +48,19 @@ export class App extends Component {
           routes={routes}
           logoText="ARASAAC"
           logo={logo}
-          handleDrawerToggle={this.handleDrawerToggle}
-          mobileOpen={this.state.mobileOpen}
-          onClose={this.handleDrawerToggle}
+          handleSidebarToggle={this.handleSidebarToggle}
+          open={this.state.sidebarOpen}
+          onClose={this.handleSidebarToggle}
         />
         <div className={classes.mainPanel}>
           <Header
             routes={routes}
-            handleDrawerToggle={this.handleDrawerToggle}
+            handleSidebarToggle={this.handleSidebarToggle}
           />
           <div className={classes.content}>
-            <div className={classes.container}>{switchRoutes}</div>
+            <div className={classes.container}>
+              <Switch>{getRoutes()}</Switch>
+            </div>
           </div>
         </div>
         <GlobalStyle />

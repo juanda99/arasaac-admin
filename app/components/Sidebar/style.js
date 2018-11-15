@@ -5,26 +5,6 @@ const sidebarStyle = theme => ({
     position: 'fixed',
     ...boxShadow,
     width: drawerWidth,
-    [theme.breakpoints.up('md')]: {
-      width: drawerWidth,
-      position: 'fixed',
-    },
-    [theme.breakpoints.down('sm')]: {
-      width: drawerWidth,
-      ...boxShadow,
-      position: 'fixed',
-      display: 'block',
-      top: '0',
-      right: '0',
-      left: 'auto',
-      zIndex: '1032',
-      visibility: 'visible',
-      overflowY: 'visible',
-      borderTop: 'none',
-      textAlign: 'left',
-      paddingRight: '0px',
-      paddingLeft: '0',
-    },
   },
   logo: {
     position: 'relative',
@@ -42,6 +22,9 @@ const sidebarStyle = theme => ({
       width: 'calc(100% - 90px)',
       backgroundColor: 'rgba(180, 180, 180, 0.3)',
     },
+  },
+  subMenu: {
+    paddingLeft: '15px',
   },
   logoLink: {
     textTransform: 'uppercase',
