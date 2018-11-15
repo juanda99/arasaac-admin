@@ -1,4 +1,4 @@
-import { drawerWidth, boxShadow } from '../../global-styles';
+import { drawerWidth, boxShadow } from '../../global-styles'
 
 const sidebarStyle = theme => ({
   drawerPaper: {
@@ -54,7 +54,7 @@ const sidebarStyle = theme => ({
     verticalAlign: 'middle',
     border: '0',
   },
-});
+})
 
 /*
 const styles = theme => ({
@@ -78,4 +78,4 @@ const styles = theme => ({
 
 */
 
-export default sidebarStyle;
+export default sidebarStyle

@@ -1,37 +1,37 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import Hidden from '@material-ui/core/Hidden';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
-import MenuItem from './MenuItem';
-import styles from './style';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import Drawer from '@material-ui/core/Drawer'
+import List from '@material-ui/core/List'
+import Hidden from '@material-ui/core/Hidden'
+import Divider from '@material-ui/core/Divider'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemText from '@material-ui/core/ListItemText'
+import InboxIcon from '@material-ui/icons/MoveToInbox'
+import MailIcon from '@material-ui/icons/Mail'
+import MenuItem from './MenuItem'
+import styles from './style'
 
 class SideBar extends React.Component {
   state = {
     isOpen: {},
-  };
+  }
 
   handleIsOpen = key => {
     this.setState(prevState => {
-      const state = { isOpen: prevState.isOpen };
-      state.isOpen[key] = !prevState.isOpen[key];
-      return state;
-    });
-  };
+      const state = { isOpen: prevState.isOpen }
+      state.isOpen[key] = !prevState.isOpen[key]
+      return state
+    })
+  }
 
   toggleSidebar = () => {
-    this.props.handleSidebarToggle();
-  };
+    this.props.handleSidebarToggle()
+  }
 
   render() {
-    const { classes, theme, logo, routes, open } = this.props;
+    const { classes, theme, logo, routes, open } = this.props
     const links = (
       <List className={classes.list}>
         {routes.map(
@@ -51,7 +51,7 @@ class SideBar extends React.Component {
             ),
         )}
       </List>
-    );
+    )
 
     const drawer = (
       <div>
@@ -72,7 +72,7 @@ class SideBar extends React.Component {
           ))}
         </List>
       </div>
-    );
+    )
 
     return (
       <div className={classes.root}>
@@ -104,7 +104,7 @@ class SideBar extends React.Component {
           </Drawer>
         </Hidden>
       </div>
-    );
+    )
   }
 }
 
@@ -117,6 +117,6 @@ SideBar.propTypes = {
   logoText: PropTypes.string.isRequired,
   logo: PropTypes.string.isRequired,
   handleSidebarToggle: PropTypes.func.isRequired,
-};
+}
 
-export default withStyles(styles, { withTheme: true })(SideBar);
+export default withStyles(styles, { withTheme: true })(SideBar)

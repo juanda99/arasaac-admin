@@ -1,16 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Icon from '@material-ui/core/Icon';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import { NavLink } from 'react-router-dom';
-import Collapse from '@material-ui/core/Collapse';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import { withStyles } from '@material-ui/core/styles';
-import styles from './style';
+import React from 'react'
+import PropTypes from 'prop-types'
+import Icon from '@material-ui/core/Icon'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemText from '@material-ui/core/ListItemText'
+import { NavLink } from 'react-router-dom'
+import Collapse from '@material-ui/core/Collapse'
+import ExpandLess from '@material-ui/icons/ExpandLess'
+import ExpandMore from '@material-ui/icons/ExpandMore'
+import { withStyles } from '@material-ui/core/styles'
+import styles from './style'
 
 const MenuItem = props => {
   const {
@@ -22,8 +22,8 @@ const MenuItem = props => {
     handleIsOpen,
     item,
     classes,
-  } = props;
-  const prueba = () => handleIsOpen(item);
+  } = props
+  const prueba = () => handleIsOpen(item)
   return (
     <div>
       {children ? (
@@ -71,8 +71,8 @@ const MenuItem = props => {
         </NavLink>
       )}
     </div>
-  );
-};
+  )
+}
 
 MenuItem.propTypes = {
   title: PropTypes.object,
@@ -83,6 +83,6 @@ MenuItem.propTypes = {
   handleIsOpen: PropTypes.func,
   item: PropTypes.number.isRequired,
   classes: PropTypes.object.isRequired,
-};
+}
 
-export default withStyles(styles, { withTheme: true })(MenuItem);
+export default withStyles(styles, { withTheme: true })(MenuItem)

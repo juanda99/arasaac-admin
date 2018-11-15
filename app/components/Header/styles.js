@@ -1,4 +1,4 @@
-import drawerWidth from '../../global-styles';
+import drawerWidth from '../../global-styles'
 
 const styles = theme => ({
   appBar: {
@@ -16,6 +16,6 @@ const styles = theme => ({
     flexGrow: 1,
     paddingLeft: 80,
   },
-});
+})
 
-export default styles;
+export default styles
