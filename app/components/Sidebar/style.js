@@ -26,6 +26,9 @@ const sidebarStyle = theme => ({
   subMenu: {
     paddingLeft: '15px',
   },
+  navlink: {
+    textDecoration: 'none',
+  },
   logoLink: {
     textTransform: 'uppercase',
     padding: '5px 0',

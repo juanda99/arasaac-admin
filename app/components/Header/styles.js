@@ -1,9 +1,8 @@
-import drawerWidth from '../../global-styles'
+import { drawerWidth } from '../../global-styles'
 
 const styles = theme => ({
   appBar: {
     position: 'absolute',
-    marginLeft: drawerWidth,
     [theme.breakpoints.up('md')]: {
       width: `calc(100% - ${drawerWidth}px)`,
     },

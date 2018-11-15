@@ -13,46 +13,24 @@ import { withStyles } from '@material-ui/core/styles'
 import styles from './style'
 
 const MenuItem = props => {
-  const {
-    title,
-    icon,
-    children,
-    path,
-    open,
-    handleIsOpen,
-    item,
-    classes,
-  } = props
+  const { title, icon, children, path, open, handleIsOpen, item, classes } = props
   const prueba = () => handleIsOpen(item)
   return (
     <div>
       {children ? (
         <div>
           <ListItem button onClick={prueba}>
-            <ListItemIcon>
-              {typeof icon === 'string' ? <Icon>{icon}</Icon> : <props.icon />}
-            </ListItemIcon>
+            <ListItemIcon>{typeof icon === 'string' ? <Icon>{icon}</Icon> : <props.icon />}</ListItemIcon>
             <ListItemText primary={title} />
             {open ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
-          <Collapse
-            in={open}
-            timeout="auto"
-            unmountOnExit
-            className={classes.subMenu}
-          >
+          <Collapse in={open} timeout="auto" unmountOnExit className={classes.subMenu}>
             <List component="div" disablePadding>
               {children.map((child, index) => (
                 /* eslint-disable-next-line react/no-array-index-key */
-                <NavLink to={child.path} key={index}>
+                <NavLink to={child.path} key={index} className={classes.navlink}>
                   <ListItem button>
-                    <ListItemIcon>
-                      {typeof child.icon === 'string' ? (
-                        <Icon>{child.icon}</Icon>
-                      ) : (
-                        <child.icon />
-                      )}
-                    </ListItemIcon>
+                    <ListItemIcon>{typeof child.icon === 'string' ? <Icon>{child.icon}</Icon> : <child.icon />}</ListItemIcon>
                     <ListItemText primary={child.title} />
                   </ListItem>
                 </NavLink>
@@ -63,9 +41,7 @@ const MenuItem = props => {
       ) : (
         <NavLink to={path} key={path}>
           <ListItem button>
-            <ListItemIcon>
-              {typeof icon === 'string' ? <Icon>{icon}</Icon> : <props.icon />}
-            </ListItemIcon>
+            <ListItemIcon>{typeof icon === 'string' ? <Icon>{icon}</Icon> : <props.icon />}</ListItemIcon>
             <ListItemText inset primary={title} />
           </ListItem>
         </NavLink>
