@@ -13,7 +13,8 @@ import Hidden from '@material-ui/core/Hidden'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
-import LanguageIcon from '@material-ui/icons/Language'
+
+import LocaleToggle from 'containers/LocaleToggle'
 /*
 import FormatTextdirectionLToR from '@material-ui/icons/FormatTextdirectionLToR'
 import FormatTextdirectionRToL from '@material-ui/icons/FormatTextdirectionRToL'
@@ -27,7 +28,6 @@ class Header extends Component {
   state = {
     auth: true,
     loginButton: null,
-    languageButton: null,
   }
 
   handleLogout = event => {
@@ -47,42 +47,34 @@ class Header extends Component {
   }
 
   render() {
-    const { classes } = this.props
-    const { auth, loginButton, languageButton } = this.state
+    const { classes, locale } = this.props
+    const { auth, loginButton } = this.state
 
     return (
       <AppBar className={classes.appBar} position="static">
         <Toolbar>
           <Hidden mdUp>
-            <IconButton className={classes.menuButton} color="inherit" aria-label="Open menu" onClick={this.toggleSidebar}>
+            <IconButton
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="Open menu"
+              onClick={this.toggleSidebar}
+            >
               <MenuIcon />
             </IconButton>
           </Hidden>
           <Typography variant="h6" color="inherit" className={classes.grow}>
             Arasaac Management
           </Typography>
-          <Tooltip title={<FormattedMessage {...messages.changeLanguage} />} enterDelay={300}>
-            <IconButton
-              color="inherit"
-              aria-owns={languageButton ? 'language-menu' : undefined}
-              aria-haspopup="true"
-              onClick={this.handleLanguageIconClick}
-            >
-              <LanguageIcon />
-            </IconButton>
-          </Tooltip>
-          <Menu id="language-menu" anchorEl={languageButton} open={Boolean(languageButton)} onClose={this.handleLanguageMenuClose}>
-            <MenuItem selected onClick={() => this.handleLanguageMenuItemClick('en')}>
-              English
-            </MenuItem>
-            <MenuItem selected={false} onClick={() => this.handleLanguageMenuItemClick('zh')}>
-              中文
-            </MenuItem>
-          </Menu>
+          {locale && <LocaleToggle />}
           {auth && (
             <React.Fragment>
               <Tooltip title={<FormattedMessage {...messages.userMenu} />} enterDelay={300}>
-                <IconButton aria-owns={loginButton ? 'menu-appbar' : null} aria-haspopup="true" onClick={this.handleAuthMenu}>
+                <IconButton
+                  aria-owns={loginButton ? 'menu-appbar' : null}
+                  aria-haspopup="true"
+                  onClick={this.handleAuthMenu}
+                >
                   <AccountCircle />
                 </IconButton>
               </Tooltip>
@@ -103,6 +95,7 @@ class Header extends Component {
 Header.propTypes = {
   classes: PropTypes.object.isRequired,
   handleSidebarToggle: PropTypes.func.isRequired,
+  locale: PropTypes.bool,
 }
 
 export default withStyles(styles, { withTheme: true })(Header)
