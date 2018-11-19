@@ -1,18 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import React from 'react'
+import PropTypes from 'prop-types'
+import MenuItem from '@material-ui/core/MenuItem'
+import FormControl from '@material-ui/core/FormControl'
+import Select from '@material-ui/core/Select'
 
 class Cities extends React.Component {
   static propTypes = {
     value: PropTypes.string.isRequired,
     index: PropTypes.number.isRequired,
     change: PropTypes.func.isRequired,
-  };
+  }
 
   render() {
-    const { value, index, change } = this.props;
+    const { value, index, change } = this.props
     const cities = [
       'Aberdeen',
       'Abilene',
@@ -399,15 +399,11 @@ class Cities extends React.Component {
       'Yonkers',
       'York',
       'Youngstown',
-    ];
+    ]
 
     return (
       <FormControl>
-        <Select
-          value={value}
-          onChange={event => change(event.target.value, index)}
-          style={{ fontSize: 'inherit' }}
-        >
+        <Select value={value} onChange={event => change(event.target.value, index)} style={{ fontSize: 'inherit' }}>
           {cities.map((city, index) => (
             <MenuItem key={index} value={city}>
               {city}
@@ -415,8 +411,8 @@ class Cities extends React.Component {
           ))}
         </Select>
       </FormControl>
-    );
+    )
   }
 }
 
-export default Cities;
+export default Cities

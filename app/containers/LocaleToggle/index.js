@@ -42,8 +42,8 @@ export class LocaleToggle extends React.PureComponent {
           id={idSelector}
           anchorEl={languageButton}
           value={this.props.locale}
-          onChange={this.props.changeLocale}
-          onClose={this.props.handleLanguageClose}
+          onClick={this.props.changeLocale}
+          onClose={this.handleLanguageClose}
         />
       </React.Fragment>
     )

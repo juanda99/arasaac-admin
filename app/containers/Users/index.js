@@ -1,10 +1,10 @@
-import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import MUIDataTable from 'mui-datatables';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
-import messages from './messages';
-import Cities from './cities';
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import MUIDataTable from 'mui-datatables'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Switch from '@material-ui/core/Switch'
+import messages from './messages'
+import Cities from './cities'
 
 /* eslint-disable react/prefer-stateless-function */
 
@@ -27,11 +27,7 @@ export default class Users extends React.PureComponent {
       options: {
         filter: true,
         customBodyRender: (value, tableMeta, updateValue) => (
-          <Cities
-            value={value}
-            index={tableMeta.columnIndex}
-            change={event => updateValue(event)}
-          />
+          <Cities value={value} index={tableMeta.columnIndex} change={event => updateValue(event)} />
         ),
       },
     },
@@ -51,9 +47,9 @@ export default class Users extends React.PureComponent {
             currency: 'USD',
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
-          });
+          })
 
-          return nf.format(value);
+          return nf.format(value)
         },
       },
     },
@@ -65,21 +61,15 @@ export default class Users extends React.PureComponent {
           <FormControlLabel
             label={value ? 'Yes' : 'No'}
             value={value ? 'Yes' : 'No'}
-            control={
-              <Switch
-                color="primary"
-                checked={value}
-                value={value ? 'Yes' : 'No'}
-              />
-            }
+            control={<Switch color="primary" checked={value} value={value ? 'Yes' : 'No'} />}
             onChange={event => {
-              updateValue(event.target.value !== 'Yes');
+              updateValue(event.target.value !== 'Yes')
             }}
           />
         ),
       },
     },
-  ];
+  ]
 
   data = [
     ['Robin Duncan', 'Business Analyst', 'Los Angeles', 20, 77000, false],
@@ -89,14 +79,7 @@ export default class Users extends React.PureComponent {
     ['Frankie Long', 'Industrial Analyst', 'Austin', 31, 170000, false],
     ['Brynn Robbins', 'Business Analyst', 'Norfolk', 22, 90000, true],
     ['Justice Mann', 'Business Consultant', 'Chicago', 24, 133000, false],
-    [
-      'Addison Navarro',
-      'Business Management Analyst',
-      'New York',
-      50,
-      295000,
-      true,
-    ],
+    ['Addison Navarro', 'Business Management Analyst', 'New York', 50, 295000, true],
     ['Jesse Welch', 'Agency Legal Counsel', 'Seattle', 28, 200000, false],
     ['Eli Mejia', 'Commercial Specialist', 'Long Beach', 65, 400000, true],
     ['Gene Leblanc', 'Industrial Analyst', 'Hartford', 34, 110000, false],
@@ -109,23 +92,16 @@ export default class Users extends React.PureComponent {
     ['Silver Carey', 'Computer Scientist', 'Memphis', 47, 250000, true],
     ['Franky Miles', 'Industrial Analyst', 'Buffalo', 49, 190000, false],
     ['Glen Nixon', 'Corporate Counselor', 'Arlington', 44, 80000, true],
-    [
-      'Gabby Strickland',
-      'Business Process Consultant',
-      'Scottsdale',
-      26,
-      45000,
-      false,
-    ],
+    ['Gabby Strickland', 'Business Process Consultant', 'Scottsdale', 26, 45000, false],
     ['Mason Ray', 'Computer Scientist', 'San Francisco', 39, 142000, true],
-  ];
+  ]
 
   options = {
     // filterType: 'checkbox',
     filterType: 'dropdown',
     responsive: 'scroll',
     selectableRows: true,
-  };
+  }
 
   render() {
     return (
@@ -133,13 +109,8 @@ export default class Users extends React.PureComponent {
         <h1>
           <FormattedMessage {...messages.header} />
         </h1>
-        <MUIDataTable
-          title="Employee List"
-          data={this.data}
-          columns={this.columns}
-          options={this.options}
-        />
+        <MUIDataTable title="Employee List" data={this.data} columns={this.columns} options={this.options} />
       </div>
-    );
+    )
   }
 }

@@ -28,11 +28,11 @@
   "app.containers.NotFoundPage.header": "This is the NotFoundPage container!",
   "app.containers.Pictograms.header": "This is the Pictograms container!",
   "app.containers.Users.header": "Users management",
-  "arasaacadmin.components.Sidebar.menu.createNew": "Add new",
-  "arasaacadmin.components.Sidebar.menu.news": "News",
-  "arasaacadmin.components.Sidebar.menu.pictograms": "Pictograms",
-  "arasaacadmin.components.Sidebar.menu.searchNews": "Search news",
-  "arasaacadmin.components.Sidebar.menu.tagPictograms": "Tag pictograms",
-  "arasaacadmin.components.Sidebar.menu.uploadPictograms": "Upload pictograms",
-  "arasaacadmin.components.Sidebar.menu.users": "Users"
+  "arasaacadmin.components.Sidebar.menu.createNew": "Añadir noticia",
+  "arasaacadmin.components.Sidebar.menu.news": "Noticias",
+  "arasaacadmin.components.Sidebar.menu.pictograms": "Pictogramas",
+  "arasaacadmin.components.Sidebar.menu.searchNews": "Buscar noticias",
+  "arasaacadmin.components.Sidebar.menu.tagPictograms": "Etiquetar pictogramas",
+  "arasaacadmin.components.Sidebar.menu.uploadPictograms": "Subir pictogramas",
+  "arasaacadmin.components.Sidebar.menu.users": "Usuarios"
 }
