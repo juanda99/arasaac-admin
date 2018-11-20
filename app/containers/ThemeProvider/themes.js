@@ -18,8 +18,14 @@ themes[DARK_THEME] = {
   palette: {
     primary,
     type: 'dark', // Switching the dark mode on is a single property value change.
-    background: {
-      default: '#262626',
+    overrides: {
+      MuiButton: {
+        // Name of the component ⚛️ / style sheet
+        root: {
+          // Name of the rule
+          color: 'red', // Some CSS
+        },
+      },
     },
   },
 }

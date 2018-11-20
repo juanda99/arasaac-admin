@@ -19,7 +19,7 @@ const MenuItem = props => {
     <div>
       {children ? (
         <div>
-          <ListItem button onClick={prueba}>
+          <ListItem button onClick={prueba} className={classes.headerSubMenu}>
             <ListItemIcon>{typeof icon === 'string' ? <Icon>{icon}</Icon> : <props.icon />}</ListItemIcon>
             <ListItemText primary={title} />
             {open ? <ExpandLess /> : <ExpandMore />}
@@ -30,7 +30,9 @@ const MenuItem = props => {
                 /* eslint-disable-next-line react/no-array-index-key */
                 <NavLink to={child.path} key={index} className={classes.navlink}>
                   <ListItem button>
-                    <ListItemIcon>{typeof child.icon === 'string' ? <Icon>{child.icon}</Icon> : <child.icon />}</ListItemIcon>
+                    <ListItemIcon>
+                      {typeof child.icon === 'string' ? <Icon>{child.icon}</Icon> : <child.icon />}
+                    </ListItemIcon>
                     <ListItemText primary={child.title} />
                   </ListItem>
                 </NavLink>

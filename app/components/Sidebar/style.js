@@ -26,6 +26,10 @@ const sidebarStyle = theme => ({
   subMenu: {
     paddingLeft: '15px',
   },
+  headerSubMenu: {
+    color: theme.palette.text.primary,
+    paddingLeft: '15px',
+  },
   navlink: {
     textDecoration: 'none',
   },
