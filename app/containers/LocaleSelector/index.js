@@ -11,7 +11,7 @@ import { changeLocale } from '../LanguageProvider/actions'
 import { makeSelectLocale } from '../LanguageProvider/selectors'
 import messages from './messages'
 
-export class LocaleToggle extends React.PureComponent {
+export class LocaleSelector extends React.PureComponent {
   state = {
     languageButton: null,
   }
@@ -50,23 +50,14 @@ export class LocaleToggle extends React.PureComponent {
   }
 }
 
-LocaleToggle.propTypes = {
+LocaleSelector.propTypes = {
   changeLocale: PropTypes.func,
   locale: PropTypes.string,
 }
 
 const mapStateToProps = createSelector(makeSelectLocale(), locale => ({ locale }))
 
-/*
-export function mapDispatchToProps(dispatch) {
-  return {
-    changeLocale: language => dispatch(changeLocale(language)),
-    dispatch,
-  }
-}
-*/
-
 export default connect(
   mapStateToProps,
   { changeLocale },
-)(LocaleToggle)
+)(LocaleSelector)

@@ -14,12 +14,12 @@ import AccountCircle from '@material-ui/icons/AccountCircle'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 
-import LocaleToggle from 'containers/LocaleToggle'
+import LocaleSelector from 'containers/LocaleSelector'
+import ThemeSelector from 'containers/ThemeSelector'
+
 /*
 import FormatTextdirectionLToR from '@material-ui/icons/FormatTextdirectionLToR'
 import FormatTextdirectionRToL from '@material-ui/icons/FormatTextdirectionRToL'
-import LightbulbFullIcon from './LightbulbFull'
-import LightbulbOutlineIcon from './LightbulbOutline'
 */
 import messages from './messages'
 import styles from './styles'
@@ -47,7 +47,7 @@ class Header extends Component {
   }
 
   render() {
-    const { classes, locale } = this.props
+    const { classes, locale, accesibility, theme } = this.props
     const { auth, loginButton } = this.state
 
     return (
@@ -66,7 +66,8 @@ class Header extends Component {
           <Typography variant="h6" color="inherit" className={classes.grow}>
             Arasaac Management
           </Typography>
-          {locale && <LocaleToggle />}
+          {theme && <ThemeSelector />}
+          {locale && <LocaleSelector />}
           {auth && (
             <React.Fragment>
               <Tooltip title={<FormattedMessage {...messages.userMenu} />} enterDelay={300}>

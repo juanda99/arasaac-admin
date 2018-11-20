@@ -13,7 +13,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router/immutable'
-import { MuiThemeProvider } from '@material-ui/core/styles'
 import history from 'utils/history'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import theme from 'utils/theme'
@@ -23,6 +22,9 @@ import App from 'containers/App'
 
 // Import Language Provider
 import LanguageProvider from 'containers/LanguageProvider'
+
+// Import Theme Provider
+import ThemeProvider from 'containers/ThemeProvider'
 
 // Load the favicon and the .htaccess file
 /* eslint-disable import/no-unresolved, import/extensions */
@@ -43,13 +45,15 @@ const MOUNT_NODE = document.getElementById('app')
 const render = messages => {
   ReactDOM.render(
     <div>
-      <CssBaseline />
       <Provider store={store}>
         <LanguageProvider messages={messages}>
           <ConnectedRouter history={history}>
-            <MuiThemeProvider theme={theme}>
-              <App />
-            </MuiThemeProvider>
+            <ThemeProvider theme={theme}>
+              <React.Fragment>
+                <CssBaseline />
+                <App />
+              </React.Fragment>
+            </ThemeProvider>
           </ConnectedRouter>
         </LanguageProvider>
       </Provider>

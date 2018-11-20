@@ -1,6 +1,6 @@
 import { defineMessages } from 'react-intl'
 
-export const scope = 'app.components.LocaleToggle'
+export const scope = 'app.components.LocaleSelector'
 
 export default defineMessages({
   changeLanguage: {
