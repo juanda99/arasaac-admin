@@ -44,20 +44,18 @@ const MOUNT_NODE = document.getElementById('app')
 
 const render = messages => {
   ReactDOM.render(
-    <div>
-      <Provider store={store}>
-        <LanguageProvider messages={messages}>
-          <ConnectedRouter history={history}>
-            <ThemeProvider theme={theme}>
-              <React.Fragment>
-                <CssBaseline />
-                <App />
-              </React.Fragment>
-            </ThemeProvider>
-          </ConnectedRouter>
-        </LanguageProvider>
-      </Provider>
-    </div>,
+    <Provider store={store}>
+      <LanguageProvider messages={messages}>
+        <ConnectedRouter history={history}>
+          <ThemeProvider theme={theme}>
+            <React.Fragment>
+              <CssBaseline />
+              <App />
+            </React.Fragment>
+          </ThemeProvider>
+        </ConnectedRouter>
+      </LanguageProvider>
+    </Provider>,
     MOUNT_NODE,
   )
 }
