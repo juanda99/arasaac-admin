@@ -12,31 +12,24 @@ themes[LIGHT_THEME] = {
     primary,
     // accent,
   },
+  typography: {
+    useNextVariants: true,
+  },
 }
 
 themes[DARK_THEME] = {
   palette: {
     primary,
     type: 'dark', // Switching the dark mode on is a single property value change.
-    overrides: {
-      MuiButton: {
-        // Name of the component ⚛️ / style sheet
-        root: {
-          // Name of the rule
-          color: 'red', // Some CSS
-        },
-      },
-    },
+  },
+  typography: {
+    useNextVariants: true,
   },
 }
 
 const getTheme = (theme = DEFAULT_THEME) => {
   const currentTheme = themes[theme]
-  return createMuiTheme(currentTheme, {
-    typography: {
-      useNextVariants: true,
-    },
-  })
+  return createMuiTheme(currentTheme)
 }
 
 export default getTheme

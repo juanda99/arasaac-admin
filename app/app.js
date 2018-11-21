@@ -45,16 +45,16 @@ const MOUNT_NODE = document.getElementById('app')
 const render = messages => {
   ReactDOM.render(
     <Provider store={store}>
-      <LanguageProvider messages={messages}>
-        <ConnectedRouter history={history}>
-          <ThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
+        <LanguageProvider messages={messages}>
+          <ConnectedRouter history={history}>
             <React.Fragment>
               <CssBaseline />
               <App />
             </React.Fragment>
-          </ThemeProvider>
-        </ConnectedRouter>
-      </LanguageProvider>
+          </ConnectedRouter>
+        </LanguageProvider>
+      </ThemeProvider>
     </Provider>,
     MOUNT_NODE,
   )
