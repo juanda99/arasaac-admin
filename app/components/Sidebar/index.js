@@ -11,7 +11,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import InboxIcon from '@material-ui/icons/MoveToInbox'
 import MailIcon from '@material-ui/icons/Mail'
 import MenuItem from './MenuItem'
-import styles from './style'
+import styles from './styles'
 
 class SideBar extends React.Component {
   state = {
