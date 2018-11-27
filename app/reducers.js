@@ -4,10 +4,11 @@
 
 import { combineReducers } from 'redux-immutable'
 import { connectRouter } from 'connected-react-router/immutable'
-
 import history from 'utils/history'
 import languageProviderReducer from 'containers/LanguageProvider/reducer'
 import theme from 'containers/ThemeSelector/reducer'
+import { loadingBarReducer } from 'react-redux-loading-bar'
+import pictogramsViewReducer from 'containers/PictogramsView/reducer'
 
 /**
  * Merges the main reducer with the router state and dynamically injected reducers
@@ -16,6 +17,8 @@ export default function createReducer(injectedReducers = {}) {
   const rootReducer = combineReducers({
     language: languageProviderReducer,
     theme,
+    loadingBar: loadingBarReducer,
+    pictogramsView: pictogramsViewReducer,
     ...injectedReducers,
   })
 

@@ -11,7 +11,7 @@ import SearchIcon from '@material-ui/icons/Search'
 import Users from 'containers/Users/Loadable'
 import News from 'containers/News/Loadable'
 import AddNews from 'containers/AddNews/Loadable'
-import Pictograms from 'containers/Pictograms/Loadable'
+import PictogramsView from 'containers/PictogramsView/Loadable'
 import AddPictograms from 'containers/AddPictograms/Loadable'
 import messages from './messages'
 
@@ -27,10 +27,10 @@ const sidebarRoutes = [
         component: AddPictograms,
       },
       {
-        path: '/pictograms',
+        path: '/pictograms/:searchText?',
         title: <FormattedMessage {...messages.tagPictograms} />,
         icon: TagsIcon,
-        component: Pictograms,
+        component: PictogramsView,
       },
     ],
   },
