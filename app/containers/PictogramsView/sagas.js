@@ -1,4 +1,4 @@
-import { take, takeLatest, call, put, cancel } from 'redux-saga/effects'
+import { take, takeLatest, call, put, cancel, all } from 'redux-saga/effects'
 import { LOCATION_CHANGE } from 'react-router-redux'
 import { showLoading, hideLoading } from 'react-redux-loading-bar'
 import api from 'services'
@@ -53,4 +53,6 @@ export function* pictogramsData() {
 }
 
 // All sagas to be loaded
-export default [pictogramsData, newPictogramsData, autoCompleteData]
+export default function* rootSaga() {
+  yield all([pictogramsData(), autoCompleteData()])
+}

@@ -9,9 +9,15 @@ import ValidateIcon from '@material-ui/icons/ThumbDown'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import { FormattedMessage } from 'react-intl'
+import { compose } from 'redux'
 import TabContainer from 'components/TabContainer'
 import SearchField from 'components/SearchField'
 import { makeSelectLocale } from 'containers/LanguageProvider/selectors'
+import injectReducer from 'utils/injectReducer'
+import injectSaga from 'utils/injectSaga'
+import history from 'utils/history'
+import reducer from './reducer'
+import saga from './sagas'
 import {
   makeLoadingSelector,
   makeSearchResultsSelector,
@@ -37,13 +43,15 @@ class PictogramsView extends React.PureComponent {
     requestAutocomplete(locale)
   }
 
-  handleSubmit = nextValue => {
-    this.setState({
-      slideIndex: 0,
-    })
-    if (this.props.params.searchText !== nextValue) {
-      this.props.router.push(`/pictograms/search/${nextValue}`)
+  componentWillReceiveProps(nextProps) {
+    if (this.props.searchText !== nextProps.searchText) {
+      const { requestPictograms, locale } = this.props
+      requestPictograms(locale, nextProps.searchText)
     }
+  }
+
+  handleSubmit = nextValue => {
+    history.push(`/pictograms/search/${nextValue}`)
   }
 
   handleChange = (event, slideIndex) => {
@@ -53,6 +61,7 @@ class PictogramsView extends React.PureComponent {
   render() {
     const { classes, width, searchText, keywords } = this.props
     const { slideIndex } = this.state
+    console.log(keywords)
     return (
       <React.Fragment>
         <div className={classes.root}>
@@ -122,7 +131,24 @@ const mapDispatchToProps = dispatch => ({
   },
 })
 
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)
+const withReducer = injectReducer({ key: 'PictogramssView', reducer })
+const withSaga = injectSaga({ key: 'PictogramssView', saga })
+
+export default compose(
+  withReducer,
+  withSaga,
+  withConnect,
+)(withStyles(styles, { withTheme: true })(withWidth()(PictogramsView)))
+
+/*
+const withSaga = injectSaga({ key: 'PictogramsView', saga, mode: RESTART_ON_REMOUNT })
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(withStyles(styles, { withTheme: true })(withWidth()(PictogramsView)))
+)(withStyles(styles, { withTheme: true })(withWidth()((withSaga)(PictogramsView))))
+*/

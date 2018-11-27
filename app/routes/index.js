@@ -19,6 +19,7 @@ const sidebarRoutes = [
   {
     title: <FormattedMessage {...messages.pictograms} />,
     icon: PictogramsIcon,
+    isSidebar: true,
     children: [
       {
         path: '/pictograms/add',
@@ -27,7 +28,7 @@ const sidebarRoutes = [
         component: AddPictograms,
       },
       {
-        path: '/pictograms/:searchText?',
+        path: '/pictograms/',
         title: <FormattedMessage {...messages.tagPictograms} />,
         icon: TagsIcon,
         component: PictogramsView,
@@ -37,6 +38,7 @@ const sidebarRoutes = [
   {
     title: <FormattedMessage {...messages.news} />,
     icon: NewsIcon,
+    isSidebar: true,
     children: [
       {
         path: '/news/add',
@@ -56,7 +58,12 @@ const sidebarRoutes = [
     path: '/users',
     title: <FormattedMessage {...messages.users} />,
     icon: UsersIcon,
+    isSidebar: true,
     component: Users,
+  },
+  {
+    path: '/pictograms/search/:searchText?',
+    component: PictogramsView,
   },
 ]
 

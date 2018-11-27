@@ -8,9 +8,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import Autosuggest from 'react-autosuggest'
 import match from 'autosuggest-highlight/match'
 import parse from 'autosuggest-highlight/parse'
-import { injectIntl, intlShape } from 'react-intl'
 import TextField from '@material-ui/core/TextField'
-import messages from './messages'
 import styles from './styles'
 import getSuggestions from './filter'
 
@@ -36,9 +34,8 @@ const renderInputComponent = inputProps => {
 const getSuggestionValue = suggestion => suggestion // could be an array of objectsç
 
 const renderSuggestion = (suggestion, { query, isHighlighted }) => {
-  const matches = match(suggestion.label, query)
-  const parts = parse(suggestion.label, matches)
-
+  const matches = match(suggestion, query)
+  const parts = parse(suggestion, matches)
   return (
     <MenuItem selected={isHighlighted} component="div">
       <div>
@@ -71,11 +68,16 @@ class SearchField extends Component {
     }
   }
 
-  handleUpdateInput = t => {
-    if (t.keyCode === 13) {
+  handleChange = (event, { newValue }) => {
+    this.setState({
+      searchText: newValue,
+      suggestions: getSuggestions(newValue, this.props.dataSource),
+    })
+  }
+
+  onKeyDown = event => {
+    if (event.key === 'Enter') {
       this.props.onSubmit(this.state.searchText)
-    } else {
-      this.setState({ searchText: t })
     }
   }
 
@@ -96,12 +98,11 @@ class SearchField extends Component {
   }
 
   render() {
-    const { classes, intl } = this.props
+    const { classes } = this.props
     const { searchText } = this.state
-    const { formatMessage } = intl
     const autosuggestProps = {
       renderInputComponent,
-      suggestions: this.state.suggestions,
+      suggestions: this.state.suggestions.slice(0, 5),
       onSuggestionsFetchRequested: this.handleSuggestionsFetchRequested,
       onSuggestionsClearRequested: this.handleSuggestionsClearRequested,
       getSuggestionValue,
@@ -114,9 +115,10 @@ class SearchField extends Component {
             {...autosuggestProps}
             inputProps={{
               classes,
-              placeholder: 'Search a country (start with a)',
+              placeholder: 'prueba',
               value: searchText,
-              onChange: this.handleUpdateInput,
+              onChange: this.handleChange,
+              onKeyDown: this.onKeyDown,
             }}
             theme={{
               container: classes.container,
@@ -148,10 +150,9 @@ SearchField.defaultProps = {
 SearchField.propTypes = {
   dataSource: PropTypes.array,
   style: PropTypes.object,
-  intl: intlShape.isRequired,
   value: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
 }
 
-export default injectIntl(withStyles(styles)(SearchField))
+export default withStyles(styles)(SearchField)

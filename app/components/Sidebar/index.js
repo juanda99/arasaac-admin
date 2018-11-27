@@ -34,7 +34,7 @@ class SideBar extends React.Component {
     const { classes, theme, logo, routes, open } = this.props
     const links = (
       <List className={classes.list}>
-        {routes.map(
+        {routes.filter(route => route.isSidebar).map(
           (route, key) =>
             route.children ? (
               <MenuItem

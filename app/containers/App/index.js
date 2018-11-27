@@ -18,6 +18,7 @@ const getRoutes = () =>
         <Route
           path={subRoute.path}
           component={subRoute.component}
+          exact
           /* eslint-disable-next-line react/no-array-index-key */
           key={`${key}-${subkey}`}
         />

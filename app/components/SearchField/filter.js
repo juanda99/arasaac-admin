@@ -8,7 +8,7 @@ export const getSuggestions = (value, dataSource) => {
   let count = 0
   if (inputLength === 0) return []
   return dataSource.filter(suggestion => {
-    const keep = count < LIST_ITEMS && suggestion.label.slice(0, inputLength).toLowerCase() === inputValue
+    const keep = count < LIST_ITEMS && suggestion.slice(0, inputLength).toLowerCase() === inputValue
     if (keep) count += 1
     return suggestion
   })
