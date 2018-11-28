@@ -8,7 +8,7 @@ import history from 'utils/history'
 import languageProviderReducer from 'containers/LanguageProvider/reducer'
 import theme from 'containers/ThemeSelector/reducer'
 import { loadingBarReducer } from 'react-redux-loading-bar'
-import pictogramsViewReducer from 'containers/PictogramsView/reducer'
+// import pictogramsViewReducer from 'containers/PictogramsView/reducer'
 
 /**
  * Merges the main reducer with the router state and dynamically injected reducers
@@ -18,7 +18,7 @@ export default function createReducer(injectedReducers = {}) {
     language: languageProviderReducer,
     theme,
     loadingBar: loadingBarReducer,
-    pictogramsView: pictogramsViewReducer,
+    // pictogramsView: pictogramsViewReducer,
     ...injectedReducers,
   })
 

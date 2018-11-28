@@ -10,7 +10,7 @@ import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import { FormattedMessage } from 'react-intl'
 import { compose } from 'redux'
-import TabContainer from 'components/TabContainer'
+import View from 'components/View'
 import SearchField from 'components/SearchField'
 import { makeSelectLocale } from 'containers/LanguageProvider/selectors'
 import injectReducer from 'utils/injectReducer'
@@ -65,7 +65,14 @@ class PictogramsView extends React.PureComponent {
     return (
       <React.Fragment>
         <div className={classes.root}>
-          <Tabs value={slideIndex} onChange={this.handleChange}>
+          <Tabs
+            className={classes.tab}
+            fullWidth
+            value={slideIndex}
+            onChange={this.handleChange}
+            indicatorColor="primary"
+            textColor="primary"
+          >
             <Tab
               label={width === 'xs' ? '' : <FormattedMessage {...messages.search} />}
               icon={<SearchIcon />}
@@ -83,17 +90,17 @@ class PictogramsView extends React.PureComponent {
             />
           </Tabs>
           {slideIndex === 0 && (
-            <TabContainer>
+            <View>
               <SearchField
                 value={searchText}
                 onSubmit={this.handleSubmit}
                 style={styles.searchBar}
                 dataSource={keywords}
               />
-            </TabContainer>
+            </View>
           )}
-          {slideIndex === 1 && <TabContainer>Item Two</TabContainer>}
-          {slideIndex === 2 && <TabContainer>Item Three</TabContainer>}
+          {slideIndex === 1 && <View>Item Two</View>}
+          {slideIndex === 2 && <View>Item Three</View>}
         </div>
       </React.Fragment>
     )
@@ -135,8 +142,8 @@ const withConnect = connect(
   mapStateToProps,
   mapDispatchToProps,
 )
-const withReducer = injectReducer({ key: 'PictogramssView', reducer })
-const withSaga = injectSaga({ key: 'PictogramssView', saga })
+const withReducer = injectReducer({ key: 'pictogramsView', reducer })
+const withSaga = injectSaga({ key: 'pictogramsView', saga })
 
 export default compose(
   withReducer,

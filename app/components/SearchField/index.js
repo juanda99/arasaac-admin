@@ -39,11 +39,11 @@ class SearchField extends Component {
           {parts.map(
             (part, index) =>
               part.highlight ? (
-                <span key={String(index)} style={{ fontWeight: 500, listStyleType: 'none' }}>
+                <span key={String(index)} style={{ fontWeight: 500 }}>
                   {part.text}
                 </span>
               ) : (
-                <strong key={String(index)} style={{ fontWeight: 300, listStyleType: 'none' }}>
+                <strong key={String(index)} style={{ fontWeight: 300 }}>
                   {part.text}
                 </strong>
               ),
@@ -78,7 +78,7 @@ class SearchField extends Component {
           },
           endAdornment: (
             <InputAdornment position="end">
-              {this.state.searchText ? (
+              {this.state.searchText && (
                 <div className={classes.searchButtons}>
                   <IconButton className={classes.removeIcon} aria-label="Toggle password visibility">
                     <ClearIcon />
@@ -86,12 +86,6 @@ class SearchField extends Component {
                   <Button variant="contained" color="primary" className={classes.button}>
                     <SearchIcon />
                   </Button>
-                </div>
-              ) : (
-                <div className={classes.searchButtons}>
-                  <IconButton className={classes.removeIcon} aria-label="Toggle password visibility">
-                    <SearchIcon />
-                  </IconButton>
                 </div>
               )}
             </InputAdornment>
@@ -105,7 +99,6 @@ class SearchField extends Component {
   handleChange = (event, { newValue }) => {
     this.setState({
       searchText: newValue,
-      suggestions: getSuggestions(newValue, this.props.dataSource),
     })
   }
 
@@ -143,7 +136,7 @@ class SearchField extends Component {
       renderSuggestion: this.renderSuggestion,
     }
     return (
-      <div style={{ display: 'flex', wrap: 'nowrap' }}>
+      <div className={classes.root}>
         <Autosuggest
           {...autosuggestProps}
           inputProps={{

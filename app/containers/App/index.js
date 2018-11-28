@@ -56,9 +56,7 @@ export class App extends Component {
         <div className={classes.mainPanel}>
           <Header routes={routes} handleSidebarToggle={this.handleSidebarToggle} locale theme />
           <div className={classes.content}>
-            <div className={classes.container}>
-              <Switch>{getRoutes()}</Switch>
-            </div>
+            <Switch>{getRoutes()}</Switch>
           </div>
         </div>
         <GlobalStyle />

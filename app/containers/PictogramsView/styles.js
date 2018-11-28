@@ -1,6 +1,8 @@
 const styles = theme => ({
   root: {
-    flexGrow: 1,
+    //
+  },
+  tab: {
     backgroundColor: theme.palette.background.paper,
   },
 })

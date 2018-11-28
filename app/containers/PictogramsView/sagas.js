@@ -42,7 +42,7 @@ export function* autoCompleteData() {
   const watcher = yield takeLatest(AUTOCOMPLETE.REQUEST, autoCompleteGetData)
   // Suspend execution until location changes
   yield take(LOCATION_CHANGE)
-  yield cancel(watcher)
+  // yield cancel(watcher)
 }
 
 export function* pictogramsData() {
