@@ -25,19 +25,4 @@ const callApi = async (endpoint, options, token) => {
   return schema ? normalize(json, schema) : json
 }
 
-/*
-  return fetch(endpoint, config)
-    .then((response) => {
-      if (response.status >= 400) {
-        return Promise.reject(new Error(response.status))
-        // throw new Error('Bad response from server')
-      }
-      return response.json()
-    })
-    .then((json) => (schema ? normalize(json, schema) : json)
-    )
-}
-
-*/
-
 export default callApi

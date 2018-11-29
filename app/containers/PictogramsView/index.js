@@ -61,7 +61,6 @@ class PictogramsView extends React.PureComponent {
   render() {
     const { classes, width, searchText, keywords } = this.props
     const { slideIndex } = this.state
-    console.log(keywords)
     return (
       <React.Fragment>
         <div className={classes.root}>

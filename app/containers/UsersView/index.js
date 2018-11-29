@@ -1,14 +1,35 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+import { compose } from 'redux'
+import { connect } from 'react-redux'
+import { withStyles } from '@material-ui/core/styles'
+import withWidth from '@material-ui/core/withWidth'
+import GroupIcon from '@material-ui/icons/Group'
+import GroupAddIcon from '@material-ui/icons/GroupAdd'
 import { FormattedMessage } from 'react-intl'
 import MUIDataTable from 'mui-datatables'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Switch from '@material-ui/core/Switch'
-import messages from './messages'
+import View from 'components/View'
+import Tabs from '@material-ui/core/Tabs'
+import Tab from '@material-ui/core/Tab'
+import injectReducer from 'utils/injectReducer'
+import injectSaga from 'utils/injectSaga'
+import reducer from './reducer'
+import saga from './sagas'
 import Cities from './cities'
+import { makeLoadingSelector, makeUsersSelector, makeTempUsersSelector } from './selectors'
+import { users, tempUsers } from './actions'
+import styles from './styles'
+import messages from './messages'
 
 /* eslint-disable react/prefer-stateless-function */
 
-export default class Users extends React.PureComponent {
+class UsersView extends React.PureComponent {
+  state = {
+    slideIndex: 0,
+  }
+
   columns = [
     {
       name: 'Name',
@@ -104,13 +125,74 @@ export default class Users extends React.PureComponent {
   }
 
   render() {
+    const { classes, width } = this.props
+    const { slideIndex } = this.state
     return (
-      <div>
-        <h1>
-          <FormattedMessage {...messages.header} />
-        </h1>
-        <MUIDataTable title="Employee List" data={this.data} columns={this.columns} options={this.options} />
+      <div className={classes.root}>
+        <Tabs
+          className={classes.tab}
+          fullWidth
+          value={slideIndex}
+          onChange={this.handleChange}
+          indicatorColor="primary"
+          textColor="primary"
+        >
+          <Tab label={width === 'xs' ? '' : <FormattedMessage {...messages.users} />} icon={<GroupIcon />} value={0} />
+          <Tab
+            label={width === 'xs' ? '' : <FormattedMessage {...messages.usersNotValidated} />}
+            icon={<GroupAddIcon />}
+            value={1}
+          />
+        </Tabs>
+        {slideIndex === 0 && (
+          <View>
+            <h1>
+              <FormattedMessage {...messages.header} />
+            </h1>
+            <MUIDataTable title="Employee List" data={this.data} columns={this.columns} options={this.options} />
+          </View>
+        )}
+        {slideIndex === 1 && <View>Item Two</View>}
+        {slideIndex === 2 && <View>Item Three</View>}
       </div>
     )
   }
 }
+
+UsersView.propTypes = {
+  classes: PropTypes.object.isRequired,
+  width: PropTypes.string.isRequired,
+  requestUsers: PropTypes.func.isRequired,
+  requestTempUsers: PropTypes.func.isRequired,
+  users: PropTypes.arrayOf(PropTypes.object),
+  tempUsers: PropTypes.arrayOf(PropTypes.object),
+  loading: PropTypes.bool.isRequired,
+}
+
+const mapStateToProps = state => ({
+  loading: makeLoadingSelector()(state),
+  users: makeUsersSelector()(state),
+  tempUsers: makeTempUsersSelector()(state),
+})
+
+const mapDispatchToProps = dispatch => ({
+  requestUsers: () => {
+    dispatch(users.request())
+  },
+  requestTempUsers: () => {
+    dispatch(tempUsers.request())
+  },
+})
+
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)
+const withReducer = injectReducer({ key: 'usersView', reducer })
+const withSaga = injectSaga({ key: 'usersView', saga })
+
+export default compose(
+  withReducer,
+  withSaga,
+  withConnect,
+)(withStyles(styles, { withTheme: true })(withWidth()(UsersView)))

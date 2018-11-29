@@ -1,6 +1,6 @@
 import { searchMaterialSchema, searchPictogramSchema } from './schemas'
 import callApi from './callApi'
-import { login, signup, socialLogin, uploadMaterial, /* customPictogram, */ API_ROOT } from './config'
+import { login, signup, socialLogin, uploadMaterial, API_ROOT, PRIVATE_API_ROOT } from './config'
 
 const api = {
   AUTOCOMPLETE_REQUEST: ({ locale }) => callApi(`${API_ROOT}/keywords/${locale}`),
@@ -21,8 +21,11 @@ const api = {
   MATERIAL_REQUEST: ({ idMaterial }) => callApi(`${API_ROOT}/materials/${idMaterial}`),
   PICTOGRAM_REQUEST: ({ idPictogram, locale }) => callApi(`${API_ROOT}/pictograms/${locale}/${idPictogram}`),
   LOGIN_REQUEST: ({ username, password }) => callApi(login.url, login.options(username, password)),
-  SOCIAL_LOGIN_REQUEST: ({ socialToken, provider }) => callApi(socialLogin.url, socialLogin.options(socialToken, provider)),
+  SOCIAL_LOGIN_REQUEST: ({ socialToken, provider }) =>
+    callApi(socialLogin.url, socialLogin.options(socialToken, provider)),
   SIGNUP_REQUEST: userData => callApi(signup.url, signup.options(userData)),
+  USERS_RESQUEST: () => callApi(`${PRIVATE_API_ROOT}/users`),
+  TEMPUSERS_RESQUEST: () => callApi(`${PRIVATE_API_ROOT}/tempusers`),
 }
 
 export default api
