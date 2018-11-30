@@ -8,7 +8,7 @@ import UsersIcon from '@material-ui/icons/People'
 import NewsIcon from '@material-ui/icons/Chat'
 import CreateIcon from '@material-ui/icons/Create'
 import SearchIcon from '@material-ui/icons/Search'
-import Users from 'containers/Users/Loadable'
+import UsersView from 'containers/UsersView/Loadable'
 import News from 'containers/News/Loadable'
 import AddNews from 'containers/AddNews/Loadable'
 import PictogramsView from 'containers/PictogramsView/Loadable'
@@ -59,7 +59,7 @@ const sidebarRoutes = [
     title: <FormattedMessage {...messages.users} />,
     icon: UsersIcon,
     isSidebar: true,
-    component: Users,
+    component: UsersView,
   },
   {
     path: '/pictograms/search/:searchText?',

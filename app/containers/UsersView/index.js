@@ -2,14 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
+import Paper from '@material-ui/core/Paper'
+import { PagingState, SortingState, CustomPaging } from '@devexpress/dx-react-grid'
+import { Grid, Table, TableHeaderRow, PagingPanel } from '@devexpress/dx-react-grid-material-ui'
 import { withStyles } from '@material-ui/core/styles'
 import withWidth from '@material-ui/core/withWidth'
 import GroupIcon from '@material-ui/icons/Group'
 import GroupAddIcon from '@material-ui/icons/GroupAdd'
 import { FormattedMessage } from 'react-intl'
-import MUIDataTable from 'mui-datatables'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Switch from '@material-ui/core/Switch'
 import View from 'components/View'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
@@ -17,7 +17,6 @@ import injectReducer from 'utils/injectReducer'
 import injectSaga from 'utils/injectSaga'
 import reducer from './reducer'
 import saga from './sagas'
-import Cities from './cities'
 import { makeLoadingSelector, makeUsersSelector, makeTempUsersSelector } from './selectors'
 import { users, tempUsers } from './actions'
 import styles from './styles'
@@ -28,105 +27,60 @@ import messages from './messages'
 class UsersView extends React.PureComponent {
   state = {
     slideIndex: 0,
+    columns: [
+      { name: 'name', title: 'Name' },
+      { name: 'email', title: 'Email' },
+      { name: 'role', title: 'Role' },
+      { name: 'locale', title: 'Locale' },
+      { name: 'url', title: 'Url' },
+      { name: 'company', title: 'Company' },
+    ],
+    rows: [],
+    sorting: [{ columnName: 'name', direction: 'asc' }],
+    totalCount: 0,
+    pageSize: 10,
+    pageSizes: [5, 10, 15],
+    currentPage: 0,
+    loading: true,
   }
 
-  columns = [
-    {
-      name: 'Name',
-      options: {
-        filter: false,
-      },
-    },
-    {
-      name: 'Title',
-      options: {
-        filter: true,
-      },
-    },
-    {
-      name: 'Location',
-      options: {
-        filter: true,
-        customBodyRender: (value, tableMeta, updateValue) => (
-          <Cities value={value} index={tableMeta.columnIndex} change={event => updateValue(event)} />
-        ),
-      },
-    },
-    {
-      name: 'Age',
-      options: {
-        filter: false,
-      },
-    },
-    {
-      name: 'Salary',
-      options: {
-        filter: true,
-        customBodyRender: (value, tableMeta, updateValue) => {
-          const nf = new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD',
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })
+  componentDidMount = () => {
+    // load Data
+  }
 
-          return nf.format(value)
-        },
-      },
-    },
-    {
-      name: 'Active',
-      options: {
-        filter: true,
-        customBodyRender: (value, tableMeta, updateValue) => (
-          <FormControlLabel
-            label={value ? 'Yes' : 'No'}
-            value={value ? 'Yes' : 'No'}
-            control={<Switch color="primary" checked={value} value={value ? 'Yes' : 'No'} />}
-            onChange={event => {
-              updateValue(event.target.value !== 'Yes')
-            }}
-          />
-        ),
-      },
-    },
-  ]
+  componentDidUpdate() {
+    // load Data
+  }
 
-  data = [
-    ['Robin Duncan', 'Business Analyst', 'Los Angeles', 20, 77000, false],
-    ['Mel Brooks', 'Business Consultant', 'Oklahoma City', 37, 135000, true],
-    ['Harper White', 'Attorney', 'Pittsburgh', 52, 420000, false],
-    ['Kris Humphrey', 'Agency Legal Counsel', 'Laredo', 30, 150000, true],
-    ['Frankie Long', 'Industrial Analyst', 'Austin', 31, 170000, false],
-    ['Brynn Robbins', 'Business Analyst', 'Norfolk', 22, 90000, true],
-    ['Justice Mann', 'Business Consultant', 'Chicago', 24, 133000, false],
-    ['Addison Navarro', 'Business Management Analyst', 'New York', 50, 295000, true],
-    ['Jesse Welch', 'Agency Legal Counsel', 'Seattle', 28, 200000, false],
-    ['Eli Mejia', 'Commercial Specialist', 'Long Beach', 65, 400000, true],
-    ['Gene Leblanc', 'Industrial Analyst', 'Hartford', 34, 110000, false],
-    ['Danny Leon', 'Computer Scientist', 'Newark', 60, 220000, true],
-    ['Lane Lee', 'Corporate Counselor', 'Cincinnati', 52, 180000, false],
-    ['Jesse Hall', 'Business Analyst', 'Baltimore', 44, 99000, true],
-    ['Danni Hudson', 'Agency Legal Counsel', 'Tampa', 37, 90000, false],
-    ['Terry Macdonald', 'Commercial Specialist', 'Miami', 39, 140000, true],
-    ['Justice Mccarthy', 'Attorney', 'Tucson', 26, 330000, false],
-    ['Silver Carey', 'Computer Scientist', 'Memphis', 47, 250000, true],
-    ['Franky Miles', 'Industrial Analyst', 'Buffalo', 49, 190000, false],
-    ['Glen Nixon', 'Corporate Counselor', 'Arlington', 44, 80000, true],
-    ['Gabby Strickland', 'Business Process Consultant', 'Scottsdale', 26, 45000, false],
-    ['Mason Ray', 'Computer Scientist', 'San Francisco', 39, 142000, true],
-  ]
+  changeSorting(sorting) {
+    this.setState({
+      loading: true,
+      sorting,
+    })
+  }
 
-  options = {
-    // filterType: 'checkbox',
-    filterType: 'dropdown',
-    responsive: 'scroll',
-    selectableRows: true,
+  changeCurrentPage(currentPage) {
+    this.setState({
+      loading: true,
+      currentPage,
+    })
+  }
+
+  changePageSize(pageSize) {
+    const { totalCount, currentPage: stateCurrentPage } = this.state
+    const totalPages = Math.ceil(totalCount / pageSize)
+    const currentPage = Math.min(stateCurrentPage, totalPages - 1)
+
+    this.setState({
+      loading: true,
+      pageSize,
+      currentPage,
+    })
   }
 
   render() {
     const { classes, width } = this.props
-    const { slideIndex } = this.state
+    const { slideIndex, rows, columns, sorting, pageSize, pageSizes, currentPage, totalCount, loading } = this.state
     return (
       <div className={classes.root}>
         <Tabs
@@ -149,7 +103,22 @@ class UsersView extends React.PureComponent {
             <h1>
               <FormattedMessage {...messages.header} />
             </h1>
-            <MUIDataTable title="Employee List" data={this.data} columns={this.columns} options={this.options} />
+            <Paper style={{ position: 'relative' }}>
+              <Grid rows={rows} columns={columns}>
+                <SortingState sorting={sorting} onSortingChange={this.changeSorting} />
+                <PagingState
+                  currentPage={currentPage}
+                  onCurrentPageChange={this.changeCurrentPage}
+                  pageSize={pageSize}
+                  onPageSizeChange={this.changePageSize}
+                />
+                <CustomPaging totalCount={totalCount} />
+                <Table />
+                <TableHeaderRow showSortingControls />
+                <PagingPanel pageSizes={pageSizes} />
+              </Grid>
+              {loading && <p style={{ position: 'absolute', top: '50%', left: '50%' }}>Cargando....</p>}
+            </Paper>
           </View>
         )}
         {slideIndex === 1 && <View>Item Two</View>}
