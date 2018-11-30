@@ -3,7 +3,8 @@ import { createMuiTheme } from '@material-ui/core/styles'
 // import purple from '@material-ui/core/colors/purple'
 import green from '@material-ui/core/colors/green'
 
-const primary = green // #F44336
+// TODO: change green color // #F44336
+const primary = green
 // const accent = purple.A200 // #E040FB
 
 const themes = {}

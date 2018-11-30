@@ -13,6 +13,7 @@ import News from 'containers/News/Loadable'
 import AddNews from 'containers/AddNews/Loadable'
 import PictogramsView from 'containers/PictogramsView/Loadable'
 import AddPictograms from 'containers/AddPictograms/Loadable'
+// import ErrorBoundary from 'components/ErrorBoundary'
 import messages from './messages'
 
 const sidebarRoutes = [
@@ -60,6 +61,7 @@ const sidebarRoutes = [
     icon: UsersIcon,
     isSidebar: true,
     component: UsersView,
+    // component: ErrorBoundary,
   },
   {
     path: '/pictograms/search/:searchText?',

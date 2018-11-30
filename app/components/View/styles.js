@@ -4,7 +4,7 @@ const styles = theme => ({
     // Match [md, ∞[
     //       [960px, ∞[
     [theme.breakpoints.up('md')]: {
-      padding: '100',
+      padding: 50,
     },
   },
 })

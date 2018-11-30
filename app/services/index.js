@@ -24,7 +24,7 @@ const api = {
   SOCIAL_LOGIN_REQUEST: ({ socialToken, provider }) =>
     callApi(socialLogin.url, socialLogin.options(socialToken, provider)),
   SIGNUP_REQUEST: userData => callApi(signup.url, signup.options(userData)),
-  USERS_RESQUEST: () => callApi(`${PRIVATE_API_ROOT}/users`),
+  USERS_REQUEST: () => callApi(`${PRIVATE_API_ROOT}/users`),
   TEMPUSERS_RESQUEST: () => callApi(`${PRIVATE_API_ROOT}/tempusers`),
 }
 

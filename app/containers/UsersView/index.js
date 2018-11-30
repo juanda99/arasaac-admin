@@ -35,7 +35,6 @@ class UsersView extends React.PureComponent {
       { name: 'url', title: 'Url' },
       { name: 'company', title: 'Company' },
     ],
-    rows: [],
     sorting: [{ columnName: 'name', direction: 'asc' }],
     totalCount: 0,
     pageSize: 10,
@@ -45,7 +44,8 @@ class UsersView extends React.PureComponent {
   }
 
   componentDidMount = () => {
-    // load Data
+    const { requestUsers } = this.props
+    requestUsers()
   }
 
   componentDidUpdate() {
@@ -80,7 +80,9 @@ class UsersView extends React.PureComponent {
 
   render() {
     const { classes, width } = this.props
-    const { slideIndex, rows, columns, sorting, pageSize, pageSizes, currentPage, totalCount, loading } = this.state
+    console.log(this.props.users)
+    const users = this.props.users.slice(0, 100)
+    const { slideIndex, columns, sorting, pageSize, pageSizes, currentPage, totalCount, loading } = this.state
     return (
       <div className={classes.root}>
         <Tabs
@@ -100,11 +102,8 @@ class UsersView extends React.PureComponent {
         </Tabs>
         {slideIndex === 0 && (
           <View>
-            <h1>
-              <FormattedMessage {...messages.header} />
-            </h1>
             <Paper style={{ position: 'relative' }}>
-              <Grid rows={rows} columns={columns}>
+              <Grid rows={users} columns={columns}>
                 <SortingState sorting={sorting} onSortingChange={this.changeSorting} />
                 <PagingState
                   currentPage={currentPage}
