@@ -1,7 +1,7 @@
-import { fromJS } from 'immutable'
+import { Map } from 'immutable'
 import { USERS, TEMPUSERS } from './actions'
 
-export const initialState = fromJS({
+export const initialState = Map({
   loading: false,
   error: false,
   users: [],

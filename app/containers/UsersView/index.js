@@ -3,8 +3,15 @@ import PropTypes from 'prop-types'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import Paper from '@material-ui/core/Paper'
-import { PagingState, SortingState, CustomPaging } from '@devexpress/dx-react-grid'
-import { Grid, Table, TableHeaderRow, PagingPanel } from '@devexpress/dx-react-grid-material-ui'
+import {
+  PagingState,
+  SortingState,
+  IntegratedSorting,
+  IntegratedPaging,
+  FilteringState,
+  IntegratedFiltering,
+} from '@devexpress/dx-react-grid'
+import { Grid, Table, TableHeaderRow, PagingPanel, TableFilterRow } from '@devexpress/dx-react-grid-material-ui'
 import { withStyles } from '@material-ui/core/styles'
 import withWidth from '@material-ui/core/withWidth'
 import GroupIcon from '@material-ui/icons/Group'
@@ -35,12 +42,11 @@ class UsersView extends React.PureComponent {
       { name: 'url', title: 'Url' },
       { name: 'company', title: 'Company' },
     ],
-    sorting: [{ columnName: 'name', direction: 'asc' }],
-    totalCount: 0,
+    pageSizes: [10, 20, 100],
     pageSize: 10,
-    pageSizes: [5, 10, 15],
     currentPage: 0,
-    loading: true,
+    sorting: [{ columnName: 'name', direction: 'asc' }],
+    filters: [],
   }
 
   componentDidMount = () => {
@@ -52,37 +58,18 @@ class UsersView extends React.PureComponent {
     // load Data
   }
 
-  changeSorting(sorting) {
-    this.setState({
-      loading: true,
-      sorting,
-    })
-  }
+  changeCurrentPage = currentPage => this.setState({ currentPage })
 
-  changeCurrentPage(currentPage) {
-    this.setState({
-      loading: true,
-      currentPage,
-    })
-  }
+  changePageSize = pageSize => this.setState({ pageSize })
 
-  changePageSize(pageSize) {
-    const { totalCount, currentPage: stateCurrentPage } = this.state
-    const totalPages = Math.ceil(totalCount / pageSize)
-    const currentPage = Math.min(stateCurrentPage, totalPages - 1)
+  changeSorting = sorting => this.setState({ sorting })
 
-    this.setState({
-      loading: true,
-      pageSize,
-      currentPage,
-    })
-  }
+  changeFilters = filters => this.setState({ filters })
 
   render() {
     const { classes, width } = this.props
-    console.log(this.props.users)
-    const users = this.props.users.slice(0, 100)
-    const { slideIndex, columns, sorting, pageSize, pageSizes, currentPage, totalCount, loading } = this.state
+    // const users = this.props.users.slice(0, 100)
+    const { slideIndex, columns, pageSizes, currentPage, pageSize, sorting, filters } = this.state
     return (
       <div className={classes.root}>
         <Tabs
@@ -103,20 +90,23 @@ class UsersView extends React.PureComponent {
         {slideIndex === 0 && (
           <View>
             <Paper style={{ position: 'relative' }}>
-              <Grid rows={users} columns={columns}>
+              <Grid rows={this.props.users} columns={columns}>
                 <SortingState sorting={sorting} onSortingChange={this.changeSorting} />
+                <IntegratedSorting />
                 <PagingState
                   currentPage={currentPage}
                   onCurrentPageChange={this.changeCurrentPage}
                   pageSize={pageSize}
                   onPageSizeChange={this.changePageSize}
                 />
-                <CustomPaging totalCount={totalCount} />
+                <IntegratedPaging />
+                <FilteringState filters={filters} onFiltersChange={this.changeFilters} />
+                <IntegratedFiltering />
                 <Table />
                 <TableHeaderRow showSortingControls />
+                <TableFilterRow />
                 <PagingPanel pageSizes={pageSizes} />
               </Grid>
-              {loading && <p style={{ position: 'absolute', top: '50%', left: '50%' }}>Cargando....</p>}
             </Paper>
           </View>
         )}
