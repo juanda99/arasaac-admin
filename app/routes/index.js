@@ -8,6 +8,7 @@ import UsersIcon from '@material-ui/icons/People'
 import NewsIcon from '@material-ui/icons/Chat'
 import CreateIcon from '@material-ui/icons/Create'
 import SearchIcon from '@material-ui/icons/Search'
+import UserView from 'containers/UserView/Loadable'
 import UsersView from 'containers/UsersView/Loadable'
 import News from 'containers/News/Loadable'
 import AddNews from 'containers/AddNews/Loadable'
@@ -54,6 +55,11 @@ const sidebarRoutes = [
         component: News,
       },
     ],
+  },
+  // before /users ?
+  {
+    path: '/users/:idUser',
+    component: UserView,
   },
   {
     path: '/users',

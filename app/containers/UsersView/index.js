@@ -17,6 +17,7 @@ import withWidth from '@material-ui/core/withWidth'
 import GroupIcon from '@material-ui/icons/Group'
 import GroupAddIcon from '@material-ui/icons/GroupAdd'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
+import history from 'utils/history'
 import View from 'components/View'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
@@ -29,12 +30,22 @@ import { users, tempUsers } from './actions'
 import styles from './styles'
 import messages from './messages'
 
-/* eslint-disable react/prefer-stateless-function */
+const TableRow = ({ row, ...restProps }) => (
+  <Table.Row
+    {...restProps}
+    // eslint-disable-next-line no-alert
+    onClick={() => {
+      alert(JSON.stringify(row))
+      history.push(`/users/${_id}}`)
+    }
+  />
+)
 
 class UsersView extends React.PureComponent {
   state = {
     slideIndex: 0,
     columns: [
+      { name: '_id', title: 'id' },
       { name: 'name', title: this.props.intl.formatMessage(messages.name) },
       { name: 'email', title: this.props.intl.formatMessage(messages.email) },
       { name: 'role', title: this.props.intl.formatMessage(messages.role) },
@@ -47,6 +58,9 @@ class UsersView extends React.PureComponent {
     currentPage: 0,
     sorting: [{ columnName: 'name', direction: 'asc' }],
     filters: [],
+    tableColumnExtensions: [
+      { columnName: '_id', width: 0 },
+    ],
   }
 
   tableMessages = {
@@ -83,7 +97,7 @@ class UsersView extends React.PureComponent {
   render() {
     const { classes, width } = this.props
     // const users = this.props.users.slice(0, 100)
-    const { slideIndex, columns, pageSizes, currentPage, pageSize, sorting, filters } = this.state
+    const { slideIndex, columns, pageSizes, currentPage, pageSize, sorting, filters, tableColumnExtensions } = this.state
     return (
       <div className={classes.root}>
         <Tabs
@@ -116,7 +130,7 @@ class UsersView extends React.PureComponent {
                 <IntegratedPaging />
                 <FilteringState filters={filters} onFiltersChange={this.changeFilters} />
                 <IntegratedFiltering />
-                <Table messages={this.tableMessages} />
+                <Table rowComponent={TableRow} columnExtensions={tableColumnExtensions} messages={this.tableMessages} />
                 <TableHeaderRow showSortingControls />
                 <TableFilterRow messages={this.filterRowMessages} />
                 <PagingPanel pageSizes={pageSizes} messages={this.pagingPanelMessages} />
@@ -139,6 +153,7 @@ UsersView.propTypes = {
   users: PropTypes.arrayOf(PropTypes.object),
   tempUsers: PropTypes.arrayOf(PropTypes.object),
   loading: PropTypes.bool.isRequired,
+  intl: intlShape.isRequired,
 }
 
 const mapStateToProps = state => ({
