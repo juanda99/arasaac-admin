@@ -16,7 +16,7 @@ import { withStyles } from '@material-ui/core/styles'
 import withWidth from '@material-ui/core/withWidth'
 import GroupIcon from '@material-ui/icons/Group'
 import GroupAddIcon from '@material-ui/icons/GroupAdd'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import View from 'components/View'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
@@ -47,6 +47,20 @@ class UsersView extends React.PureComponent {
     currentPage: 0,
     sorting: [{ columnName: 'name', direction: 'asc' }],
     filters: [],
+  }
+
+  tableMessages = {
+    noData: this.props.intl.formatMessage(messages.noData),
+  }
+
+  filterRowMessages = {
+    filterPlaceholder: this.props.intl.formatMessage(messages.filterPlaceholder),
+  }
+
+  pagingPanelMessages = {
+    showAll: this.props.intl.formatMessage(messages.showAll),
+    rowsPerPage: this.props.intl.formatMessage(messages.rowsPerPage),
+    info: this.props.intl.formatMessage(messages.info),
   }
 
   componentDidMount = () => {
@@ -102,10 +116,10 @@ class UsersView extends React.PureComponent {
                 <IntegratedPaging />
                 <FilteringState filters={filters} onFiltersChange={this.changeFilters} />
                 <IntegratedFiltering />
-                <Table />
+                <Table messages={this.tableMessages} />
                 <TableHeaderRow showSortingControls />
-                <TableFilterRow />
-                <PagingPanel pageSizes={pageSizes} />
+                <TableFilterRow messages={this.filterRowMessages} />
+                <PagingPanel pageSizes={pageSizes} messages={this.pagingPanelMessages} />
               </Grid>
             </Paper>
           </View>
@@ -153,4 +167,4 @@ export default compose(
   withReducer,
   withSaga,
   withConnect,
-)(withStyles(styles, { withTheme: true })(withWidth()(UsersView)))
+)(withStyles(styles, { withTheme: true })(withWidth()(injectIntl(UsersView))))
