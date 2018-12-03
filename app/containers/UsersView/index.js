@@ -35,12 +35,12 @@ class UsersView extends React.PureComponent {
   state = {
     slideIndex: 0,
     columns: [
-      { name: 'name', title: 'Name' },
-      { name: 'email', title: 'Email' },
-      { name: 'role', title: 'Role' },
-      { name: 'locale', title: 'Locale' },
-      { name: 'url', title: 'Url' },
-      { name: 'company', title: 'Company' },
+      { name: 'name', title: this.props.intl.formatMessage(messages.name) },
+      { name: 'email', title: this.props.intl.formatMessage(messages.email) },
+      { name: 'role', title: this.props.intl.formatMessage(messages.role) },
+      { name: 'locale', title: this.props.intl.formatMessage(messages.locale) },
+      { name: 'url', title: this.props.intl.formatMessage(messages.url) },
+      { name: 'company', title: this.props.intl.formatMessage(messages.company) },
     ],
     pageSizes: [10, 20, 100],
     pageSize: 10,

@@ -37,4 +37,28 @@ export default defineMessages({
     // eslint-disable-next-line
     defaultMessage: '\\{from\\}-\\{to\\} de \\{count\\}',
   },
+  name: {
+    id: `${scope}.gridCaption.name`,
+    defaultMessage: 'Name',
+  },
+  email: {
+    id: `${scope}.gridCaption.email`,
+    defaultMessage: 'Email',
+  },
+  role: {
+    id: `${scope}.gridCaption.role`,
+    defaultMessage: 'Role',
+  },
+  locale: {
+    id: `${scope}.gridCaption.locale`,
+    defaultMessage: 'Locale',
+  },
+  url: {
+    id: `${scope}.gridCaption.url`,
+    defaultMessage: 'Url',
+  },
+  company: {
+    id: `${scope}.gridCaption.company`,
+    defaultMessage: 'Company',
+  },
 })
