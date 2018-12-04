@@ -25,20 +25,14 @@ import injectReducer from 'utils/injectReducer'
 import injectSaga from 'utils/injectSaga'
 import reducer from './reducer'
 import saga from './sagas'
-import { makeLoadingSelector, makeUsersSelector, makeTempUsersSelector } from './selectors'
+import { makeLoadingSelector, makeArrayUsersSelector, makeTempUsersSelector } from './selectors'
 import { users, tempUsers } from './actions'
 import styles from './styles'
 import messages from './messages'
 
 const TableRow = ({ row, ...restProps }) => (
-  <Table.Row
-    {...restProps}
-    // eslint-disable-next-line no-alert
-    onClick={() => {
-      alert(JSON.stringify(row))
-      history.push(`/users/${_id}}`)
-    }
-  />
+  // eslint-disable-next-line no-underscore-dangle
+  <Table.Row {...restProps} onClick={() => history.push(`/users/${row._id}}`)} style={{ cursor: 'pointer' }} />
 )
 
 class UsersView extends React.PureComponent {
@@ -58,9 +52,7 @@ class UsersView extends React.PureComponent {
     currentPage: 0,
     sorting: [{ columnName: 'name', direction: 'asc' }],
     filters: [],
-    tableColumnExtensions: [
-      { columnName: '_id', width: 0 },
-    ],
+    tableColumnExtensions: [{ columnName: '_id', width: 0 }],
   }
 
   tableMessages = {
@@ -97,7 +89,16 @@ class UsersView extends React.PureComponent {
   render() {
     const { classes, width } = this.props
     // const users = this.props.users.slice(0, 100)
-    const { slideIndex, columns, pageSizes, currentPage, pageSize, sorting, filters, tableColumnExtensions } = this.state
+    const {
+      slideIndex,
+      columns,
+      pageSizes,
+      currentPage,
+      pageSize,
+      sorting,
+      filters,
+      tableColumnExtensions,
+    } = this.state
     return (
       <div className={classes.root}>
         <Tabs
@@ -119,6 +120,8 @@ class UsersView extends React.PureComponent {
           <View>
             <Paper style={{ position: 'relative' }}>
               <Grid rows={this.props.users} columns={columns}>
+                <FilteringState filters={filters} onFiltersChange={this.changeFilters} />
+                <IntegratedFiltering />
                 <SortingState sorting={sorting} onSortingChange={this.changeSorting} />
                 <IntegratedSorting />
                 <PagingState
@@ -128,8 +131,6 @@ class UsersView extends React.PureComponent {
                   onPageSizeChange={this.changePageSize}
                 />
                 <IntegratedPaging />
-                <FilteringState filters={filters} onFiltersChange={this.changeFilters} />
-                <IntegratedFiltering />
                 <Table rowComponent={TableRow} columnExtensions={tableColumnExtensions} messages={this.tableMessages} />
                 <TableHeaderRow showSortingControls />
                 <TableFilterRow messages={this.filterRowMessages} />
@@ -158,7 +159,7 @@ UsersView.propTypes = {
 
 const mapStateToProps = state => ({
   loading: makeLoadingSelector()(state),
-  users: makeUsersSelector()(state),
+  users: makeArrayUsersSelector()(state),
   tempUsers: makeTempUsersSelector()(state),
 })
 
