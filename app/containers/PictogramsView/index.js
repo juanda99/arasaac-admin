@@ -14,6 +14,7 @@ import View from 'components/View'
 import SearchField from 'components/SearchField'
 import { makeSelectLocale } from 'containers/LanguageProvider/selectors'
 import injectReducer from 'utils/injectReducer'
+import { DAEMON } from 'utils/constants'
 import injectSaga from 'utils/injectSaga'
 import history from 'utils/history'
 import reducer from './reducer'
@@ -24,7 +25,7 @@ import {
   makeVisiblePictogramsSelector,
   makeKeywordsSelectorByLocale,
 } from './selectors'
-import { autocomplete, pictograms } from './actions'
+import { autocomplete, pictograms, notValidatedPictograms, notPublishedPictograms } from './actions'
 import styles from './styles'
 import messages from './messages'
 
@@ -36,11 +37,13 @@ class PictogramsView extends React.PureComponent {
   }
 
   componentDidMount() {
-    const { requestPictograms, requestAutocomplete, locale, searchText, searchResults } = this.props
+    const { locale, searchText, searchResults } = this.props
     if (searchText && !searchResults) {
-      requestPictograms(locale, searchText)
+      this.props.requestPictograms(locale, searchText)
     }
-    requestAutocomplete(locale)
+    this.props.requestNotPublishedPictograms(locale)
+    this.props.requestNotValidatedPictograms(locale)
+    this.props.requestAutocomplete(locale)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -58,9 +61,48 @@ class PictogramsView extends React.PureComponent {
     this.setState({ slideIndex })
   }
 
+  renderLoading = () => <div>Loading...</div>
+
+  renderError = () => <div>I am sorry! Please try again.</div>
+
+  renderNoPictos = () => <div>{<FormattedMessage {...messages.pictogramsNotFound} />}</div>
+
   render() {
-    const { classes, width, searchText, keywords } = this.props
+    const { classes, width, searchText, keywords, loading, error } = this.props
+
     const { slideIndex } = this.state
+    let pictogramsCounter
+    let pictogramsList
+    // if (slideIndex === 0) pictogramsList = visiblePictograms
+    // else pictogramsList = newPictogramsList
+
+    let gallery
+
+    if ((loading && searchText) || (loading && slideIndex !== 0)) {
+      gallery = this.renderLoading()
+    } else if (error) {
+      gallery = this.renderError()
+    } else if (!searchText && slideIndex === 0) {
+      gallery = null
+    } else {
+      /* depending on slide we show all pictos, notPublished or notValidated */
+      pictogramsCounter = pictogramsList.length
+      gallery = pictogramsCounter ? (
+        <div>
+          {/* <PictogramList
+            pictograms={pictogramsList}
+            locale={locale}
+            filtersMap={filters}
+            setFilterItems={this.props.setFilterItems}
+            showLabels={visibleLabels}
+            searchText={searchText}
+          /> */}
+        </div>
+      ) : (
+        this.renderNoPictos()
+      )
+    }
+
     return (
       <React.Fragment>
         <div className={classes.root}>
@@ -96,6 +138,7 @@ class PictogramsView extends React.PureComponent {
                 style={styles.searchBar}
                 dataSource={keywords}
               />
+              {gallery}
             </View>
           )}
           {slideIndex === 1 && <View>Item Two</View>}
@@ -112,6 +155,8 @@ PictogramsView.propTypes = {
   requestAutocomplete: PropTypes.func.isRequired,
   keywords: PropTypes.arrayOf(PropTypes.string),
   requestPictograms: PropTypes.func.isRequired,
+  requestNotPublishedPictograms: PropTypes.func.isRequired,
+  requestNotValidatedPictograms: PropTypes.func.isRequired,
   searchText: PropTypes.string,
   loading: PropTypes.bool.isRequired,
   visiblePictograms: PropTypes.arrayOf(PropTypes.object),
@@ -132,6 +177,12 @@ const mapDispatchToProps = dispatch => ({
   requestPictograms: (locale, searchText) => {
     dispatch(pictograms.request(locale, searchText))
   },
+  requestNotPublishedPictograms: locale => {
+    dispatch(notPublishedPictograms.request(locale))
+  },
+  requestNotValidatedPictograms: locale => {
+    dispatch(notValidatedPictograms.request(locale))
+  },
   requestAutocomplete: locale => {
     dispatch(autocomplete.request(locale))
   },
@@ -142,19 +193,10 @@ const withConnect = connect(
   mapDispatchToProps,
 )
 const withReducer = injectReducer({ key: 'pictogramsView', reducer })
-const withSaga = injectSaga({ key: 'pictogramsView', saga })
+const withSaga = injectSaga({ key: 'pictogramsView', saga, mode: DAEMON })
 
 export default compose(
   withReducer,
   withSaga,
   withConnect,
 )(withStyles(styles, { withTheme: true })(withWidth()(PictogramsView)))
-
-/*
-const withSaga = injectSaga({ key: 'PictogramsView', saga, mode: RESTART_ON_REMOUNT })
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(withStyles(styles, { withTheme: true })(withWidth()((withSaga)(PictogramsView))))
-*/
