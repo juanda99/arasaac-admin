@@ -28,8 +28,8 @@ export const notValidatedPictograms = {
 }
 
 export const newPictograms = {
-  request: (locale, searchText) => action(NEW_PICTOGRAMS.REQUEST, { locale, searchText }),
-  success: (locale, searchText, data) => action(NEW_PICTOGRAMS.SUCCESS, { locale, searchText, data }),
+  request: (locale, lastUpdated) => action(NEW_PICTOGRAMS.REQUEST, { locale, lastUpdated }),
+  success: (locale, data) => action(NEW_PICTOGRAMS.SUCCESS, { locale, data }),
   failure: error => action(NEW_PICTOGRAMS.FAILURE, { error }),
 }
 

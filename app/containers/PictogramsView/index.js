@@ -24,8 +24,9 @@ import {
   makeSearchResultsSelector,
   makeVisiblePictogramsSelector,
   makeKeywordsSelectorByLocale,
+  makeLastUpdatedSelector,
 } from './selectors'
-import { autocomplete, pictograms, notValidatedPictograms, notPublishedPictograms } from './actions'
+import { autocomplete, pictograms, allPictograms, newPictograms } from './actions'
 import styles from './styles'
 import messages from './messages'
 
@@ -155,18 +156,20 @@ PictogramsView.propTypes = {
   requestAutocomplete: PropTypes.func.isRequired,
   keywords: PropTypes.arrayOf(PropTypes.string),
   requestPictograms: PropTypes.func.isRequired,
-  requestNotPublishedPictograms: PropTypes.func.isRequired,
-  requestNotValidatedPictograms: PropTypes.func.isRequired,
+  requestAllPictograms: PropTypes.func.isRequired,
+  requestNewPictograms: PropTypes.func.isRequired,
   searchText: PropTypes.string,
   loading: PropTypes.bool.isRequired,
   visiblePictograms: PropTypes.arrayOf(PropTypes.object),
   locale: PropTypes.string.isRequired,
   searchResults: PropTypes.arrayOf(PropTypes.number),
+  lastUpdated: PropTypes.string,
 }
 
 const mapStateToProps = (state, ownProps) => ({
   locale: makeSelectLocale()(state),
   loading: makeLoadingSelector()(state),
+  lastUpdated: makeLastUpdatedSelector()(state),
   searchResults: makeSearchResultsSelector()(state, ownProps),
   visiblePictograms: makeVisiblePictogramsSelector()(state, ownProps),
   keywords: makeKeywordsSelectorByLocale()(state),
@@ -177,11 +180,11 @@ const mapDispatchToProps = dispatch => ({
   requestPictograms: (locale, searchText) => {
     dispatch(pictograms.request(locale, searchText))
   },
-  requestNotPublishedPictograms: locale => {
-    dispatch(notPublishedPictograms.request(locale))
+  requestAllPictograms: locale => {
+    dispatch(allPictograms.request(locale))
   },
-  requestNotValidatedPictograms: locale => {
-    dispatch(notValidatedPictograms.request(locale))
+  requestNewPictograms: (locale, lastUpdated) => {
+    dispatch(newPictograms.request(locale, lastUpdated))
   },
   requestAutocomplete: locale => {
     dispatch(autocomplete.request(locale))

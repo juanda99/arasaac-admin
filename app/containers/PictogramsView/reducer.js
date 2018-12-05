@@ -22,7 +22,7 @@ export const initialState = fromJS({
   search: {},
   words: {},
   searchText: '',
-  pictograms: { es: {}, en: {}, fr: {} },
+  pictograms: { es: { lastUpdated: '' }, en: { lastUpdated: '' }, fr: { lastUpdated: '' } },
 })
 
 const pictogramsViewReducer = (state = initialState, action) => {

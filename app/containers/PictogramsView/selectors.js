@@ -5,6 +5,9 @@ import { getFilteredItems } from 'utils'
 import { makeSelectLocale } from 'containers/LanguageProvider/selectors'
 import { Map } from 'immutable'
 
+const PICTOGRAMS = 'pictograms'
+const LAST_UPDATED = 'lastUpdated'
+
 export const selectPictogramsViewDomain = state => state.get('pictogramsView')
 
 export const makeLoadingSelector = () => createSelector(selectPictogramsViewDomain, substate => substate.get('loading'))
@@ -25,7 +28,14 @@ const makePictogramsSelector = () =>
     makeSelectLocale(),
     (substate, locale) =>
       // pictograms.locale does not exists first time, just pictograms
-      substate.getIn(['pictograms', locale]) || new Map(),
+      substate.getIn([PICTOGRAMS, locale]) || new Map(),
+  )
+
+export const makeLastUpdatedSelector = () =>
+  createSelector(
+    selectPictogramsViewDomain,
+    makeSelectLocale(),
+    (substate, locale) => substate.getIn([PICTOGRAMS, locale, LAST_UPDATED]) || '',
   )
 
 const makeSearchSelector = () => createSelector(selectPictogramsViewDomain, substate => substate.get('search'))
