@@ -50,7 +50,7 @@ const pictogramsViewReducer = (state = initialState, action) => {
     case ALL_PICTOGRAMS.REQUEST:
       return state.set('loading', true).set('error', false)
     case ALL_PICTOGRAMS.SUCCESS:
-      newPictogram = fromJS(action.payload.data.entities.pictograms || {})
+      newPictogram = fromJS({ lastUpdated: Date.now(), ...action.payload.data.entities.pictograms })
       return state.set('loading', false).mergeIn(['pictograms', action.payload.locale], newPictogram)
     case ALL_PICTOGRAMS.FAILURE:
       return state.set('error', action.payload.error).set('loading', false)

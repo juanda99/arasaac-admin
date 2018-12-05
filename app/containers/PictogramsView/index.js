@@ -38,12 +38,13 @@ class PictogramsView extends React.PureComponent {
   }
 
   componentDidMount() {
-    const { locale, searchText, searchResults } = this.props
+    const { locale, searchText, searchResults, lastUpdated } = this.props
     if (searchText && !searchResults) {
       this.props.requestPictograms(locale, searchText)
     }
-    this.props.requestNotPublishedPictograms(locale)
-    this.props.requestNotValidatedPictograms(locale)
+    if (!lastUpdated) this.props.requestAllPictograms(locale)
+    else this.props.requestNewPictograms(locale, lastUpdated)
+    // this.props.requestNotValidatedPictograms(locale)
     this.props.requestAutocomplete(locale)
   }
 
@@ -69,8 +70,8 @@ class PictogramsView extends React.PureComponent {
   renderNoPictos = () => <div>{<FormattedMessage {...messages.pictogramsNotFound} />}</div>
 
   render() {
-    const { classes, width, searchText, keywords, loading, error } = this.props
-
+    const { classes, width, searchText, keywords, loading, error, lastUpdated } = this.props
+    console.log(`LastUpdated: ${lastUpdated}`)
     const { slideIndex } = this.state
     let pictogramsCounter
     let pictogramsList
@@ -163,7 +164,7 @@ PictogramsView.propTypes = {
   visiblePictograms: PropTypes.arrayOf(PropTypes.object),
   locale: PropTypes.string.isRequired,
   searchResults: PropTypes.arrayOf(PropTypes.number),
-  lastUpdated: PropTypes.string,
+  lastUpdated: PropTypes.number,
 }
 
 const mapStateToProps = (state, ownProps) => ({

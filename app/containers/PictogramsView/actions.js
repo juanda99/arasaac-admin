@@ -34,7 +34,7 @@ export const newPictograms = {
 }
 
 export const allPictograms = {
-  request: (locale, time) => action(ALL_PICTOGRAMS.REQUEST, { locale, time }),
+  request: locale => action(ALL_PICTOGRAMS.REQUEST, { locale }),
   success: (locale, data) => action(ALL_PICTOGRAMS.SUCCESS, { locale, data }),
   failure: error => action(ALL_PICTOGRAMS.FAILURE, { error }),
 }
