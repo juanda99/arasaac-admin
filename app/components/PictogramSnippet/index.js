@@ -4,7 +4,6 @@ import { PICTOGRAMS_URL } from 'services/config'
 import { keywordSelector } from 'utils'
 import { withStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
-import Image from './Image'
 import Item from './Item'
 import styles from './styles'
 
@@ -40,7 +39,7 @@ class PictogramSnippet extends PureComponent {
         <Paper className={classes.paper} zDepth={this.state.zDepth}>
           <Item url={`/pictograms/${locale}/${idPictogram}/${keyword}`}>
             <div style={{ position: 'relative' }}>
-              <Image src={`${PICTOGRAMS_URL}/${idPictogram}_300.png`} alt={keyword} />
+              <img className={classes.image} src={`${PICTOGRAMS_URL}/${idPictogram}_300.png`} alt={keyword} />
               <div className={classes.CardActions}>
                 <p className={classes.cardTitle}>{keyword}</p>
               </div>

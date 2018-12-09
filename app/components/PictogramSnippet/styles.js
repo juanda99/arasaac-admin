@@ -26,6 +26,11 @@ const styles = theme => ({
     height: '250px',
     minWidth: '250px',
   },
+  image: {
+    backgroundColor: 'white',
+    width: '100%',
+    height: 'auto',
+  },
 })
 
 export default styles
