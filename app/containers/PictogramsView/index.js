@@ -70,24 +70,31 @@ class PictogramsView extends React.PureComponent {
   renderNoPictos = () => <div>{<FormattedMessage {...messages.pictogramsNotFound} />}</div>
 
   render() {
-    const { classes, width, searchText, keywords, loading, error, lastUpdated } = this.props
-    console.log(`LastUpdated: ${lastUpdated}`)
+    const { classes, width, searchText, keywords, loading, error, visiblePictograms } = this.props
     const { slideIndex } = this.state
     let pictogramsCounter
     let pictogramsList
-    // if (slideIndex === 0) pictogramsList = visiblePictograms
-    // else pictogramsList = newPictogramsList
 
     let gallery
 
-    if ((loading && searchText) || (loading && slideIndex !== 0)) {
-      gallery = this.renderLoading()
-    } else if (error) {
-      gallery = this.renderError()
-    } else if (!searchText && slideIndex === 0) {
-      gallery = null
-    } else {
+    if (loading) gallery = this.renderLoading()
+    else if (error) gallery = this.renderError()
+    else if (!searchText && slideIndex === 0) gallery = null
+    else {
       /* depending on slide we show all pictos, notPublished or notValidated */
+      switch (slideIndex) {
+        case 0:
+          pictogramsList = visiblePictograms
+          break
+        case 1:
+          pictogramsList = pictograms.filter(pictogram => !pictogram.published)
+          break
+        case 2:
+          pictogramsList = pictograms.filter(pictogram => !pictogram.validated)
+          break
+        default:
+        // not used
+      }
       pictogramsCounter = pictogramsList.length
       gallery = pictogramsCounter ? (
         <div>
@@ -164,7 +171,7 @@ PictogramsView.propTypes = {
   visiblePictograms: PropTypes.arrayOf(PropTypes.object),
   locale: PropTypes.string.isRequired,
   searchResults: PropTypes.arrayOf(PropTypes.number),
-  lastUpdated: PropTypes.number,
+  lastUpdated: PropTypes.string,
 }
 
 const mapStateToProps = (state, ownProps) => ({

@@ -19,4 +19,8 @@ export default defineMessages({
     id: `${scope}.TabHeader.notValidated`,
     defaultMessage: 'Not validated',
   },
+  pictogramsNotFound: {
+    id: `${scope}.pictogramsNotFound`,
+    defaultMessage: 'No pictograms found',
+  },
 })
