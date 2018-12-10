@@ -14,6 +14,7 @@ import View from 'components/View'
 import SearchField from 'components/SearchField'
 import { makeSelectLocale } from 'containers/LanguageProvider/selectors'
 import injectReducer from 'utils/injectReducer'
+import PictogramList from 'components/PictogramList'
 import { DAEMON } from 'utils/constants'
 import injectSaga from 'utils/injectSaga'
 import history from 'utils/history'
@@ -25,6 +26,7 @@ import {
   makeVisiblePictogramsSelector,
   makeKeywordsSelectorByLocale,
   makeLastUpdatedSelector,
+  makePictogramsListSelector,
 } from './selectors'
 import { autocomplete, pictograms, allPictograms, newPictograms } from './actions'
 import styles from './styles'
@@ -42,9 +44,7 @@ class PictogramsView extends React.PureComponent {
     if (searchText && !searchResults) {
       this.props.requestPictograms(locale, searchText)
     }
-    if (!lastUpdated) this.props.requestAllPictograms(locale)
-    else this.props.requestNewPictograms(locale, lastUpdated)
-    // this.props.requestNotValidatedPictograms(locale)
+    this.props.requestNewPictograms(locale, lastUpdated)
     this.props.requestAutocomplete(locale)
   }
 
@@ -70,13 +70,21 @@ class PictogramsView extends React.PureComponent {
   renderNoPictos = () => <div>{<FormattedMessage {...messages.pictogramsNotFound} />}</div>
 
   render() {
-    const { classes, width, searchText, keywords, loading, error, visiblePictograms } = this.props
+    const {
+      classes,
+      width,
+      searchText,
+      keywords,
+      loading,
+      error,
+      visiblePictograms,
+      pictogramCollection,
+      locale,
+    } = this.props
     const { slideIndex } = this.state
     let pictogramsCounter
     let pictogramsList
-
     let gallery
-
     if (loading) gallery = this.renderLoading()
     else if (error) gallery = this.renderError()
     else if (!searchText && slideIndex === 0) gallery = null
@@ -87,10 +95,11 @@ class PictogramsView extends React.PureComponent {
           pictogramsList = visiblePictograms
           break
         case 1:
-          pictogramsList = pictograms.filter(pictogram => !pictogram.published)
+          // console.log(allPictograms)
+          pictogramsList = pictogramCollection.filter(pictogram => !pictogram.published)
           break
         case 2:
-          pictogramsList = pictograms.filter(pictogram => !pictogram.validated)
+          pictogramsList = pictogramCollection.filter(pictogram => !pictogram.validated)
           break
         default:
         // not used
@@ -98,14 +107,14 @@ class PictogramsView extends React.PureComponent {
       pictogramsCounter = pictogramsList.length
       gallery = pictogramsCounter ? (
         <div>
-          {/* <PictogramList
+          <PictogramList
             pictograms={pictogramsList}
             locale={locale}
-            filtersMap={filters}
+            // filtersMap={filters}
             setFilterItems={this.props.setFilterItems}
-            showLabels={visibleLabels}
+            // showLabels={visibleLabels}
             searchText={searchText}
-          /> */}
+          />
         </div>
       ) : (
         this.renderNoPictos()
@@ -163,8 +172,8 @@ PictogramsView.propTypes = {
   width: PropTypes.string.isRequired,
   requestAutocomplete: PropTypes.func.isRequired,
   keywords: PropTypes.arrayOf(PropTypes.string),
+  pictogramCollection: PropTypes.arrayOf(PropTypes.object),
   requestPictograms: PropTypes.func.isRequired,
-  requestAllPictograms: PropTypes.func.isRequired,
   requestNewPictograms: PropTypes.func.isRequired,
   searchText: PropTypes.string,
   loading: PropTypes.bool.isRequired,
@@ -179,6 +188,7 @@ const mapStateToProps = (state, ownProps) => ({
   loading: makeLoadingSelector()(state),
   lastUpdated: makeLastUpdatedSelector()(state),
   searchResults: makeSearchResultsSelector()(state, ownProps),
+  pictogramCollection: makePictogramsListSelector()(state),
   visiblePictograms: makeVisiblePictogramsSelector()(state, ownProps),
   keywords: makeKeywordsSelectorByLocale()(state),
   searchText: (() => ownProps.match.params.searchText || '')(),
@@ -187,9 +197,6 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
   requestPictograms: (locale, searchText) => {
     dispatch(pictograms.request(locale, searchText))
-  },
-  requestAllPictograms: locale => {
-    dispatch(allPictograms.request(locale))
   },
   requestNewPictograms: (locale, lastUpdated) => {
     dispatch(newPictograms.request(locale, lastUpdated))

@@ -1,17 +1,31 @@
 import { DEFAULT_THEME, DARK_THEME, LIGHT_THEME } from 'containers/ThemeSelector/constants'
 import { createMuiTheme } from '@material-ui/core/styles'
 // import purple from '@material-ui/core/colors/purple'
-import green from '@material-ui/core/colors/green'
+// import green from '@material-ui/core/colors/green'
 
 // TODO: change green color // #F44336
+
+const green = {
+  300: '#81c784',
+  500: '#4caf50',
+  700: '#388e3c',
+}
+
 const primary = green
 // const accent = purple.A200 // #E040FB
 
 const themes = {}
 themes[LIGHT_THEME] = {
   palette: {
-    primary,
-    // accent,
+    primary: {
+      main: '#8BC151', // light y dark
+      contrastText: '#fff',
+      white: '#fff',
+    },
+    secondary: {
+      main: '#8BC151',
+      contrastText: '#000',
+    },
   },
   typography: {
     useNextVariants: true,

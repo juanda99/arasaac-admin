@@ -4,17 +4,9 @@
  *
  */
 
-import { fromJS } from 'immutable'
+import { fromJS, Map } from 'immutable'
 import { PICTOGRAM } from 'containers/PictogramView/actions'
-import {
-  PICTOGRAMS,
-  AUTOCOMPLETE,
-  // NOT_PUBLISHED_PICTOGRAMS,
-  // NOT_VALIDATED_PICTOGRAMS,
-  // LAST_PICTOGRAMS,
-  NEW_PICTOGRAMS,
-  ALL_PICTOGRAMS,
-} from './actions'
+import { PICTOGRAMS, AUTOCOMPLETE, NEW_PICTOGRAMS } from './actions'
 
 export const initialState = fromJS({
   loading: false,
@@ -22,7 +14,9 @@ export const initialState = fromJS({
   search: {},
   words: {},
   searchText: '',
-  pictograms: { es: { lastUpdated: '' }, en: { lastUpdated: '' }, fr: { lastUpdated: '' } },
+  es: { lastUpdated: '', pictograms: {} },
+  en: { lastUpdated: '', pictograms: {} },
+  fr: { lastUpdated: '', pictograms: {} },
 })
 
 const pictogramsViewReducer = (state = initialState, action) => {
@@ -32,7 +26,7 @@ const pictogramsViewReducer = (state = initialState, action) => {
     case PICTOGRAM.REQUEST:
       return state.set('loading', true).set('error', false)
     case PICTOGRAM.SUCCESS:
-      newPictogram = fromJS(action.payload.data || {})
+      newPictogram = action.payload.data || {}
       idPictogram = action.payload.data.idPictogram.toString()
       return state.set('loading', false).setIn(['pictograms', action.payload.locale, idPictogram], newPictogram)
     case PICTOGRAM.FAILURE:
@@ -40,28 +34,21 @@ const pictogramsViewReducer = (state = initialState, action) => {
     case PICTOGRAMS.REQUEST:
       return state.set('loading', true).set('error', false)
     case PICTOGRAMS.SUCCESS:
-      newPictogram = fromJS(action.payload.data.entities.pictograms || {})
+      newPictogram = Map(action.payload.data.entities.pictograms || {})
       return state
         .set('loading', false)
         .setIn(['search', action.payload.locale, action.payload.searchText], action.payload.data.result)
-        .mergeIn(['pictograms', action.payload.locale], newPictogram)
+        .mergeIn([action.payload.locale, 'pictograms'], newPictogram)
     case PICTOGRAMS.FAILURE:
-      return state.set('error', action.payload.error).set('loading', false)
-    case ALL_PICTOGRAMS.REQUEST:
-      return state.set('loading', true).set('error', false)
-    case ALL_PICTOGRAMS.SUCCESS:
-      newPictogram = fromJS({ lastUpdated: Date(), ...action.payload.data.entities.pictograms })
-      return state.set('loading', false).mergeIn(['pictograms', action.payload.locale], newPictogram)
-    case ALL_PICTOGRAMS.FAILURE:
       return state.set('error', action.payload.error).set('loading', false)
     case NEW_PICTOGRAMS.REQUEST:
       return state.set('loading', true).set('error', false)
     case NEW_PICTOGRAMS.SUCCESS:
-      newPictogram = fromJS(action.payload.data.entities.pictograms || {})
+      newPictogram = Map(action.payload.data.entities.pictograms || {})
       return state
         .set('loading', false)
-        .set('lastUpdated', Date())
-        .mergeIn(['pictograms', action.payload.locale], newPictogram)
+        .mergeIn([action.payload.locale, 'lastUpdated'], Date())
+        .mergeIn([action.payload.locale, 'pictograms'], newPictogram)
     case NEW_PICTOGRAMS.FAILURE:
       return state.set('error', action.payload.error).set('loading', false)
     case AUTOCOMPLETE.REQUEST:

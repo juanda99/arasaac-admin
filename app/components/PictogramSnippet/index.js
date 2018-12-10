@@ -8,6 +8,10 @@ import Item from './Item'
 import styles from './styles'
 
 class PictogramSnippet extends PureComponent {
+  state = {
+    zDepth: 1,
+  }
+
   handleMouseEnter = () => {
     this.setState({
       zDepth: 3,
@@ -36,11 +40,11 @@ class PictogramSnippet extends PureComponent {
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
       >
-        <Paper className={classes.paper} zDepth={this.state.zDepth}>
+        <Paper className={classes.paper} elevation={this.state.zDepth}>
           <Item url={`/pictograms/${locale}/${idPictogram}/${keyword}`}>
             <div style={{ position: 'relative' }}>
               <img className={classes.image} src={`${PICTOGRAMS_URL}/${idPictogram}_300.png`} alt={keyword} />
-              <div className={classes.CardActions}>
+              <div className={classes.cardActions}>
                 <p className={classes.cardTitle}>{keyword}</p>
               </div>
             </div>

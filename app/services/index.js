@@ -8,14 +8,14 @@ const api = {
     callApi(`${API_ROOT}/pictograms/${locale}/search/${searchText}`, {
       schema: searchPictogramSchema,
     }),
-  ALL_PICTOGRAMS_REQUEST: ({ locale }) =>
-    callApi(`${PRIVATE_API_ROOT}/pictograms/${locale}`, {
+  NEW_PICTOGRAMS_REQUEST: ({ locale, lastUpdated }) => {
+    const url = lastUpdated
+      ? `${PRIVATE_API_ROOT}/pictograms/${locale}/${lastUpdated}`
+      : `${PRIVATE_API_ROOT}/pictograms/${locale}`
+    return callApi(url, {
       schema: searchPictogramSchema,
-    }),
-  NEW_PICTOGRAMS_REQUEST: ({ locale, lastUpdated }) =>
-    callApi(`${PRIVATE_API_ROOT}/pictograms/${locale}/${lastUpdated}`, {
-      schema: searchPictogramSchema,
-    }),
+    })
+  },
   MATERIALS_REQUEST: ({ locale, searchText }) =>
     callApi(`${API_ROOT}/materials/${locale}/${searchText}`, {
       schema: searchMaterialSchema,

@@ -8,7 +8,6 @@ import Sidebar from 'components/Sidebar'
 import logo from 'images/arasaac-logo.svg'
 import routes from '../../routes'
 
-import GlobalStyle from '../../global-styles'
 import style from './style'
 
 const getRoutes = () =>
@@ -59,7 +58,6 @@ export class App extends Component {
             <Switch>{getRoutes()}</Switch>
           </div>
         </div>
-        <GlobalStyle />
       </div>
     )
   }

@@ -3,6 +3,7 @@ const styles = theme => ({
     textAlign: 'center',
     fontSize: '1.4rem',
     textTransform: 'uppercase',
+    color: theme.palette.primary.white,
     fontWeight: '900',
   },
   cardActions: {
@@ -15,7 +16,7 @@ const styles = theme => ({
     '&:hover': {
       opacity: 0.93,
     },
-    backgroundColor: theme.palette.primary,
+    backgroundColor: theme.palette.primary.main,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',

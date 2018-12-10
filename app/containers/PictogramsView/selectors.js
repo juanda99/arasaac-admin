@@ -28,27 +28,31 @@ const makePictogramsSelector = () =>
     makeSelectLocale(),
     (substate, locale) =>
       // pictograms.locale does not exists first time, just pictograms
-      substate.getIn([PICTOGRAMS, locale]) || new Map(),
+      substate.getIn([locale, PICTOGRAMS]) || new Map(),
   )
+
+export const makePictogramsListSelector = () =>
+  createSelector(selectPictogramsViewDomain, makeSelectLocale(), (substate, locale) => {
+    // pictograms.locale does not exists first time, just pictograms
+    const pictograms = substate.getIn([locale, PICTOGRAMS]) || new Map()
+    return pictograms.valueSeq().toArray()
+  })
 
 export const makeLastUpdatedSelector = () =>
   createSelector(
     selectPictogramsViewDomain,
     makeSelectLocale(),
-    (substate, locale) => substate.getIn([PICTOGRAMS, locale, LAST_UPDATED]) || '',
+    (substate, locale) => substate.getIn([locale, LAST_UPDATED]) || '',
   )
 
 const makeSearchSelector = () => createSelector(selectPictogramsViewDomain, substate => substate.get('search'))
 
-const makeSearchTextSelector = () => (_, ownProps) => ownProps.searchText
+const makeSearchTextSelector = () => (_, ownProps) => ownProps.match.params.searchText
 
 export const makeSearchResultsSelector = () =>
   createSelector(makeSearchSelector(), makeSelectLocale(), makeSearchTextSelector(), (pictograms, locale, searchText) =>
     pictograms.getIn([locale, searchText]),
   )
-
-const makeSearchNewPictogramsSelector = () =>
-  createSelector(selectPictogramsViewDomain, substate => substate.get('newPictograms'))
 
 const makeEntitiesSelector = () =>
   createSelector(makePictogramsSelector(), pictograms => {
@@ -61,19 +65,12 @@ export const makeVisiblePictogramsSelector = () =>
   createSelector(
     makeSearchResultsSelector(),
     makeEntitiesSelector(),
-    makeFiltersSelector(),
-    (searchData, entities, filters) => {
+    // makeFiltersSelector(),
+    (searchData, entities /* , filters */) => {
       /* searchData could be undefined */
       if (searchData == null) return []
       const pictogramList = denormalize(searchData, searchPictogramSchema, entities)
-      return getFilteredItems(pictogramList, filters)
+      return pictogramList
+      // return getFilteredItems(pictogramList, filters)
     },
   )
-
-export const makeNewPictogramsSelector = () =>
-  createSelector(makeSearchNewPictogramsSelector(), makeEntitiesSelector(), (searchData, entities) => {
-    /* searchData could be undefined */
-    if (searchData == null) return []
-    const materialList = denormalize(searchData, searchPictogramSchema, entities)
-    return materialList
-  })

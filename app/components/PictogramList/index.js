@@ -17,13 +17,8 @@ const styles = {
 }
 
 export class PictogramList extends PureComponent {
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.pictograms !== this.props.pictograms) {
-    }
-  }
-
   render() {
-    const { locale, pictograms, filtersMap, setFilterItems, searchText } = this.props
+    const { locale, pictograms, searchText } = this.props
     const renderPictograms = pictograms.map(pictogram => (
       <PictogramSnippet pictogram={pictogram} searchText={searchText} locale={locale} key={pictogram.idPictogram} />
     ))
@@ -48,10 +43,7 @@ export class PictogramList extends PureComponent {
 PictogramList.propTypes = {
   pictograms: PropTypes.arrayOf(PropTypes.object).isRequired,
   locale: PropTypes.string,
-  showLabels: PropTypes.bool.isRequired,
-  filtersMap: PropTypes.instanceOf(Map).isRequired,
-  setFilterItems: PropTypes.func.isRequired,
-  searchText: PropTypes.string,,
+  searchText: PropTypes.string,
 }
 
 export default PictogramList
