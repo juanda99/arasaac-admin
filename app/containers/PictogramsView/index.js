@@ -28,7 +28,7 @@ import {
   makeLastUpdatedSelector,
   makePictogramsListSelector,
 } from './selectors'
-import { autocomplete, pictograms, allPictograms, newPictograms } from './actions'
+import { autocomplete, pictograms, newPictograms } from './actions'
 import styles from './styles'
 import messages from './messages'
 
@@ -95,8 +95,8 @@ class PictogramsView extends React.PureComponent {
           pictogramsList = visiblePictograms
           break
         case 1:
-          // console.log(allPictograms)
           pictogramsList = pictogramCollection.filter(pictogram => !pictogram.published)
+          console.log(pictogramsList)
           break
         case 2:
           pictogramsList = pictogramCollection.filter(pictogram => !pictogram.validated)
@@ -159,8 +159,7 @@ class PictogramsView extends React.PureComponent {
               {gallery}
             </View>
           )}
-          {slideIndex === 1 && <View>Item Two</View>}
-          {slideIndex === 2 && <View>Item Three</View>}
+          {slideIndex !== 0 && <View>{gallery}</View>}
         </div>
       </React.Fragment>
     )
