@@ -3,7 +3,7 @@
  *
  * This contains all the text for the Routes component.
  */
-import { defineMessages } from 'react-intl';
+import { defineMessages } from 'react-intl'
 
 export default defineMessages({
   pictograms: {
@@ -34,4 +34,8 @@ export default defineMessages({
     id: 'arasaacadmin.components.Sidebar.menu.searchNews',
     defaultMessage: 'Search news',
   },
-});
+  catalogs: {
+    id: 'arasaacadmin.components.Sidebar.menu.catalogs',
+    defaultMessage: 'Catalogs',
+  },
+})

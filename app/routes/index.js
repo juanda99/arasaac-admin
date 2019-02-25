@@ -13,7 +13,7 @@ import UsersView from 'containers/UsersView/Loadable'
 import News from 'containers/News/Loadable'
 import AddNews from 'containers/AddNews/Loadable'
 import PictogramsView from 'containers/PictogramsView/Loadable'
-import PictogramView from 'containers/PictogramView/Loadable'
+import CatalogsView from 'containers/CatalogsView/Loadable'
 import AddPictograms from 'containers/AddPictograms/Loadable'
 // import ErrorBoundary from 'components/ErrorBoundary'
 import messages from './messages'
@@ -35,6 +35,12 @@ const sidebarRoutes = [
         title: <FormattedMessage {...messages.tagPictograms} />,
         icon: TagsIcon,
         component: PictogramsView,
+      },
+      {
+        path: '/catalogs/',
+        title: <FormattedMessage {...messages.catalogs} />,
+        icon: TagsIcon,
+        component: CatalogsView,
       },
     ],
   },
