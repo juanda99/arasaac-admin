@@ -31,18 +31,24 @@ class CatalogsView extends React.PureComponent {
 
     // get current status: generating, crompressing and so on
     const socket = openSocket('https://privateapi.arasaac.org')
-    socket.on('backupPercent', completed => this.setState({ completed }))
+    socket.on('catalogStatus', data => {
+      const { status, subStatus, completed } = data
+      this.setState({ completed, status, subStatus })
+    })
   }
 
   render() {
     const { classes } = this.props
+    const { status, subStatus, completed } = this.state
     console.log(`completed: ${this.state.completed}`)
 
     return (
       <View>
         <div className={classes.root}>
-          <p>Lista de catálogos</p>
-          <LinearProgress variant="determinate" value={this.state.completed} />
+          <p>Generación de catálogos</p>
+          <p>{status}</p>
+          <p>{subStatus}</p>
+          {!!completed && <LinearProgress variant="determinate" value={completed} />}
         </div>
       </View>
     )
