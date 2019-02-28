@@ -3,6 +3,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import PictogramUploadIcon from '@material-ui/icons/AddPhotoAlternate'
 import PictogramsIcon from '@material-ui/icons/Collections'
+import CatalogsIcon from '@material-ui/icons/PhotoLibrary'
 import TagsIcon from '@material-ui/icons/Style'
 import UsersIcon from '@material-ui/icons/People'
 import NewsIcon from '@material-ui/icons/Chat'
@@ -39,7 +40,7 @@ const sidebarRoutes = [
       {
         path: '/catalogs/',
         title: <FormattedMessage {...messages.catalogs} />,
-        icon: TagsIcon,
+        icon: CatalogsIcon,
         component: CatalogsView,
       },
     ],

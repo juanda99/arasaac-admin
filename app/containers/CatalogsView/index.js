@@ -1,16 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
-import withWidth from '@material-ui/core/withWidth'
 import openSocket from 'socket.io-client'
 import api from 'services'
 import { FormattedMessage } from 'react-intl'
 import View from 'components/View'
 import Catalog from 'components/Catalog'
-
-import reducer from './reducer'
-
 import styles from './styles'
 import messages from './messages'
 
@@ -20,36 +15,6 @@ class CatalogsView extends React.PureComponent {
   state = {
     catalogStatus: {},
     catalogs: [],
-  }
-
-  stepInfo = step => {
-    switch (step) {
-      case 1:
-        return 'Getting pictogram data from database'
-      case 2:
-        return 'Getting pictogram files'
-      case 3:
-        return 'Compressing pictogram files'
-      case 4:
-        return 'Publishing zip file'
-      case 5:
-        return 'Updating catalog data in database'
-      default:
-        return ''
-    }
-  }
-
-  showInfo = (step, info) => {
-    switch (step) {
-      case 2:
-        return info ? `(${info} files)` : '(0 files)'
-      case 3:
-        return info ? `(${info})` : '(Calculating size...)'
-      case 4:
-        return info ? `(${info})` : '(Connecting to public server...)'
-      default:
-        return ''
-    }
   }
 
   async componentDidMount() {
@@ -76,24 +41,12 @@ class CatalogsView extends React.PureComponent {
       )
       .map(catalog => <Catalog catalog={catalog} catalogStatus={catalogStatus[catalog.language]} />)
 
-    // const { step, complete, error, info } = this.state
-    // console.log(`step ${step} complete: ${complete} error: ${error}`)
-    console.log('-------------')
-    console.log(catalogs)
-    console.log(catalogItems)
-
-    //       < p >
-    //       { this.stepInfo(step) } { this.showInfo(step, info)
-    //   }
-    //           </p>
-    //   <p>{error}</p>
-    // { !!complete && <LinearProgress variant="determinate" value={complete} /> }
-    //         </div >
-
     return (
       <View>
         <div className={classes.root}>
-          <p>Generación de catálogos</p>
+          <p>
+            <FormattedMessage {...messages.catalogGeneration} />
+          </p>
           {catalogItems}
         </div>
       </View>
