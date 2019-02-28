@@ -20,9 +20,6 @@ const api = {
     callApi(`${API_ROOT}/materials/${locale}/${searchText}`, {
       schema: searchMaterialSchema,
     }),
-  NEW_MATERIALS_REQUEST: () => callApi(`${API_ROOT}/materials/new/30`, { schema: searchMaterialSchema }),
-  UPLOAD_MATERIAL_REQUEST: formData => callApi(uploadMaterial.url, uploadMaterial.options(formData)),
-  MATERIAL_REQUEST: ({ idMaterial }) => callApi(`${API_ROOT}/materials/${idMaterial}`),
   PICTOGRAM_REQUEST: ({ idPictogram, locale }) => callApi(`${API_ROOT}/pictograms/${locale}/${idPictogram}`),
   LOGIN_REQUEST: ({ username, password }) => callApi(login.url, login.options(username, password)),
   SOCIAL_LOGIN_REQUEST: ({ socialToken, provider }) =>
@@ -30,6 +27,7 @@ const api = {
   SIGNUP_REQUEST: userData => callApi(signup.url, signup.options(userData)),
   USERS_REQUEST: () => callApi(`${PRIVATE_API_ROOT}/users`),
   TEMPUSERS_RESQUEST: () => callApi(`${PRIVATE_API_ROOT}/tempusers`),
+  CATALOGS_REQUEST: () => callApi(`${PRIVATE_API_ROOT}/catalogs`),
 }
 
 export default api

@@ -4,17 +4,13 @@ import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 import withWidth from '@material-ui/core/withWidth'
 import openSocket from 'socket.io-client'
+import api from 'services'
 import { FormattedMessage } from 'react-intl'
 import View from 'components/View'
-import { compose } from 'redux'
-import { makeSelectLocale } from 'containers/LanguageProvider/selectors'
-import injectReducer from 'utils/injectReducer'
-import { DAEMON } from 'utils/constants'
-import injectSaga from 'utils/injectSaga'
-import LinearProgress from '@material-ui/core/LinearProgress'
+import Catalog from 'components/Catalog'
+
 import reducer from './reducer'
-import saga from './sagas'
-import { catalogs, generateCatalog, generateAllCatalogs } from './actions'
+
 import styles from './styles'
 import messages from './messages'
 
@@ -22,33 +18,83 @@ import messages from './messages'
 
 class CatalogsView extends React.PureComponent {
   state = {
-    completed: 0,
+    catalogStatus: {},
+    catalogs: [],
   }
 
-  componentDidMount() {
-    // get last data from our catalogs
-    // make ajax call or use websocket (as we will use it afterwards)
+  stepInfo = step => {
+    switch (step) {
+      case 1:
+        return 'Getting pictogram data from database'
+      case 2:
+        return 'Getting pictogram files'
+      case 3:
+        return 'Compressing pictogram files'
+      case 4:
+        return 'Publishing zip file'
+      case 5:
+        return 'Updating catalog data in database'
+      default:
+        return ''
+    }
+  }
+
+  showInfo = (step, info) => {
+    switch (step) {
+      case 2:
+        return info ? `(${info} files)` : '(0 files)'
+      case 3:
+        return info ? `(${info})` : '(Calculating size...)'
+      case 4:
+        return info ? `(${info})` : '(Connecting to public server...)'
+      default:
+        return ''
+    }
+  }
+
+  async componentDidMount() {
+    const catalogs = await api.CATALOGS_REQUEST()
+    this.setState({ catalogs })
 
     // get current status: generating, crompressing and so on
     const socket = openSocket('https://privateapi.arasaac.org')
-    socket.on('catalogStatus', data => {
-      const { status, subStatus, completed } = data
-      this.setState({ completed, status, subStatus })
+    socket.on('catalogStatus', catalogStatus => {
+      // const { step, complete, error, info } = data.es
+      // console.log(data.es.complete)
+      this.setState({ catalogStatus })
     })
   }
 
   render() {
     const { classes } = this.props
-    const { status, subStatus, completed } = this.state
-    console.log(`completed: ${this.state.completed}`)
+    const { catalogStatus, catalogs } = this.state
+    const catalogItems = catalogs
+      .sort(
+        (catalogA, catalogB) =>
+          // eslint-disable-next-line no-nested-ternary
+          catalogA.language < catalogB.language ? -1 : catalogA.language > catalogB.language ? 1 : 0,
+      )
+      .map(catalog => <Catalog catalog={catalog} catalogStatus={catalogStatus[catalog.language]} />)
+
+    // const { step, complete, error, info } = this.state
+    // console.log(`step ${step} complete: ${complete} error: ${error}`)
+    console.log('-------------')
+    console.log(catalogs)
+    console.log(catalogItems)
+
+    //       < p >
+    //       { this.stepInfo(step) } { this.showInfo(step, info)
+    //   }
+    //           </p>
+    //   <p>{error}</p>
+    // { !!complete && <LinearProgress variant="determinate" value={complete} /> }
+    //         </div >
 
     return (
       <View>
         <div className={classes.root}>
           <p>Generación de catálogos</p>
-          <p>{status}</p>
-          <p>{subStatus}</p>
-          {!!completed && <LinearProgress variant="determinate" value={completed} />}
+          {catalogItems}
         </div>
       </View>
     )
@@ -57,36 +103,6 @@ class CatalogsView extends React.PureComponent {
 
 CatalogsView.propTypes = {
   classes: PropTypes.object.isRequired,
-  requestCatalogs: PropTypes.func.isRequired,
-  generateCatalog: PropTypes.func.isRequired,
-  generateAllCatalogs: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = state => ({
-  locale: makeSelectLocale()(state),
-})
-
-const mapDispatchToProps = dispatch => ({
-  requestCatalogs: () => {
-    dispatch(catalogs.request())
-  },
-  generateCatalog: locale => {
-    dispatch(generateCatalog.request(locale))
-  },
-  generateAllCatalogs: () => {
-    dispatch(generateAllCatalogs.request())
-  },
-})
-
-const withConnect = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)
-const withReducer = injectReducer({ key: 'catalogsView', reducer })
-// const withSaga = injectSaga({ key: 'pictogramsView', saga, mode: DAEMON })
-
-export default compose(
-  withReducer,
-  // withSaga,
-  withConnect,
-)(withStyles(styles, { withTheme: true })(withWidth()(CatalogsView)))
+export default withStyles(styles, { withTheme: true })(CatalogsView)
