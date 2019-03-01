@@ -6,6 +6,14 @@ import BuildIcon from '@material-ui/icons/Build'
 import Button from '@material-ui/core/Button'
 import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
+import { FormattedMessage } from 'react-intl'
+import Table from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
+import TableCell from '@material-ui/core/TableCell'
+import TableHead from '@material-ui/core/TableHead'
+import TableRow from '@material-ui/core/TableRow'
+import Paper from '@material-ui/core/Paper'
+import messages from './messages'
 
 const styles = theme => ({
   button: {
@@ -21,6 +29,13 @@ const styles = theme => ({
     fontSize: 20,
   },
 })
+
+let id = 0
+const createData = (desc, colorPictograms, noColorPictograms, variations) => {
+  id += 1
+  const totalPictograms = colorPictograms + noColorPictograms + variations
+  return { id, totalPictograms, colorPictograms, noColorPictograms, variations }
+}
 
 export class Catalog extends PureComponent {
   stepInfo = (step, info, complete) => {
@@ -46,9 +61,11 @@ export class Catalog extends PureComponent {
   render() {
     const { catalog, catalogStatus, classes } = this.props
     // values provided from api call and sockets:
-    const { status, lastUpdated, colorPictograms, noColorPictograms, variations } = catalogData
+    const { status, lastUpdated, language, colorPictograms, noColorPictograms, variations } = catalog
     const { step, info, complete, err } = catalogStatus
-
+    console.log(catalogStatus)
+    console.log(catalog)
+    const rows = [createData(colorPictograms, noColorPictograms, variations)]
     const downloadStatus = complete ? (
       <div>
         <p>{this.stepInfo(step, info, complete)}</p>
@@ -56,16 +73,44 @@ export class Catalog extends PureComponent {
       </div>
     ) : (
       <Button variant="contained" color="primary" className={classes.button}>
-        Send
         {/* This Button uses a Font Icon, see the installation instructions in the docs. */}
         <BuildIcon className={classNames(classes.leftIcon, classes.iconSmall)} />
+        Build
       </Button>
     )
 
     return (
       <div>
-        <h2>Catalog for language {catalog.language}</h2>
+        <h2>
+          <FormattedMessage {...messages.catalogGeneration} values={{ language }} />
+        </h2>
+
+        <p>Last build: {lastUpdated}</p>
+        <p>Status: {status ? 'Published' : 'Not published'}</p>
         {downloadStatus}
+        <Paper className={classes.root}>
+          <Table className={classes.table}>
+            <TableHead>
+              <TableRow>
+                <TableCell align="right">Total pictograms</TableCell>
+                <TableCell align="right">Color pictograms</TableCell>
+                <TableCell align="right">Black and white pictograms</TableCell>
+                <TableCell align="right">Variations (hair, skin)</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows.map(row => (
+                <TableRow key={row.id}>
+                  <TableCell align="right">{row.totalPictograms}</TableCell>
+                  <TableCell align="right">{row.colorPictograms}</TableCell>
+                  <TableCell align="right">{row.noColorPictograms}</TableCell>
+                  <TableCell align="right">{row.variations}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Paper>
+
         <Divider />
       </div>
     )
@@ -78,4 +123,7 @@ Catalog.propTypes = {
   classes: PropTypes.object.isRequired,
 }
 
+Catalog.defaultProps = {
+  catalogStatus: {},
+}
 export default withStyles(styles)(Catalog)
