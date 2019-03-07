@@ -29,6 +29,27 @@ export const login = {
     },
   }),
 }
+
+export const generateCatalog = {
+  url: language => `${PRIVATE_API_ROOT}/catalogs/${language}`,
+  options: () => ({
+    config: {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+    },
+  }),
+}
+
+export const generateCatalogs = {
+  url: `${PRIVATE_API_ROOT}/catalogs`,
+  options: () => ({
+    config: {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+    },
+  }),
+}
+
 export const socialLogin = {
   url: `${AUTH_ROOT}/oauth/token`,
   options: (token, provider) => ({

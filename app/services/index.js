@@ -1,6 +1,15 @@
 import { searchMaterialSchema, searchPictogramSchema } from './schemas'
 import callApi from './callApi'
-import { login, signup, socialLogin, uploadMaterial, API_ROOT, PRIVATE_API_ROOT } from './config'
+import {
+  login,
+  signup,
+  socialLogin,
+  uploadMaterial,
+  generateCatalog,
+  generateCatalogs,
+  API_ROOT,
+  PRIVATE_API_ROOT,
+} from './config'
 
 const api = {
   AUTOCOMPLETE_REQUEST: ({ locale }) => callApi(`${API_ROOT}/keywords/${locale}`),
@@ -28,6 +37,8 @@ const api = {
   USERS_REQUEST: () => callApi(`${PRIVATE_API_ROOT}/users`),
   TEMPUSERS_RESQUEST: () => callApi(`${PRIVATE_API_ROOT}/tempusers`),
   CATALOGS_REQUEST: () => callApi(`${PRIVATE_API_ROOT}/catalogs`),
+  GENERATE_CATALOG: ({ language }) => callApi(generateCatalog.url(language), generateCatalog.options()),
+  GENERATE_CATALOGS: () => callApi(generateCatalogs.url, generateCatalogs.options()),
 }
 
 export default api

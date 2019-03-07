@@ -62,9 +62,7 @@ export class Catalog extends PureComponent {
     const { catalog, catalogStatus, classes } = this.props
     // values provided from api call and sockets:
     const { status, lastUpdated, language, colorPictograms, noColorPictograms, variations } = catalog
-    const { step, info, complete, err } = catalogStatus
-    console.log(catalogStatus)
-    console.log(catalog)
+    const { step, info, complete/*, err*/ } = catalogStatus
     const rows = [createData(colorPictograms, noColorPictograms, variations)]
     const downloadStatus = complete ? (
       <div>
