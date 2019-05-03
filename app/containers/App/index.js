@@ -12,6 +12,7 @@ import style from './style'
 
 const getRoutes = () =>
   routes.map((route, key) => {
+    console.log(route.path)
     if (route.children) {
       return route.children.map((subRoute, subkey) => (
         <Route

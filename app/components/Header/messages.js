@@ -7,4 +7,8 @@ export default defineMessages({
     id: `${scope}.button.userMenu`,
     defaultMessage: 'User menu',
   },
+  signin: {
+    id: `${scope}.menu.signin`,
+    defaultMessage: 'Sign in',
+  },
 })

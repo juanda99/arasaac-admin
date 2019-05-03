@@ -8,6 +8,8 @@ import history from 'utils/history'
 import languageProviderReducer from 'containers/LanguageProvider/reducer'
 import theme from 'containers/ThemeSelector/reducer'
 import { loadingBarReducer } from 'react-redux-loading-bar'
+import { reducer as form } from 'redux-form/immutable'
+import auth from 'containers/App/reducer'
 // import pictogramsViewReducer from 'containers/PictogramsView/reducer'
 
 /**
@@ -18,6 +20,8 @@ export default function createReducer(injectedReducers = {}) {
     language: languageProviderReducer,
     theme,
     loadingBar: loadingBarReducer,
+    auth,
+    form,
     // pictogramsView: pictogramsViewReducer,
     ...injectedReducers,
   })
