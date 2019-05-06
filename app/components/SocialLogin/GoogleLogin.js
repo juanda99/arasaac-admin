@@ -1,13 +1,12 @@
 // based on: https://github.com/anthonyjgrove/react-google-login
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
 import red from '@material-ui/core/colors/red'
 import { FormattedMessage } from 'react-intl'
 import Button from '@material-ui/core/Button'
 import messages from './messages'
 import GoogleIcon from './icons/GoogleIcon'
-
-const red500 = red[500]
 
 /* eslint no-param-reassign: 0 */
 // TODO refactor code so no eslint  needed
@@ -17,6 +16,8 @@ const styles = {
     width: '100%',
     float: 'left',
     marginBottom: 5,
+    backgroundColor: red[500],
+    color: 'white',
   },
 }
 
@@ -124,19 +125,19 @@ class GoogleLogin extends Component {
   }
 
   render() {
+    const { classes } = this.props
     return (
       <Button
         variant="contained"
-        style={styles.googleLogin}
-        backgroundColor={red500}
-        label={<FormattedMessage {...messages.google} />}
-        icon={<GoogleIcon />}
-        labelColor="white"
+        className={classes.googleLogin}
         onClick={this.onBtnClick}
         disabled={this.state.disabled}
-      />
+      >
+        <GoogleIcon />
+        <FormattedMessage {...messages.google} />
+      </Button>
     )
   }
 }
 
-export default GoogleLogin
+export default withStyles(styles)(GoogleLogin)

@@ -23,7 +23,7 @@ const styles = {
 class ConditionalPaper extends PureComponent {
   render() {
     const { width, children } = this.props
-    const isSmall = SMALL === width
+    const isSmall = width === 'xs'
     return (
       <div>
         {isSmall ? (
@@ -41,7 +41,7 @@ class ConditionalPaper extends PureComponent {
 
 ConditionalPaper.propTypes = {
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
-  width: PropTypes.number.isRequired,
+  width: PropTypes.string.isRequired,
 }
 
 export default withWidth()(ConditionalPaper)

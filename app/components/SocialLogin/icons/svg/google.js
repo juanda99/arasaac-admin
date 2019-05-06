@@ -4,9 +4,9 @@ import pure from 'recompose/pure'
 import SvgIcon from '@material-ui/core/SvgIcon'
 /* eslint-disable import/no-mutable-exports */
 let Google = props => (
-  <SvgIcon {...props} viewBox="0 0 90 90">
+  <SvgIcon {...props} viewBox="0 0 90 90" style={{ marginRight: '10px' }}>
     <path
-      fill={props.color}
+      fill="white"
       d="M74.499,0H50.144c-6.382,0-14.421,0.942-21.158,6.49c-5.09,4.374-7.566,10.392-7.566,15.828
       c0,9.211,7.094,18.546,19.625,18.546c1.182,0,2.477-0.12,3.787-0.235c-0.592,1.413-1.189,2.594-1.189,4.605
       c0,3.662,1.893,5.902,3.547,8.029c-5.314,0.353-15.249,0.942-22.583,5.428c-6.975,4.143-9.107,10.16-9.107,14.414

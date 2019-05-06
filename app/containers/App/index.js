@@ -2,13 +2,19 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Switch, Route } from 'react-router-dom'
 import withStyles from '@material-ui/core/styles/withStyles'
-
+import { compose } from 'redux'
+import { connect } from 'react-redux'
 import Header from 'components/Header'
 import Sidebar from 'components/Sidebar'
 import logo from 'images/arasaac-logo.svg'
+// import injectReducer from 'utils/injectReducer'
+import injectSaga from 'utils/injectSaga'
+// import reducer from './reducer'
+import saga from './sagas'
 import routes from '../../routes'
+import { makeSelectHasUser } from './selectors'
 
-import style from './style'
+import styles from './style'
 
 const getRoutes = () =>
   routes.map((route, key) => {
@@ -64,4 +70,24 @@ export class App extends Component {
   }
 }
 
-export default withStyles(style)(App)
+// export default withStyles(styles, { withTheme: true })(App)
+
+const mapStateToProps = state => {
+  const isAuthenticated = (makeSelectHasUser()(state) && true) || false
+  return {
+    isAuthenticated,
+  }
+}
+
+const withConnect = connect(
+  mapStateToProps,
+  null,
+)
+
+// const withReducer = injectReducer({ key: 'auth, reducer })
+const withSaga = injectSaga({ key: 'auth', saga })
+
+export default compose(
+  withConnect,
+  withSaga,
+)(withStyles(styles, { withTheme: true })(App))

@@ -35,7 +35,10 @@ class Header extends Component {
     this.setState({ auth: event.target.checked })
   }
 
-  handleSignin = () => this.props.history.push('/signin')
+  handleSignin = () => {
+    console.log('push ok')
+    this.props.history.push('/signin')
+  }
 
   handleAuthMenu = event => {
     this.setState({ loginButton: event.currentTarget })

@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
 import Div from 'components/Div'
 import Button from '@material-ui/core/Button'
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
@@ -9,14 +10,14 @@ import GoogleLogin from './GoogleLogin'
 import messages from './messages'
 import FacebookIcon from './icons/FacebookIcon'
 
-const blue500 = blue[500]
-
 const styles = {
   facebookButton: {
     float: 'right',
     width: '100%',
     marginBottom: 10,
     top: -10,
+    backgroundColor: blue[500],
+    color: 'white',
   },
 }
 
@@ -38,6 +39,7 @@ class SocialLogin extends PureComponent {
   }
 
   render() {
+    const { classes } = this.props
     return (
       <Div top={2}>
         <FacebookLogin
@@ -46,15 +48,10 @@ class SocialLogin extends PureComponent {
           fields="name,email,picture"
           callback={this.responseFacebook}
           render={renderProps => (
-            <Button
-              variant="contained"
-              onClick={renderProps.onClick}
-              style={styles.facebookButton}
-              backgroundColor={blue500}
-              label={<FormattedMessage {...messages.facebook} />}
-              icon={<FacebookIcon />}
-              labelColor={white}
-            />
+            <Button variant="contained" onClick={renderProps.onClick} className={classes.facebookButton}>
+              <FacebookIcon />
+              <FormattedMessage {...messages.facebook} />
+            </Button>
           )}
         />
         <GoogleLogin
@@ -70,6 +67,7 @@ class SocialLogin extends PureComponent {
 
 SocialLogin.propTypes = {
   onSuccess: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired,
 }
 
-export default SocialLogin
+export default withStyles(styles)(SocialLogin)

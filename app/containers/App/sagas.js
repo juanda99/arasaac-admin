@@ -12,7 +12,7 @@ import api from 'services'
 import { API_ROOT } from 'services/config'
 import callApi from 'services/callApi'
 import { push, LOCATION_CHANGE } from 'react-router-redux'
-import { REHYDRATE } from 'redux-persist/constants'
+// import { REHYDRATE } from 'redux-persist/constants'
 
 // import { authorize, refresh } from './authentication'
 import { makeSelectTokens, makeSelectHasUser, makeSelectRefreshing } from './selectors'
@@ -40,7 +40,9 @@ import { changeLocale } from '../LanguageProvider/actions'
  */
 /* eslint no-constant-condition:0 */
 function* authFlow() {
+  console.log('auth flow ok')
   const hasUser = yield select(makeSelectHasUser())
+  console.log(`authflow hasUser: ${hasUser}`)
   while (!hasUser) {
     yield call(loggedOutFlowSaga)
   }
@@ -55,11 +57,15 @@ function* authFlow() {
  *  @return  {Generator}
  */
 function* loggedOutFlowSaga() {
+  console.log('wating loginREuest!')
+  console.log(LOGIN.REQUEST)
   const { credentials, tokens, socialCredentials } = yield race({
     credentials: take(LOGIN.REQUEST),
     tokens: take(TOKEN_VALIDATION.REQUEST),
     socialCredentials: take(SOCIAL_LOGIN.REQUEST),
   })
+
+  console.log('ha pasado!!!!')
 
   // if (credentials) yield call(loginAuth, credentials.payload.username, credentials.payload.password)
   if (credentials) yield call(loginAuth, credentials.type, credentials.payload)
@@ -78,11 +84,14 @@ function* loggedOutFlowSaga() {
  */
 function* loginAuth(type, payload) {
   try {
+    console.log('ejecutamos....')
     const { access_token, refresh_token } = yield call(api[type], payload)
+    console.log('ha ido bien!')
     yield put(login.success(access_token, refresh_token))
     yield call(authenticate)
     yield put(push('/profile'))
   } catch (err) {
+    console.log('ha ido mal!')
     // const error = yield parseError(err)
     yield put(login.failure(err))
   }
@@ -107,7 +116,9 @@ function* socialLoginAuth(type, payload) {
  *  @return  {Generator}
  */
 function* authenticate() {
-  const onError = error => (error.statusCode >= 500 ? yield put(tokenValidation.failure(error)) : yield call(logoutSaga))
+  const onError = function* authen(error) {
+    return error.statusCode >= 500 ? yield put(tokenValidation.failure(error)) : yield call(logoutSaga)
+  }
 
   yield makeAuthenticatedRequest({
     payload: {
@@ -279,7 +290,8 @@ function* parseError(error) {
 
 function* authFlowSaga() {
   // first time rehydrate before reading from state....
-  yield take(REHYDRATE)
+  // yield take(REHYDRATE)
+  console.log('se está ejecutando....')
   while (true) {
     const watcher = yield fork(authFlow)
     yield take(LOCATION_CHANGE)

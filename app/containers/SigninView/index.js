@@ -8,8 +8,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import View from 'components/View'
-// import { withStyles } from '@material-ui/core/styles'
-import { LoginForm } from 'components/Login'
+import LoginForm from 'components/Login/LoginForm'
 import SocialLogin from 'components/SocialLogin'
 import Separator from 'components/Separator'
 import Logo from 'components/Logo'
@@ -71,7 +70,6 @@ const mapDispatchToProps = dispatch => ({
 //   mapDispatchToProps,
 // )
 // const withReducer = injectReducer({ key: 'usersView', reducer })
-// const withSaga = injectSaga({ key: 'usersView', saga })
 
 // export default compose(
 //   withReducer,
