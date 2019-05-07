@@ -25,7 +25,7 @@ import injectReducer from 'utils/injectReducer'
 import injectSaga from 'utils/injectSaga'
 import reducer from './reducer'
 import saga from './sagas'
-import { makeLoadingSelector, makeArrayUsersSelector, makeTempUsersSelector } from './selectors'
+import { makeLoadingSelector, makeArrayUsersSelector, makeTempUsersSelector, makeSelectHasUser } from './selectors'
 import { users, tempUsers } from './actions'
 import styles from './styles'
 import messages from './messages'
@@ -70,8 +70,8 @@ class UsersView extends React.PureComponent {
   }
 
   componentDidMount = () => {
-    const { requestUsers } = this.props
-    requestUsers()
+    const { requestUsers, token } = this.props
+    requestUsers(token)
   }
 
   componentDidUpdate() {
@@ -161,11 +161,12 @@ const mapStateToProps = state => ({
   loading: makeLoadingSelector()(state),
   users: makeArrayUsersSelector()(state),
   tempUsers: makeTempUsersSelector()(state),
+  token: makeSelectHasUser()(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  requestUsers: () => {
-    dispatch(users.request())
+  requestUsers: token => {
+    dispatch(users.request(token))
   },
   requestTempUsers: () => {
     dispatch(tempUsers.request())

@@ -17,3 +17,8 @@ export const makeUserByIdSelector = () => {
       substate.getIn(['users', idUser]) || new Map(),
   )
 }
+
+const selectAuth = state => state.get('auth')
+
+// we use Token as User
+export const makeSelectHasUser = () => createSelector(selectAuth, auth => auth.get('accessToken'))

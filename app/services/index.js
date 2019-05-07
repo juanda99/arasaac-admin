@@ -34,7 +34,7 @@ const api = {
   SOCIAL_LOGIN_REQUEST: ({ socialToken, provider }) =>
     callApi(socialLogin.url, socialLogin.options(socialToken, provider)),
   SIGNUP_REQUEST: userData => callApi(signup.url, signup.options(userData)),
-  USERS_REQUEST: () => callApi(`${PRIVATE_API_ROOT}/users`),
+  USERS_REQUEST: ({ token }) => callApi(`${PRIVATE_API_ROOT}/users`, null, token),
   TEMPUSERS_RESQUEST: () => callApi(`${PRIVATE_API_ROOT}/tempusers`),
   CATALOGS_REQUEST: () => callApi(`${PRIVATE_API_ROOT}/catalogs`),
   GENERATE_CATALOG: ({ language }) => callApi(generateCatalog.url(language), generateCatalog.options()),

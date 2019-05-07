@@ -5,7 +5,7 @@ export const USERS = createRequestTypes('USERS')
 export const TEMPUSERS = createRequestTypes('TEMPUSERS')
 
 export const users = {
-  request: () => action(USERS.REQUEST, {}),
+  request: token => action(USERS.REQUEST, { token }),
   success: data => action(USERS.SUCCESS, { data }),
   failure: error => action(USERS.FAILURE, { error }),
 }

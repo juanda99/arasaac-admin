@@ -7,7 +7,7 @@ import { USERS, users, TEMPUSERS, tempUsers } from './actions'
 function* usersGetData(action) {
   try {
     yield put(showLoading())
-    const response = yield call(api[action.type])
+    const response = yield call(api[action.type], action.payload)
     yield put(users.success(response))
   } catch (error) {
     yield put(users.failure(error.message))

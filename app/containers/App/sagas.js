@@ -40,9 +40,7 @@ import { changeLocale } from '../LanguageProvider/actions'
  */
 /* eslint no-constant-condition:0 */
 function* authFlow() {
-  console.log('auth flow ok')
   const hasUser = yield select(makeSelectHasUser())
-  console.log(`authflow hasUser: ${hasUser}`)
   while (!hasUser) {
     yield call(loggedOutFlowSaga)
   }
@@ -57,15 +55,11 @@ function* authFlow() {
  *  @return  {Generator}
  */
 function* loggedOutFlowSaga() {
-  console.log('wating loginREuest!')
-  console.log(LOGIN.REQUEST)
   const { credentials, tokens, socialCredentials } = yield race({
     credentials: take(LOGIN.REQUEST),
     tokens: take(TOKEN_VALIDATION.REQUEST),
     socialCredentials: take(SOCIAL_LOGIN.REQUEST),
   })
-
-  console.log('ha pasado!!!!')
 
   // if (credentials) yield call(loginAuth, credentials.payload.username, credentials.payload.password)
   if (credentials) yield call(loginAuth, credentials.type, credentials.payload)
@@ -84,14 +78,11 @@ function* loggedOutFlowSaga() {
  */
 function* loginAuth(type, payload) {
   try {
-    console.log('ejecutamos....')
     const { access_token, refresh_token } = yield call(api[type], payload)
-    console.log('ha ido bien!')
     yield put(login.success(access_token, refresh_token))
     yield call(authenticate)
     yield put(push('/profile'))
   } catch (err) {
-    console.log('ha ido mal!')
     // const error = yield parseError(err)
     yield put(login.failure(err))
   }
@@ -116,7 +107,9 @@ function* socialLoginAuth(type, payload) {
  *  @return  {Generator}
  */
 function* authenticate() {
+  console.log('authenticating......')
   const onError = function* authen(error) {
+    console.log(error.message)
     return error.statusCode >= 500 ? yield put(tokenValidation.failure(error)) : yield call(logoutSaga)
   }
 
@@ -125,11 +118,12 @@ function* authenticate() {
       url: `${API_ROOT}/users/profile`,
       options: { config: { method: 'GET' } },
       onSuccess: function* acabar(response) {
+        console.log('*********************todo ok***********************')
         yield put(tokenValidation.success(response))
         yield put(changeLocale(response.locale))
       },
-      onError,
     },
+    onError,
   })
 }
 
@@ -291,7 +285,6 @@ function* parseError(error) {
 function* authFlowSaga() {
   // first time rehydrate before reading from state....
   // yield take(REHYDRATE)
-  console.log('se está ejecutando....')
   while (true) {
     const watcher = yield fork(authFlow)
     yield take(LOCATION_CHANGE)

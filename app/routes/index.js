@@ -1,5 +1,6 @@
 // @material-ui/icons
 import React from 'react'
+import { compose } from 'redux'
 import { FormattedMessage } from 'react-intl'
 import PictogramUploadIcon from '@material-ui/icons/AddPhotoAlternate'
 import PictogramsIcon from '@material-ui/icons/Collections'
@@ -17,8 +18,26 @@ import PictogramsView from 'containers/PictogramsView/Loadable'
 import SigninView from 'containers/SigninView/Loadable'
 import CatalogsView from 'containers/CatalogsView/Loadable'
 import AddPictograms from 'containers/AddPictograms/Loadable'
-// import ErrorBoundary from 'components/ErrorBoundary'
+
+import {
+  userIsAuthenticatedRedir,
+  userIsNotAuthenticatedRedir,
+  userIsAdminRedir,
+  userIsAuthenticated,
+  userIsNotAuthenticated,
+} from 'utils/auth'
+
 import messages from './messages'
+// import ErrorBoundary from 'components/ErrorBoundary'
+
+// userIsAuthenticated and userIsAdmin from above
+// const userIsAdminChain = compose(
+//   userIsAuthenticated,
+//   userIsAdmin,
+// )
+
+const AuthUsersView = userIsAuthenticatedRedir(UsersView)
+const AuthSigninView = userIsNotAuthenticatedRedir(SigninView)
 
 const sidebarRoutes = [
   {
@@ -75,7 +94,7 @@ const sidebarRoutes = [
     title: <FormattedMessage {...messages.users} />,
     icon: UsersIcon,
     isSidebar: true,
-    component: UsersView,
+    component: AuthUsersView,
     // component: ErrorBoundary,
   },
   {
