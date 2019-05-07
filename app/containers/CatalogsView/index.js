@@ -19,8 +19,15 @@ import messages from './messages'
 
 const isValidDate = d => d instanceof Date && !isNaN(d)
 
-const DateFormatter = ({ value }) => {
-  if (value === 'Now') return <BuildingIcon />
+const DateFormatter = ({ value, row }) => {
+  console.log(`****************${Math.round(row.complete)}`)
+  if (value === 'Now')
+    return (
+      <span>
+        <BuildingIcon />
+        <span style={{ position: 'relative', top: '-7px', left: '2px' }}>{Math.round(row.complete)}% </span>
+      </span>
+    )
   const date = new Date(value)
   if (!isValidDate(date))
     return (
@@ -152,7 +159,6 @@ class CatalogsView extends React.PureComponent {
     // get current status: generating, crompressing and so on
     const socket = openSocket('https://privateapi.arasaac.org')
     socket.on('catalogStatus', catalogStatus => {
-      console.log(JSON.stringify(catalogStatus))
       this.setState(prevState => {
         let rows = [...prevState.rows]
         Object.keys(catalogStatus).forEach(language => {
@@ -212,7 +218,7 @@ class CatalogsView extends React.PureComponent {
 
         <Paper>
           <Grid rows={rows} columns={columns}>
-            <DateTypeProvider for={dateColumns} />
+            <DateTypeProvider for={dateColumns} complete />
             <NumericTypeProvider for={numberColumns} />
             <DoneTypeProvider for={doneColumns} />
             <RowDetailState />
