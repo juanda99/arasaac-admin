@@ -14,6 +14,7 @@ import UsersView from 'containers/UsersView/Loadable'
 import News from 'containers/News/Loadable'
 import AddNews from 'containers/AddNews/Loadable'
 import PictogramsView from 'containers/PictogramsView/Loadable'
+import SigninView from 'containers/SigninView/Loadable'
 import CatalogsView from 'containers/CatalogsView/Loadable'
 import AddPictograms from 'containers/AddPictograms/Loadable'
 // import ErrorBoundary from 'components/ErrorBoundary'
@@ -80,6 +81,11 @@ const sidebarRoutes = [
   {
     path: '/pictograms/search/:searchText',
     component: PictogramsView,
+  },
+  {
+    path: '/signin',
+    icon: UsersIcon,
+    component: SigninView,
   },
 ]
 
