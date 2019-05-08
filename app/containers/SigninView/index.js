@@ -4,17 +4,19 @@
  *
  */
 
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import View from 'components/View'
-import LoginForm from 'components/Login/LoginForm'
+import { LoginForm } from 'components/Login'
 import SocialLogin from 'components/SocialLogin'
 import Separator from 'components/Separator'
 import Logo from 'components/Logo'
 import AlertWindow from 'components/AlertWindow'
+import { injectIntl, intlShape } from 'react-intl'
 import { login, socialLogin, resetError } from 'containers/App/actions'
 import ConditionalPaper from 'components/ConditionalPaper'
+import messages from './messages'
 
 const handleSubmit = (requestLogin, formData) => {
   // this.props.login.request('pepito', 'password')
@@ -23,23 +25,40 @@ const handleSubmit = (requestLogin, formData) => {
   requestLogin(user, password)
 }
 
-const LoginView = props => {
-  const { error, requestLogin, resetError, requestAppToken } = props
-  let showError = null
-  if (error) {
-    showError = <AlertWindow title="Autenticación" desc="Usuario no válido" onReset={resetError} />
+class LoginView extends Component {
+  render() {
+    const { error, requestLogin, resetError, requestAppToken, intl } = this.props
+    const { formatMessage } = intl
+    let showError = null
+    if (error === 'Failed to fetch') {
+      showError = (
+        <AlertWindow
+          title={formatMessage(messages.authentication)}
+          desc={formatMessage(messages.communicationError)}
+          onReset={resetError}
+        />
+      )
+    } else if (error) {
+      showError = (
+        <AlertWindow
+          title={formatMessage(messages.authentication)}
+          desc={formatMessage(messages.invalidUser)}
+          onReset={resetError}
+        />
+      )
+    }
+    return (
+      <View>
+        {showError}
+        <ConditionalPaper>
+          <Logo />
+          <SocialLogin onSuccess={requestAppToken} />
+          <Separator />
+          <LoginForm onSubmit={formData => handleSubmit(requestLogin, formData)} message={error} />
+        </ConditionalPaper>
+      </View>
+    )
   }
-  return (
-    <View>
-      {showError}
-      <ConditionalPaper>
-        <Logo />
-        <SocialLogin onSuccess={requestAppToken} />
-        <Separator />
-        <LoginForm onSubmit={formData => handleSubmit(requestLogin, formData)} message={error} />
-      </ConditionalPaper>
-    </View>
-  )
 }
 
 LoginView.propTypes = {
@@ -47,6 +66,7 @@ LoginView.propTypes = {
   error: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   resetError: PropTypes.func.isRequired,
   requestAppToken: PropTypes.func.isRequired,
+  intl: intlShape.isRequired,
 }
 
 const mapStateToProps = state => ({
@@ -65,25 +85,7 @@ const mapDispatchToProps = dispatch => ({
   },
 })
 
-// const withConnect = connect(
-//   mapStateToProps,
-//   mapDispatchToProps,
-// )
-// const withReducer = injectReducer({ key: 'usersView', reducer })
-
-// export default compose(
-//   withReducer,
-//   withSaga,
-//   withConnect,
-// )(withStyles(styles, { withTheme: true })(withWidth()(injectIntl(UsersView))))
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(LoginView)
-
-// export default compose(
-//   withReducer,
-//   withSaga,
-//   withConnect,
-// )(withStyles(styles, { withTheme: true })(withWidth()(injectIntl(UsersView))))
+)(injectIntl(LoginView))

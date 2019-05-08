@@ -16,6 +16,7 @@ import News from 'containers/News/Loadable'
 import AddNews from 'containers/AddNews/Loadable'
 import PictogramsView from 'containers/PictogramsView/Loadable'
 import SigninView from 'containers/SigninView/Loadable'
+import PermissionsErrorView from 'containers/PermissionsErrorView/Loadable'
 import CatalogsView from 'containers/CatalogsView/Loadable'
 import AddPictograms from 'containers/AddPictograms/Loadable'
 
@@ -36,8 +37,11 @@ import messages from './messages'
 //   userIsAdmin,
 // )
 
-const AuthUsersView = userIsAuthenticatedRedir(UsersView)
-const AuthSigninView = userIsNotAuthenticatedRedir(SigninView)
+const AuthUsersView = userIsAuthenticatedRedir(userIsAdminRedir(UsersView))
+const AuthCatalogsView = userIsAuthenticatedRedir(userIsAdminRedir(CatalogsView))
+// const AuthUsersView = userIsAuthenticatedRedir(UsersView)
+// using sagas instead of redux-auth:
+// const AuthSigninView = userIsNotAuthenticatedRedir(SigninView)
 
 const sidebarRoutes = [
   {
@@ -61,7 +65,7 @@ const sidebarRoutes = [
         path: '/catalogs/',
         title: <FormattedMessage {...messages.catalogs} />,
         icon: CatalogsIcon,
-        component: CatalogsView,
+        component: AuthCatalogsView,
       },
     ],
   },
@@ -105,6 +109,10 @@ const sidebarRoutes = [
     path: '/signin',
     icon: UsersIcon,
     component: SigninView,
+  },
+  {
+    path: '/permissionsError',
+    component: PermissionsErrorView,
   },
 ]
 

@@ -15,6 +15,7 @@ import { push, LOCATION_CHANGE } from 'react-router-redux'
 // import { REHYDRATE } from 'redux-persist/constants'
 
 // import { authorize, refresh } from './authentication'
+import { getQueryStringValue } from 'utils'
 import { makeSelectTokens, makeSelectHasUser, makeSelectRefreshing } from './selectors'
 import {
   TOKEN_VALIDATION,
@@ -81,10 +82,12 @@ function* loginAuth(type, payload) {
     const { access_token, refresh_token } = yield call(api[type], payload)
     yield put(login.success(access_token, refresh_token))
     yield call(authenticate)
-    yield put(push('/profile'))
+    // we redirect or load default directory, depending on initail route
+    const redirect = getQueryStringValue('redirect') || '/'
+    yield put(push(redirect))
   } catch (err) {
     // const error = yield parseError(err)
-    yield put(login.failure(err))
+    yield put(login.failure(err.message))
   }
 }
 

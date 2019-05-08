@@ -19,10 +19,31 @@ const callApi = async (endpoint, options, token) => {
     config = { ...(config || {}), ...authHeader }
   }
   // const fullUrl = (endpoint.indexOf(AUTH_ROOT) === -1) ? API_ROOT + endpoint : endpoint
-
-  const response = await fetch(endpoint, config)
-  const json = await response.json()
-  return schema ? normalize(json, schema) : json
+  try {
+    const response = await fetch(endpoint, config)
+    const data = await response.json()
+    if (response.status >= 400) {
+      throw new Error(data.error)
+    }
+    return schema ? normalize(data, schema) : data
+  } catch (error) {
+    throw new Error(error.message)
+  }
 }
+
+/*
+  return fetch(endpoint, config)
+    .then((response) => {
+      if (response.status >= 400) {
+        return Promise.reject(new Error(response.status))
+        // throw new Error('Bad response from server')
+      }
+      return response.json()
+    })
+    .then((json) => (schema ? normalize(json, schema) : json)
+    )
+}
+
+*/
 
 export default callApi

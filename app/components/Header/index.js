@@ -27,16 +27,15 @@ import styles from './styles'
 
 class Header extends Component {
   state = {
-    auth: true,
     loginButton: null,
   }
 
-  handleLogout = event => {
-    this.setState({ auth: event.target.checked })
+  handleLogout = () => {
+    // this.setState({ auth: event.target.checked })
+    this.props.logout()
   }
 
   handleSignin = () => {
-    console.log('push ok')
     this.props.history.push('/signin')
   }
 
@@ -53,9 +52,8 @@ class Header extends Component {
   }
 
   render() {
-    const { classes, locale, accesibility, theme } = this.props
-    const { auth, loginButton } = this.state
-    console.log(`auth: ${auth}`)
+    const { classes, locale, isAuthenticated, theme, logout } = this.props
+    const { loginButton } = this.state
 
     return (
       <AppBar className={classes.appBar} position="static">
@@ -75,7 +73,7 @@ class Header extends Component {
           </Typography>
           {theme && <ThemeSelector />}
           {locale && <LocaleSelector />}
-          {auth ? (
+          {isAuthenticated ? (
             <React.Fragment>
               <Tooltip title={<FormattedMessage {...messages.userMenu} />} enterDelay={300}>
                 <IconButton
@@ -107,6 +105,8 @@ Header.propTypes = {
   classes: PropTypes.object.isRequired,
   handleSidebarToggle: PropTypes.func.isRequired,
   locale: PropTypes.bool,
+  isAuthenticated: PropTypes.bool.isRequired,
+  logout: PropTypes.func.isRequired,
 }
 
 export default withStyles(styles, { withTheme: true })(withRouter(Header))

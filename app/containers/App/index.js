@@ -13,12 +13,12 @@ import injectSaga from 'utils/injectSaga'
 import saga from './sagas'
 import routes from '../../routes'
 import { makeSelectHasUser } from './selectors'
+import { logout } from './actions'
 
 import styles from './style'
 
 const getRoutes = () =>
   routes.map((route, key) => {
-    console.log(route.path)
     if (route.children) {
       return route.children.map((subRoute, subkey) => (
         <Route
@@ -37,6 +37,8 @@ const getRoutes = () =>
 export class App extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired,
+    doLogout: PropTypes.func.isRequired,
   }
 
   state = {
@@ -48,7 +50,7 @@ export class App extends Component {
   }
 
   render() {
-    const { classes } = this.props
+    const { classes, isAuthenticated, doLogout } = this.props
     return (
       <div className={classes.wrapper}>
         <Sidebar
@@ -60,7 +62,14 @@ export class App extends Component {
           onClose={this.handleSidebarToggle}
         />
         <div className={classes.mainPanel}>
-          <Header routes={routes} handleSidebarToggle={this.handleSidebarToggle} locale theme />
+          <Header
+            routes={routes}
+            handleSidebarToggle={this.handleSidebarToggle}
+            locale
+            theme
+            isAuthenticated={isAuthenticated}
+            logout={doLogout}
+          />
           <div className={classes.content}>
             <Switch>{getRoutes()}</Switch>
           </div>
@@ -79,9 +88,15 @@ const mapStateToProps = state => {
   }
 }
 
+const mapDispatchToProps = dispatch => ({
+  doLogout: () => {
+    dispatch(logout())
+  },
+})
+
 const withConnect = connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )
 
 // const withReducer = injectReducer({ key: 'auth, reducer })

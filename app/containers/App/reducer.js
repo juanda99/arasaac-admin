@@ -31,9 +31,6 @@ import { fromJS } from 'immutable'
 import { LOGIN, LOGOUT, TOKEN_VALIDATION, TOKEN_REFRESH, ACTIVATION, SOCIAL_LOGIN, RESET_ERROR } from './actions'
 
 const initialState = fromJS({
-  username: '',
-  accessToken: '',
-  refreshToken: '',
   loading: false,
   error: '',
 })
