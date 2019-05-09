@@ -7,7 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import Button from '@material-ui/core/Button'
-import { withRouter } from 'react-router'
+import { withRouter } from 'react-router-dom'
 import messages from './messages'
 
 class AlertWindow extends PureComponent {

@@ -33,6 +33,7 @@ class Header extends Component {
   handleLogout = () => {
     // this.setState({ auth: event.target.checked })
     this.props.logout()
+    this.setState({ loginButton: null })
   }
 
   handleSignin = () => {
@@ -52,7 +53,7 @@ class Header extends Component {
   }
 
   render() {
-    const { classes, locale, isAuthenticated, theme, logout } = this.props
+    const { classes, locale, isAuthenticated, theme } = this.props
     const { loginButton } = this.state
 
     return (

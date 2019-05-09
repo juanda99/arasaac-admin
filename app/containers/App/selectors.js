@@ -26,6 +26,8 @@ const selectAuth = state => state.get('auth')
 // we use Token as User
 const makeSelectHasUser = () => createSelector(selectAuth, auth => auth.get('accessToken'))
 
+const makeSelectHasRole = () => createSelector(selectAuth, auth => auth.get('role'))
+
 const makeSelectLoading = () => createSelector(selectAuth, auth => auth.get('loading'))
 
 const makeSelectError = () => createSelector(selectAuth, auth => auth.get('error'))
@@ -44,6 +46,7 @@ export {
   makeSelectLocationState,
   selectAuth,
   makeSelectHasUser,
+  makeSelectHasRole,
   makeSelectRefreshToken,
   makeSelectTokens,
   makeSelectRefreshing,

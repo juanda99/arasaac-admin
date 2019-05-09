@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl'
-import { NavLink } from 'react-router-dom'
 import { reduxForm, Field, propTypes, formValueSelector } from 'redux-form/immutable'
 import TextField from '@material-ui/core/TextField'
 import { connect } from 'react-redux'
-import EmailIcon from '@material-ui/icons/Email'
 import { WEB_URL } from 'services/config'
 import Button from '@material-ui/core/Button'
 import { Row, Col } from 'react-flexbox-grid'
@@ -50,9 +48,9 @@ const renderTextField = ({ input, label, placeholder, meta: { touched, error }, 
 let LoginForm = class LoginForm extends Component {
   componentDidMount() {}
 
-  email = value => (email(value) ? '' : <FormattedMessage {...messages.invalidEmail} />)
+  email = value => (email(value) ? undefined : this.props.intl.formatMessage(messages.invalidEmail))
 
-  required = value => (value == null ? <FormattedMessage {...messages.required} /> : '')
+  required = value => (value == null ? this.props.intl.formatMessage(messages.required) : undefined)
 
   render() {
     const { handleSubmit, submitting, pristine, username, intl } = this.props

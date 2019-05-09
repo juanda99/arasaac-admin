@@ -12,7 +12,7 @@ import api from 'services'
 import { API_ROOT } from 'services/config'
 import callApi from 'services/callApi'
 import { push, LOCATION_CHANGE } from 'react-router-redux'
-// import { REHYDRATE } from 'redux-persist/constants'
+import { REHYDRATE } from 'redux-persist/constants'
 
 // import { authorize, refresh } from './authentication'
 import { getQueryStringValue } from 'utils'
@@ -110,9 +110,7 @@ function* socialLoginAuth(type, payload) {
  *  @return  {Generator}
  */
 function* authenticate() {
-  console.log('authenticating......')
   const onError = function* authen(error) {
-    console.log(error.message)
     return error.statusCode >= 500 ? yield put(tokenValidation.failure(error)) : yield call(logoutSaga)
   }
 
@@ -121,7 +119,6 @@ function* authenticate() {
       url: `${API_ROOT}/users/profile`,
       options: { config: { method: 'GET' } },
       onSuccess: function* acabar(response) {
-        console.log('*********************todo ok***********************')
         yield put(tokenValidation.success(response))
         yield put(changeLocale(response.locale))
       },
@@ -288,6 +285,9 @@ function* parseError(error) {
 function* authFlowSaga() {
   // first time rehydrate before reading from state....
   // yield take(REHYDRATE)
+  // const redirect = getQueryStringValue('redirect') || '/'
+  // console.log(redirect)
+  // if (redirect) yield put(push(redirect))
   while (true) {
     const watcher = yield fork(authFlow)
     yield take(LOCATION_CHANGE)

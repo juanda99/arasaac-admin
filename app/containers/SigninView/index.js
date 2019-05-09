@@ -7,6 +7,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import View from 'components/View'
 import { LoginForm } from 'components/Login'
 import SocialLogin from 'components/SocialLogin'
@@ -16,7 +17,9 @@ import AlertWindow from 'components/AlertWindow'
 import { injectIntl, intlShape } from 'react-intl'
 import { login, socialLogin, resetError } from 'containers/App/actions'
 import ConditionalPaper from 'components/ConditionalPaper'
+import { getQueryStringValue } from 'utils'
 import messages from './messages'
+import { makeSelectError, makeSelectHasRole } from '../App/selectors'
 
 const handleSubmit = (requestLogin, formData) => {
   // this.props.login.request('pepito', 'password')
@@ -26,6 +29,26 @@ const handleSubmit = (requestLogin, formData) => {
 }
 
 class LoginView extends Component {
+  componentDidUpdate() {
+    const { isAuthenticated, history } = this.props
+    // we redirect or load default directory, depending on initail route
+    const redirect = getQueryStringValue('redirect') || '/'
+    if (redirect && isAuthenticated) {
+      console.log('history 1')
+      history.push(redirect)
+    }
+  }
+
+  componentWillMount() {
+    const { isAuthenticated, history } = this.props
+    // we redirect or load default directory, depending on initail route
+    const redirect = getQueryStringValue('redirect') || '/'
+    if (redirect && isAuthenticated) {
+      console.log('history 2')
+      history.push(redirect)
+    }
+  }
+
   render() {
     const { error, requestLogin, resetError, requestAppToken, intl } = this.props
     const { formatMessage } = intl
@@ -67,11 +90,22 @@ LoginView.propTypes = {
   resetError: PropTypes.func.isRequired,
   requestAppToken: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  history: PropTypes.object.isRequired,
 }
 
-const mapStateToProps = state => ({
-  error: state.getIn(['auth', 'error']),
-})
+// const mapStateToProps = state => ({
+//   error: state.getIn(['auth', 'error']),
+// })
+
+const mapStateToProps = state => {
+  const isAuthenticated = (makeSelectHasRole()(state) && true) || false
+  const error = makeSelectError()(state)
+  return {
+    isAuthenticated,
+    error,
+  }
+}
 
 const mapDispatchToProps = dispatch => ({
   requestLogin: (username, password) => {
@@ -88,4 +122,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(injectIntl(LoginView))
+)(injectIntl(withRouter(LoginView)))
