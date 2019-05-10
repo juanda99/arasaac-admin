@@ -70,9 +70,8 @@ class UsersView extends React.PureComponent {
   }
 
   componentDidMount = () => {
-    const { requestUsers, token, users } = this.props
-    console.log('enter....')
-    if (!users.length) requestUsers(token)
+    const { requestUsers, token } = this.props
+    requestUsers(token)
   }
 
   componentDidUpdate() {

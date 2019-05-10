@@ -24,7 +24,6 @@ class UserView extends React.PureComponent {
     // if (!selectedUser) {
     //   requestUser(match.params.idUser)
     // }
-    console.log('mounted!!!!!')
     requestUser(match.params.idUser)
   }
 
