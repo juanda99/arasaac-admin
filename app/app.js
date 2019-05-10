@@ -37,12 +37,16 @@ import configureStore from './configureStore'
 // Import i18n messages
 import { translationMessages } from './i18n'
 
-// Create redux store with history
-const initialState = {}
-const store = configureStore(initialState, history)
-const MOUNT_NODE = document.getElementById('app')
+// // Create redux store with history
+// const initialState = {}
+// const store = configureStore(initialState, history)
+// const MOUNT_NODE = document.getElementById('app')
 
-const render = messages => {
+const render = async messages => {
+  // Create redux store with history
+  const initialState = {}
+  const store = await configureStore(initialState, history)
+  const MOUNT_NODE = document.getElementById('app')
   ReactDOM.render(
     <Provider store={store}>
       <ThemeProvider theme={theme}>
@@ -59,6 +63,24 @@ const render = messages => {
     MOUNT_NODE,
   )
 }
+
+// const render = messages => {
+//   ReactDOM.render(
+//     <Provider store={store}>
+//       <ThemeProvider theme={theme}>
+//         <LanguageProvider messages={messages}>
+//           <ConnectedRouter history={history}>
+//             <React.Fragment>
+//               <CssBaseline />
+//               <App />
+//             </React.Fragment>
+//           </ConnectedRouter>
+//         </LanguageProvider>
+//       </ThemeProvider>
+//     </Provider>,
+//     MOUNT_NODE,
+//   )
+// }
 
 if (module.hot) {
   // Hot reloadable React components and translation json files

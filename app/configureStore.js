@@ -35,23 +35,27 @@ export default function configureStore(initialState = {}, history) {
       : compose
   /* eslint-enable */
 
-  const store = createStore(createReducer(), fromJS(initialState), composeEnhancers(...enhancers))
+  // delay render after hydratation, https://github.com/rt2zz/redux-persist/issues/126
+  return new Promise((resolve, reject) => {
+    try {
+      const store = createStore(createReducer(), fromJS(initialState), composeEnhancers(...enhancers))
+      // Extensions
+      store.runSaga = sagaMiddleware.run
+      store.injectedReducers = {} // Reducer registry
+      store.injectedSagas = {} // Saga registry
 
-  // begin periodically persisting the store
-  persistStore(store, { blacklist: ['router', 'loadingBar', 'pictogramsView', 'usersView'] })
+      // Make reducers hot reloadable, see http://mxs.is/googmo
+      /* istanbul ignore next */
+      if (module.hot) {
+        module.hot.accept('./reducers', () => {
+          store.replaceReducer(createReducer(store.injectedReducers))
+        })
+      }
 
-  // Extensions
-  store.runSaga = sagaMiddleware.run
-  store.injectedReducers = {} // Reducer registry
-  store.injectedSagas = {} // Saga registry
-
-  // Make reducers hot reloadable, see http://mxs.is/googmo
-  /* istanbul ignore next */
-  if (module.hot) {
-    module.hot.accept('./reducers', () => {
-      store.replaceReducer(createReducer(store.injectedReducers))
-    })
-  }
-
-  return store
+      // begin periodically persisting the store
+      persistStore(store, { blacklist: ['router', 'loadingBar', 'pictogramsView', 'usersView'] }, () => resolve(store))
+    } catch (e) {
+      reject(e)
+    }
+  })
 }
