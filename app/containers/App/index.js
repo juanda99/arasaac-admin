@@ -99,7 +99,6 @@ const withConnect = connect(
   mapDispatchToProps,
 )
 
-// const withReducer = injectReducer({ key: 'auth, reducer })
 const withSaga = injectSaga({ key: 'auth', saga })
 
 export default compose(

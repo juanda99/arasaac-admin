@@ -32,7 +32,7 @@ import messages from './messages'
 
 const TableRow = ({ row, ...restProps }) => (
   // eslint-disable-next-line no-underscore-dangle
-  <Table.Row {...restProps} onClick={() => history.push(`/users/${row._id}}`)} style={{ cursor: 'pointer' }} />
+  <Table.Row {...restProps} onClick={() => history.push(`/users/${row._id}`)} style={{ cursor: 'pointer' }} />
 )
 
 class UsersView extends React.PureComponent {
@@ -70,8 +70,9 @@ class UsersView extends React.PureComponent {
   }
 
   componentDidMount = () => {
-    const { requestUsers, token } = this.props
-    requestUsers(token)
+    const { requestUsers, token, users } = this.props
+    console.log('enter....')
+    if (!users.length) requestUsers(token)
   }
 
   componentDidUpdate() {

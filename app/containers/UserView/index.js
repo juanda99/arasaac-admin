@@ -7,18 +7,25 @@ import withWidth from '@material-ui/core/withWidth'
 import View from 'components/View'
 import injectReducer from 'utils/injectReducer'
 import injectSaga from 'utils/injectSaga'
+import { DAEMON } from 'utils/constants'
 import { FormattedMessage } from 'react-intl'
-import reducer from '../UsersView/reducer'
+import { makeUserByIdSelector } from 'containers/UsersView/selectors'
+import { UserForm } from 'components/UserForm'
+import reducer from './reducer'
 import saga from './sagas'
-import { makeLoadingSelector, makeUserByIdSelector, makeUsersSelector } from '../UsersView/selectors'
 import { user } from './actions'
 import styles from './styles'
 import messages from './messages'
 
-class UsersView extends React.PureComponent {
+class UserView extends React.PureComponent {
   componentDidMount = () => {
-    const { requestUser } = this.props
-    requestUser()
+    const { requestUser, match /* , selectedUser */ } = this.props
+    // we update the user from server anyway!
+    // if (!selectedUser) {
+    //   requestUser(match.params.idUser)
+    // }
+    console.log('mounted!!!!!')
+    requestUser(match.params.idUser)
   }
 
   componentDidUpdate() {
@@ -26,35 +33,37 @@ class UsersView extends React.PureComponent {
   }
 
   render() {
-    const { classes, width } = this.props
-
+    const { classes, width, selectedUser } = this.props
     return (
       <View>
         <h1>{<FormattedMessage {...messages.header} />}</h1>
-        <p>{this.props.user.name}</p>
-        <p>{this.props.user.email}</p>
+        {selectedUser ? (
+          <div>
+            <p>kk</p>
+          </div>
+        ) : (
+          <p>Still no data :-(</p>
+        )}
       </View>
     )
   }
 }
 
-UsersView.propTypes = {
+UserView.propTypes = {
   classes: PropTypes.object.isRequired,
   width: PropTypes.string.isRequired,
   requestUser: PropTypes.func.isRequired,
-  user: PropTypes.object,
+  selectedUser: PropTypes.object,
   loading: PropTypes.bool.isRequired,
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  loading: makeLoadingSelector()(state),
-  users: makeUsersSelector()(state),
-  user: makeUserByIdSelector()(state, ownProps),
+  selectedUser: makeUserByIdSelector()(state, ownProps),
 })
 
 const mapDispatchToProps = dispatch => ({
-  requestUsers: () => {
-    dispatch(user.request())
+  requestUser: id => {
+    dispatch(user.request(id))
   },
 })
 
@@ -69,4 +78,4 @@ export default compose(
   withReducer,
   withSaga,
   withConnect,
-)(withStyles(styles, { withTheme: true })(withWidth()(UsersView)))
+)(withStyles(styles, { withTheme: true })(withWidth()(UserView)))

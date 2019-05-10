@@ -6,6 +6,7 @@ import { combineReducers } from 'redux-immutable'
 import { connectRouter } from 'connected-react-router/immutable'
 import history from 'utils/history'
 import languageProviderReducer from 'containers/LanguageProvider/reducer'
+import usersView from 'containers/UsersView/reducer'
 import theme from 'containers/ThemeSelector/reducer'
 import { loadingBarReducer } from 'react-redux-loading-bar'
 import { reducer as form } from 'redux-form/immutable'
@@ -22,6 +23,7 @@ export default function createReducer(injectedReducers = {}) {
     loadingBar: loadingBarReducer,
     auth,
     form,
+    usersView,
     // pictogramsView: pictogramsViewReducer,
     ...injectedReducers,
   })

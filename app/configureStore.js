@@ -38,7 +38,7 @@ export default function configureStore(initialState = {}, history) {
   const store = createStore(createReducer(), fromJS(initialState), composeEnhancers(...enhancers))
 
   // begin periodically persisting the store
-  persistStore(store, { blacklist: ['router', 'loadingBar'] })
+  persistStore(store, { blacklist: ['router', 'loadingBar', 'pictogramsView', 'usersView'] })
 
   // Extensions
   store.runSaga = sagaMiddleware.run

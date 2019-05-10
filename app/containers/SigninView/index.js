@@ -34,7 +34,6 @@ class LoginView extends Component {
     // we redirect or load default directory, depending on initail route
     const redirect = getQueryStringValue('redirect') || '/'
     if (redirect && isAuthenticated) {
-      console.log('history 1')
       history.push(redirect)
     }
   }
@@ -44,7 +43,6 @@ class LoginView extends Component {
     // we redirect or load default directory, depending on initail route
     const redirect = getQueryStringValue('redirect') || '/'
     if (redirect && isAuthenticated) {
-      console.log('history 2')
       history.push(redirect)
     }
   }
@@ -99,6 +97,7 @@ LoginView.propTypes = {
 // })
 
 const mapStateToProps = state => {
+  /* we don't use token for auth, as we wait saga for the profile before redirection!!! */
   const isAuthenticated = (makeSelectHasRole()(state) && true) || false
   const error = makeSelectError()(state)
   return {
