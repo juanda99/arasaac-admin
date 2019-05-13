@@ -2,8 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import moment from 'moment'
-import 'moment/min/locales'
 import { withStyles } from '@material-ui/core/styles'
 import withWidth from '@material-ui/core/withWidth'
 import View from 'components/View'
@@ -11,6 +9,7 @@ import injectReducer from 'utils/injectReducer'
 import injectSaga from 'utils/injectSaga'
 import { FormattedMessage } from 'react-intl'
 import { makeUserByIdSelector } from 'containers/UsersView/selectors'
+import { makeSelectLocale } from 'containers/LanguageProvider/selectors'
 import UserForm from 'components/UserForm'
 import reducer from './reducer'
 import saga from './sagas'
@@ -33,16 +32,14 @@ class UserView extends React.PureComponent {
   }
 
   render() {
-    const { classes, width, selectedUser } = this.props
-    moment.locale('fr')
-    if (selectedUser) var item = moment(1316116057189).fromNow()
+    const { classes, width, selectedUser, locale } = this.props
+
     return (
       <View>
-        <p>{item}</p>
-        <h1>{<FormattedMessage {...messages.header} />}</h1>
         {selectedUser ? (
           <div>
-            <UserForm initialValues={selectedUser} />
+            <h1>{selectedUser.name}</h1>
+            <UserForm initialValues={selectedUser} locale={locale} />
           </div>
         ) : (
           <p>Still no data :-(</p>
@@ -57,11 +54,12 @@ UserView.propTypes = {
   width: PropTypes.string.isRequired,
   requestUser: PropTypes.func.isRequired,
   selectedUser: PropTypes.object,
-  loading: PropTypes.bool.isRequired,
+  locale: PropTypes.string.isRequired,
 }
 
 const mapStateToProps = (state, ownProps) => ({
   selectedUser: makeUserByIdSelector()(state, ownProps),
+  locale: makeSelectLocale()(state),
 })
 
 const mapDispatchToProps = dispatch => ({

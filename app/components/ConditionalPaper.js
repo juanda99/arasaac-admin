@@ -29,7 +29,7 @@ class ConditionalPaper extends PureComponent {
         {isSmall ? (
           <div style={styles.div}> {children} </div>
         ) : (
-          <Paper zDepth={2} style={styles.paper}>
+          <Paper elevation={2} style={styles.paper}>
             {' '}
             {children}{' '}
           </Paper>

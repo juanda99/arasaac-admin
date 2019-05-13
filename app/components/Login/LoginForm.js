@@ -1,12 +1,12 @@
+/* eslint-disable */
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl'
-import { reduxForm, Field, propTypes, formValueSelector } from 'redux-form/immutable'
-import TextField from '@material-ui/core/TextField'
-import { connect } from 'react-redux'
+import { Form, Field } from 'react-final-form'
+import Grid from '@material-ui/core/Grid'
+import { TextField } from 'final-form-material-ui'
 import { WEB_URL } from 'services/config'
 import Button from '@material-ui/core/Button'
-import { Row, Col } from 'react-flexbox-grid'
-import Div from 'components/Div'
 import messages from './messages'
 import { email } from './validate'
 
@@ -33,101 +33,95 @@ const styles = {
   },
 }
 
-const renderTextField = ({ input, label, placeholder, meta: { touched, error }, ...custom }) => (
-  <TextField
-    label={(touched && error) || label}
-    placeholder={placeholder}
-    errorText={touched && error}
-    {...input}
-    {...custom}
-  />
-)
-
 // based on: https://github.com/erikras/redux-form-material-ui/blob/master/example/src/Form.js
 /* eslint-disable import/no-mutable-exports */
-let LoginForm = class LoginForm extends Component {
+const LoginForm = class LoginForm extends Component {
   componentDidMount() {}
 
   email = value => (email(value) ? undefined : this.props.intl.formatMessage(messages.invalidEmail))
 
   required = value => (value == null ? this.props.intl.formatMessage(messages.required) : undefined)
 
+  validate = values => {
+    const errors = {}
+    const { formatMessage } = this.props.intl
+    if (!values.username) {
+      errors.userName = formatMessage(messages.required)
+    }
+    if (!values.password) {
+      errors.password = formatMessage(messages.required)
+    }
+    if (!email(values.username)) {
+      errors.username = formatMessage(messages.invalidEmail)
+    }
+    return errors
+  }
+
+  handleSubmit = values => {
+    console.log(values)
+    this.props.onSubmit(values)
+  }
+
   render() {
-    const { handleSubmit, submitting, pristine, username, intl } = this.props
+    const { username, intl } = this.props
     const { formatMessage } = intl
     // const emailLink = email(username) !== 'Invalid'
-    const recoverLink = email(username) ? `/recoverpassword/${username}` : '/recoverpassword/'
+
     return (
       <div>
-        <form onSubmit={handleSubmit}>
-          <Div top={2}>
-            <Field
-              name="username"
-              component={renderTextField}
-              label={<FormattedMessage {...messages.user} />}
-              ref={input => {
-                this.firstField = input
-              }}
-              withRef
-              style={styles.text}
-              placeholder={formatMessage(messages.email)}
-              validate={[this.required, this.email]}
-              autoComplete="off"
-            />
-            <Field
-              name="password"
-              component={renderTextField}
-              type="password"
-              label={<FormattedMessage {...messages.password} />}
-              style={styles.text}
-              placeholder={formatMessage(messages.password)}
-              validate={[this.required]}
-              autoComplete="off"
-            />
-          </Div>
-          <Div top={2}>
-            <Button
-              variant="contained"
-              style={styles.signinButton}
-              color="primary"
-              type="submit"
-              disabled={pristine || submitting}
-            >
-              <FormattedMessage {...messages.signin} />
-            </Button>
-          </Div>
-          <Div top={2}>
-            <Row>
-              <Col xs={6} />
-              <Col xs={6}>
-                <a href={`${WEB_URL}${recoverLink}`} target="_blank">
-                  <p style={styles.forgotPassword}>{<FormattedMessage {...messages.forgotPassword} />}</p>
-                </a>
-              </Col>
-            </Row>
-          </Div>
-        </form>
+        <Form
+          onSubmit={this.handleSubmit}
+          validate={this.validate}
+          render={({ handleSubmit, reset, submitting, pristine, values }) => {
+            const recoverLink = email(values.username) ? `/recoverpassword/${values.username}` : '/recoverpassword/'
+            return (
+              <form onSubmit={handleSubmit} noValidate>
+                <Grid container alignItems="flex-start" spacing={32}>
+                  <Grid item xs={12} style={{ marginTop: 16 }}>
+                    <Field
+                      fullWidth
+                      required
+                      name="username"
+                      component={TextField}
+                      type="text"
+                      label={<FormattedMessage {...messages.user} />}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Field
+                      name="password"
+                      required
+                      fullWidth
+                      component={TextField}
+                      type="password"
+                      label={<FormattedMessage {...messages.password} />}
+                    />
+                  </Grid>
+
+                  <Grid item style={{ marginTop: 16 }} xs={12}>
+                    <Button fullWidth variant="contained" color="primary" type="submit" disabled={submitting}>
+                      Submit
+                    </Button>
+                  </Grid>
+                  <Grid item style={{ marginTop: 16 }} xs={6} />
+                  <Grid item style={{ marginTop: 16 }} xs={6}>
+                    <a href={`${WEB_URL}${recoverLink}`} target="_blank">
+                      <p style={styles.forgotPassword}>{<FormattedMessage {...messages.forgotPassword} />}</p>
+                    </a>
+                  </Grid>
+                </Grid>
+              </form>
+            )
+          }}
+        />
       </div>
     )
   }
 }
 
 LoginForm.propTypes = {
-  ...propTypes,
   intl: intlShape.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 }
-LoginForm = reduxForm({
-  form: 'signin',
-  touchOnBlur: false,
-  touchOnChange: true,
-  // fields
-})(LoginForm)
-
-const selector = formValueSelector('signin')
-
-LoginForm = connect(state => ({
-  // can select values individually
-  username: selector(state, 'username'),
-}))(LoginForm)
 
 export default injectIntl(LoginForm)

@@ -22,10 +22,8 @@ import messages from './messages'
 import { makeSelectError, makeSelectHasRole } from '../App/selectors'
 
 const handleSubmit = (requestLogin, formData) => {
-  // this.props.login.request('pepito', 'password')
-  const user = formData.get('username')
-  const password = formData.get('password')
-  requestLogin(user, password)
+  const { username, password } = formData
+  requestLogin(username, password)
 }
 
 class LoginView extends Component {

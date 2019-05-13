@@ -3,75 +3,75 @@ import { defineMessages } from 'react-intl'
 export const scope = 'app.components.LanguageSelector'
 
 export default defineMessages({
-  catalan: {
+  ca: {
     id: `${scope}.catalan`,
     defaultMessage: 'Catalan',
   },
-  spanish: {
+  es: {
     id: `${scope}.spanish`,
     defaultMessage: 'Spanish',
   },
-  english: {
+  en: {
     id: `${scope}.english`,
     defaultMessage: 'English',
   },
-  basque: {
+  eu: {
     id: `${scope}.basque`,
     defaultMessage: 'Basque',
   },
-  french: {
+  fr: {
     id: `${scope}.french`,
     defaultMessage: 'French',
   },
-  galician: {
+  gl: {
     id: `${scope}.galician`,
     defaultMessage: 'Galician',
   },
-  croatian: {
+  hr: {
     id: `${scope}.croatian`,
     defaultMessage: 'Croatian',
   },
-  italian: {
+  it: {
     id: `${scope}.italian`,
     defaultMessage: 'Italian',
   },
-  bulgarian: {
+  bg: {
     id: `${scope}.bulgarian`,
     defaultMessage: 'Bulgarian',
   },
-  polish: {
+  pl: {
     id: `${scope}.polish`,
     defaultMessage: 'Polish',
   },
-  portuguese: {
+  pt: {
     id: `${scope}.portuguese`,
     defaultMessage: 'Portuguese',
   },
-  brazilian: {
+  br: {
     id: `${scope}.brazilian`,
     defaultMessage: 'Brazil Portuguese',
   },
-  valencian: {
+  val: {
     id: `${scope}.valencian`,
     defaultMessage: 'Valencian',
   },
-  german: {
+  de: {
     id: `${scope}.german`,
     defaultMessage: 'German',
   },
-  romanian: {
+  ro: {
     id: `${scope}.romanian`,
     defaultMessage: 'Romanian',
   },
-  russian: {
+  ru: {
     id: `${scope}.russian`,
     defaultMessage: 'Russian',
   },
-  arabic: {
+  ar: {
     id: `${scope}.arabic`,
     defaultMessage: 'Arabic',
   },
-  chineseSimplified: {
+  zh: {
     id: `${scope}.chineseSimplified`,
     defaultMessage: 'Chinese (Simplified)',
   },
