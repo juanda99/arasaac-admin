@@ -73,7 +73,7 @@ const withConnect = connect(
   mapDispatchToProps,
 )
 const withReducer = injectReducer({ key: 'usersView', reducer })
-const withSaga = injectSaga({ key: 'usersView', saga })
+const withSaga = injectSaga({ key: 'userView', saga })
 
 export default compose(
   withReducer,
