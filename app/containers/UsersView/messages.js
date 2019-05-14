@@ -8,14 +8,6 @@ export default defineMessages({
     id: `${scope}.header`,
     defaultMessage: 'Users management',
   },
-  users: {
-    id: `${scope}.TabHeader.users`,
-    defaultMessage: 'Users',
-  },
-  usersNotValidated: {
-    id: `${scope}.TabHeader.usersNotValidated`,
-    defaultMessage: 'Users not validated',
-  },
   noData: {
     id: `${scope}.tableMessages.noData`,
     defaultMessage: 'Data not found',

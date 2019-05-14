@@ -14,13 +14,9 @@ import {
 import { Grid, Table, TableHeaderRow, PagingPanel, TableFilterRow } from '@devexpress/dx-react-grid-material-ui'
 import { withStyles } from '@material-ui/core/styles'
 import withWidth from '@material-ui/core/withWidth'
-import GroupIcon from '@material-ui/icons/Group'
-import GroupAddIcon from '@material-ui/icons/GroupAdd'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import history from 'utils/history'
 import View from 'components/View'
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
 import injectReducer from 'utils/injectReducer'
 import injectSaga from 'utils/injectSaga'
 import reducer from './reducer'
@@ -44,8 +40,8 @@ class UsersView extends React.PureComponent {
       { name: 'email', title: this.props.intl.formatMessage(messages.email) },
       { name: 'role', title: this.props.intl.formatMessage(messages.role) },
       { name: 'locale', title: this.props.intl.formatMessage(messages.locale) },
-      { name: 'url', title: this.props.intl.formatMessage(messages.url) },
       { name: 'company', title: this.props.intl.formatMessage(messages.company) },
+      { name: 'url', title: this.props.intl.formatMessage(messages.url) },
     ],
     pageSizes: [10, 20, 100],
     pageSize: 10,
@@ -100,47 +96,29 @@ class UsersView extends React.PureComponent {
       tableColumnExtensions,
     } = this.state
     return (
-      <div className={classes.root}>
-        <Tabs
-          className={classes.tab}
-          fullWidth
-          value={slideIndex}
-          onChange={this.handleChange}
-          indicatorColor="primary"
-          textColor="primary"
-        >
-          <Tab label={width === 'xs' ? '' : <FormattedMessage {...messages.users} />} icon={<GroupIcon />} value={0} />
-          <Tab
-            label={width === 'xs' ? '' : <FormattedMessage {...messages.usersNotValidated} />}
-            icon={<GroupAddIcon />}
-            value={1}
-          />
-        </Tabs>
-        {slideIndex === 0 && (
-          <View>
-            <Paper style={{ position: 'relative' }}>
-              <Grid rows={this.props.users} columns={columns}>
-                <FilteringState filters={filters} onFiltersChange={this.changeFilters} />
-                <IntegratedFiltering />
-                <SortingState sorting={sorting} onSortingChange={this.changeSorting} />
-                <IntegratedSorting />
-                <PagingState
-                  currentPage={currentPage}
-                  onCurrentPageChange={this.changeCurrentPage}
-                  pageSize={pageSize}
-                  onPageSizeChange={this.changePageSize}
-                />
-                <IntegratedPaging />
-                <Table rowComponent={TableRow} columnExtensions={tableColumnExtensions} messages={this.tableMessages} />
-                <TableHeaderRow showSortingControls />
-                <TableFilterRow messages={this.filterRowMessages} />
-                <PagingPanel pageSizes={pageSizes} messages={this.pagingPanelMessages} />
-              </Grid>
-            </Paper>
-          </View>
-        )}
-        {slideIndex === 1 && <View>Item Two</View>}
-        {slideIndex === 2 && <View>Item Three</View>}
+      <div>
+        <View>
+          <h1>Lista de usuarios</h1>
+        </View>
+        <Paper style={{ position: 'relative' }}>
+          <Grid rows={this.props.users} columns={columns} style={{ padding: '10px' }}>
+            <FilteringState filters={filters} onFiltersChange={this.changeFilters} />
+            <IntegratedFiltering />
+            <SortingState sorting={sorting} onSortingChange={this.changeSorting} />
+            <IntegratedSorting />
+            <PagingState
+              currentPage={currentPage}
+              onCurrentPageChange={this.changeCurrentPage}
+              pageSize={pageSize}
+              onPageSizeChange={this.changePageSize}
+            />
+            <IntegratedPaging />
+            <Table rowComponent={TableRow} columnExtensions={tableColumnExtensions} messages={this.tableMessages} />
+            <TableHeaderRow showSortingControls />
+            <TableFilterRow messages={this.filterRowMessages} />
+            <PagingPanel pageSizes={pageSizes} messages={this.pagingPanelMessages} />
+          </Grid>
+        </Paper>
       </div>
     )
   }

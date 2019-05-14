@@ -69,8 +69,7 @@ const UserForm = class UserForm extends Component {
   render() {
     const { intl, initialValues, locale } = this.props
     const { formatMessage } = intl
-    let lastLogin = initialValues.lastLogin
-    let created = initialValues.created
+    let { lastLogin, created } = initialValues
     moment.locale(locale)
     lastLogin = moment(lastLogin).format('LLLL')
     created = moment(created).format('LLLL')
@@ -88,8 +87,8 @@ const UserForm = class UserForm extends Component {
             }
             return (
               <form onSubmit={handleSubmit}>
-                <Paper style={{ padding: 8 }}>
-                  <Grid container alignItems="flex-start" spacing={32}>
+                <Paper style={{ padding: 32 }}>
+                  <Grid container alignItems="flex-start" spacing={32} style={{ marginTop: 16 }}>
                     <Grid item xs={12} sm={6} lg={4}>
                       <Field fullWidth name="name" component={TextField} type="text" label="Nombre" />
                     </Grid>
@@ -97,19 +96,27 @@ const UserForm = class UserForm extends Component {
                       <Field name="email" fullWidth component={TextField} type="email" label="Email" />
                     </Grid>
                     <Grid item xs={12} sm={6} lg={4}>
+                      <Field name="company" fullWidth component={TextField} type="text" label="Company" />
+                    </Grid>
+                    <Grid item xs={12} sm={6} lg={4}>
+                      <Field name="url" fullWidth component={TextField} type="url" label="Sitio web" />
+                    </Grid>
+                    <Grid item xs={12} sm={6} lg={4}>
                       <Field
                         fullWidth
-                        name="language"
+                        name="locale"
                         component={Select}
                         label="Default language"
                         formControlProps={{ fullWidth: true }}
                       >
-                        <MenuItem value="London">London</MenuItem>
-                        <MenuItem value="Paris">Paris</MenuItem>
-                        <MenuItem value="Budapest">A city with a very long Name</MenuItem>
+                        {LANGUAGES.map(language => (
+                          <MenuItem key={language} value={language}>
+                            {formatMessage(langMessages[language])}
+                          </MenuItem>
+                        ))}
                       </Field>
                     </Grid>
-                    <Grid item>
+                    <Grid item xs={12} style={{ marginTop: 16 }}>
                       <FormControl component="fieldset">
                         <FormLabel component="legend">User role </FormLabel>
                         <RadioGroup row>
@@ -126,19 +133,6 @@ const UserForm = class UserForm extends Component {
                             control={<Field name="role" component={Radio} type="radio" value="admin" />}
                           />
                         </RadioGroup>
-                      </FormControl>
-                    </Grid>
-                    <Grid item>
-                      <FormControl component="fieldset">
-                        <FormLabel component="legend">User options</FormLabel>
-                        <FormGroup row>
-                          <FormControlLabel
-                            label="Email suscription"
-                            control={
-                              <Field name="suscription" component={Checkbox} type="checkbox" value="suscription" />
-                            }
-                          />
-                        </FormGroup>
                       </FormControl>
                     </Grid>
                     {values.role === 'translator' && (
@@ -159,27 +153,20 @@ const UserForm = class UserForm extends Component {
                         </FormControl>
                       </Grid>
                     )}
-
                     <Grid item xs={12}>
-                      <Field fullWidth name="notes" component={TextField} multiline label="Notes" />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Field
-                        fullWidth
-                        name="city"
-                        component={Select}
-                        label="Select a City"
-                        formControlProps={{ fullWidth: true }}
-                      >
-                        <MenuItem value="London">London</MenuItem>
-                        <MenuItem value="Paris">Paris</MenuItem>
-                        <MenuItem value="Budapest">A city with a very long Name</MenuItem>
-                      </Field>
-                    </Grid>
-                    <Grid item style={{ marginTop: 16 }}>
-                      <Button type="button" variant="contained" onClick={reset} disabled={submitting || pristine}>
-                        Reset
-                      </Button>
+                      <FormControl component="fieldset">
+                        <FormLabel component="legend">User options</FormLabel>
+                        <FormGroup row>
+                          <FormControlLabel
+                            label="Active"
+                            control={<Field name="active" component={Checkbox} type="checkbox" />}
+                          />
+                          <FormControlLabel
+                            label="Email suscription"
+                            control={<Field name="suscription" component={Checkbox} type="checkbox" />}
+                          />
+                        </FormGroup>
+                      </FormControl>
                     </Grid>
                     <Grid item style={{ marginTop: 16 }}>
                       <Button variant="contained" color="primary" type="submit" disabled={submitting}>
@@ -188,9 +175,6 @@ const UserForm = class UserForm extends Component {
                     </Grid>
                   </Grid>
                 </Paper>
-                <pre>
-                  {JSON.stringify(values, 0, 2)} {console.log(values.role)}
-                </pre>
               </form>
             )
           }}
