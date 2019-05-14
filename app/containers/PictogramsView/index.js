@@ -4,12 +4,14 @@ import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 import withWidth from '@material-ui/core/withWidth'
 import SearchIcon from '@material-ui/icons/Search'
+import ListIcon from '@material-ui/icons/List'
 import VisibilityIcon from '@material-ui/icons/VisibilityOff'
 import ValidateIcon from '@material-ui/icons/ThumbDown'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import { FormattedMessage } from 'react-intl'
 import { compose } from 'redux'
+import PictogramsGrid from 'components/PictogramsGrid'
 import View from 'components/View'
 import SearchField from 'components/SearchField'
 import { makeSelectLocale } from 'containers/LanguageProvider/selectors'
@@ -81,45 +83,54 @@ class PictogramsView extends React.PureComponent {
       pictogramCollection,
       locale,
     } = this.props
+    var renderComponent
     const { slideIndex } = this.state
-    let pictogramsCounter
-    let pictogramsList
-    let gallery
-    if (loading) gallery = this.renderLoading()
-    else if (error) gallery = this.renderError()
-    else if (!searchText && slideIndex === 0) gallery = null
-    else {
-      /* depending on slide we show all pictos, notPublished or notValidated */
-      switch (slideIndex) {
-        case 0:
-          pictogramsList = visiblePictograms
-          break
-        case 1:
-          pictogramsList = pictogramCollection.filter(pictogram => !pictogram.published)
-          console.log(pictogramsList)
-          break
-        case 2:
-          pictogramsList = pictogramCollection.filter(pictogram => !pictogram.validated)
-          break
-        default:
-        // not used
-      }
-      pictogramsCounter = pictogramsList.length
-      gallery = pictogramsCounter ? (
-        <div>
-          <PictogramList
-            pictograms={pictogramsList}
-            locale={locale}
-            // filtersMap={filters}
-            setFilterItems={this.props.setFilterItems}
-            // showLabels={visibleLabels}
-            searchText={searchText}
-          />
-        </div>
-      ) : (
-        this.renderNoPictos()
-      )
+    switch (slideIndex) {
+      case 0:
+        renderComponent = <PictogramsGrid pictograms={pictogramCollection} />
+        break
+      case 1:
+        renderComponent = <p>Componente renderizado item 1</p>
+        // pictogramsList = visiblePictograms
+        break
+      case 2:
+        renderComponent = <p>Componente renderizado item 2</p>
+        // pictogramsList = pictogramCollection.filter(pictogram => !pictogram.published)
+        break
+      case 3:
+        renderComponent = <p>Componente renderizado item 4</p>
+        // pictogramsList = pictogramCollection.filter(pictogram => !pictogram.validated)
+        break
+      default:
+      // not used
     }
+    // let renderComponent
+    // let pictogramsCounter
+    // let pictogramsList
+    // let gallery
+    // if (loading) gallery = this.renderLoading()
+    // else if (error) gallery = this.renderError()
+    // else if (!searchText && slideIndex === 0) gallery = null
+    // else {
+    //   /* depending on slide we show one or other component */
+
+    //   }
+    //   pictogramsCounter = pictogramsList.length
+    //   gallery = pictogramsCounter ? (
+    //     <div>
+    //       <PictogramList
+    //         pictograms={pictogramsList}
+    //         locale={locale}
+    //         // filtersMap={filters}
+    //         setFilterItems={this.props.setFilterItems}
+    //         // showLabels={visibleLabels}
+    //         searchText={searchText}
+    //       />
+    //     </div>
+    //   ) : (
+    //     this.renderNoPictos()
+    //   )
+    // }
 
     return (
       <React.Fragment>
@@ -133,33 +144,27 @@ class PictogramsView extends React.PureComponent {
             textColor="primary"
           >
             <Tab
+              label={width === 'xs' ? '' : <FormattedMessage {...messages.pictograms} />}
+              icon={<ListIcon />}
+              value={0}
+            />
+            <Tab
               label={width === 'xs' ? '' : <FormattedMessage {...messages.search} />}
               icon={<SearchIcon />}
-              value={0}
+              value={1}
             />
             <Tab
               label={width === 'xs' ? '' : <FormattedMessage {...messages.notPlublished} />}
               icon={<VisibilityIcon />}
-              value={1}
+              value={2}
             />
             <Tab
               label={width === 'xs' ? '' : <FormattedMessage {...messages.notValidated} />}
               icon={<ValidateIcon />}
-              value={2}
+              value={3}
             />
           </Tabs>
-          {slideIndex === 0 && (
-            <View>
-              <SearchField
-                value={searchText}
-                onSubmit={this.handleSubmit}
-                style={styles.searchBar}
-                dataSource={keywords}
-              />
-              {gallery}
-            </View>
-          )}
-          {slideIndex !== 0 && <View>{gallery}</View>}
+          {renderComponent}
         </div>
       </React.Fragment>
     )

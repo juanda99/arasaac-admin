@@ -11,6 +11,10 @@ export default defineMessages({
     id: `${scope}.TabHeader.search`,
     defaultMessage: 'Search',
   },
+  pictograms: {
+    id: `${scope}.TabHeader.pictograms`,
+    defaultMessage: 'Pictograms',
+  },
   notPlublished: {
     id: `${scope}.TabHeader.notPublished`,
     defaultMessage: 'Not published',
