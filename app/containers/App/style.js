@@ -28,6 +28,11 @@ const appStyle = theme => ({
     marginRight: 'auto',
     marginLeft: 'auto',
   },
+  LoadingBar: {
+    height: 2,
+    backgroundColor: 'rgb(0, 188, 212)',
+    zIndex: 100000,
+  },
 })
 
 export default appStyle

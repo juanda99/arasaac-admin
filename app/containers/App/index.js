@@ -4,6 +4,7 @@ import { Switch, Route } from 'react-router-dom'
 import withStyles from '@material-ui/core/styles/withStyles'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
+import { ImmutableLoadingBar as LoadingBar } from 'react-redux-loading-bar'
 import Header from 'components/Header'
 import Sidebar from 'components/Sidebar'
 import logo from 'images/arasaac-logo.svg'
@@ -69,6 +70,18 @@ export class App extends Component {
             theme
             isAuthenticated={isAuthenticated}
             logout={doLogout}
+          />
+          <LoadingBar
+            style={{
+              height: 2,
+              backgroundColor: 'rgb(0, 188, 212)',
+              zIndex: 100000,
+              position: 'relative',
+              top: '64px',
+            }}
+            updateTime={100}
+            maxProgress={95}
+            progressIncrease={20}
           />
           <div className={classes.content}>
             <Switch>{getRoutes()}</Switch>
