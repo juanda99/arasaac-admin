@@ -14,15 +14,16 @@ import {
 import { Grid, Table, TableHeaderRow, PagingPanel, TableFilterRow } from '@devexpress/dx-react-grid-material-ui'
 import { withStyles } from '@material-ui/core/styles'
 import withWidth from '@material-ui/core/withWidth'
-import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
+import { injectIntl, intlShape } from 'react-intl'
 import history from 'utils/history'
 import View from 'components/View'
 import injectReducer from 'utils/injectReducer'
 import injectSaga from 'utils/injectSaga'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import reducer from './reducer'
 import saga from './sagas'
-import { makeLoadingSelector, makeArrayUsersSelector, makeTempUsersSelector, makeSelectHasUser } from './selectors'
-import { users, tempUsers } from './actions'
+import { makeLoadingSelector, makeArrayUsersSelector, makeSelectHasUser } from './selectors'
+import { users } from './actions'
 import styles from './styles'
 import messages from './messages'
 
@@ -83,41 +84,39 @@ class UsersView extends React.PureComponent {
   changeFilters = filters => this.setState({ filters })
 
   render() {
-    const { classes, width } = this.props
+    const { classes, width, loading } = this.props
     // const users = this.props.users.slice(0, 100)
-    const {
-      slideIndex,
-      columns,
-      pageSizes,
-      currentPage,
-      pageSize,
-      sorting,
-      filters,
-      tableColumnExtensions,
-    } = this.state
+    const { columns, pageSizes, currentPage, pageSize, sorting, filters, tableColumnExtensions } = this.state
     return (
       <div>
         <View>
           <h1>Lista de usuarios</h1>
         </View>
         <Paper style={{ position: 'relative' }}>
-          <Grid rows={this.props.users} columns={columns} style={{ padding: '10px' }}>
-            <FilteringState filters={filters} onFiltersChange={this.changeFilters} />
-            <IntegratedFiltering />
-            <SortingState sorting={sorting} onSortingChange={this.changeSorting} />
-            <IntegratedSorting />
-            <PagingState
-              currentPage={currentPage}
-              onCurrentPageChange={this.changeCurrentPage}
-              pageSize={pageSize}
-              onPageSizeChange={this.changePageSize}
-            />
-            <IntegratedPaging />
-            <Table rowComponent={TableRow} columnExtensions={tableColumnExtensions} messages={this.tableMessages} />
-            <TableHeaderRow showSortingControls />
-            <TableFilterRow messages={this.filterRowMessages} />
-            <PagingPanel pageSizes={pageSizes} messages={this.pagingPanelMessages} />
-          </Grid>
+          {loading ? (
+            <div style={{ position: 'relative' }}>
+              <CircularProgress style={{ position: 'absolute', top: '10%', left: '10%' }} />
+              <p>Getting data...</p>
+            </div>
+          ) : (
+            <Grid rows={this.props.users} columns={columns} style={{ padding: '10px' }}>
+              <FilteringState filters={filters} onFiltersChange={this.changeFilters} />
+              <IntegratedFiltering />
+              <SortingState sorting={sorting} onSortingChange={this.changeSorting} />
+              <IntegratedSorting />
+              <PagingState
+                currentPage={currentPage}
+                onCurrentPageChange={this.changeCurrentPage}
+                pageSize={pageSize}
+                onPageSizeChange={this.changePageSize}
+              />
+              <IntegratedPaging />
+              <Table rowComponent={TableRow} columnExtensions={tableColumnExtensions} messages={this.tableMessages} />
+              <TableHeaderRow showSortingControls />
+              <TableFilterRow messages={this.filterRowMessages} />
+              <PagingPanel pageSizes={pageSizes} messages={this.pagingPanelMessages} />
+            </Grid>
+          )}
         </Paper>
       </div>
     )
@@ -128,9 +127,7 @@ UsersView.propTypes = {
   classes: PropTypes.object.isRequired,
   width: PropTypes.string.isRequired,
   requestUsers: PropTypes.func.isRequired,
-  requestTempUsers: PropTypes.func.isRequired,
   users: PropTypes.arrayOf(PropTypes.object),
-  tempUsers: PropTypes.arrayOf(PropTypes.object),
   loading: PropTypes.bool.isRequired,
   intl: intlShape.isRequired,
 }
@@ -138,16 +135,12 @@ UsersView.propTypes = {
 const mapStateToProps = state => ({
   loading: makeLoadingSelector()(state),
   users: makeArrayUsersSelector()(state),
-  tempUsers: makeTempUsersSelector()(state),
   token: makeSelectHasUser()(state),
 })
 
 const mapDispatchToProps = dispatch => ({
   requestUsers: token => {
     dispatch(users.request(token))
-  },
-  requestTempUsers: () => {
-    dispatch(tempUsers.request())
   },
 })
 
