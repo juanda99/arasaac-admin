@@ -136,29 +136,27 @@ class SearchField extends Component {
       renderSuggestion: this.renderSuggestion,
     }
     return (
-      <div className={classes.root}>
-        <Autosuggest
-          {...autosuggestProps}
-          inputProps={{
-            classes,
-            placeholder: 'prueba',
-            value: searchText,
-            onChange: this.handleChange,
-            onKeyDown: this.onKeyDown,
-          }}
-          theme={{
-            container: classes.container,
-            suggestionsContainerOpen: classes.suggestionsContainerOpen,
-            suggestionsList: classes.suggestionsList,
-            suggestion: classes.suggestion,
-          }}
-          renderSuggestionsContainer={options => (
-            <Paper {...options.containerProps} square>
-              {options.children}
-            </Paper>
-          )}
-        />
-      </div>
+      <Autosuggest
+        {...autosuggestProps}
+        inputProps={{
+          classes,
+          placeholder: 'prueba',
+          value: searchText,
+          onChange: this.handleChange,
+          onKeyDown: this.onKeyDown,
+        }}
+        theme={{
+          container: classes.container,
+          suggestionsContainerOpen: classes.suggestionsContainerOpen,
+          suggestionsList: classes.suggestionsList,
+          suggestion: classes.suggestion,
+        }}
+        renderSuggestionsContainer={options => (
+          <Paper {...options.containerProps} square>
+            {options.children}
+          </Paper>
+        )}
+      />
     )
   }
 }

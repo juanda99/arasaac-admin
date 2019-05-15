@@ -10,8 +10,10 @@ import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import { FormattedMessage } from 'react-intl'
 import { compose } from 'redux'
+import View from 'components/View'
 import PictogramsGrid from 'components/PictogramsGrid'
 import SearchToggleBar from 'components/SearchToggleBar'
+import SearchField from 'components/SearchField'
 import { makeSelectLocale } from 'containers/LanguageProvider/selectors'
 import injectReducer from 'utils/injectReducer'
 import PictogramList from 'components/PictogramList'
@@ -102,6 +104,11 @@ class PictogramsView extends React.PureComponent {
     } = this.props
     const { notPublishedOffset, notValidOffset, allPictosOffset, slideIndex, viewType } = this.state
     const pictogramValid = pictogramCollection.filter(pictogram => pictogram.status === 1)
+    const searchBox = (
+      <View>
+        <SearchField value={searchText} onSubmit={this.handleSubmit} style={styles.searchBar} dataSource={keywords} />
+      </View>
+    )
     let renderComponent
     switch (slideIndex) {
       case 0:
@@ -201,6 +208,7 @@ class PictogramsView extends React.PureComponent {
               value={2}
             />
           </Tabs>
+          {slideIndex === 0 && searchBox}
           {slideIndex === 0 && <SearchToggleBar viewType={viewType} changeViewType={this.handleViewType} />}
           {renderComponent}
         </div>
