@@ -89,9 +89,6 @@ class UsersView extends React.PureComponent {
     const { columns, pageSizes, currentPage, pageSize, sorting, filters, tableColumnExtensions } = this.state
     return (
       <div>
-        <View>
-          <h1>Lista de usuarios</h1>
-        </View>
         <Paper style={{ position: 'relative' }}>
           {loading ? (
             <div style={{ position: 'relative' }}>

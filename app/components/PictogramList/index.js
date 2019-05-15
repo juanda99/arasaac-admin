@@ -1,11 +1,12 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Map } from 'immutable'
+import Pagination from 'material-ui-flat-pagination'
 import PictogramSnippet from '../PictogramSnippet'
 const Masonry = require('react-masonry-component')
 const masonryOptions = {
   transitionDuration: '1s',
 }
+const itemsPerPage = 30
 
 const styles = {
   masonry: {
@@ -14,17 +15,44 @@ const styles = {
     flexWrap: 'wrap',
     justifyContent: 'space-around',
   },
+  pagination: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 }
 
 export class PictogramList extends PureComponent {
+  handleClick(offset) {
+    const { type, onPageClick } = this.props
+    onPageClick(type, offset)
+  }
+
   render() {
-    const { locale, pictograms, searchText } = this.props
-    const renderPictograms = pictograms.map(pictogram => (
+    const { locale, pictograms, searchText, offset } = this.props
+    const numberItems = pictograms.length
+    // const offset = Math.ceil((currentPage - 1) * itemsPerPage)
+    const visiblePictograms = pictograms.slice(offset, offset + itemsPerPage)
+    const pagination =
+      numberItems >= itemsPerPage ? (
+        <div style={styles.pagination}>
+          <Pagination
+            limit={itemsPerPage}
+            offset={offset}
+            total={numberItems}
+            onClick={(e, offsetParam) => this.handleClick(offsetParam)}
+            currentPageColor="inherit"
+          />
+        </div>
+      ) : null
+
+    const renderPictograms = visiblePictograms.map(pictogram => (
       <PictogramSnippet pictogram={pictogram} searchText={searchText} locale={locale} key={pictogram.idPictogram} />
     ))
 
     return (
       <div>
+        {pagination}
         <Masonry
           className="my-gallery-class" // default ''
           elementType="ul" // default 'div'
@@ -35,6 +63,7 @@ export class PictogramList extends PureComponent {
         >
           {renderPictograms}
         </Masonry>
+        {pagination}
       </div>
     )
   }
@@ -44,6 +73,9 @@ PictogramList.propTypes = {
   pictograms: PropTypes.arrayOf(PropTypes.object).isRequired,
   locale: PropTypes.string,
   searchText: PropTypes.string,
+  type: PropTypes.string,
+  offset: PropTypes.number.isRequired,
+  onPageClick: PropTypes.func.isRequired,
 }
 
 export default PictogramList

@@ -6,23 +6,6 @@ const sidebarStyle = theme => ({
     ...boxShadow,
     width: drawerWidth,
   },
-  logo: {
-    position: 'relative',
-    display: 'flex',
-    padding: '15px 15px',
-    width: 'calc(100% - 160px)',
-    float: 'left',
-    zIndex: '4',
-    '&:after': {
-      content: '""',
-      position: 'absolute',
-      bottom: '0',
-      height: '1px',
-      right: '15px',
-      width: 'calc(100% - 90px)',
-      backgroundColor: 'rgba(180, 180, 180, 0.3)',
-    },
-  },
   subMenu: {
     paddingLeft: '15px',
   },
@@ -60,6 +43,15 @@ const sidebarStyle = theme => ({
     position: 'absolute',
     verticalAlign: 'middle',
     border: '0',
+  },
+  toolbar: {
+    backgroundColor: theme.palette.primary.main,
+    height: 64,
+    color: 'white',
+    fontWeight: 300,
+    fontSize: 24,
+    paddingLeft: 85,
+    paddingTop: 20,
   },
 })
 

@@ -147,9 +147,6 @@ class PictogramsGrid extends React.PureComponent {
     } = this.state
     return (
       <div>
-        <View>
-          <h1>Lista de pictogramas</h1>
-        </View>
         <Paper style={{ position: 'relative' }}>
           <Grid rows={this.props.pictograms} columns={columns} style={{ padding: '10px' }}>
             <FilteringState filters={filters} onFiltersChange={this.changeFilters} />

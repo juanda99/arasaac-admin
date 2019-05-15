@@ -16,6 +16,7 @@ import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import LocaleSelector from 'containers/LocaleSelector'
 import ThemeSelector from 'containers/ThemeSelector'
+import routes from 'routes/index'
 
 /*
 import FormatTextdirectionLToR from '@material-ui/icons/FormatTextdirectionLToR'
@@ -51,9 +52,38 @@ class Header extends Component {
     this.props.handleSidebarToggle()
   }
 
+  getTitle = () => {
+    let title
+    const url = this.props.location.pathname
+    console.log(url)
+    switch (true) {
+      case /pictograms\/add/.test(url):
+        title = <FormattedMessage {...messages.addPictograms} />
+        break
+      case /pictograms/.test(url):
+        title = <FormattedMessage {...messages.pictograms} />
+        break
+      case /catalogs/.test(url):
+        title = <FormattedMessage {...messages.catalogs} />
+        break
+      case /users/.test(url):
+        title = <FormattedMessage {...messages.users} />
+        break
+      case /signin/.test(url):
+        title = <FormattedMessage {...messages.signin} />
+        break
+      default:
+        title = <FormattedMessage {...messages.management} />
+        break
+    }
+    return title
+  }
+
   render() {
     const { classes, locale, isAuthenticated, theme } = this.props
     const { loginButton } = this.state
+    // TODO: move get title to componentUpdate
+    const title = this.getTitle()
 
     return (
       <AppBar className={classes.appBar} position="static">
@@ -69,7 +99,7 @@ class Header extends Component {
             </IconButton>
           </Hidden>
           <Typography variant="h6" color="inherit" className={classes.grow}>
-            Arasaac Management
+            {title}
           </Typography>
           {theme && <ThemeSelector />}
           {locale && <LocaleSelector />}

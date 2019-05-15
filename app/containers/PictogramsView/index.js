@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 import withWidth from '@material-ui/core/withWidth'
 import SearchIcon from '@material-ui/icons/Search'
-import ListIcon from '@material-ui/icons/List'
 import VisibilityIcon from '@material-ui/icons/VisibilityOff'
 import ValidateIcon from '@material-ui/icons/ThumbDown'
 import Tabs from '@material-ui/core/Tabs'
@@ -12,8 +11,7 @@ import Tab from '@material-ui/core/Tab'
 import { FormattedMessage } from 'react-intl'
 import { compose } from 'redux'
 import PictogramsGrid from 'components/PictogramsGrid'
-import View from 'components/View'
-import SearchField from 'components/SearchField'
+import SearchToggleBar from 'components/SearchToggleBar'
 import { makeSelectLocale } from 'containers/LanguageProvider/selectors'
 import injectReducer from 'utils/injectReducer'
 import PictogramList from 'components/PictogramList'
@@ -37,17 +35,24 @@ import messages from './messages'
 /* eslint-disable react/prefer-stateless-function */
 
 class PictogramsView extends React.PureComponent {
-  state = {
-    slideIndex: 0,
+  constructor(props) {
+    super(props)
+    this.state = {
+      slideIndex: parseInt(sessionStorage.getItem('pictoSlideIndex'), 10) || 0,
+      viewType: sessionStorage.getItem('pictoViewType') || 'module',
+      notPublishedOffset: parseInt(sessionStorage.getItem('notPublishedOffset'), 10) || 0,
+      notValidOffset: parseInt(sessionStorage.getItem('notValidOffset'), 10) || 0,
+      allPictosOffset: parseInt(sessionStorage.getItem('allPictosOffset'), 10) || 0,
+    }
   }
 
   componentDidMount() {
     const { locale, searchText, searchResults, lastUpdated } = this.props
-    if (searchText && !searchResults) {
-      this.props.requestPictograms(locale, searchText)
-    }
+    // if (searchText && !searchResults) {
+    //   this.props.requestPictograms(locale, searchText)
+    // }
     this.props.requestNewPictograms(locale, lastUpdated)
-    this.props.requestAutocomplete(locale)
+    // this.props.requestAutocomplete(locale)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -63,6 +68,7 @@ class PictogramsView extends React.PureComponent {
 
   handleChange = (event, slideIndex) => {
     this.setState({ slideIndex })
+    sessionStorage.setItem('pictoSlideIndex', slideIndex)
   }
 
   renderLoading = () => <div>Loading...</div>
@@ -70,6 +76,17 @@ class PictogramsView extends React.PureComponent {
   renderError = () => <div>I am sorry! Please try again.</div>
 
   renderNoPictos = () => <div>{<FormattedMessage {...messages.pictogramsNotFound} />}</div>
+
+  handleViewType = viewType => {
+    this.setState({ viewType })
+    sessionStorage.setItem('pictoViewType', viewType)
+  }
+
+  handlePageClick = (type, offset) => {
+    const key = `${type}Offset`
+    this.setState({ [key]: offset })
+    sessionStorage.setItem(key, offset)
+  }
 
   render() {
     const {
@@ -83,23 +100,48 @@ class PictogramsView extends React.PureComponent {
       pictogramCollection,
       locale,
     } = this.props
-    var renderComponent
-    const { slideIndex } = this.state
+    const { notPublishedOffset, notValidOffset, allPictosOffset, slideIndex, viewType } = this.state
+    const pictogramValid = pictogramCollection.filter(pictogram => pictogram.status === 1)
+    let renderComponent
     switch (slideIndex) {
       case 0:
-        renderComponent = <PictogramsGrid pictograms={pictogramCollection} />
+        renderComponent =
+          viewType === 'list' ? (
+            <PictogramsGrid pictograms={pictogramCollection} locale={locale} searchText={searchText} />
+          ) : (
+            <PictogramList
+              pictograms={pictogramCollection}
+              locale={locale}
+              searchText={searchText}
+              type="allPictos"
+              offset={allPictosOffset}
+              onPageClick={this.handlePageClick}
+            />
+          )
         break
       case 1:
-        renderComponent = <p>Componente renderizado item 1</p>
-        // pictogramsList = visiblePictograms
+        renderComponent = (
+          <PictogramList
+            pictograms={pictogramValid}
+            locale={locale}
+            searchText={searchText}
+            type="notPublished"
+            offset={notPublishedOffset}
+            onPageClick={this.handlePageClick}
+          />
+        )
         break
       case 2:
-        renderComponent = <p>Componente renderizado item 2</p>
-        // pictogramsList = pictogramCollection.filter(pictogram => !pictogram.published)
-        break
-      case 3:
-        renderComponent = <p>Componente renderizado item 4</p>
-        // pictogramsList = pictogramCollection.filter(pictogram => !pictogram.validated)
+        renderComponent = (
+          <PictogramList
+            pictograms={pictogramValid}
+            locale={locale}
+            searchText={searchText}
+            type="notValid"
+            offset={notValidOffset}
+            onPageClick={this.handlePageClick}
+          />
+        )
         break
       default:
       // not used
@@ -144,26 +186,22 @@ class PictogramsView extends React.PureComponent {
             textColor="primary"
           >
             <Tab
-              label={width === 'xs' ? '' : <FormattedMessage {...messages.pictograms} />}
-              icon={<ListIcon />}
-              value={0}
-            />
-            <Tab
               label={width === 'xs' ? '' : <FormattedMessage {...messages.search} />}
               icon={<SearchIcon />}
-              value={1}
+              value={0}
             />
             <Tab
               label={width === 'xs' ? '' : <FormattedMessage {...messages.notPlublished} />}
               icon={<VisibilityIcon />}
-              value={2}
+              value={1}
             />
             <Tab
               label={width === 'xs' ? '' : <FormattedMessage {...messages.notValidated} />}
               icon={<ValidateIcon />}
-              value={3}
+              value={2}
             />
           </Tabs>
+          {slideIndex === 0 && <SearchToggleBar viewType={viewType} changeViewType={this.handleViewType} />}
           {renderComponent}
         </div>
       </React.Fragment>

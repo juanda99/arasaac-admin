@@ -57,7 +57,6 @@ class SideBar extends React.Component {
       <div>
         <div className={classes.toolbar} role="button">
           ARASAAC
-          {logo ? <img className={classes.logo} src={logo} alt="logo" /> : ''}
         </div>
         {links}
         <Divider />
