@@ -40,10 +40,10 @@ class UsersView extends React.PureComponent {
       { name: 'url', title: this.props.intl.formatMessage(messages.url) },
     ],
     pageSizes: [10, 20, 100],
-    pageSize: 10,
-    currentPage: 0,
-    sorting: [{ columnName: 'name', direction: 'asc' }],
-    filters: [],
+    pageSize: parseInt(sessionStorage.getItem('usersPageSize'), 10) || 10,
+    currentPage: parseInt(sessionStorage.getItem('usersCurrentPage'), 10) || 0,
+    sorting: JSON.parse(sessionStorage.getItem('usersSorting')) || [{ columnName: 'name', direction: 'asc' }],
+    filters: JSON.parse(sessionStorage.getItem('usersFilters')) || [],
     tableColumnExtensions: [{ columnName: '_id', width: 0 }],
   }
 
@@ -70,13 +70,25 @@ class UsersView extends React.PureComponent {
     // load Data
   }
 
-  changeCurrentPage = currentPage => this.setState({ currentPage })
+  changeCurrentPage = currentPage => {
+    this.setState({ currentPage })
+    sessionStorage.setItem('usersCurrentPage', currentPage)
+  }
 
-  changePageSize = pageSize => this.setState({ pageSize })
+  changePageSize = pageSize => {
+    this.setState({ pageSize })
+    sessionStorage.setItem('usersPageSize', pageSize)
+  }
 
-  changeSorting = sorting => this.setState({ sorting })
+  changeSorting = sorting => {
+    this.setState({ sorting })
+    sessionStorage.setItem('usersSorting', JSON.stringify(sorting))
+  }
 
-  changeFilters = filters => this.setState({ filters })
+  changeFilters = filters => {
+    this.setState({ filters })
+    sessionStorage.setItem('usersFilters', JSON.stringify(filters))
+  }
 
   render() {
     const { loading } = this.props
