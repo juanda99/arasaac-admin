@@ -76,6 +76,18 @@ export const signup = {
     },
   }),
 }
+
+export const userUpdate = {
+  // eslint-disable-next-line no-underscore-dangle
+  url: userData => `${PRIVATE_API_ROOT}/users/${userData._id}`,
+  options: userData => ({
+    config: {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(userData),
+    },
+  }),
+}
 /*
 export const customPictogram = {
   url: (idPictogram, options) => {

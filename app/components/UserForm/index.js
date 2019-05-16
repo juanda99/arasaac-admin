@@ -16,7 +16,6 @@ import { LANGUAGES } from 'utils/constants'
 
 import moment from 'moment'
 
-import Div from 'components/Div'
 import messages from 'components/Login/messages'
 import langMessages from 'components/LanguageSelector/messages'
 import { email } from 'components/Login/validate'
@@ -61,9 +60,9 @@ const UserForm = class UserForm extends Component {
     return errors
   }
 
-  onSubmit = async values => {
-    await sleep(300)
+  handleSubmit = values => {
     window.alert(JSON.stringify(values, 0, 2))
+    this.props.onSubmit(values)
   }
 
   render() {
@@ -78,7 +77,7 @@ const UserForm = class UserForm extends Component {
         <p>Created: {created}</p>
         <p>Last login: {lastLogin}</p>
         <Form
-          onSubmit={this.onSubmit}
+          onSubmit={this.handleSubmit}
           initialValues={initialValues}
           validate={this.validate}
           render={({ handleSubmit, reset, submitting, pristine, values }) => {
@@ -188,6 +187,7 @@ UserForm.propTypes = {
   intl: intlShape.isRequired,
   locale: PropTypes.string.isRequired,
   initialValues: PropTypes.object.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 }
 
 export default injectIntl(UserForm)

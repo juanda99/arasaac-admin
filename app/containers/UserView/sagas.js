@@ -1,24 +1,52 @@
-import { take, takeLatest, call, put, cancel, all } from 'redux-saga/effects'
-import { LOCATION_CHANGE } from 'react-router-redux'
+import { take, takeLatest, call, put, cancel, all, select } from 'redux-saga/effects'
+import { LOCATION_CHANGE, push } from 'react-router-redux'
 // import { REHYDRATE } from 'redux-persist/constants'
 import { showLoading, hideLoading } from 'react-redux-loading-bar'
 import api from 'services'
-import { USER, user } from './actions'
+import { logout } from 'containers/App/actions'
+import { makeSelectLocation } from 'containers/App/selectors'
+import { USER, user, USER_UPDATE, userUpdate } from './actions'
 
-function* userGetData(action) {
+function* userLoadRequest(action) {
   try {
     yield put(showLoading())
     const response = yield call(api[action.type], action.payload)
     yield put(user.success(response))
   } catch (error) {
     yield put(user.failure(error.message))
+    if (error.message === 'UNAUTHORIZED') {
+      yield put(logout())
+      // get current route
+      const { pathname } = yield select(makeSelectLocation())
+      yield put(push(encodeURI(`/signin?redirect=${pathname}`)))
+    }
   } finally {
     yield put(hideLoading())
   }
 }
 
-export function* userData() {
-  const watcher = yield takeLatest(USER.REQUEST, userGetData)
+function* userUpdateRequest(action) {
+  try {
+    yield put(showLoading())
+    yield call(api[action.type], action.payload)
+    yield put(userUpdate.success())
+  } catch (error) {
+    yield put(userUpdate.failure(error.message))
+  } finally {
+    yield put(hideLoading())
+  }
+}
+
+export function* userLoadSaga() {
+  const watcher = yield takeLatest(USER.REQUEST, userLoadRequest)
+  // Suspend execution until location changes
+  yield take(LOCATION_CHANGE)
+  yield cancel(watcher)
+}
+
+export function* userUpdateSaga() {
+  yield take(USER.SUCCESS)
+  const watcher = yield takeLatest(USER_UPDATE.REQUEST, userUpdateRequest)
   // Suspend execution until location changes
   yield take(LOCATION_CHANGE)
   yield cancel(watcher)
@@ -26,5 +54,5 @@ export function* userData() {
 
 // All sagas to be loaded
 export default function* rootSaga() {
-  yield all([userData()])
+  yield all([userLoadSaga(), userUpdateSaga()])
 }

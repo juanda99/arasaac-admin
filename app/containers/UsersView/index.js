@@ -12,11 +12,8 @@ import {
   IntegratedFiltering,
 } from '@devexpress/dx-react-grid'
 import { Grid, Table, TableHeaderRow, PagingPanel, TableFilterRow } from '@devexpress/dx-react-grid-material-ui'
-import { withStyles } from '@material-ui/core/styles'
-import withWidth from '@material-ui/core/withWidth'
 import { injectIntl, intlShape } from 'react-intl'
 import history from 'utils/history'
-import View from 'components/View'
 import injectReducer from 'utils/injectReducer'
 import injectSaga from 'utils/injectSaga'
 import CircularProgress from '@material-ui/core/CircularProgress'
@@ -24,7 +21,6 @@ import reducer from './reducer'
 import saga from './sagas'
 import { makeLoadingSelector, makeArrayUsersSelector, makeSelectHasUser } from './selectors'
 import { users } from './actions'
-import styles from './styles'
 import messages from './messages'
 
 const TableRow = ({ row, ...restProps }) => (
@@ -34,7 +30,6 @@ const TableRow = ({ row, ...restProps }) => (
 
 class UsersView extends React.PureComponent {
   state = {
-    slideIndex: 0,
     columns: [
       { name: '_id', title: 'id' },
       { name: 'name', title: this.props.intl.formatMessage(messages.name) },
@@ -84,7 +79,7 @@ class UsersView extends React.PureComponent {
   changeFilters = filters => this.setState({ filters })
 
   render() {
-    const { classes, width, loading } = this.props
+    const { loading } = this.props
     // const users = this.props.users.slice(0, 100)
     const { columns, pageSizes, currentPage, pageSize, sorting, filters, tableColumnExtensions } = this.state
     return (
@@ -121,12 +116,11 @@ class UsersView extends React.PureComponent {
 }
 
 UsersView.propTypes = {
-  classes: PropTypes.object.isRequired,
-  width: PropTypes.string.isRequired,
   requestUsers: PropTypes.func.isRequired,
   users: PropTypes.arrayOf(PropTypes.object),
   loading: PropTypes.bool.isRequired,
   intl: intlShape.isRequired,
+  token: PropTypes.string.isRequired,
 }
 
 const mapStateToProps = state => ({
@@ -152,4 +146,4 @@ export default compose(
   withReducer,
   withSaga,
   withConnect,
-)(withStyles(styles, { withTheme: true })(withWidth()(injectIntl(UsersView))))
+)(injectIntl(UsersView))
