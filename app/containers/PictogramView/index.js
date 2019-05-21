@@ -4,80 +4,84 @@ import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 import withWidth from '@material-ui/core/withWidth'
 import { compose } from 'redux'
-import { makeSelectLocale } from 'containers/LanguageProvider/selectors'
 import injectReducer from 'utils/injectReducer'
 import injectSaga from 'utils/injectSaga'
-import history from 'utils/history'
+import { makeSelectHasUser } from 'containers/UsersView/selectors'
+import { makeSelectLocale } from 'containers/LanguageProvider/selectors'
+import { TreeSelect } from 'antd/lib'
+import 'antd/dist/antd.css'
+import treeData from './treeData.js'
 import reducer from '../PictogramsView/reducer'
 import saga from '../PictogramsView/sagas'
 import styles from './styles'
-import {
-  makeLoadingSelector,
-  makeSearchResultsSelector,
-  makeVisiblePictogramsSelector,
-  makeKeywordsSelectorByLocale,
-} from '../PictogramsView/selectors'
-import { autocomplete, pictograms } from '../PictogramsView/actions'
+import { makeLoadingSelector, makeSelectIdPictogram, makePictogramByIdSelector } from '../PictogramsView/selectors'
+import { pictogram } from './actions'
 
 /* eslint-disable react/prefer-stateless-function */
 
 class PictogramView extends React.PureComponent {
+  state = {
+    value: undefined,
+  }
+
+  onChange = value => {
+    this.setState({ value })
+  }
+
   componentDidMount() {
-    const { requestPictograms, requestAutocomplete, locale, searchText, searchResults } = this.props
-    if (searchText && !searchResults) {
-      requestPictograms(locale, searchText)
+    const { requestPictogram, idPictogram, locale, selectedPictogram } = this.props
+    if (!selectedPictogram) {
+      requestPictogram(idPictogram, locale)
     }
-    requestAutocomplete(locale)
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.searchText !== nextProps.searchText) {
-      const { requestPictograms, locale } = this.props
-      requestPictograms(locale, nextProps.searchText)
-    }
-  }
-
-  handleSubmit = nextValue => {
-    history.push(`/pictograms/search/${nextValue}`)
+    // we can change origin/target language, so we should get
+    // pictogram data in that language
   }
 
   render() {
     return (
       <React.Fragment>
-        <p>PictogramView</p>
+        <h2>Categorías pictograma</h2>
+        <TreeSelect
+          style={{ width: '100%' }}
+          value={this.state.value}
+          dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+          treeData={treeData}
+          placeholder="Please select"
+          treeDefaultExpandAll
+          onChange={this.onChange}
+          multiple
+        />
       </React.Fragment>
     )
   }
 }
 
 PictogramView.propTypes = {
+  idPictogram: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   width: PropTypes.string.isRequired,
-  requestAutocomplete: PropTypes.func.isRequired,
   keywords: PropTypes.arrayOf(PropTypes.string),
-  requestPictograms: PropTypes.func.isRequired,
+  requestPictogram: PropTypes.func.isRequired,
+  selectedPictogram: PropTypes.object,
   searchText: PropTypes.string,
   loading: PropTypes.bool.isRequired,
-  visiblePictograms: PropTypes.arrayOf(PropTypes.object),
   locale: PropTypes.string.isRequired,
-  searchResults: PropTypes.arrayOf(PropTypes.number),
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  locale: makeSelectLocale()(state),
   loading: makeLoadingSelector()(state),
-  searchResults: makeSearchResultsSelector()(state, ownProps),
-  visiblePictograms: makeVisiblePictogramsSelector()(state, ownProps),
-  keywords: makeKeywordsSelectorByLocale()(state),
-  searchText: (() => ownProps.match.params.searchText || '')(),
+  selectedPictogram: makePictogramByIdSelector()(state, ownProps),
+  locale: makeSelectLocale()(state),
+  token: makeSelectHasUser()(state),
+  idPictogram: makeSelectIdPictogram()(state, ownProps),
 })
 
 const mapDispatchToProps = dispatch => ({
-  requestPictograms: (locale, searchText) => {
-    dispatch(pictograms.request(locale, searchText))
-  },
-  requestAutocomplete: locale => {
-    dispatch(autocomplete.request(locale))
+  requestPictogram: (locale, searchText) => {
+    dispatch(pictogram.request(locale, searchText))
   },
 })
 
@@ -86,7 +90,7 @@ const withConnect = connect(
   mapDispatchToProps,
 )
 const withReducer = injectReducer({ key: 'pictogramsView', reducer })
-const withSaga = injectSaga({ key: 'pictogramsView', saga })
+const withSaga = injectSaga({ key: 'pictogramView', saga })
 
 export default compose(
   withReducer,

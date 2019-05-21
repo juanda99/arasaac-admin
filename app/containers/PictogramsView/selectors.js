@@ -31,6 +31,16 @@ const makePictogramsSelector = () =>
       substate.getIn([locale, PICTOGRAMS]) || new Map(),
   )
 
+export const makeSelectIdPictogram = () => (_, ownProps) => ownProps.match.params.idPictogram
+
+export const makePictogramByIdSelector = () =>
+  createSelector(
+    makePictogramsSelector(),
+    makeSelectIdPictogram(),
+    // eslint-disable-next-line no-underscore-dangle
+    (substate, idPictogram) => substate[idPictogram],
+  )
+
 export const makePictogramsListSelector = () =>
   createSelector(selectPictogramsViewDomain, makeSelectLocale(), (substate, locale) => {
     // pictograms.locale does not exists first time, just pictograms

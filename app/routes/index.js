@@ -1,6 +1,6 @@
 // @material-ui/icons
 import React from 'react'
-import { compose } from 'redux'
+// TODO: change index files for loadable, webpack :-)
 import { FormattedMessage } from 'react-intl'
 import PictogramUploadIcon from '@material-ui/icons/AddPhotoAlternate'
 import PictogramsIcon from '@material-ui/icons/Collections'
@@ -19,6 +19,7 @@ import SigninView from 'containers/SigninView/'
 import PermissionsErrorView from 'containers/PermissionsErrorView/Loadable'
 import CatalogsView from 'containers/CatalogsView/Loadable'
 import AddPictograms from 'containers/AddPictograms/Loadable'
+import PictogramView from 'containers/PictogramView'
 
 import {
   userIsAuthenticatedRedir,
@@ -113,6 +114,10 @@ const sidebarRoutes = [
   {
     path: '/permissionsError',
     component: PermissionsErrorView,
+  },
+  {
+    path: '/pictograms/:locale/:idPictogram/:searchText?',
+    component: PictogramView,
   },
 ]
 
