@@ -12,6 +12,6 @@ export const user = {
 
 export const userUpdate = {
   request: (token, userData) => action(USER_UPDATE.REQUEST, { token, userData }),
-  success: () => action(USER_UPDATE.SUCCESS),
+  success: data => action(USER_UPDATE.SUCCESS, { data }),
   failure: error => action(USER_UPDATE.FAILURE, { error }),
 }

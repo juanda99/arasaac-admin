@@ -28,8 +28,8 @@ function* userLoadRequest(action) {
 function* userUpdateRequest(action) {
   try {
     yield put(showLoading())
-    yield call(api[action.type], action.payload)
-    yield put(userUpdate.success())
+    const response = yield call(api[action.type], action.payload)
+    yield put(userUpdate.success(response))
   } catch (error) {
     yield put(userUpdate.failure(error.message))
   } finally {
@@ -45,7 +45,6 @@ export function* userLoadSaga() {
 }
 
 export function* userUpdateSaga() {
-  yield take(USER.SUCCESS)
   const watcher = yield takeLatest(USER_UPDATE.REQUEST, userUpdateRequest)
   // Suspend execution until location changes
   yield take(LOCATION_CHANGE)

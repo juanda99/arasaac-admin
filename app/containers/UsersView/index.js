@@ -19,7 +19,7 @@ import injectSaga from 'utils/injectSaga'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import reducer from './reducer'
 import saga from './sagas'
-import { makeLoadingSelector, makeArrayUsersSelector, makeSelectHasUser } from './selectors'
+import { makeLoadingSelector, makeUpdatedSelector, makeArrayUsersSelector, makeSelectHasUser } from './selectors'
 import { users } from './actions'
 import messages from './messages'
 
@@ -62,8 +62,8 @@ class UsersView extends React.PureComponent {
   }
 
   componentDidMount = () => {
-    const { requestUsers, token } = this.props
-    requestUsers(token)
+    const { requestUsers, token, updated, loading } = this.props
+    requestUsers(updated, token)
   }
 
   componentDidUpdate() {
@@ -133,17 +133,19 @@ UsersView.propTypes = {
   loading: PropTypes.bool.isRequired,
   intl: intlShape.isRequired,
   token: PropTypes.string.isRequired,
+  updated: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.string]),
 }
 
 const mapStateToProps = state => ({
   loading: makeLoadingSelector()(state),
   users: makeArrayUsersSelector()(state),
   token: makeSelectHasUser()(state),
+  updated: makeUpdatedSelector()(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  requestUsers: token => {
-    dispatch(users.request(token))
+  requestUsers: (updated, token) => {
+    dispatch(users.request(updated, token))
   },
 })
 

@@ -5,19 +5,26 @@ import { connect } from 'react-redux'
 import View from 'components/View'
 import injectReducer from 'utils/injectReducer'
 import injectSaga from 'utils/injectSaga'
-import { makeUserByIdSelector, makeLoadingSelector, makeSelectHasUser } from 'containers/UsersView/selectors'
+import {
+  makeUserByIdSelector,
+  makeLoadingSelector,
+  makeSelectHasUser,
+  makeSelectIdUser,
+} from 'containers/UsersView/selectors'
 import { makeSelectLocale } from 'containers/LanguageProvider/selectors'
 import UserForm from 'components/UserForm'
-import reducer from './reducer'
+import reducer from 'containers/UsersView/reducer'
 import saga from './sagas'
 import { user, userUpdate } from './actions'
 
 class UserView extends React.PureComponent {
   componentDidMount = () => {
-    const { requestUser, match, token } = this.props
+    const { requestUser, idUser, selectedUser, token } = this.props
     // maybe in the saga we can decide to get it from state
     // and not from server
-    requestUser(token, match.params.idUser)
+    console.log(`SelectedUser: ${selectedUser}`)
+    console.log(`idUser: ${idUser}`)
+    if (!selectedUser) requestUser(token, idUser)
   }
 
   componentDidUpdate() {
@@ -25,12 +32,12 @@ class UserView extends React.PureComponent {
   }
 
   handleSubmit = userData => {
-    this.props.requestUserUpdate(this.props.token, userData)
+    this.props.requestUserUpdate(this.props.token, { ...userData, updated: new Date() })
   }
 
   render() {
     const { selectedUser, locale } = this.props
-
+    console.log(`SelectedUser 2: ${selectedUser}`)
     return (
       <View>
         {selectedUser ? (
@@ -51,13 +58,14 @@ UserView.propTypes = {
   requestUserUpdate: PropTypes.func.isRequired,
   selectedUser: PropTypes.object,
   locale: PropTypes.string.isRequired,
-  match: PropTypes.object.isRequired,
   token: PropTypes.string.isRequired,
+  idUser: PropTypes.string.isRequired,
 }
 
 const mapStateToProps = (state, ownProps) => ({
   loading: makeLoadingSelector()(state),
   selectedUser: makeUserByIdSelector()(state, ownProps),
+  idUser: makeSelectIdUser()(state, ownProps),
   locale: makeSelectLocale()(state),
   token: makeSelectHasUser()(state),
 })
