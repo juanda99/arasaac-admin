@@ -53,6 +53,7 @@ class PictogramsView extends React.PureComponent {
     // if (searchText && !searchResults) {
     //   this.props.requestPictograms(locale, searchText)
     // }
+    console.log(`LastUpdated: ${lastUpdated}`)
     this.props.requestNewPictograms(locale, lastUpdated)
     this.props.requestAutocomplete(locale)
   }

@@ -6,6 +6,7 @@ import { createStore, applyMiddleware, compose } from 'redux'
 import { fromJS } from 'immutable'
 import { routerMiddleware } from 'connected-react-router/immutable'
 import { persistStore, autoRehydrate } from 'redux-persist-immutable'
+import localForage from 'localforage'
 import { REHYDRATE } from 'redux-persist/constants'
 import createActionBuffer from 'redux-action-buffer'
 import createSagaMiddleware from 'redux-saga'
@@ -53,9 +54,7 @@ export default function configureStore(initialState = {}, history) {
       }
 
       // begin periodically persisting the store
-      persistStore(store, { blacklist: ['router', 'loadingBar', /* 'pictogramsView', */ 'usersView'] }, () =>
-        resolve(store),
-      )
+      persistStore(store, { blacklist: ['router', 'loadingBar'], storage: localForage }, () => resolve(store))
     } catch (e) {
       reject(e)
     }
