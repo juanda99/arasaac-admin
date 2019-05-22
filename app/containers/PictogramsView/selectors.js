@@ -38,7 +38,7 @@ export const makePictogramByIdSelector = () =>
     makePictogramsSelector(),
     makeSelectIdPictogram(),
     // eslint-disable-next-line no-underscore-dangle
-    (substate, idPictogram) => substate[idPictogram],
+    (substate, idPictogram) => substate.get(idPictogram),
   )
 
 export const makePictogramsListSelector = () =>

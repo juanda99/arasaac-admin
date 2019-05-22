@@ -10,7 +10,7 @@ import usersView from 'containers/UsersView/reducer'
 import theme from 'containers/ThemeSelector/reducer'
 import { loadingBarReducer } from 'react-redux-loading-bar'
 import auth from 'containers/App/reducer'
-// import pictogramsViewReducer from 'containers/PictogramsView/reducer'
+import pictogramsViewReducer from 'containers/PictogramsView/reducer'
 
 /**
  * Merges the main reducer with the router state and dynamically injected reducers
@@ -22,7 +22,7 @@ export default function createReducer(injectedReducers = {}) {
     loadingBar: loadingBarReducer,
     auth,
     usersView,
-    // pictogramsView: pictogramsViewReducer,
+    pictogramsView: pictogramsViewReducer,
     ...injectedReducers,
   })
 

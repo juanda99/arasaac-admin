@@ -8,6 +8,8 @@ import injectReducer from 'utils/injectReducer'
 import injectSaga from 'utils/injectSaga'
 import { makeSelectHasUser } from 'containers/UsersView/selectors'
 import { makeSelectLocale } from 'containers/LanguageProvider/selectors'
+import View from 'components/View'
+import Pictogram from 'components/Pictogram'
 import { TreeSelect } from 'antd/lib'
 import 'antd/dist/antd.css'
 import treeData from './treeData.js'
@@ -41,9 +43,12 @@ class PictogramView extends React.PureComponent {
   }
 
   render() {
+    const { selectedPictogram, locale } = this.props
+    console.log(`Selected pictogram: ${selectedPictogram}`)
     return (
-      <React.Fragment>
+      <View>
         <h2>Categorías pictograma</h2>
+        <Pictogram pictogram={selectedPictogram} locale={locale} />
         <TreeSelect
           style={{ width: '100%' }}
           value={this.state.value}
@@ -54,16 +59,13 @@ class PictogramView extends React.PureComponent {
           onChange={this.onChange}
           multiple
         />
-      </React.Fragment>
+      </View>
     )
   }
 }
 
 PictogramView.propTypes = {
   idPictogram: PropTypes.string.isRequired,
-  classes: PropTypes.object.isRequired,
-  width: PropTypes.string.isRequired,
-  keywords: PropTypes.arrayOf(PropTypes.string),
   requestPictogram: PropTypes.func.isRequired,
   selectedPictogram: PropTypes.object,
   searchText: PropTypes.string,
