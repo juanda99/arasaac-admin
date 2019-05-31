@@ -38,4 +38,12 @@ export default defineMessages({
     id: 'arasaacadmin.components.Sidebar.menu.catalogs',
     defaultMessage: 'Catalogs',
   },
+  keywords: {
+    id: 'arasaacadmin.components.Sidebar.menu.keywords',
+    defaultMessage: 'Search keywords',
+  },
+  categories: {
+    id: 'arasaacadmin.components.Sidebar.menu.categories',
+    defaultMessage: 'Categories',
+  },
 })

@@ -5,7 +5,9 @@ import { FormattedMessage } from 'react-intl'
 import PictogramUploadIcon from '@material-ui/icons/AddPhotoAlternate'
 import PictogramsIcon from '@material-ui/icons/Collections'
 import CatalogsIcon from '@material-ui/icons/PhotoLibrary'
-import TagsIcon from '@material-ui/icons/Style'
+import TagsIcon from '@material-ui/icons/PhotoAlbum'
+import CategoriesIcon from '@material-ui/icons/Style'
+import KeywordsIcon from '@material-ui/icons/ImageSearch'
 import UsersIcon from '@material-ui/icons/People'
 import NewsIcon from '@material-ui/icons/Chat'
 import CreateIcon from '@material-ui/icons/Create'
@@ -16,6 +18,8 @@ import News from 'containers/News/Loadable'
 import AddNews from 'containers/AddNews/Loadable'
 import PictogramsView from 'containers/PictogramsView/'
 import SigninView from 'containers/SigninView/'
+import CategoriesView from 'containers/CategoriesView/'
+import KeywordsView from 'containers/KeywordsView/'
 import PermissionsErrorView from 'containers/PermissionsErrorView/Loadable'
 import CatalogsView from 'containers/CatalogsView/Loadable'
 import AddPictograms from 'containers/AddPictograms/Loadable'
@@ -61,6 +65,18 @@ const sidebarRoutes = [
         title: <FormattedMessage {...messages.tagPictograms} />,
         icon: TagsIcon,
         component: PictogramsView,
+      },
+      {
+        path: '/pictograms/categories',
+        title: <FormattedMessage {...messages.categories} />,
+        icon: CategoriesIcon,
+        component: CategoriesView,
+      },
+      {
+        path: '/pictograms/keywords',
+        title: <FormattedMessage {...messages.keywords} />,
+        icon: KeywordsIcon,
+        component: KeywordsView,
       },
       {
         path: '/catalogs/',
