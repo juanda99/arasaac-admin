@@ -20,57 +20,22 @@ import messages from './messages'
 /* eslint-disable react/prefer-stateless-function */
 
 const treeData = {
-  // need root so jsonpath works ok for first depth keys
-  _root: [
-    {
-      title: 'Alimentación',
-      key: 'alimentacion',
-      children: [
-        {
-          title: 'Pollería',
-          key: 'polleria',
-          children: [
-            { title: 'Pechugas', key: 'pechugas' },
-            { title: 'Alitas de pollo', key: 'alitas' },
-            { title: 'Pollo al ast', key: 'pollo' },
-          ],
+  panaderia: {
+    title: 'Panadería',
+    key: 'panaderia',
+    children: {
+      pan: {
+        title: 'Tipos de pan',
+        key: 'pan',
+        children: {
+          hogaza: { title: 'Hogaza', key: 'hogaza' },
+          baguette: { title: 'Baguette', key: 'baguette' },
         },
-        {
-          title: 'Verdulería',
-          key: 'verduleria',
-          children: [
-            { title: 'Borraja', key: 'borraja' },
-            { title: 'Lechuga', key: 'lechuga' },
-            {
-              title: 'Tomates',
-              key: 'tomate',
-              children: [
-                { title: 'tomate de barbastro', key: 'tombarbastro' },
-                { title: 'Tomate negro', key: 'tomatenegro' },
-              ],
-            },
-          ],
-        },
-        {
-          title: 'Supermercado',
-          key: 'supermercado',
-        },
-      ],
+      },
+      leche: { title: 'Leche', key: 'leche' },
+      magdalenas: { title: 'Magdalenas', key: 'magdalenas' },
     },
-    {
-      title: 'Panadería',
-      key: 'panaderia',
-      children: [
-        { title: 'Pan', key: 'pan' },
-        { title: 'Magdalenas', key: 'madalenas' },
-        { title: 'Leche', key: 'leche' },
-      ],
-    },
-    {
-      title: 'Papelería',
-      key: 'papelería',
-    },
-  ],
+  },
 }
 
 export default class CategoriesView extends React.PureComponent {
@@ -87,34 +52,32 @@ export default class CategoriesView extends React.PureComponent {
   render() {
     const { selectedKeys } = this.state
     const category = selectedKeys[0] || ''
-    let slicedTreeData = treeData._root
-    let categoryPath = ''
-    if (category) {
-      const paths = jp.paths(treeData, `$..*[?(@.key=="${category}")]`)
-      categoryPath = paths[0].reduce((path, itemPath) => {
-        if (itemPath === '$' || itemPath === '_root') {
-          return ''
-        }
-        const partialPath = itemPath === 'children' ? path : `${path} / ${slicedTreeData[itemPath].title}`
-        slicedTreeData = slicedTreeData[itemPath]
-        return partialPath
-      })
-    }
-    console.log('*******************************')
-    console.log(categoryPath)
-    console.log(slicedTreeData)
+    const data = category ? jp.value(treeData, `$..${category}`) : {}
+    // const slicedTreeData = treeData._root
+    // const categoryPath = ''
+    // if (category) {
+    //   const paths = jp.paths(treeData, `$..*[?(@.key=="${category}")]`)
+    //   categoryPath = paths[0].reduce((path, itemPath) => {
+    //     if (itemPath === '$' || itemPath === '_root') {
+    //       return ''
+    //     }
+    //     const partialPath = itemPath === 'children' ? path : `${path} / ${slicedTreeData[itemPath].title}`
+    //     slicedTreeData = slicedTreeData[itemPath]
+    //     return partialPath
+    //   })
+    // }
     return (
-      <Grid container spacing={3}>
+      <Grid container>
         <Grid item xs={12}>
           <h1>
             <FormattedMessage {...messages.header} />
           </h1>
         </Grid>
         <Grid item xs={12} sm={4}>
-          <Tree data={treeData._root} onSelect={this.handleSelect} selectedKeys={selectedKeys} />
+          <Tree data={treeData} onSelect={this.handleSelect} selectedKeys={selectedKeys} />
         </Grid>
         <Grid item xs={12} sm={4}>
-          {selectedKeys && <CategoryEditor data={slicedTreeData} />}
+          {selectedKeys && <CategoryEditor data={data} />}
         </Grid>
       </Grid>
     )

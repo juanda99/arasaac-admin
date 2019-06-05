@@ -38,15 +38,15 @@ export class Tree extends Component {
   }
 
   renderTreeNodes = data =>
-    data.map(item => {
-      if (item.children) {
+    Object.keys(data).map(item => {
+      if (data[item].children) {
         return (
-          <TreeNode title={item.title} key={item.key} dataRef={item}>
-            {this.renderTreeNodes(item.children)}
+          <TreeNode title={data[item].title} key={item} dataRef={item}>
+            {this.renderTreeNodes(data[item].children)}
           </TreeNode>
         )
       }
-      return <TreeNode {...item} />
+      return <TreeNode {...data[item]} />
     })
 
   render() {
