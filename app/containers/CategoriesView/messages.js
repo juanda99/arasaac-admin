@@ -5,11 +5,11 @@
  */
 import { defineMessages } from 'react-intl'
 
-export const scope = 'app.containers.AddPictograms'
+export const scope = 'app.containers.Categories'
 
 export default defineMessages({
   header: {
     id: `${scope}.header`,
-    defaultMessage: 'Categorías',
+    defaultMessage: 'Categories',
   },
 })
