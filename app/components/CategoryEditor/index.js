@@ -1,34 +1,36 @@
 import React, { Component } from 'react'
-import { render } from 'react-dom'
 import PropTypes from 'prop-types'
+import Paper from '@material-ui/core/Paper'
+import AddIcon from '@material-ui/icons/Add'
+import DeleteIcon from '@material-ui/icons/Delete'
+import Button from '@material-ui/core/Button'
 import { Form, Field } from 'react-final-form'
 import arrayMutators from 'final-form-arrays'
 import { FieldArray } from 'react-final-form-arrays'
-
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
-
-const onSubmit = async values => {
-  await sleep(300)
-  window.alert(JSON.stringify(values, 0, 2))
-}
+import { TextField } from 'final-form-material-ui'
 
 // eslint-disable-next-line react/prefer-stateless-function
 export class Tree extends Component {
   static propTypes = {
     data: PropTypes.object.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+  }
+
+  handleSubmit = values => {
+    window.alert(JSON.stringify(values, 0, 2))
+    this.props.onSubmit(values)
   }
 
   render() {
     const { data } = this.props
-    console.log(data)
     return (
       <div>
-        <h2>{data.title}</h2>
         <Form
-          onSubmit={onSubmit}
+          onSubmit={this.handleSubmit}
           mutators={{
             ...arrayMutators,
           }}
+          initialValues={data}
           render={({
             handleSubmit,
             form: {
@@ -39,43 +41,63 @@ export class Tree extends Component {
             submitting,
             values,
           }) => (
-            <form onSubmit={handleSubmit}>
-              <div>
-                <label>Company</label>
-                <Field name="company" component="input" />
-              </div>
-              <div className="buttons">
-                <button type="button" onClick={() => push('customers', undefined)}>
-                  Add Customer
-                </button>
-                <button type="button" onClick={() => pop('customers')}>
-                  Remove Customer
-                </button>
-              </div>
-              <FieldArray name="customers">
-                {({ fields }) =>
-                  fields.map((name, index) => (
-                    <div key={name}>
-                      <label>Cust. #{index + 1}</label>
-                      <Field name={`${name}.firstName`} component="input" placeholder="First Name" />
-                      <Field name={`${name}.lastName`} component="input" placeholder="Last Name" />
-                      <span onClick={() => fields.remove(index)} style={{ cursor: 'pointer' }}>
-                        ❌
-                      </span>
-                    </div>
-                  ))
-                }
-              </FieldArray>
+            <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+              <Paper style={{ padding: 32 }}>
+                <h2 style={{ marginBottom: 20 }}>Category: {data.tag}</h2>
+                <div>
+                  <Field fullWidth name="tag" component={TextField} type="text" label="Nombre categoría" />
+                </div>
+                {values.keywords.length ? (
+                  ''
+                ) : (
+                  <div className="buttons">
+                    <Button
+                      variant="contained"
+                      style={{ marginTop: 30 }}
+                      color="primary"
+                      onClick={() => push('keywords', undefined)}
+                    >
+                      Añadir categoría
+                    </Button>
+                  </div>
+                )}
+                <h2 style={{ marginTop: 40, marginBottom: 20 }}>List of keywords</h2>
+                <FieldArray name="keywords">
+                  {({ fields }) =>
+                    fields.map((keyword, index) => (
+                      <div key={keyword}>
+                        <Field name={keyword} component={TextField} type="text" label={`Keyword #${index + 1}`} />
+                        <Button
+                          onClick={() => push('keywords', undefined)}
+                          variant="fab"
+                          mini
+                          style={{ marginRight: 10 }}
+                          color="primary"
+                          aria-label="Add"
+                        >
+                          <AddIcon />
+                        </Button>
+                        <Button
+                          onClick={() => fields.remove(index)}
+                          variant="fab"
+                          mini
+                          color="primary"
+                          aria-label="Add"
+                        >
+                          <DeleteIcon />
+                        </Button>
+                      </div>
+                    ))
+                  }
+                </FieldArray>
 
-              <div className="buttons">
-                <button type="submit" disabled={submitting || pristine}>
-                  Submit
-                </button>
-                <button type="button" onClick={form.reset} disabled={submitting || pristine}>
-                  Reset
-                </button>
-              </div>
-              <pre>{JSON.stringify(values, 0, 2)}</pre>
+                <div style={{ marginTop: 16 }}>
+                  <Button variant="contained" color="primary" type="submit" disabled={submitting || pristine}>
+                    Submit
+                  </Button>
+                </div>
+                <pre>{JSON.stringify(values, 0, 2)}</pre>
+              </Paper>
             </form>
           )}
         />

@@ -19,40 +19,39 @@ import messages from './messages'
 
 /* eslint-disable react/prefer-stateless-function */
 
-const treeData = {
+const categories = {
   panaderia: {
-    title: 'Panadería',
-    key: 'panaderia',
+    tag: 'Panadería',
     children: {
       pan: {
-        title: 'Tipos de pan',
-        key: 'pan',
+        tag: 'Tipos de pan',
+        keywords: ['Tipos de pan', 'Barras de pan'],
         children: {
-          hogaza: { title: 'Hogaza', key: 'hogaza' },
-          baguette: { title: 'Baguette', key: 'baguette' },
+          hogaza: { tag: 'Hogaza', keywords: ['Pan de hogaza', 'Pan de pueblo'] },
+          baguette: { tag: 'Baguette', keywords: ['Pan de baguette', 'Baguette'] },
         },
       },
-      leche: { title: 'Leche', key: 'leche' },
-      magdalenas: { title: 'Magdalenas', key: 'magdalenas' },
+      leche: { tag: 'Leche', keywords: ['Leche'] },
+      magdalenas: { tag: 'Magdalenas', keywords: ['Magdalenas', 'Madalenas'] },
     },
   },
 }
 
 export default class CategoriesView extends React.PureComponent {
   state = {
-    // selected Category (just one)
-    selectedKeys: [],
+    category: '',
   }
 
   handleSelect = data => {
-    const { selectedKeys } = data
-    this.setState({ selectedKeys })
+    const category = data.selectedKeys[0]
+    this.setState({ category })
   }
 
   render() {
-    const { selectedKeys } = this.state
-    const category = selectedKeys[0] || ''
-    const data = category ? jp.value(treeData, `$..${category}`) : {}
+    const { category } = this.state
+
+    const data = category ? jp.value(categories, `$..${category}`) : {}
+    console.log(JSON.stringify(data, null, 2))
     // const slicedTreeData = treeData._root
     // const categoryPath = ''
     // if (category) {
@@ -73,11 +72,11 @@ export default class CategoriesView extends React.PureComponent {
             <FormattedMessage {...messages.header} />
           </h1>
         </Grid>
-        <Grid item xs={12} sm={4}>
-          <Tree data={treeData} onSelect={this.handleSelect} selectedKeys={selectedKeys} />
+        <Grid item xs={12} sm={3}>
+          <Tree data={categories} onSelect={this.handleSelect} selectedKeys={category} />
         </Grid>
-        <Grid item xs={12} sm={4}>
-          {selectedKeys && <CategoryEditor data={data} />}
+        <Grid item xs={12} sm={8}>
+          {category && <CategoryEditor data={data} />}
         </Grid>
       </Grid>
     )

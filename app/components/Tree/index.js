@@ -9,7 +9,7 @@ export class Tree extends Component {
   static propTypes = {
     data: PropTypes.arrayOf(
       PropTypes.shape({
-        title: PropTypes.string.isRequired,
+        tag: PropTypes.string.isRequired,
         key: PropTypes.string.isRequired,
         children: PropTypes.array,
       }),
@@ -41,12 +41,12 @@ export class Tree extends Component {
     Object.keys(data).map(item => {
       if (data[item].children) {
         return (
-          <TreeNode title={data[item].title} key={item} dataRef={item}>
+          <TreeNode title={data[item].tag} key={item} dataRef={item}>
             {this.renderTreeNodes(data[item].children)}
           </TreeNode>
         )
       }
-      return <TreeNode {...data[item]} />
+      return <TreeNode title={data[item].tag} key={item} dataRef={item} />
     })
 
   render() {
