@@ -15,6 +15,7 @@ import Tree from 'components/Tree'
 import Grid from '@material-ui/core/Grid'
 import CategoryEditor from 'components/CategoryEditor'
 import jp from 'jsonpath'
+import List from 'components/List'
 import messages from './messages'
 
 /* eslint-disable react/prefer-stateless-function */
@@ -77,6 +78,10 @@ export default class CategoriesView extends React.PureComponent {
         </Grid>
         <Grid item xs={12} sm={8}>
           {category && <CategoryEditor data={data} />}
+        </Grid>
+
+        <Grid item xs={12}>
+          <List data={categories} />,
         </Grid>
       </Grid>
     )
