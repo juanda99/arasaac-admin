@@ -10,7 +10,7 @@ import { FieldArray } from 'react-final-form-arrays'
 import { TextField } from 'final-form-material-ui'
 
 // eslint-disable-next-line react/prefer-stateless-function
-export class Tree extends Component {
+export class CategoryForm extends Component {
   static propTypes = {
     data: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -42,14 +42,11 @@ export class Tree extends Component {
             values,
           }) => (
             <form onSubmit={handleSubmit} style={{ width: '100%' }}>
-              <Paper style={{ padding: 32 }}>
-                <h2 style={{ marginBottom: 20 }}>Category: {data.tag}</h2>
+              <Paper style={{ padding: 32, margin: 20 }}>
                 <div>
                   <Field fullWidth name="tag" component={TextField} type="text" label="Nombre categoría" />
                 </div>
-                {values.keywords.length ? (
-                  ''
-                ) : (
+                {(!values.keywords || !values.keywords.length) && (
                   <div className="buttons">
                     <Button
                       variant="contained"
@@ -106,4 +103,8 @@ export class Tree extends Component {
   }
 }
 
-export default Tree
+CategoryForm.defaultProps = {
+  data: {},
+}
+
+export default CategoryForm

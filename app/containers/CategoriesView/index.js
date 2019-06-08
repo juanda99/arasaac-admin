@@ -11,11 +11,9 @@
 
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import Tree from 'components/Tree'
-import Grid from '@material-ui/core/Grid'
-import CategoryEditor from 'components/CategoryEditor'
 import jp from 'jsonpath'
 import List from 'components/List'
+import { removeKeys } from 'utils'
 import messages from './messages'
 
 /* eslint-disable react/prefer-stateless-function */
@@ -43,47 +41,50 @@ export default class CategoriesView extends React.PureComponent {
     category: '',
   }
 
-  handleSelect = data => {
-    const category = data.selectedKeys[0]
+  handleSelect = category => {
+    // const category = data.selectedKeys[0]
     this.setState({ category })
+  }
+
+  handleDelete = item => removeKeys(categories, item)
+  // TODO: remove also from relationsships!!!
+
+  handleAdd = (item, value) => {
+    console.log(`*****${item}`)
+    const path = jp.paths(categories, `$..${item}`)[0]
+    path.shift()
+    console.log(path)
+    let aux = categories
+    path.forEach(key => {
+      aux = aux[key]
+    })
+    aux.prueba = { tag: 'XXXXX' }
+  }
+
+  removeKey = (obj, item) => {
+    if (obj[item]) {
+      delete obj[item]
+      return true
+    }
+    return Object.keys(obj).some(key => this.removeKey(obj[key], item))
   }
 
   render() {
     const { category } = this.state
-
-    const data = category ? jp.value(categories, `$..${category}`) : {}
-    console.log(JSON.stringify(data, null, 2))
-    // const slicedTreeData = treeData._root
-    // const categoryPath = ''
-    // if (category) {
-    //   const paths = jp.paths(treeData, `$..*[?(@.key=="${category}")]`)
-    //   categoryPath = paths[0].reduce((path, itemPath) => {
-    //     if (itemPath === '$' || itemPath === '_root') {
-    //       return ''
-    //     }
-    //     const partialPath = itemPath === 'children' ? path : `${path} / ${slicedTreeData[itemPath].title}`
-    //     slicedTreeData = slicedTreeData[itemPath]
-    //     return partialPath
-    //   })
-    // }
+    // const data = category ? jp.value(categories, `$..${category}`) : {}
     return (
-      <Grid container>
-        <Grid item xs={12}>
-          <h1>
-            <FormattedMessage {...messages.header} />
-          </h1>
-        </Grid>
-        <Grid item xs={12} sm={3}>
-          <Tree data={categories} onSelect={this.handleSelect} selectedKeys={category} />
-        </Grid>
-        <Grid item xs={12} sm={8}>
-          {category && <CategoryEditor data={data} />}
-        </Grid>
-
-        <Grid item xs={12}>
-          <List data={categories} />,
-        </Grid>
-      </Grid>
+      <div>
+        <h1>
+          <FormattedMessage {...messages.header} />
+        </h1>
+        <List
+          data={categories}
+          onSelect={this.handleSelect}
+          category={category}
+          onDelete={this.handleDelete}
+          onAdd={this.handleAdd}
+        />
+      </div>
     )
   }
 }
