@@ -14,11 +14,12 @@ export class CategoryForm extends Component {
   static propTypes = {
     data: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired,
+    item: PropTypes.string,
   }
 
   handleSubmit = values => {
     window.alert(JSON.stringify(values, 0, 2))
-    this.props.onSubmit(values)
+    this.props.onSubmit(values, this.props.item)
   }
 
   render() {

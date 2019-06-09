@@ -48,8 +48,6 @@ export const makePictogramsListSelector = () =>
     return pictograms.valueSeq().toArray()
   })
 
-// export const makeArrayUsersSelector = () => createSelector(makeUsersSelector(), users => Object.values(users))
-
 export const makeLastUpdatedSelector = () =>
   createSelector(
     selectPictogramsViewDomain,

@@ -120,6 +120,7 @@ class ListTree extends Component {
         return (
           <>
             <ListItem
+              key={item}
               button
               selected={this.props.category === item}
               style={{ paddingLeft: depth * 30 }}
@@ -128,6 +129,7 @@ class ListTree extends Component {
               onMouseLeave={event => this.handleIconsVisibility(event, item)}
             >
               <ListItemText
+                key={`t${item}`}
                 primary={
                   <Badge
                     color="secondary"
@@ -146,6 +148,7 @@ class ListTree extends Component {
 
             <Collapse in={!!this.state.open[item]} timeout="auto" unmountOnExit>
               <List
+                key={`c${item}`}
                 component="div"
                 disablePadding
                 onMouseEnter={event => this.handleIconsVisibility(event, item)}
@@ -160,6 +163,7 @@ class ListTree extends Component {
       return (
         <>
           <ListItem
+            key={item}
             button
             selected={this.props.category === item}
             onClick={() => this.handleClick(event, item)}
@@ -167,7 +171,7 @@ class ListTree extends Component {
             onMouseEnter={event => this.handleIconsVisibility(event, item)}
             onMouseLeave={event => this.handleIconsVisibility(event, item)}
           >
-            <ListItemText primary={data[item].tag} />
+            <ListItemText key={`t${item}`} primary={data[item].tag} />
             {this.renderActionIcons(item)}
           </ListItem>
           {this.state.openForm === item && this.renderForm(this.state.editItem)}

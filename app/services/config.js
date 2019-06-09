@@ -30,6 +30,18 @@ export const login = {
   }),
 }
 
+export const categories = {
+  // eslint-disable-next-line no-underscore-dangle
+  url: () => `${PRIVATE_API_ROOT}/categories`,
+  options: categoriesData => ({
+    config: {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(categoriesData),
+    },
+  }),
+}
+
 export const generateCatalog = {
   url: language => `${PRIVATE_API_ROOT}/catalogs/${language}`,
   options: () => ({

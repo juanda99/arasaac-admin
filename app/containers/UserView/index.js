@@ -22,8 +22,6 @@ class UserView extends React.PureComponent {
     const { requestUser, idUser, selectedUser, token } = this.props
     // maybe in the saga we can decide to get it from state
     // and not from server
-    console.log(`SelectedUser: ${selectedUser}`)
-    console.log(`idUser: ${idUser}`)
     if (!selectedUser) requestUser(token, idUser)
   }
 
@@ -37,7 +35,6 @@ class UserView extends React.PureComponent {
 
   render() {
     const { selectedUser, locale } = this.props
-    console.log(`SelectedUser 2: ${selectedUser}`)
     return (
       <View>
         {selectedUser ? (
