@@ -15,4 +15,7 @@ export const makeCategoriesSelectorByLanguage = language =>
   createSelector(makeCategoriesSelector(), substate => substate[language])
 
 export const makeLastUpdatedSelectorByLocale = () =>
-  createSelector(makeCategoriesSelector(), makeSelectLocale(), (substate, locale) => substate[locale].lastUpdated || '')
+  createSelector(makeCategoriesSelector(), makeSelectLocale(), (substate, locale) => {
+    console.log(substate[locale])
+    return substate[locale].lastUpdated || ''
+  })

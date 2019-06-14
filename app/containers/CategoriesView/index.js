@@ -30,8 +30,8 @@ import saga from './sagas'
 
 // inserted in database:
 /*
-{ language: 'es',
-  updated: ISODate("2019-09-09T01:11:18.965Z"),
+{ locale: 'es',
+  lastUpdated: ISODate("2019-09-09T01:11:18.965Z"),
   data: {
       panaderia: {
         tag: 'Panadería',
@@ -77,7 +77,7 @@ class CategoriesView extends React.PureComponent {
 
   componentDidMount() {
     const { locale, lastUpdated } = this.props
-    console.log(`LastUpdated: ${lastUpdated}`)
+    console.log(`LastUpdatedddddd: ${lastUpdated}`)
     this.props.requestCategories(locale, lastUpdated)
   }
 
