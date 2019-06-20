@@ -14,7 +14,7 @@ import { FormattedMessage } from 'react-intl'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
-import List from 'components/List'
+import ListTree from 'components/ListTree'
 import injectReducer from 'utils/injectReducer'
 import { DAEMON } from 'utils/constants'
 import injectSaga from 'utils/injectSaga'
@@ -77,7 +77,6 @@ class CategoriesView extends React.PureComponent {
 
   componentDidMount() {
     const { locale, lastUpdated } = this.props
-    console.log(`LastUpdatedddddd: ${lastUpdated}`)
     this.props.requestCategories(locale, lastUpdated)
   }
 
@@ -106,14 +105,15 @@ class CategoriesView extends React.PureComponent {
 
   render() {
     const { category } = this.state
+    const { data } = this.props.categories
     // const data = category ? jp.value(categories, `$..${category}`) : {}
     return (
       <div>
         <h1>
           <FormattedMessage {...messages.header} />
         </h1>
-        <List
-          data={categories}
+        <ListTree
+          data={data}
           onSelect={this.handleSelect}
           category={category}
           onDelete={this.handleDelete}

@@ -49,7 +49,6 @@ class ListTree extends Component {
   }
 
   handleClick = (event, item) => {
-    console.log('clickkkkkkk')
     const { onSelect } = this.props
     // if was selected, then deselect:
     onSelect(item)
@@ -67,9 +66,6 @@ class ListTree extends Component {
   }
 
   handleAdd = (event, item) => {
-    console.log('executed!!!!!')
-    console.log(this.state)
-    console.log(item)
     event.stopPropagation()
     this.setState({ openForm: item, editItem: null })
     // this.props.onAdd(item)
@@ -115,7 +111,7 @@ class ListTree extends Component {
     Object.keys(data).map(item => {
       // calculate how deep is it
       const depth = jp.paths(this.props.data, `$..${item}`)[0].length / 2 - 1
-
+      console.log(item)
       if (data[item].children) {
         return (
           <>
@@ -180,6 +176,7 @@ class ListTree extends Component {
     })
 
   render() {
+    console.log('rendered!!!!!')
     // console.log(JSON.stringify(this.state, null, 2))
     return <List component="nav">{this.renderTreeNodes(this.props.data)}</List>
   }
