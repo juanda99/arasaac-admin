@@ -76,6 +76,11 @@ class ListTree extends Component {
     this.props.onDelete(item)
   }
 
+  handleUpdate = (event, item) => {
+    this.props.onUpdate(event, item)
+    this.setState({ openForm: '', editItem: null })
+  }
+
   renderActionIcons = item =>
     this.state.visibilityIcons === item ? (
       <>
@@ -95,15 +100,10 @@ class ListTree extends Component {
 
   renderForm = item => {
     if (item) {
-      const { data, onUpdate } = this.props
+      const { data } = this.props
       // calculate its path and its content for CategoryForm:
-      const path = jp.paths(data, `$..${item}`)[0]
-      path.shift()
-      let subData = data
-      path.forEach(key => {
-        subData = subData[key]
-      })
-      return <CategoryForm data={subData} item={item} onSubmit={onUpdate} />
+      const subData = jp.value(data, `$..${item}`)
+      return <CategoryForm data={subData} item={item} onSubmit={this.handleUpdate} />
     }
     return <CategoryForm />
   }
