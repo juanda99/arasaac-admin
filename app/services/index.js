@@ -42,8 +42,7 @@ const api = {
   GENERATE_CATALOG: ({ language }) => callApi(generateCatalog.url(language), generateCatalog.options()),
   GENERATE_CATALOGS: () => callApi(generateCatalogs.url, generateCatalogs.options()),
   CATEGORIES_REQUEST: ({ locale, updated }) => callApi(`${PRIVATE_API_ROOT}/categories/${locale}/${updated}`),
-  CATEGORIES_UPDATE_REQUEST: ({ token, categoriesData }) =>
-    callApi(categories.url, categories.options(categoriesData), token),
+  CATEGORIES_UPDATE_REQUEST: ({ token, data }) => callApi(categories.url, categories.options(data), token),
 }
 
 export default api

@@ -52,24 +52,6 @@ import saga from './sagas'
 }
 */
 
-// const categories = {
-//   panaderia: {
-//     tag: 'Panadería',
-//     children: {
-//       pan: {
-//         tag: 'Tipos de pan',
-//         keywords: ['Tipos de pan', 'Barras de pan'],
-//         children: {
-//           hogaza: { tag: 'Hogaza', keywords: ['Pan de hogaza', 'Pan de pueblo'] },
-//           baguette: { tag: 'Baguette', keywords: ['Pan de baguette', 'Baguette'] },
-//         },
-//       },
-//       leche: { tag: 'Leche', keywords: ['Leche'] },
-//       magdalenas: { tag: 'Magdalenas', keywords: ['Magdalenas', 'Madalenas'] },
-//     },
-//   },
-// }
-
 class CategoriesView extends React.PureComponent {
   state = {
     category: '',
@@ -77,6 +59,8 @@ class CategoriesView extends React.PureComponent {
 
   componentDidMount() {
     const { locale, lastUpdated } = this.props
+    console.log('kkkkkkkkk')
+    console.log(lastUpdated)
     this.props.requestCategories(locale, lastUpdated)
   }
 
@@ -93,9 +77,9 @@ class CategoriesView extends React.PureComponent {
     requestCategoriesAdd(locale, lastUpdated, parentItem, data)
   }
 
-  handleUpdate = (item, data) => {
+  handleUpdate = (data, item) => {
     const { locale, lastUpdated, requestCategoriesUpdate } = this.props
-    requestCategoriesUpdate(locale, lastUpdated, item, data)
+    requestCategoriesUpdate('shouldBeToken', locale, lastUpdated, item, data)
   }
 
   handleDelete = item => {
@@ -112,13 +96,16 @@ class CategoriesView extends React.PureComponent {
         <h1>
           <FormattedMessage {...messages.header} />
         </h1>
-        <ListTree
-          data={data}
-          onSelect={this.handleSelect}
-          category={category}
-          onDelete={this.handleDelete}
-          onAdd={this.handleAdd}
-        />
+        {data && (
+          <ListTree
+            data={data}
+            onSelect={this.handleSelect}
+            category={category}
+            onDelete={this.handleDelete}
+            onUpdate={this.handleUpdate}
+            onAdd={this.handleAdd}
+          />
+        )}
       </div>
     )
   }
@@ -135,8 +122,8 @@ const mapDispatchToProps = dispatch => ({
   requestCategories: (locale, lastUpdated) => {
     dispatch(categories.request(locale, lastUpdated))
   },
-  requestCategoriesUpdate: (locale, lastUpdated, item, data) => {
-    dispatch(categoriesUpdate.request(locale, lastUpdated, item, data))
+  requestCategoriesUpdate: (token, locale, lastUpdated, item, data) => {
+    dispatch(categoriesUpdate.request(token, locale, lastUpdated, item, data))
   },
   requestCategoriesDelete: (locale, lastUpdated, item) => {
     dispatch(categoriesDelete.request(locale, lastUpdated, item))

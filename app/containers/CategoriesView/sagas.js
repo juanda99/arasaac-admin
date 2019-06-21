@@ -75,14 +75,9 @@ function* categoriesUpdateGetData(action) {
     yield put(showLoading())
     /* we do all the process in the client, send computed categories to the server */
     const allCategories = yield select(makeCategoriesSelectorByLanguage(locale))
-    const path = jp.paths(allCategories, `$..${item}`)[0]
-    path.shift()
-    let aux = allCategories
-    path.forEach(key => {
-      aux = aux[key]
-    })
-    aux[item] = data
-    const response = yield call(api[action.type], { ...action.payload, data: allCategories })
+    jp.value(allCategories, `$..${item}`, data)
+    const categoriesData = { ...action.payload, data: allCategories }
+    const response = yield call(api[action.type], categoriesData)
     allCategories.lastUpdated = response.lastUpdated
     // we should get updatedTime and process it inside reducer
     yield put(categoriesUpdate.success(locale, allCategories))

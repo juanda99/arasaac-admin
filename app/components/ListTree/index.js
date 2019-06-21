@@ -46,6 +46,7 @@ class ListTree extends Component {
     category: PropTypes.string.isRequired,
     onDelete: PropTypes.func.isRequired,
     onAdd: PropTypes.func.isRequired,
+    onUpdate: PropTypes.func.isRequired,
   }
 
   handleClick = (event, item) => {
@@ -94,7 +95,7 @@ class ListTree extends Component {
 
   renderForm = item => {
     if (item) {
-      const { data } = this.props
+      const { data, onUpdate } = this.props
       // calculate its path and its content for CategoryForm:
       const path = jp.paths(data, `$..${item}`)[0]
       path.shift()
@@ -102,7 +103,7 @@ class ListTree extends Component {
       path.forEach(key => {
         subData = subData[key]
       })
-      return <CategoryForm data={subData} />
+      return <CategoryForm data={subData} item={item} onSubmit={onUpdate} />
     }
     return <CategoryForm />
   }
@@ -111,12 +112,10 @@ class ListTree extends Component {
     Object.keys(data).map(item => {
       // calculate how deep is it
       const depth = jp.paths(this.props.data, `$..${item}`)[0].length / 2 - 1
-      console.log(item)
       if (data[item].children) {
         return (
-          <>
+          <React.Fragment key={item}>
             <ListItem
-              key={item}
               button
               selected={this.props.category === item}
               style={{ paddingLeft: depth * 30 }}
@@ -125,7 +124,6 @@ class ListTree extends Component {
               onMouseLeave={event => this.handleIconsVisibility(event, item)}
             >
               <ListItemText
-                key={`t${item}`}
                 primary={
                   <Badge
                     color="secondary"
@@ -144,7 +142,6 @@ class ListTree extends Component {
 
             <Collapse in={!!this.state.open[item]} timeout="auto" unmountOnExit>
               <List
-                key={`c${item}`}
                 component="div"
                 disablePadding
                 onMouseEnter={event => this.handleIconsVisibility(event, item)}
@@ -153,13 +150,12 @@ class ListTree extends Component {
                 {this.renderTreeNodes(data[item].children)}
               </List>
             </Collapse>
-          </>
+          </React.Fragment>
         )
       }
       return (
-        <>
+        <React.Fragment key={item}>
           <ListItem
-            key={item}
             button
             selected={this.props.category === item}
             onClick={() => this.handleClick(event, item)}
@@ -167,17 +163,15 @@ class ListTree extends Component {
             onMouseEnter={event => this.handleIconsVisibility(event, item)}
             onMouseLeave={event => this.handleIconsVisibility(event, item)}
           >
-            <ListItemText key={`t${item}`} primary={data[item].tag} />
+            <ListItemText primary={data[item].tag} />
             {this.renderActionIcons(item)}
           </ListItem>
           {this.state.openForm === item && this.renderForm(this.state.editItem)}
-        </>
+        </React.Fragment>
       )
     })
 
   render() {
-    console.log('rendered!!!!!')
-    // console.log(JSON.stringify(this.state, null, 2))
     return <List component="nav">{this.renderTreeNodes(this.props.data)}</List>
   }
 }
