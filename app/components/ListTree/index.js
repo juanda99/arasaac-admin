@@ -36,8 +36,9 @@ class ListTree extends Component {
   state = {
     open: {},
     openForm: '',
+    action: '',
     visibilityIcons: '',
-    editItem: null, // so we can open same form for adding or editing items
+    targetItem: null, // so we can open same form for adding or editing items
   }
 
   static propTypes = {
@@ -61,36 +62,41 @@ class ListTree extends Component {
 
   handleIconsVisibility = (event, item) => this.setState({ visibilityIcons: item })
 
-  handleEdit = (event, item) => {
+  clickEditButton = (event, item) => {
     event.stopPropagation()
-    this.setState({ openForm: item, editItem: item })
+    this.setState({ openForm: item, targetItem: item, action: 'edit' })
   }
 
-  handleAdd = (event, item) => {
+  clickAddButton = (event, item) => {
     event.stopPropagation()
-    this.setState({ openForm: item, editItem: null })
+    this.setState({ openForm: item, targetItem: item, action: 'add' })
     // this.props.onAdd(item)
   }
 
-  handleDelete = item => {
+  clickDeleteButton = item => {
     this.props.onDelete(item)
   }
 
   handleUpdate = (event, item) => {
     this.props.onUpdate(event, item)
-    this.setState({ openForm: '', editItem: null })
+    this.setState({ openForm: '', targetItem: null })
+  }
+
+  handleAdd = (event, item) => {
+    this.props.onAdd(event, item)
+    this.setState({ openForm: '', targetItem: null })
   }
 
   renderActionIcons = item =>
     this.state.visibilityIcons === item ? (
       <>
-        <IconButton aria-label="Edit" onClick={event => this.handleEdit(event, item)}>
+        <IconButton aria-label="Edit" onClick={event => this.clickEditButton(event, item)}>
           <EditIcon />
         </IconButton>
-        <IconButton aria-label="Add" onClick={event => this.handleAdd(event, item)}>
+        <IconButton aria-label="Add" onClick={event => this.clickAddButton(event, item)}>
           <AddIcon />
         </IconButton>
-        <IconButton aria-label="Delete" onClick={() => this.handleDelete(item)}>
+        <IconButton aria-label="Delete" onClick={() => this.clickDeleteButton(item)}>
           <DeleteIcon />
         </IconButton>
       </>
@@ -99,13 +105,16 @@ class ListTree extends Component {
     )
 
   renderForm = item => {
-    if (item) {
-      const { data } = this.props
-      // calculate its path and its content for CategoryForm:
-      const subData = jp.value(data, `$..${item}`)
-      return <CategoryForm data={subData} item={item} onSubmit={this.handleUpdate} />
-    }
-    return <CategoryForm />
+    const { data } = this.props
+    // calculate its path and its content for CategoryForm:
+    const subData = jp.value(data, `$..${item}`)
+    return (
+      <CategoryForm
+        data={this.state.action === 'edit' ? subData : {}}
+        item={item}
+        onSubmit={this.state.action === 'edit' ? this.handleUpdate : this.handleAdd}
+      />
+    )
   }
 
   renderTreeNodes = data =>
@@ -138,7 +147,7 @@ class ListTree extends Component {
 
               {this.state.open[item] ? <ExpandLess /> : <ExpandMore />}
             </ListItem>
-            {this.state.openForm === item && this.renderForm(this.state.editItem)}
+            {this.state.openForm === item && this.renderForm(this.state.targetItem)}
 
             <Collapse in={!!this.state.open[item]} timeout="auto" unmountOnExit>
               <List
@@ -166,7 +175,7 @@ class ListTree extends Component {
             <ListItemText primary={data[item].tag} />
             {this.renderActionIcons(item)}
           </ListItem>
-          {this.state.openForm === item && this.renderForm(this.state.editItem)}
+          {this.state.openForm === item && this.renderForm(this.state.targetItem)}
         </React.Fragment>
       )
     })

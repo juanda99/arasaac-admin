@@ -1,18 +1,8 @@
-/*
- * HomePage
- *
- * This is the first thing users see of our App, at the '/' route
- *
- * NOTE: while this component should technically be a stateless functional
- * component (SFC), hot reloading does not currently support SFCs. If hot
- * reloading is not a necessity for you then you can refactor it and remove
- * the linting exception.
- */
-
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
+import View from 'components/View'
 import { withStyles } from '@material-ui/core/styles'
 import ListTree from 'components/ListTree'
 import injectReducer from 'utils/injectReducer'
@@ -72,14 +62,14 @@ class CategoriesView extends React.PureComponent {
   // handleDelete = item => removeKeys(categories, item)
   // TODO: remove also from relationsships!!!
 
-  handleAdd = (parentItem, data) => {
+  handleAdd = (data, parentItem) => {
     const { locale, lastUpdated, requestCategoriesAdd } = this.props
-    requestCategoriesAdd(locale, lastUpdated, parentItem, data)
+    requestCategoriesAdd('shouldBeToken', locale, lastUpdated, parentItem, data)
   }
 
   handleUpdate = (data, item) => {
-    const { locale, lastUpdated, requestCategoriesUpdate } = this.props
-    requestCategoriesUpdate('shouldBeToken', locale, lastUpdated, item, data)
+    const { locale, requestCategoriesUpdate } = this.props
+    requestCategoriesUpdate('shouldBeToken', locale, item, data)
   }
 
   handleDelete = item => {
@@ -92,7 +82,7 @@ class CategoriesView extends React.PureComponent {
     const { data } = this.props.categories
     // const data = category ? jp.value(categories, `$..${category}`) : {}
     return (
-      <div>
+      <View>
         <h1>
           <FormattedMessage {...messages.header} />
         </h1>
@@ -106,7 +96,7 @@ class CategoriesView extends React.PureComponent {
             onAdd={this.handleAdd}
           />
         )}
-      </div>
+      </View>
     )
   }
 }
@@ -122,14 +112,14 @@ const mapDispatchToProps = dispatch => ({
   requestCategories: (locale, lastUpdated) => {
     dispatch(categories.request(locale, lastUpdated))
   },
-  requestCategoriesUpdate: (token, locale, lastUpdated, item, data) => {
-    dispatch(categoriesUpdate.request(token, locale, lastUpdated, item, data))
+  requestCategoriesUpdate: (token, locale, item, data) => {
+    dispatch(categoriesUpdate.request(token, locale, item, data))
   },
-  requestCategoriesDelete: (locale, lastUpdated, item) => {
-    dispatch(categoriesDelete.request(locale, lastUpdated, item))
+  requestCategoriesDelete: (token, locale, lastUpdated, item) => {
+    dispatch(categoriesDelete.request(token, locale, lastUpdated, item))
   },
-  requestCategoriesAdd: (locale, lastUpdated, parentItem, data) => {
-    dispatch(categoriesAdd.request(locale, lastUpdated, parentItem, data))
+  requestCategoriesAdd: (token, locale, lastUpdated, parentItem, data) => {
+    dispatch(categoriesAdd.request(token, locale, lastUpdated, parentItem, data))
   },
 })
 

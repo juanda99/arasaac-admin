@@ -19,17 +19,12 @@ export class CategoryForm extends Component {
 
   handleSubmit = values => {
     const { item, onSubmit } = this.props
-    console.log('---------------------------------')
     window.alert(JSON.stringify(values, 0, 2))
-    console.log(item)
-    console.log(':::::::::::::::::::::::::')
     onSubmit(values, item)
   }
 
   render() {
-    const { data, item } = this.props
-    console.log(`Item: ${item}`)
-    console.log(`data: ${JSON.stringify(data, null, 2)}`)
+    const { data } = this.props
     return (
       <div>
         <Form

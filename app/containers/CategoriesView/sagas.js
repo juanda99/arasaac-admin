@@ -35,16 +35,18 @@ function* categoriesAddGetData(action) {
     yield put(showLoading())
     /* we do all the process in the client, send computed categories to the server */
     const allCategories = yield select(makeCategoriesSelectorByLanguage(locale))
-    const path = jp.paths(allCategories, `$..${parentItem}`)[0]
-    path.shift()
-    let aux = allCategories
-    path.forEach(key => {
-      aux = aux[key]
-    })
-    // TODO: define on the fly a non repeated key
-    aux.prueba = data
-    const response = yield call(api[action.type], { ...action.payload, data: allCategories })
-    yield put(categoriesAdd.success(locale, response))
+    const parentData = jp.value(allCategories, `$..${parentItem}`)
+    // get key by lowercase without blank spaces
+    const key = data.tag.replace(/\s/g, '').toLowerCase()
+    const keyExists = jp.value(allCategories, `$..${key}`)
+    if (keyExists) throw new Error(`key ${key} already exists in category tree`)
+    if (!parentData.children) parentData.children = {}
+    parentData.children[key] = data
+    jp.value(allCategories, `$..${parentItem}`, parentData)
+    const categoriesData = { ...action.payload, data: allCategories.data }
+    const response = yield call(api[action.type], categoriesData)
+    allCategories.lastUpdated = response.lastUpdated
+    yield put(categoriesAdd.success(locale, allCategories))
   } catch (error) {
     yield put(categoriesAdd.failure(error.message))
   } finally {
@@ -71,16 +73,15 @@ function* categoriesDeleteGetData(action) {
 
 function* categoriesUpdateGetData(action) {
   try {
-    const { locale, item, data } = action.payload
+    const { token, locale, item, data } = action.payload
     yield put(showLoading())
     /* we do all the process in the client, send computed categories to the server */
     const allCategories = yield select(makeCategoriesSelectorByLanguage(locale))
     jp.value(allCategories, `$..${item}`, data)
-    const categoriesData = { ...action.payload, data: allCategories }
-    const response = yield call(api[action.type], categoriesData)
+    const response = yield call(api[action.type], { token, data: allCategories })
     allCategories.lastUpdated = response.lastUpdated
     // we should get updatedTime and process it inside reducer
-    yield put(categoriesUpdate.success(locale, allCategories))
+    yield put(categoriesUpdate.success(allCategories))
   } catch (error) {
     yield put(categoriesUpdate.failure(error.message))
   } finally {
@@ -118,5 +119,5 @@ export function* categoriesAddData() {
 
 // All sagas to be loaded
 export default function* rootSaga() {
-  yield all([categoriesData(), categoriesUpdateData(), categoriesDeleteData, categoriesUpdateData()])
+  yield all([categoriesData(), categoriesAddData(), categoriesDeleteData, categoriesUpdateData()])
 }

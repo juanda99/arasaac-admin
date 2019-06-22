@@ -23,8 +23,9 @@ const categoriesViewReducer = (state = initialState, action) => {
     case CATEGORIES_ADD.SUCCESS:
       if (Object.entries(action.payload.data).length === 0 && action.payload.data.constructor === Object)
         return state.set('loading', false)
+      const { locale } = action.payload.data
       categories = state.get('categories')
-      categories[action.payload.locale] = action.payload.data
+      categories[locale] = action.payload.data
       return state.set('loading', false).set('categories', categories)
     case CATEGORIES.FAILURE:
       return state.set('error', action.payload.error).set('loading', false)
