@@ -31,7 +31,7 @@ function* categoriesGetData(action) {
 
 function* categoriesAddGetData(action) {
   try {
-    const { locale, parentItem, data } = action.payload
+    const { locale, token, parentItem, data } = action.payload
     yield put(showLoading())
     /* we do all the process in the client, send computed categories to the server */
     const allCategories = yield select(makeCategoriesSelectorByLanguage(locale))
@@ -43,8 +43,7 @@ function* categoriesAddGetData(action) {
     if (!parentData.children) parentData.children = {}
     parentData.children[key] = data
     jp.value(allCategories, `$..${parentItem}`, parentData)
-    const categoriesData = { ...action.payload, data: allCategories.data }
-    const response = yield call(api[action.type], categoriesData)
+    const response = yield call(api[action.type], { token, data: allCategories })
     allCategories.lastUpdated = response.lastUpdated
     yield put(categoriesAdd.success(locale, allCategories))
   } catch (error) {

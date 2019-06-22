@@ -18,9 +18,8 @@ export const categoriesUpdate = {
 }
 
 export const categoriesAdd = {
-  request: (token, locale, updated, parentItem, data) =>
-    action(CATEGORIES_ADD.REQUEST, { token, locale, updated, parentItem, data }),
-  success: (locale, data) => action(CATEGORIES_ADD.SUCCESS, { locale, data }),
+  request: (token, locale, parentItem, data) => action(CATEGORIES_ADD.REQUEST, { token, locale, parentItem, data }),
+  success: data => action(CATEGORIES_ADD.SUCCESS, { data }),
   failure: error => action(CATEGORIES_ADD.FAILURE, { error }),
 }
 

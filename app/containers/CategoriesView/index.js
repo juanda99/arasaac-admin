@@ -63,8 +63,8 @@ class CategoriesView extends React.PureComponent {
   // TODO: remove also from relationsships!!!
 
   handleAdd = (data, parentItem) => {
-    const { locale, lastUpdated, requestCategoriesAdd } = this.props
-    requestCategoriesAdd('shouldBeToken', locale, lastUpdated, parentItem, data)
+    const { locale, requestCategoriesAdd } = this.props
+    requestCategoriesAdd('shouldBeToken', locale, parentItem, data)
   }
 
   handleUpdate = (data, item) => {
@@ -118,8 +118,8 @@ const mapDispatchToProps = dispatch => ({
   requestCategoriesDelete: (token, locale, lastUpdated, item) => {
     dispatch(categoriesDelete.request(token, locale, lastUpdated, item))
   },
-  requestCategoriesAdd: (token, locale, lastUpdated, parentItem, data) => {
-    dispatch(categoriesAdd.request(token, locale, lastUpdated, parentItem, data))
+  requestCategoriesAdd: (token, locale, parentItem, data) => {
+    dispatch(categoriesAdd.request(token, locale, parentItem, data))
   },
 })
 

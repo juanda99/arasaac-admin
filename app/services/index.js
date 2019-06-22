@@ -2,7 +2,8 @@ import { searchMaterialSchema, searchPictogramSchema } from './schemas'
 import callApi from './callApi'
 import {
   login,
-  categories,
+  categories, // for update: tag or keywords
+  categoriesAll,
   signup,
   userUpdate,
   socialLogin,
@@ -43,13 +44,8 @@ const api = {
   GENERATE_CATALOGS: () => callApi(generateCatalogs.url, generateCatalogs.options()),
   CATEGORIES_REQUEST: ({ locale, updated }) => callApi(`${PRIVATE_API_ROOT}/categories/${locale}/${updated}`),
   CATEGORIES_UPDATE_REQUEST: ({ token, data }) => callApi(categories.url, categories.options(data), token),
+  CATEGORIES_ADD_REQUEST: ({ token, data }) => callApi(categoriesAll.url, categoriesAll.options(data), token),
+  CATEGORIES_DELETE_REQUEST: ({ token, data }) => callApi(categoriesAll.url, categoriesAll.options(data), token),
 }
 
 export default api
-
-/*
-  signIn,
-  signUp,
-  sendVerificationEmail,
-  emailVerification
-*/

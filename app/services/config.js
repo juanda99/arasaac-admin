@@ -33,25 +33,25 @@ export const login = {
 export const categories = {
   // eslint-disable-next-line no-underscore-dangle
   url: `${PRIVATE_API_ROOT}/categories`,
-  options: categoriesData => {
-    console.log('0**********************************************************************')
-    console.log(JSON.stringify(categoriesData, null, 2))
-    console.log('5**********************************************************************')
-    return {
-      config: {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(categoriesData),
-      },
-    }
-  },
-  // options: categoriesData => ({
-  //   config: {
-  //     method: 'PUT',
-  //     headers: { 'Content-Type': 'application/json' },
-  //     body: JSON.stringify(categoriesData),
-  //   },
-  // }),
+  options: categoriesData => ({
+    config: {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(categoriesData),
+    },
+  }),
+}
+
+export const categoriesAll = {
+  // eslint-disable-next-line no-underscore-dangle
+  url: `${PRIVATE_API_ROOT}/categories/all`,
+  options: categoriesData => ({
+    config: {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(categoriesData),
+    },
+  }),
 }
 
 export const generateCatalog = {
