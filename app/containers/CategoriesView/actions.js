@@ -24,7 +24,7 @@ export const categoriesAdd = {
 }
 
 export const categoriesDelete = {
-  request: (token, locale, updated, item) => action(CATEGORIES_DELETE.REQUEST, { token, locale, updated, item }),
-  success: (locale, data) => action(CATEGORIES_DELETE.SUCCESS, { locale, data }),
+  request: (token, locale, item) => action(CATEGORIES_DELETE.REQUEST, { token, locale, item }),
+  success: data => action(CATEGORIES_DELETE.SUCCESS, { data }),
   failure: error => action(CATEGORIES_DELETE.FAILURE, { error }),
 }

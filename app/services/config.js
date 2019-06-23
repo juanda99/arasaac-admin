@@ -31,7 +31,6 @@ export const login = {
 }
 
 export const categories = {
-  // eslint-disable-next-line no-underscore-dangle
   url: `${PRIVATE_API_ROOT}/categories`,
   options: categoriesData => ({
     config: {
@@ -42,14 +41,24 @@ export const categories = {
   }),
 }
 
-export const categoriesAll = {
-  // eslint-disable-next-line no-underscore-dangle
-  url: `${PRIVATE_API_ROOT}/categories/all`,
+export const categoriesAdd = {
+  url: `${PRIVATE_API_ROOT}/categories/add`,
   options: categoriesData => ({
     config: {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(categoriesData),
+    },
+  }),
+}
+
+export const categoriesRemove = {
+  url: `${PRIVATE_API_ROOT}/categories/remove`,
+  options: (categoriesData, item) => ({
+    config: {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...categoriesData, item }),
     },
   }),
 }

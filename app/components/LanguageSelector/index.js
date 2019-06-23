@@ -35,7 +35,7 @@ const LanguageSelector = ({ id, anchorEl, intl, value, onClick, onClose }) => {
       <MenuItem selected={value === 'fr'} onClick={() => onClick('fr')}>
         {`Français - ${formatMessage(messages.fr)}`}
       </MenuItem>
-      <MenuItem selected={value === 'ga'} onClick={() => onClick('ga')}>
+      <MenuItem selected={value === 'gl'} onClick={() => onClick('gl')}>
         {`Galego - ${formatMessage(messages.gl)}`}
       </MenuItem>
       <MenuItem selected={value === 'cr'} onClick={() => onClick('cr')}>
@@ -47,28 +47,28 @@ const LanguageSelector = ({ id, anchorEl, intl, value, onClick, onClose }) => {
       <MenuItem selected={value === 'bt'} onClick={() => onClick('bg')}>
         {`български - ${formatMessage(messages.bg)}`}
       </MenuItem>
-      <MenuItem selected={value === 'p'} onClick={() => onClick('pl')}>
+      <MenuItem selected={value === 'pl'} onClick={() => onClick('pl')}>
         {`Polskie - ${formatMessage(messages.pl)}`}
       </MenuItem>
-      <MenuItem selected={value === ''} onClick={() => onClick('pt')}>
+      <MenuItem selected={value === 'pt'} onClick={() => onClick('pt')}>
         {`Português - ${formatMessage(messages.pt)}`}
       </MenuItem>
-      <MenuItem selected={value === ''} onClick={() => onClick('br')}>
+      <MenuItem selected={value === 'br'} onClick={() => onClick('br')}>
         {`Português do Brasil - ${formatMessage(messages.br)}`}
       </MenuItem>
-      <MenuItem selected={value === ''} onClick={() => onClick('ro')}>
+      <MenuItem selected={value === 'ro'} onClick={() => onClick('ro')}>
         {`Română - ${formatMessage(messages.ro)}`}
       </MenuItem>
-      <MenuItem selected={value === ''} onClick={() => onClick('ru')}>
+      <MenuItem selected={value === 'ru'} onClick={() => onClick('ru')}>
         {`Pусский - ${formatMessage(messages.ru)}`}
       </MenuItem>
-      <MenuItem selected={value === ''} onClick={() => onClick('val')}>
+      <MenuItem selected={value === 'val'} onClick={() => onClick('val')}>
         {`Valencia - ${formatMessage(messages.val)}`}
       </MenuItem>
-      <MenuItem selected={value === ''} onClick={() => onClick('ara')}>
+      <MenuItem selected={value === 'ar'} onClick={() => onClick('ar')}>
         {`عربى - ${formatMessage(messages.ar)}`}
       </MenuItem>
-      <MenuItem selected={value === ''} onClick={() => onClick('zhs')}>
+      <MenuItem selected={value === 'zh'} onClick={() => onClick('zh')}>
         {`简体中文） - ${formatMessage(messages.zh)}`}
       </MenuItem>
     </Menu>

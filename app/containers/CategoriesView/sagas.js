@@ -48,7 +48,7 @@ function* categoriesAddGetData(action) {
     jp.value(allCategories, `$..${parentItem}`, parentData)
     const response = yield call(api[action.type], { token, data: allCategories })
     allCategories.lastUpdated = response.lastUpdated
-    yield put(categoriesAdd.success(locale, allCategories))
+    yield put(categoriesAdd.success(allCategories))
   } catch (error) {
     yield put(categoriesAdd.failure(error.message))
   } finally {
@@ -58,14 +58,14 @@ function* categoriesAddGetData(action) {
 
 function* categoriesDeleteGetData(action) {
   try {
-    const { locale, item } = action.payload
+    const { token, locale, item } = action.payload
     yield put(showLoading())
     const allCategories = yield select(makeCategoriesSelectorByLanguage(locale))
     removeKeys(allCategories, item)
-    const response = yield call(api[action.type], { ...action.payload, data: allCategories })
+    const response = yield call(api[action.type], { token, data: allCategories, item })
     allCategories.lastUpdated = response.lastUpdated
     // we should get updatedTime and process it inside reducer
-    yield put(categoriesDelete.success(locale, allCategories))
+    yield put(categoriesDelete.success(allCategories))
   } catch (error) {
     yield put(categoriesDelete.failure(error.message))
   } finally {
@@ -121,5 +121,5 @@ export function* categoriesAddData() {
 
 // All sagas to be loaded
 export default function* rootSaga() {
-  yield all([categoriesData(), categoriesAddData(), categoriesDeleteData, categoriesUpdateData()])
+  yield all([categoriesData(), categoriesAddData(), categoriesDeleteData(), categoriesUpdateData()])
 }

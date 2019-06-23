@@ -74,6 +74,7 @@ class ListTree extends Component {
   }
 
   clickDeleteButton = item => {
+    console.log(`Deletif.... ${item}`)
     this.props.onDelete(item)
   }
 
