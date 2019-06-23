@@ -36,7 +36,7 @@
               }
             },
             leche: { tag: 'Milk', keywords: ['Milk'] },
-            muffins: { tag: 'Muffins', keywords: ['Muffins'] }
+            magdalenas: { tag: 'Muffins', keywords: ['Muffins'] }
           }
         }
     }

@@ -47,8 +47,9 @@ class CategoriesView extends React.PureComponent {
   }
 
   handleDelete = item => {
-    const { locale, lastUpdated, requestCategoriesDelete } = this.props
-    requestCategoriesDelete(locale, lastUpdated, item)
+    // TODO: Add warning before delete:
+    const { locale, requestCategoriesDelete } = this.props
+    requestCategoriesDelete('shouldBeToken', locale, item)
   }
 
   render() {
@@ -89,8 +90,8 @@ const mapDispatchToProps = dispatch => ({
   requestCategoriesUpdate: (token, locale, item, data) => {
     dispatch(categoriesUpdate.request(token, locale, item, data))
   },
-  requestCategoriesDelete: (token, locale, lastUpdated, item) => {
-    dispatch(categoriesDelete.request(token, locale, lastUpdated, item))
+  requestCategoriesDelete: (token, locale, item) => {
+    dispatch(categoriesDelete.request(token, locale, item))
   },
   requestCategoriesAdd: (token, locale, parentItem, data) => {
     dispatch(categoriesAdd.request(token, locale, parentItem, data))
