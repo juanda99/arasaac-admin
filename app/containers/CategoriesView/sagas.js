@@ -36,8 +36,11 @@ function* categoriesAddGetData(action) {
     /* we do all the process in the client, send computed categories to the server */
     const allCategories = yield select(makeCategoriesSelectorByLanguage(locale))
     const parentData = jp.value(allCategories, `$..${parentItem}`)
-    // get key by lowercase without blank spaces
-    const key = data.tag.replace(/\s/g, '').toLowerCase()
+    const key = data.tag
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '') // removing accents and diacritics
+      .replace(/\s/g, '') // without blank spaces
+      .toLowerCase()
     const keyExists = jp.value(allCategories, `$..${key}`)
     if (keyExists) throw new Error(`key ${key} already exists in category tree`)
     if (!parentData.children) parentData.children = {}

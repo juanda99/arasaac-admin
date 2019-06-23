@@ -18,30 +18,6 @@ import saga from './sagas'
 
 /* eslint-disable react/prefer-stateless-function */
 
-// inserted in database:
-/*
-{ locale: 'es',
-  lastUpdated: ISODate("2019-09-09T01:11:18.965Z"),
-  data: {
-      panaderia: {
-        tag: 'Panadería',
-        children: {
-          pan: {
-            tag: 'Tipos de pan',
-            keywords: ['Tipos de pan', 'Barras de pan'],
-            children: {
-              hogaza: { tag: 'Hogaza', keywords: ['Pan de hogaza', 'Pan de pueblo'] },
-              baguette: { tag: 'Baguette', keywords: ['Pan de baguette', 'Baguette'] }
-            }
-          },
-          leche: { tag: 'Leche', keywords: ['Leche'] },
-          magdalenas: { tag: 'Magdalenas', keywords: ['Magdalenas', 'Madalenas'] }
-        }
-      }
-  }
-}
-*/
-
 class CategoriesView extends React.PureComponent {
   state = {
     category: '',
@@ -49,8 +25,6 @@ class CategoriesView extends React.PureComponent {
 
   componentDidMount() {
     const { locale, lastUpdated } = this.props
-    console.log('kkkkkkkkk')
-    console.log(lastUpdated)
     this.props.requestCategories(locale, lastUpdated)
   }
 
