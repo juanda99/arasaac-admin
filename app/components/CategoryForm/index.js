@@ -7,11 +7,14 @@ import Button from '@material-ui/core/Button'
 import { Form, Field } from 'react-final-form'
 import arrayMutators from 'final-form-arrays'
 import { FieldArray } from 'react-final-form-arrays'
-import { TextField } from 'final-form-material-ui'
+import { TextField, Select } from 'final-form-material-ui'
+import MenuItem from '@material-ui/core/MenuItem'
 
 // eslint-disable-next-line react/prefer-stateless-function
 
 const isEqualsArray = (a, b) => {
+  if (!a && !b) return true
+  if (!a || !b) return false
   if (a.length !== b.length) return false
 
   const isEquals = (item1, item2) => item1 === item2
@@ -25,18 +28,22 @@ export class CategoryForm extends Component {
   static propTypes = {
     data: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired,
+    menuItems: PropTypes.arrayOf(
+      PropTypes.shape({
+        key: PropTypes.string.isRequired,
+        tag: PropTypes.string.isRequired,
+      }).isRequired,
+    ),
     item: PropTypes.string,
   }
 
   handleSubmit = values => {
     const { item, onSubmit } = this.props
-    window.alert(JSON.stringify(values, 0, 2))
     onSubmit(values, item)
   }
 
   render() {
-    const { data } = this.props
-    console.log(data)
+    const { data, menuItems } = this.props
     return (
       <div>
         <Form
@@ -60,18 +67,28 @@ export class CategoryForm extends Component {
                 <div>
                   <Field fullWidth name="tag" component={TextField} type="text" label="Nombre categoría" />
                 </div>
-                {(!values.keywords || !values.keywords.length) && (
-                  <div className="buttons">
+                <div className="buttons">
+                  {(!values.keywords || !values.keywords.length) && (
+                    <Button
+                      variant="contained"
+                      style={{ marginTop: 30, marginRight: 10 }}
+                      color="primary"
+                      onClick={() => push('keywords', undefined)}
+                    >
+                      Add keywords
+                    </Button>
+                  )}
+                  {(!values.relatedCategories || !values.relatedCategories.length) && (
                     <Button
                       variant="contained"
                       style={{ marginTop: 30 }}
                       color="primary"
-                      onClick={() => push('keywords', undefined)}
+                      onClick={() => push('relatedCategories', undefined)}
                     >
-                      Añadir categoría
+                      Add related category
                     </Button>
-                  </div>
-                )}
+                  )}
+                </div>
                 <h2 style={{ marginTop: 40, marginBottom: 20 }}>List of keywords</h2>
                 <FieldArray name="keywords" isEqual={() => isEqualsArray(data.keywords, values.keywords)}>
                   {({ fields }) =>
@@ -107,11 +124,17 @@ export class CategoryForm extends Component {
                     fields.map((relatedCategory, index) => (
                       <div key={relatedCategory}>
                         <Field
+                          style={{ width: 300 }}
                           name={relatedCategory}
-                          component={TextField}
-                          type="text"
                           label={`Related category #${index + 1}`}
-                        />
+                          component={Select}
+                        >
+                          {menuItems.map(menuItem => (
+                            <MenuItem key={menuItem.key} value={menuItem.key}>
+                              {menuItem.tag}
+                            </MenuItem>
+                          ))}
+                        </Field>
                         <Button
                           onClick={() => push('relatedCategories', undefined)}
                           variant="fab"
@@ -141,7 +164,6 @@ export class CategoryForm extends Component {
                     Submit
                   </Button>
                 </div>
-                <pre>{JSON.stringify(values, 0, 2)}</pre>
               </Paper>
             </form>
           )}

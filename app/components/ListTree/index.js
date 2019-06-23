@@ -109,10 +109,22 @@ class ListTree extends Component {
     const { data } = this.props
     // calculate its path and its content for CategoryForm:
     const subData = jp.value(data, `$..${item}`)
+
+    const menuItems = []
+
+    // get all keys and values from Category!
+    const categoryValues = categories =>
+      Object.keys(categories).forEach(key => {
+        menuItems.push({ key, tag: categories[key].tag })
+        if (categories[key].children) categoryValues(categories[key].children)
+      })
+    // load data to menuItems:
+    categoryValues(data)
     return (
       <CategoryForm
         data={this.state.action === 'edit' ? subData : {}}
         item={item}
+        menuItems={menuItems}
         onSubmit={this.state.action === 'edit' ? this.handleUpdate : this.handleAdd}
       />
     )

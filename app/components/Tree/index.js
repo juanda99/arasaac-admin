@@ -23,7 +23,6 @@ export class Tree extends Component {
   }
 
   onExpand = expandedKeys => {
-    console.log('onExpand', expandedKeys)
     // if not set autoExpandParent to false, if children expanded, parent can not collapse.
     // or, you can remove all expanded children keys.
     this.setState({
@@ -33,7 +32,6 @@ export class Tree extends Component {
   }
 
   handleSelect = (selectedKeys, info) => {
-    console.log('onSelect', info)
     this.props.onSelect({ selectedKeys })
   }
 
