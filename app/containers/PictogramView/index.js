@@ -55,7 +55,6 @@ class PictogramView extends React.PureComponent {
           dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
           treeData={treeData}
           placeholder="Please select"
-          treeDefaultExpandAll
           onChange={this.onChange}
           multiple
         />
