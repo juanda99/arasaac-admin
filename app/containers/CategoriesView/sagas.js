@@ -9,10 +9,12 @@ import {
   CATEGORIES_UPDATE,
   CATEGORIES_ADD,
   CATEGORIES_DELETE,
+  CATEGORIES_IMPORT,
   categories,
   categoriesUpdate,
   categoriesDelete,
   categoriesAdd,
+  categoriesImport,
 } from './actions'
 import { makeCategoriesSelectorByLanguage } from './selectors'
 
@@ -91,6 +93,22 @@ function* categoriesUpdateGetData(action) {
   }
 }
 
+function* categoriesImportGetData(action) {
+  try {
+    const { token, data } = action.payload
+    yield put(showLoading())
+    /* we do all the process in the client, send computed categories to the server */
+    const response = yield call(api[action.type], { token, data })
+    data.lastUpdated = response.lastUpdated
+    // we should get updatedTime and process it inside reducer
+    yield put(categoriesImport.success(data))
+  } catch (error) {
+    yield put(categoriesImport.failure(error.message))
+  } finally {
+    yield put(hideLoading())
+  }
+}
+
 export function* categoriesData() {
   const watcher = yield takeLatest(CATEGORIES.REQUEST, categoriesGetData)
   // Suspend execution until location changes
@@ -100,6 +118,13 @@ export function* categoriesData() {
 
 export function* categoriesUpdateData() {
   const watcher = yield takeLatest(CATEGORIES_UPDATE.REQUEST, categoriesUpdateGetData)
+  // Suspend execution until location changes
+  yield take(LOCATION_CHANGE)
+  // yield cancel(watcher)
+}
+
+export function* categoriesImportData() {
+  const watcher = yield takeLatest(CATEGORIES_IMPORT.REQUEST, categoriesImportGetData)
   // Suspend execution until location changes
   yield take(LOCATION_CHANGE)
   // yield cancel(watcher)
@@ -121,5 +146,12 @@ export function* categoriesAddData() {
 
 // All sagas to be loaded
 export default function* rootSaga() {
-  yield all([categoriesData(), categoriesAddData(), categoriesDeleteData(), categoriesUpdateData()])
+  yield all([
+    categoriesData(),
+    categoriesImportData(),
+    categoriesAddData(),
+    categoriesDeleteData(),
+    categoriesUpdateData(),
+    categoriesImportData(),
+  ])
 }

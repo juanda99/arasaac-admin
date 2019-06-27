@@ -45,6 +45,8 @@ const api = {
   GENERATE_CATALOGS: () => callApi(generateCatalogs.url, generateCatalogs.options()),
   CATEGORIES_REQUEST: ({ locale, updated }) => callApi(`${PRIVATE_API_ROOT}/categories/${locale}/${updated}`),
   CATEGORIES_UPDATE_REQUEST: ({ token, data }) => callApi(categories.url, categories.options(data), token),
+  // import, same as update
+  CATEGORIES_IMPORT_REQUEST: ({ token, data }) => callApi(categories.url, categories.options(data), token),
   CATEGORIES_ADD_REQUEST: ({ token, data }) => callApi(categoriesAdd.url, categoriesAdd.options(data), token),
   CATEGORIES_DELETE_REQUEST: ({ token, data, item }) =>
     callApi(categoriesRemove.url, categoriesRemove.options(data, item), token),

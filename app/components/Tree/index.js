@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Tree as TreeC } from 'antd'
+import { Tree as TreeC } from 'antd/lib/tree'
 import 'antd/dist/antd.css'
 
 const { TreeNode } = TreeC

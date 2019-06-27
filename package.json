@@ -99,9 +99,10 @@
     "normalizr": "^3.3.0",
     "perfect-scrollbar": "^1.4.0",
     "prop-types": "15.6.2",
-    "react": "16.6.0",
+    "react": "16.8.3",
     "react-autosuggest": "^9.4.2",
-    "react-dom": "16.6.0",
+    "react-dom": "16.8.3",
+    "react-dropzone": "^10.1.5",
     "react-facebook-login": "^4.1.1",
     "react-final-form": "^4.1.0",
     "react-final-form-arrays": "^2.0.3",
@@ -122,7 +123,8 @@
     "reselect": "4.0.0",
     "socket.io-client": "^2.2.0",
     "styled-components": "4.0.2",
-    "warning": "4.0.2"
+    "warning": "4.0.2",
+    "xlsx": "^0.14.3"
   },
   "devDependencies": {
     "@babel/cli": "7.1.2",
