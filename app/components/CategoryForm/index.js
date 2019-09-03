@@ -9,6 +9,8 @@ import arrayMutators from 'final-form-arrays'
 import { FieldArray } from 'react-final-form-arrays'
 import { TextField, Select } from 'final-form-material-ui'
 import MenuItem from '@material-ui/core/MenuItem'
+import { FormattedMessage } from 'react-intl'
+import messages from './messages'
 
 // eslint-disable-next-line react/prefer-stateless-function
 
@@ -65,7 +67,13 @@ export class CategoryForm extends Component {
             <form onSubmit={handleSubmit} style={{ width: '100%' }}>
               <Paper style={{ padding: 32, margin: 20 }}>
                 <div>
-                  <Field fullWidth name="tag" component={TextField} type="text" label="Nombre categoría" />
+                  <Field
+                    fullWidth
+                    name="tag"
+                    component={TextField}
+                    type="text"
+                    label={<FormattedMessage {...messages.category} />}
+                  />
                 </div>
                 <div className="buttons">
                   {(!values.keywords || !values.keywords.length) && (
@@ -85,16 +93,18 @@ export class CategoryForm extends Component {
                       color="primary"
                       onClick={() => push('relatedCategories', undefined)}
                     >
-                      Add related category
+                      <FormattedMessage {...messages.addRelatedCategory} />
                     </Button>
                   )}
                 </div>
-                <h2 style={{ marginTop: 40, marginBottom: 20 }}>List of keywords</h2>
+                <h2 style={{ marginTop: 40, marginBottom: 20 }}>
+                  <FormattedMessage {...messages.keywordsList} />
+                </h2>
                 <FieldArray name="keywords" isEqual={() => isEqualsArray(data.keywords, values.keywords)}>
                   {({ fields }) =>
                     fields.map((keyword, index) => (
                       <div key={keyword}>
-                        <Field name={keyword} component={TextField} type="text" label={`Keyword #${index + 1}`} />
+                        <Field name={keyword} component={TextField} type="text" />
                         <Button
                           onClick={() => push('keywords', undefined)}
                           variant="fab"
@@ -118,17 +128,14 @@ export class CategoryForm extends Component {
                     ))
                   }
                 </FieldArray>
-                <h2 style={{ marginTop: 40, marginBottom: 20 }}>Related categories</h2>
+                <h2 style={{ marginTop: 40, marginBottom: 20 }}>
+                  <FormattedMessage {...messages.relatedCategories} />
+                </h2>
                 <FieldArray name="relatedCategories">
                   {({ fields }) =>
                     fields.map((relatedCategory, index) => (
                       <div key={relatedCategory}>
-                        <Field
-                          style={{ width: 300 }}
-                          name={relatedCategory}
-                          label={`Related category #${index + 1}`}
-                          component={Select}
-                        >
+                        <Field style={{ width: 300 }} name={relatedCategory} component={Select}>
                           {menuItems.map(menuItem => (
                             <MenuItem key={menuItem.key} value={menuItem.key}>
                               {menuItem.tag}
@@ -161,7 +168,7 @@ export class CategoryForm extends Component {
 
                 <div style={{ marginTop: 16 }}>
                   <Button variant="contained" color="primary" type="submit" disabled={submitting || pristine}>
-                    Submit
+                    <FormattedMessage {...messages.save} />
                   </Button>
                 </div>
               </Paper>
