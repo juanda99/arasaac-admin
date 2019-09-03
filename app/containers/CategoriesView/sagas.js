@@ -37,17 +37,17 @@ function* categoriesAddGetData(action) {
     yield put(showLoading())
     /* we do all the process in the client, send computed categories to the server */
     const allCategories = yield select(makeCategoriesSelectorByLanguage(locale))
-    const parentData = jp.value(allCategories, `$..${parentItem}`)
+    const parentData = jp.value(allCategories, `$..["${parentItem}"]`)
     const key = data.tag
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '') // removing accents and diacritics
       .replace(/\s/g, '') // without blank spaces
       .toLowerCase()
-    const keyExists = jp.value(allCategories, `$..${key}`)
+    const keyExists = jp.value(allCategories, `$..["${key}"]`)
     if (keyExists) throw new Error(`key ${key} already exists in category tree`)
     if (!parentData.children) parentData.children = {}
     parentData.children[key] = data
-    jp.value(allCategories, `$..${parentItem}`, parentData)
+    jp.value(allCategories, `$..["${parentItem}"]`, parentData)
     const response = yield call(api[action.type], { token, data: allCategories })
     allCategories.lastUpdated = response.lastUpdated
     yield put(categoriesAdd.success(allCategories))
@@ -81,7 +81,7 @@ function* categoriesUpdateGetData(action) {
     yield put(showLoading())
     /* we do all the process in the client, send computed categories to the server */
     const allCategories = yield select(makeCategoriesSelectorByLanguage(locale))
-    jp.value(allCategories, `$..${item}`, data)
+    jp.value(allCategories, `$..["${item}"]`, data)
     const response = yield call(api[action.type], { token, data: allCategories })
     allCategories.lastUpdated = response.lastUpdated
     // we should get updatedTime and process it inside reducer

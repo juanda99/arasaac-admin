@@ -98,7 +98,9 @@ class CategoriesView extends React.PureComponent {
         keywords = [...new Set(keywords)] // remove duplicates
         console.log('00000000000')
         console.log(`data and key: ${key}: ${JSON.stringify(data, null, 2)}`)
-        const subData = jp.value(data, `$..${key}`)
+        // change to get also keys with spaces:
+        // const subData = jp.value(data, `$..${key}`)
+        const subData = jp.value(data, `$..["${key}"]`)
         console.log('10000000000')
 
         console.log(`subData with key: ${key}: ${JSON.stringify(subData, null, 2)}`)

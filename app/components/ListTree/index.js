@@ -108,7 +108,10 @@ class ListTree extends Component {
   renderForm = item => {
     const { data } = this.props
     // calculate its path and its content for CategoryForm:
-    const subData = jp.value(data, `$..${item}`)
+
+    // const subData = jp.value(data, `$..${item}`)
+    // get keys with spaces
+    const subData = jp.value(data, `$..["${item}"]`)
 
     const menuItems = []
 
@@ -132,9 +135,10 @@ class ListTree extends Component {
 
   renderTreeNodes = data =>
     Object.keys(data).map(item => {
-      // calculate how deep is it
-      const depth = jp.paths(this.props.data, `$..${item}`)[0].length / 2 - 1
-      if (data[item].children) {
+      // calculate how deep it is
+      const depth = jp.paths(this.props.data, `$..["${item}"]`)[0].length / 2 - 1
+      // add this.state.open[item] to improve performance!!!
+      if (data[item].children && this.state.open[item]) {
         return (
           <React.Fragment key={item}>
             <ListItem
@@ -185,7 +189,20 @@ class ListTree extends Component {
             onMouseEnter={event => this.handleIconsVisibility(event, item)}
             onMouseLeave={event => this.handleIconsVisibility(event, item)}
           >
-            <ListItemText primary={data[item].tag} />
+            {data[item].children && (
+              <ListItemText
+                primary={
+                  <Badge
+                    color="secondary"
+                    style={{ paddingRight: 10 }}
+                    badgeContent={Object.keys(data[item].children).length}
+                  >
+                    {data[item].tag}
+                  </Badge>
+                }
+              />
+            )}
+            {!data[item].children && <ListItemText primary={data[item].tag} />}
             {this.renderActionIcons(item)}
           </ListItem>
           {this.state.openForm === item && this.renderForm(this.state.targetItem)}
