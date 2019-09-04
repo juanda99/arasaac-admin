@@ -2,14 +2,14 @@
  * COMMON WEBPACK CONFIGURATION
  */
 
-const path = require('path');
-const webpack = require('webpack');
+const path = require('path')
+const webpack = require('webpack')
 
 // Remove this line once the following warning goes away (it was meant for webpack loader authors not users):
 // 'DeprecationWarning: loaderUtils.parseQuery() received a non-string value which can be problematic,
 // see https://github.com/webpack/loader-utils/issues/56 parseQuery() will be replaced with getOptions()
 // in the next major version of loader-utils.'
-process.noDeprecation = true;
+process.noDeprecation = true
 
 module.exports = options => ({
   mode: options.mode,
@@ -127,8 +127,13 @@ module.exports = options => ({
     modules: ['node_modules', 'app'],
     extensions: ['.js', '.jsx', '.react.js'],
     mainFields: ['browser', 'jsnext:main', 'main'],
+    // add for locales for moment.js
+    // see https://github.com/moment/moment/issues/4505
+    alias: {
+      moment$: path.resolve(__dirname, '../../node_modules/moment/moment.js'),
+    },
   },
   devtool: options.devtool,
   target: 'web', // Make web variables accessible to webpack, e.g. window
   performance: options.performance || {},
-});
+})

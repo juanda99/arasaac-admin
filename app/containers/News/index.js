@@ -9,9 +9,9 @@
  * the linting exception.
  */
 
-import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import messages from './messages';
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import messages from './messages'
 
 /* eslint-disable react/prefer-stateless-function */
 export default class News extends React.PureComponent {
@@ -22,12 +22,11 @@ export default class News extends React.PureComponent {
           <FormattedMessage {...messages.header} />
         </h1>
         <p>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Natus ipsam
-          mollitia, excepturi incidunt impedit, a nulla voluptatibus ducimus ad,
-          quasi labore consectetur expedita? Consequuntur eaque natus eum
-          dolore, unde eius.
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Natus ipsam mollitia, excepturi incidunt impedit, a
+          nulla voluptatibus ducimus ad, quasi labore consectetur expedita? Consequuntur eaque natus eum dolore, unde
+          eius.
         </p>
       </div>
-    );
+    )
   }
 }

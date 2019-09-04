@@ -7,31 +7,37 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Tooltip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
-import Button from '@material-ui/core/Button'
+import { withRouter } from 'react-router-dom'
 import MenuIcon from '@material-ui/icons/Menu'
 import Hidden from '@material-ui/core/Hidden'
 import AccountCircle from '@material-ui/icons/AccountCircle'
+import UserOptionsIcon from '@material-ui/icons/MoreVert'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
+import LocaleSelector from 'containers/LocaleSelector'
+import ThemeSelector from 'containers/ThemeSelector'
+import routes from 'routes/index'
 
-import LocaleToggle from 'containers/LocaleToggle'
 /*
 import FormatTextdirectionLToR from '@material-ui/icons/FormatTextdirectionLToR'
 import FormatTextdirectionRToL from '@material-ui/icons/FormatTextdirectionRToL'
-import LightbulbFullIcon from './LightbulbFull'
-import LightbulbOutlineIcon from './LightbulbOutline'
 */
 import messages from './messages'
 import styles from './styles'
 
 class Header extends Component {
   state = {
-    auth: true,
     loginButton: null,
   }
 
-  handleLogout = event => {
-    this.setState({ auth: event.target.checked })
+  handleLogout = () => {
+    // this.setState({ auth: event.target.checked })
+    this.props.logout()
+    this.setState({ loginButton: null })
+  }
+
+  handleSignin = () => {
+    this.props.history.push('/signin')
   }
 
   handleAuthMenu = event => {
@@ -46,9 +52,38 @@ class Header extends Component {
     this.props.handleSidebarToggle()
   }
 
+  getTitle = () => {
+    let title
+    const url = this.props.location.pathname
+    console.log(url)
+    switch (true) {
+      case /pictograms\/add/.test(url):
+        title = <FormattedMessage {...messages.addPictograms} />
+        break
+      case /pictograms/.test(url):
+        title = <FormattedMessage {...messages.pictograms} />
+        break
+      case /catalogs/.test(url):
+        title = <FormattedMessage {...messages.catalogs} />
+        break
+      case /users/.test(url):
+        title = <FormattedMessage {...messages.users} />
+        break
+      case /signin/.test(url):
+        title = <FormattedMessage {...messages.signin} />
+        break
+      default:
+        title = <FormattedMessage {...messages.management} />
+        break
+    }
+    return title
+  }
+
   render() {
-    const { classes, locale } = this.props
-    const { auth, loginButton } = this.state
+    const { classes, locale, isAuthenticated, theme } = this.props
+    const { loginButton } = this.state
+    // TODO: move get title to componentUpdate
+    const title = this.getTitle()
 
     return (
       <AppBar className={classes.appBar} position="static">
@@ -64,10 +99,11 @@ class Header extends Component {
             </IconButton>
           </Hidden>
           <Typography variant="h6" color="inherit" className={classes.grow}>
-            Arasaac Management
+            {title}
           </Typography>
-          {locale && <LocaleToggle />}
-          {auth && (
+          {theme && <ThemeSelector />}
+          {locale && <LocaleSelector />}
+          {isAuthenticated ? (
             <React.Fragment>
               <Tooltip title={<FormattedMessage {...messages.userMenu} />} enterDelay={300}>
                 <IconButton
@@ -75,7 +111,7 @@ class Header extends Component {
                   aria-haspopup="true"
                   onClick={this.handleAuthMenu}
                 >
-                  <AccountCircle />
+                  <UserOptionsIcon />
                 </IconButton>
               </Tooltip>
               <Menu id="menu-appbar" anchorEl={loginButton} open={Boolean(loginButton)} onClose={this.handleAuthClose}>
@@ -84,8 +120,11 @@ class Header extends Component {
                 <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
               </Menu>
             </React.Fragment>
+          ) : (
+            <IconButton aria-owns={loginButton ? 'menu-appbar' : null} aria-haspopup="true" onClick={this.handleSignin}>
+              <AccountCircle />
+            </IconButton>
           )}
-          {!auth && <Button color="inherit">Login</Button>}
         </Toolbar>
       </AppBar>
     )
@@ -96,6 +135,8 @@ Header.propTypes = {
   classes: PropTypes.object.isRequired,
   handleSidebarToggle: PropTypes.func.isRequired,
   locale: PropTypes.bool,
+  isAuthenticated: PropTypes.bool.isRequired,
+  logout: PropTypes.func.isRequired,
 }
 
-export default withStyles(styles, { withTheme: true })(Header)
+export default withStyles(styles, { withTheme: true })(withRouter(Header))

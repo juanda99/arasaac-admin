@@ -13,7 +13,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router/immutable'
-import { MuiThemeProvider } from '@material-ui/core/styles'
 import history from 'utils/history'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import theme from 'utils/theme'
@@ -23,6 +22,9 @@ import App from 'containers/App'
 
 // Import Language Provider
 import LanguageProvider from 'containers/LanguageProvider'
+
+// Import Theme Provider
+import ThemeProvider from 'containers/ThemeProvider'
 
 // Load the favicon and the .htaccess file
 /* eslint-disable import/no-unresolved, import/extensions */
@@ -35,28 +37,50 @@ import configureStore from './configureStore'
 // Import i18n messages
 import { translationMessages } from './i18n'
 
-// Create redux store with history
-const initialState = {}
-const store = configureStore(initialState, history)
-const MOUNT_NODE = document.getElementById('app')
+// // Create redux store with history
+// const initialState = {}
+// const store = configureStore(initialState, history)
+// const MOUNT_NODE = document.getElementById('app')
 
-const render = messages => {
+const render = async messages => {
+  // Create redux store with history
+  const initialState = {}
+  const store = await configureStore(initialState, history)
+  const MOUNT_NODE = document.getElementById('app')
   ReactDOM.render(
-    <div>
-      <CssBaseline />
-      <Provider store={store}>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
         <LanguageProvider messages={messages}>
           <ConnectedRouter history={history}>
-            <MuiThemeProvider theme={theme}>
+            <React.Fragment>
+              <CssBaseline />
               <App />
-            </MuiThemeProvider>
+            </React.Fragment>
           </ConnectedRouter>
         </LanguageProvider>
-      </Provider>
-    </div>,
+      </ThemeProvider>
+    </Provider>,
     MOUNT_NODE,
   )
 }
+
+// const render = messages => {
+//   ReactDOM.render(
+//     <Provider store={store}>
+//       <ThemeProvider theme={theme}>
+//         <LanguageProvider messages={messages}>
+//           <ConnectedRouter history={history}>
+//             <React.Fragment>
+//               <CssBaseline />
+//               <App />
+//             </React.Fragment>
+//           </ConnectedRouter>
+//         </LanguageProvider>
+//       </ThemeProvider>
+//     </Provider>,
+//     MOUNT_NODE,
+//   )
+// }
 
 if (module.hot) {
   // Hot reloadable React components and translation json files

@@ -11,7 +11,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import InboxIcon from '@material-ui/icons/MoveToInbox'
 import MailIcon from '@material-ui/icons/Mail'
 import MenuItem from './MenuItem'
-import styles from './style'
+import styles from './styles'
 
 class SideBar extends React.Component {
   state = {
@@ -34,7 +34,7 @@ class SideBar extends React.Component {
     const { classes, theme, logo, routes, open } = this.props
     const links = (
       <List className={classes.list}>
-        {routes.map(
+        {routes.filter(route => route.isSidebar).map(
           (route, key) =>
             route.children ? (
               <MenuItem
@@ -57,7 +57,6 @@ class SideBar extends React.Component {
       <div>
         <div className={classes.toolbar} role="button">
           ARASAAC
-          {logo ? <img className={classes.logo} src={logo} alt="logo" /> : ''}
         </div>
         {links}
         <Divider />

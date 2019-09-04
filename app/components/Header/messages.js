@@ -7,4 +7,29 @@ export default defineMessages({
     id: `${scope}.button.userMenu`,
     defaultMessage: 'User menu',
   },
+  // sigin also used for title
+  signin: {
+    id: `${scope}.menu.signin`,
+    defaultMessage: 'Sign in',
+  },
+  addPictograms: {
+    id: `${scope}.title.addPictograms`,
+    defaultMessage: 'Add pictogram',
+  },
+  pictograms: {
+    id: `${scope}.title.pictograms`,
+    defaultMessage: 'Pictograms',
+  },
+  catalogs: {
+    id: `${scope}.title.catalogs`,
+    defaultMessage: 'Catalos',
+  },
+  management: {
+    id: `${scope}.title.management`,
+    defaultMessage: 'Management',
+  },
+  users: {
+    id: `${scope}.title.users`,
+    defaultMessage: 'Users',
+  },
 })

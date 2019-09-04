@@ -1,7 +1,7 @@
 // import queryString from 'query-string'
 
 const CLIENT_ID = '12345'
-export const WEB_URL = 'https://localhost:3000'
+export const WEB_URL = 'https://beta.arasaac.org'
 const STATIC_SERVER = 'https://static.arasaac.org'
 export const IMAGES_URL = `${STATIC_SERVER}/images`
 export const PICTOGRAMS_URL = `${STATIC_SERVER}/pictograms`
@@ -29,6 +29,60 @@ export const login = {
     },
   }),
 }
+
+export const categories = {
+  url: `${PRIVATE_API_ROOT}/categories`,
+  options: categoriesData => ({
+    config: {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(categoriesData),
+    },
+  }),
+}
+
+export const categoriesAdd = {
+  url: `${PRIVATE_API_ROOT}/categories/add`,
+  options: categoriesData => ({
+    config: {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(categoriesData),
+    },
+  }),
+}
+
+export const categoriesRemove = {
+  url: `${PRIVATE_API_ROOT}/categories/remove`,
+  options: (categoriesData, item) => ({
+    config: {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...categoriesData, item }),
+    },
+  }),
+}
+
+export const generateCatalog = {
+  url: language => `${PRIVATE_API_ROOT}/catalogs/${language}`,
+  options: () => ({
+    config: {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+    },
+  }),
+}
+
+export const generateCatalogs = {
+  url: `${PRIVATE_API_ROOT}/catalogs`,
+  options: () => ({
+    config: {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+    },
+  }),
+}
+
 export const socialLogin = {
   url: `${AUTH_ROOT}/oauth/token`,
   options: (token, provider) => ({
@@ -50,6 +104,18 @@ export const signup = {
   options: userData => ({
     config: {
       method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(userData),
+    },
+  }),
+}
+
+export const userUpdate = {
+  // eslint-disable-next-line no-underscore-dangle
+  url: userData => `${PRIVATE_API_ROOT}/users/${userData._id}`,
+  options: userData => ({
+    config: {
+      method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(userData),
     },

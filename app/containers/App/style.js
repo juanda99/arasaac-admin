@@ -1,4 +1,4 @@
-import { drawerWidth, transition } from '../../global-styles';
+import { drawerWidth, transition } from '../../global-styles'
 
 const appStyle = theme => ({
   wrapper: {
@@ -17,9 +17,9 @@ const appStyle = theme => ({
     overflowScrolling: 'touch',
   },
   content: {
-    marginTop: '70px',
-    padding: '30px 15px',
-    minHeight: 'calc(100vh - 123px)',
+    marginTop: '65px',
+    // padding: '30px 15px',
+    // minHeight: 'calc(100vh - 123px)',
   },
   container: {
     marginTop: '70px',
@@ -28,6 +28,11 @@ const appStyle = theme => ({
     marginRight: 'auto',
     marginLeft: 'auto',
   },
-});
+  LoadingBar: {
+    height: 2,
+    backgroundColor: 'rgb(0, 188, 212)',
+    zIndex: 100000,
+  },
+})
 
-export default appStyle;
+export default appStyle

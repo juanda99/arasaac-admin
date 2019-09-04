@@ -10,25 +10,25 @@
 const addLocaleData = require('react-intl').addLocaleData //eslint-disable-line
 const enLocaleData = require('react-intl/locale-data/en')
 const esLocaleData = require('react-intl/locale-data/es')
-const frLocaleData = require('react-intl/locale-data/fr')
-const itLocaleData = require('react-intl/locale-data/it')
-const deLocaleData = require('react-intl/locale-data/de')
-const afLocaleData = require('react-intl/locale-data/af')
+// const frLocaleData = require('react-intl/locale-data/fr')
+// const itLocaleData = require('react-intl/locale-data/it')
+// const deLocaleData = require('react-intl/locale-data/de')
+// const afLocaleData = require('react-intl/locale-data/af')
 
 const enTranslationMessages = require('./translations/en.json')
 const esTranslationMessages = require('./translations/es.json')
-const frTranslationMessages = require('./translations/fr.json')
-const itTranslationMessages = require('./translations/it.json')
-const deTranslationMessages = require('./translations/de.json')
-const valTranslationMessages = require('./translations/val.json')
-const afTranslationMessages = require('./translations/af.json')
+// const frTranslationMessages = require('./translations/fr.json')
+// const itTranslationMessages = require('./translations/it.json')
+// const deTranslationMessages = require('./translations/de.json')
+// const valTranslationMessages = require('./translations/val.json')
+// const afTranslationMessages = require('./translations/af.json')
 
 addLocaleData(enLocaleData)
 addLocaleData(esLocaleData)
-addLocaleData(frLocaleData)
-addLocaleData(itLocaleData)
-addLocaleData(deLocaleData)
-addLocaleData(afLocaleData)
+// addLocaleData(frLocaleData)
+// addLocaleData(itLocaleData)
+// addLocaleData(deLocaleData)
+// addLocaleData(afLocaleData)
 
 const DEFAULT_LOCALE = 'en'
 
@@ -51,11 +51,11 @@ const formatTranslationMessages = (locale, messages) => {
 const translationMessages = {
   en: formatTranslationMessages('en', enTranslationMessages),
   es: formatTranslationMessages('es', esTranslationMessages),
-  fr: formatTranslationMessages('fr', frTranslationMessages),
-  it: formatTranslationMessages('it', itTranslationMessages),
-  de: formatTranslationMessages('de', deTranslationMessages),
-  val: formatTranslationMessages('val', valTranslationMessages),
-  af: formatTranslationMessages('af', afTranslationMessages),
+  // fr: formatTranslationMessages('fr', frTranslationMessages),
+  // it: formatTranslationMessages('it', itTranslationMessages),
+  // de: formatTranslationMessages('de', deTranslationMessages),
+  // val: formatTranslationMessages('val', valTranslationMessages),
+  // af: formatTranslationMessages('af', afTranslationMessages),
 }
 
 exports.appLocales = appLocales
