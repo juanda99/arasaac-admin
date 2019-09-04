@@ -15,7 +15,6 @@ import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router/immutable'
 import history from 'utils/history'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import theme from 'utils/theme'
 
 // Import root app
 import App from 'containers/App'
@@ -49,7 +48,7 @@ const render = async messages => {
   const MOUNT_NODE = document.getElementById('app')
   ReactDOM.render(
     <Provider store={store}>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider>
         <LanguageProvider messages={messages}>
           <ConnectedRouter history={history}>
             <React.Fragment>

@@ -23,8 +23,8 @@ themes[LIGHT_THEME] = {
       white: '#fff',
     },
     secondary: {
-      main: '#8BC151',
-      contrastText: '#000',
+      main: '#81388d',
+      contrastText: '#fff',
     },
   },
   typography: {
