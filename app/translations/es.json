@@ -32,7 +32,7 @@
   "app.components.LanguageSelector.romanian": "Rumano",
   "app.components.LanguageSelector.russian": "Ruso",
   "app.components.LanguageSelector.spanish": "Español",
-  "app.components.LanguageSelector.translateOnline": "Traducir en vivo",
+  "app.components.LanguageSelector.translateOnline": "Traducir en línea",
   "app.components.LanguageSelector.valencian": "Valenciano",
   "app.components.LocaleSelector.button.changeLanguage": "Cambiar idioma",
   "app.components.PictogramsGrid.filterRowMessages.filterPlaceholder": "Filtrar...",
