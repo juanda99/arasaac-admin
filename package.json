@@ -93,7 +93,7 @@
     "jsonpath": "^1.0.2",
     "loadable-components": "2.2.3",
     "localforage": "^1.7.3",
-    "lodash": "4.17.11",
+    "lodash": "4.17.13",
     "material-ui-flat-pagination": "^3.2.0",
     "minimist": "1.2.0",
     "normalizr": "^3.3.0",
