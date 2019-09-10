@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Paper from '@material-ui/core/Paper'
-import Fab from '@material-ui/core/Fab'
-import AddIcon from '@material-ui/icons/Add'
 import CloseIcon from '@material-ui/icons/Close'
 import Button from '@material-ui/core/Button'
 import { Form, Field } from 'react-final-form'
@@ -64,16 +62,6 @@ export class CategoryForm extends Component {
                     <h2>
                       <FormattedMessage {...messages.keywordsList} />
                     </h2>
-                    {(!values.keywords || !values.keywords.length) && (
-                      <Fab
-                        style={{ position: 'relative', left: 10, top: -10 }}
-                        color="primary"
-                        aria-label="Add"
-                        onClick={() => push('keywords', undefined)}
-                      >
-                        <AddIcon />
-                      </Fab>
-                    )}
                   </div>
                   <div />
                   <Field name="keywords" component={CustomChipInput} />
