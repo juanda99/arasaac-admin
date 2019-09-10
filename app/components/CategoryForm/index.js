@@ -53,7 +53,7 @@ export class CategoryForm extends Component {
                   <h2>
                     <FormattedMessage {...messages.category} />
                   </h2>
-                  <div style={{ maxWidth: '400px' }}>
+                  <div style={{ maxWidth: '271px' }}>
                     <Field fullWidth name="tag" component={TextField} type="text" autoFocus />
                   </div>
                 </div>
@@ -63,8 +63,9 @@ export class CategoryForm extends Component {
                       <FormattedMessage {...messages.keywordsList} />
                     </h2>
                   </div>
-                  <div />
-                  <Field name="keywords" component={CustomChipInput} />
+                  <div style={{ maxWidth: '400px' }}>
+                    <Field name="keywords" component={CustomChipInput} />
+                  </div>
                 </div>
                 {Object.keys(data).length === 0 && (
                   <div style={{ marginTop: 16, display: 'flex', flexDirection: 'row-reverse' }}>
