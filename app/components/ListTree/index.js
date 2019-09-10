@@ -16,6 +16,7 @@ import ExpandMore from '@material-ui/icons/ExpandMore'
 import AddIcon from '@material-ui/icons/Add'
 import EditIcon from '@material-ui/icons/Edit'
 import ListItemText from '@material-ui/core/ListItemText'
+import ConfirmationDialog from './ConfirmationDialog'
 
 // From: https://codepen.io/mochiron/pen/jrymLG
 
@@ -35,6 +36,7 @@ class Item extends Component {
 class ListTree extends Component {
   state = {
     open: {},
+    confirmationBoxOpen: false,
     openForm: '',
     action: '',
     visibilityIcons: '',
@@ -74,14 +76,20 @@ class ListTree extends Component {
   }
 
   clickDeleteButton = item => {
-    console.log(`Deletif.... ${item}`)
-    this.props.onDelete(item)
+    this.setState({ confirmationBoxOpen: true, targetItem: item, action: 'delete' })
+  }
+
+  handleDelete = accept => {
+    this.setState({ confirmationBoxOpen: false })
+    if (accept) this.props.onDelete(this.state.targetItem)
   }
 
   handleUpdate = (event, item) => {
     this.props.onUpdate(event, item)
-    this.setState({ openForm: '', targetItem: null })
+    // this.setState({ openForm: '', targetItem: null })
   }
+
+  handleClose = () => this.setState({ openForm: '', targetItem: null })
 
   handleAdd = (event, item) => {
     this.props.onAdd(event, item)
@@ -115,20 +123,25 @@ class ListTree extends Component {
 
     const menuItems = []
 
-    // get all keys and values from Category!
-    const categoryValues = categories =>
+    // get all keys and values from Category
+    const categoryValues = categories => {
       Object.keys(categories).forEach(key => {
         menuItems.push({ key, tag: categories[key].tag })
         if (categories[key].children) categoryValues(categories[key].children)
       })
-    // load data to menuItems:
+      menuItems.sort((a, b) => a.tag < b.tag)
+    }
+    menuItems.sort((a, b) => a.tag < b.tag)
+    // load data to menuItems, we will sort them inside CategoryForm when c
     categoryValues(data)
+
     return (
       <CategoryForm
         data={this.state.action === 'edit' ? subData : {}}
         item={item}
         menuItems={menuItems}
         onSubmit={this.state.action === 'edit' ? this.handleUpdate : this.handleAdd}
+        onClose={this.handleClose}
       />
     )
   }
@@ -211,7 +224,12 @@ class ListTree extends Component {
     })
 
   render() {
-    return <List component="nav">{this.renderTreeNodes(this.props.data)}</List>
+    return (
+      <React.Fragment>
+        <List component="nav">{this.renderTreeNodes(this.props.data)}</List>
+        <ConfirmationDialog onClose={this.handleDelete} open={this.state.confirmationBoxOpen} />
+      </React.Fragment>
+    )
   }
 }
 

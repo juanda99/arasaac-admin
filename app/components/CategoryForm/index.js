@@ -1,35 +1,23 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Paper from '@material-ui/core/Paper'
+import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
-import DeleteIcon from '@material-ui/icons/Delete'
+import CloseIcon from '@material-ui/icons/Close'
 import Button from '@material-ui/core/Button'
 import { Form, Field } from 'react-final-form'
-import arrayMutators from 'final-form-arrays'
-import { FieldArray } from 'react-final-form-arrays'
-import { TextField, Select } from 'final-form-material-ui'
-import MenuItem from '@material-ui/core/MenuItem'
+import { TextField } from 'final-form-material-ui'
 import { FormattedMessage } from 'react-intl'
+import IconButton from '@material-ui/core/IconButton'
+import CustomChipInput from './CustomChipInput'
+import AutoSave from './AutoSave'
 import messages from './messages'
 
-// eslint-disable-next-line react/prefer-stateless-function
-
-const isEqualsArray = (a, b) => {
-  if (!a && !b) return true
-  if (!a || !b) return false
-  if (a.length !== b.length) return false
-
-  const isEquals = (item1, item2) => item1 === item2
-
-  for (let i = 0; i < a.length; i++) {
-    if (isEquals(a[i], b[i])) return false
-  }
-  return true
-}
 export class CategoryForm extends Component {
   static propTypes = {
     data: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
     menuItems: PropTypes.arrayOf(
       PropTypes.shape({
         key: PropTypes.string.isRequired,
@@ -39,139 +27,75 @@ export class CategoryForm extends Component {
     item: PropTypes.string,
   }
 
-  handleSubmit = values => {
+  handleSubmit = async values => {
     const { item, onSubmit } = this.props
     onSubmit(values, item)
   }
 
+  handleClose = values => {
+    const { onClose, item } = this.props
+    onClose(values, item)
+  }
+
   render() {
-    const { data, menuItems } = this.props
+    const { data } = this.props
     return (
       <div>
         <Form
           onSubmit={this.handleSubmit}
-          mutators={{
-            ...arrayMutators,
-          }}
           initialValues={data}
-          render={({
-            handleSubmit,
-            form: {
-              mutators: { push, pop },
-            }, // injected from final-form-arrays above
-            pristine,
-            form,
-            submitting,
-            values,
-          }) => (
+          render={({ handleSubmit, pristine, form, submitting, values }) => (
             <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+              {Object.keys(data).length !== 0 && <AutoSave debounce={1000} save={handleSubmit} />}
               <Paper style={{ padding: 32, margin: 20 }}>
-                <div>
-                  <Field
-                    fullWidth
-                    name="tag"
-                    component={TextField}
-                    type="text"
-                    label={<FormattedMessage {...messages.category} />}
-                  />
+                <IconButton style={{ position: 'absolute', right: '50px' }} onClick={this.handleClose}>
+                  <CloseIcon />
+                </IconButton>
+                <div style={{ marginTop: 30 }}>
+                  <h2>
+                    <FormattedMessage {...messages.category} />
+                  </h2>
+                  <div style={{ maxWidth: '400px' }}>
+                    <Field fullWidth name="tag" component={TextField} type="text" autoFocus />
+                  </div>
                 </div>
-                <div className="buttons">
-                  {(!values.keywords || !values.keywords.length) && (
+                <div style={{ marginTop: 30 }}>
+                  <div style={{ display: 'flex' }}>
+                    <h2>
+                      <FormattedMessage {...messages.keywordsList} />
+                    </h2>
+                    {(!values.keywords || !values.keywords.length) && (
+                      <Fab
+                        style={{ position: 'relative', left: 10, top: -10 }}
+                        color="primary"
+                        aria-label="Add"
+                        onClick={() => push('keywords', undefined)}
+                      >
+                        <AddIcon />
+                      </Fab>
+                    )}
+                  </div>
+                  <div />
+                  <Field name="keywords" component={CustomChipInput} />
+                </div>
+                {Object.keys(data).length === 0 && (
+                  <div style={{ marginTop: 16, display: 'flex', flexDirection: 'row-reverse' }}>
                     <Button
+                      style={{ marginLeft: '15px' }}
                       variant="contained"
-                      style={{ marginTop: 30, marginRight: 10 }}
                       color="primary"
-                      onClick={() => push('keywords', undefined)}
+                      type="submit"
+                      disabled={submitting || pristine}
                     >
-                      Add keywords
+                      <FormattedMessage {...messages.save} />
                     </Button>
-                  )}
-                  {(!values.relatedCategories || !values.relatedCategories.length) && (
-                    <Button
-                      variant="contained"
-                      style={{ marginTop: 30 }}
-                      color="primary"
-                      onClick={() => push('relatedCategories', undefined)}
-                    >
-                      <FormattedMessage {...messages.addRelatedCategory} />
+                    <Button variant="contained" color="secondary" type="submit">
+                      <FormattedMessage {...messages.cancel} />
                     </Button>
-                  )}
-                </div>
-                <h2 style={{ marginTop: 40, marginBottom: 20 }}>
-                  <FormattedMessage {...messages.keywordsList} />
-                </h2>
-                <FieldArray name="keywords" isEqual={() => isEqualsArray(data.keywords, values.keywords)}>
-                  {({ fields }) =>
-                    fields.map((keyword, index) => (
-                      <div key={keyword}>
-                        <Field name={keyword} component={TextField} type="text" />
-                        <Button
-                          onClick={() => push('keywords', undefined)}
-                          variant="fab"
-                          mini
-                          style={{ marginRight: 10 }}
-                          color="primary"
-                          aria-label="Add"
-                        >
-                          <AddIcon />
-                        </Button>
-                        <Button
-                          onClick={() => fields.remove(index)}
-                          variant="fab"
-                          mini
-                          color="primary"
-                          aria-label="Add"
-                        >
-                          <DeleteIcon />
-                        </Button>
-                      </div>
-                    ))
-                  }
-                </FieldArray>
-                <h2 style={{ marginTop: 40, marginBottom: 20 }}>
-                  <FormattedMessage {...messages.relatedCategories} />
-                </h2>
-                <FieldArray name="relatedCategories">
-                  {({ fields }) =>
-                    fields.map((relatedCategory, index) => (
-                      <div key={relatedCategory}>
-                        <Field style={{ width: 300 }} name={relatedCategory} component={Select}>
-                          {menuItems.map(menuItem => (
-                            <MenuItem key={menuItem.key} value={menuItem.key}>
-                              {menuItem.tag}
-                            </MenuItem>
-                          ))}
-                        </Field>
-                        <Button
-                          onClick={() => push('relatedCategories', undefined)}
-                          variant="fab"
-                          mini
-                          style={{ marginRight: 10 }}
-                          color="primary"
-                          aria-label="Add"
-                        >
-                          <AddIcon />
-                        </Button>
-                        <Button
-                          onClick={() => fields.remove(index)}
-                          variant="fab"
-                          mini
-                          color="primary"
-                          aria-label="Add"
-                        >
-                          <DeleteIcon />
-                        </Button>
-                      </div>
-                    ))
-                  }
-                </FieldArray>
-
-                <div style={{ marginTop: 16 }}>
-                  <Button variant="contained" color="primary" type="submit" disabled={submitting || pristine}>
-                    <FormattedMessage {...messages.save} />
-                  </Button>
-                </div>
+                  </div>
+                )}
               </Paper>
+              <pre>{JSON.stringify(values, 0, 2)}</pre>
             </form>
           )}
         />

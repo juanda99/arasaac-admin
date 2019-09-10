@@ -23,4 +23,8 @@ export default defineMessages({
     id: `${scope}.button.save`,
     defaultMessage: 'Save',
   },
+  cancel: {
+    id: `${scope}.button.cancel`,
+    defaultMessage: 'Cancel',
+  },
 })
