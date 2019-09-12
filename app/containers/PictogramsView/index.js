@@ -53,7 +53,6 @@ class PictogramsView extends React.PureComponent {
     // if (searchText && !searchResults) {
     //   this.props.requestPictograms(locale, searchText)
     // }
-    console.log(`LastUpdated: ${lastUpdated}`)
     this.props.requestNewPictograms(locale, lastUpdated)
     this.props.requestAutocomplete(locale)
   }
@@ -187,7 +186,7 @@ class PictogramsView extends React.PureComponent {
         <div className={classes.root}>
           <Tabs
             className={classes.tab}
-            fullWidth
+            variant="fullWidth"
             value={slideIndex}
             onChange={this.handleChange}
             indicatorColor="primary"
