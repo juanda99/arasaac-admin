@@ -5,15 +5,15 @@ import { connect } from 'react-redux'
 import View from 'components/View'
 import { withStyles } from '@material-ui/core/styles'
 import ListTree from 'components/ListTree'
-import injectReducer from 'utils/injectReducer'
+// import injectReducer from 'utils/injectReducer'
 import { DAEMON } from 'utils/constants'
 import injectSaga from 'utils/injectSaga'
 import { makeSelectLocale } from 'containers/LanguageProvider/selectors'
 // import DragDropFile from './DragDropFile'
 import styles from './styles'
-import { categories, categoriesUpdate, categoriesAdd, categoriesDelete, categoriesImport } from './actions'
+import { categories, categoriesUpdate, categoriesAdd, categoriesDelete } from './actions'
 import { makeLoadingSelector, makeCategoriesSelectorByLocale, makeLastUpdatedSelectorByLocale } from './selectors'
-import reducer from './reducer'
+// import reducer from './reducer'
 import messages from './messages'
 import saga from './sagas'
 
@@ -74,7 +74,7 @@ class CategoriesView extends React.PureComponent {
 
 const mapStateToProps = state => ({
   locale: makeSelectLocale()(state),
-  loading: makeLoadingSelector()(state),
+  loading: makeLoadingSelector()(state), // for categories
   lastUpdated: makeLastUpdatedSelectorByLocale()(state),
   categories: makeCategoriesSelectorByLocale()(state),
 })
@@ -92,20 +92,17 @@ const mapDispatchToProps = dispatch => ({
   requestCategoriesAdd: (token, locale, parentItem, data) => {
     dispatch(categoriesAdd.request(token, locale, parentItem, data))
   },
-  requestCategoriesImport: (token, data) => {
-    dispatch(categoriesImport.request(token, data))
-  },
 })
 
 const withConnect = connect(
   mapStateToProps,
   mapDispatchToProps,
 )
-const withReducer = injectReducer({ key: 'categoriesView', reducer })
+// const withReducer = injectReducer({ key: 'categoriesView', reducer })
 const withSaga = injectSaga({ key: 'categoriesView', saga, mode: DAEMON })
 
 export default compose(
-  withReducer,
+  // withReducer,
   withSaga,
   withConnect,
 )(withStyles(styles, { withTheme: true })(CategoriesView))
