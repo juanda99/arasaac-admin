@@ -135,6 +135,8 @@ class ListTree extends Component {
     // load data to menuItems, we will sort them inside CategoryForm when c
     categoryValues(data)
 
+    console.log(subData)
+
     return (
       <CategoryForm
         data={this.state.action === 'edit' ? subData : {}}

@@ -43,7 +43,6 @@ const categoriesViewReducer = (state = initialState, action) => {
         return state.set('loading', false)
       const { locale } = action.payload.data
       categories = state.get('categories')
-      console.log(action.payload.data)
       categories[locale] = action.payload.data
       return state.set('loading', false).set('categories', categories)
     case CATEGORIES.FAILURE:

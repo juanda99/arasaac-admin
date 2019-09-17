@@ -39,7 +39,7 @@ function* categoriesAddGetData(action) {
     const key = data.tag
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '') // removing accents and diacritics
-      .replace(/\s/g, '') // without blank spaces
+      // .replace(/\s/g, '') // without blank spaces
       .toLowerCase()
     const keyExists = jp.value(allCategories, `$..["${key}"]`)
     if (keyExists) throw new Error(`key ${key} already exists in category tree`)
@@ -96,7 +96,7 @@ export function* categoriesData() {
   const watcher = yield takeLatest(CATEGORIES.REQUEST, categoriesGetData)
   // Suspend execution until location changes
   yield take(LOCATION_CHANGE)
-  // yield cancel(watcher)
+  //  yield cancel(watcher)
 }
 
 export function* categoriesUpdateData() {

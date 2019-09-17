@@ -10,14 +10,14 @@ const categoriesToArray = obj =>
     obj[k].key = k
     obj[k].label = obj[k].tag
     obj[k].value = k
-    obj[k].disabled = (obj[k].keywords.length===0)
+    obj[k].disabled = obj[k].keywords.length === 0
     if (obj[k].children) obj[k].children = categoriesToArray(obj[k].children)
     return obj[k]
   })
 
 class CategoriesSelector extends PureComponent {
   componentDidMount() {
-    let cloneCategories = JSON.parse(JSON.stringify(this.props.categories)) 
+    const cloneCategories = JSON.parse(JSON.stringify(this.props.categories))
     this.setState({ treeData: categoriesToArray(cloneCategories) })
   }
 
@@ -26,7 +26,12 @@ class CategoriesSelector extends PureComponent {
     treeData: [],
   }
 
+  onSelect = (value, node, extra) => {
+    console.log(value, node, extra)
+  }
+
   onChange = value => {
+    console.log('on change!')
     this.setState({ value })
   }
 
@@ -41,6 +46,7 @@ class CategoriesSelector extends PureComponent {
         treeData={treeData}
         placeholder="Please select"
         onChange={this.onChange}
+        onSelect={this.onSelect}
         multiple
       />
     )
