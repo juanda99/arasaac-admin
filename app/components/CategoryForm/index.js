@@ -7,9 +7,11 @@ import { Form, Field } from 'react-final-form'
 import { TextField } from 'final-form-material-ui'
 import { FormattedMessage } from 'react-intl'
 import IconButton from '@material-ui/core/IconButton'
-import CustomChipInput from './CustomChipInput'
-import AutoSave from './AutoSave'
+import ChipInput from 'components/ChipInput'
+import AutoSave from 'components/AutoSave'
 import messages from './messages'
+
+const ChipInputWrapper = props => <ChipInput {...props} text="tag" value="key" />
 
 export class CategoryForm extends Component {
   static propTypes = {
@@ -64,7 +66,7 @@ export class CategoryForm extends Component {
                     </h2>
                   </div>
                   <div style={{ maxWidth: '400px' }}>
-                    <Field name="keywords" component={CustomChipInput} />
+                    <Field name="keywords" component={ChipInputWrapper} />
                   </div>
                 </div>
                 {Object.keys(data).length === 0 && (
