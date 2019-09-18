@@ -89,7 +89,7 @@ class SearchField extends Component {
                   >
                     <ClearIcon />
                   </IconButton>
-                  <Button variant="contained" color="primary" className={classes.button}>
+                  <Button variant="contained" color="primary" className={classes.button} onClick={this.handleClick}>
                     <SearchIcon />
                   </Button>
                 </div>
@@ -126,9 +126,7 @@ class SearchField extends Component {
     })
   }
 
-  handleClick = () => {
-    this.props.onSubmit(this.state.searchText)
-  }
+  handleClick = () => this.props.onSubmit(this.state.searchText)
 
   handleRemoveSearchText = () => {
     this.setState({ searchText: '' })
