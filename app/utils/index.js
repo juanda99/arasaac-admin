@@ -84,3 +84,78 @@ export const removeKeys = (obj, keys) => {
     }
   }
 }
+
+export const languages = [
+  {
+    code: 'ca',
+    text: 'Català',
+  },
+  {
+    code: 'de',
+    text: 'Deutsche',
+  },
+  {
+    code: 'es',
+    text: 'Español',
+  },
+  {
+    code: 'en',
+    text: 'English',
+  },
+  {
+    code: 'eu',
+    text: 'Euskal',
+  },
+  {
+    code: 'fr',
+    text: 'Français',
+  },
+  {
+    code: 'gl',
+    text: 'Galego',
+  },
+  {
+    code: 'cr',
+    text: 'Hrvatski',
+  },
+  {
+    code: 'it',
+    text: 'Italiano',
+  },
+  {
+    code: 'bg',
+    text: 'български',
+  },
+  {
+    code: 'pl',
+    text: 'Polskie',
+  },
+  {
+    code: 'pt',
+    text: 'Português',
+  },
+  {
+    code: 'br',
+    text: 'Português do Brasil',
+  },
+  {
+    code: 'ro',
+    text: 'Română',
+  },
+  {
+    code: 'ru',
+    text: 'Pусский',
+  },
+  {
+    code: 'val',
+    text: 'Valencia',
+  },
+  {
+    code: 'ar',
+    text: 'عربى',
+  },
+  {
+    code: 'zh',
+    text: '简体中文）',
+  },
+]
