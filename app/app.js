@@ -15,6 +15,10 @@ import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router/immutable'
 import history from 'utils/history'
 import CssBaseline from '@material-ui/core/CssBaseline'
+import { MuiPickersUtilsProvider } from 'material-ui-pickers'
+
+// pick utils
+import MomentUtils from '@date-io/moment'
 
 // Import root app
 import App from 'containers/App'
@@ -51,10 +55,12 @@ const render = async messages => {
       <ThemeProvider>
         <LanguageProvider messages={messages}>
           <ConnectedRouter history={history}>
-            <React.Fragment>
-              <CssBaseline />
-              <App />
-            </React.Fragment>
+            <MuiPickersUtilsProvider utils={MomentUtils}>
+              <React.Fragment>
+                <CssBaseline />
+                <App />
+              </React.Fragment>
+            </MuiPickersUtilsProvider>
           </ConnectedRouter>
         </LanguageProvider>
       </ThemeProvider>

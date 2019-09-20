@@ -1,24 +1,32 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
 import { PICTOGRAMS_URL } from 'services/config'
 import ConditionalPaper from './ConditionalPaper'
+import styles from './styles'
 
-class Pictogram extends Component {
+class Pictogram extends PureComponent {
   static propTypes = {
     pictogram: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
   }
 
   render() {
-    const { pictogram } = this.props
-    console.log(`Pictogram: ${JSON.stringify(pictogram)}`)
-    const { tags, keywords, syncsets, idPictogram, status } = pictogram
+    const { pictogram, classes } = this.props
+    const { idPictogram } = pictogram
 
     return (
-      <ConditionalPaper>
-        <img src={`${PICTOGRAMS_URL}/${idPictogram}/${idPictogram}_500.png`} />
-      </ConditionalPaper>
+      <div className={classes.pictoWrapper}>
+        <ConditionalPaper>
+          <img
+            className={classes.pictogram}
+            src={`${PICTOGRAMS_URL}/${idPictogram}/${idPictogram}_300.png`}
+            alt="Pictograms"
+          />
+        </ConditionalPaper>
+      </div>
     )
   }
 }
 
-export default Pictogram
+export default withStyles(styles, { withTheme: true })(Pictogram)

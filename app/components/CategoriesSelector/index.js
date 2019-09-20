@@ -22,21 +22,24 @@ class CategoriesSelector extends PureComponent {
   }
 
   state = {
-    value: undefined,
     treeData: [],
   }
 
   onSelect = (value, node, extra) => {
-    console.log(value, node, extra)
+    // console.log(value, node, extra)
   }
 
-  onChange = value => {
-    console.log('on change!')
-    this.setState({ value })
+  onChange = (key, tag) => {
+    const { value, onChange } = this.props.input
+    console.log(`****${key}`)
+    console.log(value)
+    onChange(key)
+    // this.setState({ value: key })
   }
 
   render() {
-    const { treeData, value } = this.state
+    const { treeData } = this.state
+    const { value } = this.props.input
     console.log(treeData)
     return (
       <TreeSelect
@@ -55,6 +58,7 @@ class CategoriesSelector extends PureComponent {
 
 CategoriesSelector.propTypes = {
   categories: PropTypes.object.isRequired,
+  input: PropTypes.object.isRequired,
 }
 
 export default CategoriesSelector

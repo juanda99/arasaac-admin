@@ -10,11 +10,12 @@ import { makeSelectHasUser } from 'containers/UsersView/selectors'
 import { makeSelectLocale } from 'containers/LanguageProvider/selectors'
 import View from 'components/View'
 import Pictogram from 'components/Pictogram'
+import PictogramForm from 'components/PictogramForm'
 // import reducer from 'containers/PictogramsView/reducer'
 import saga from 'containers/PictogramsView/sagas'
 import { categories } from 'containers/CategoriesView/actions'
 import { makeCategoriesSelectorByLocale, makeLastUpdatedSelectorByLocale } from 'containers/CategoriesView/selectors'
-import CategoriesSelector from 'components/CategoriesSelector'
+
 import styles from './styles'
 import { makeLoadingSelector, makeSelectIdPictogram, makePictogramByIdSelector } from '../PictogramsView/selectors'
 import { pictogram } from './actions'
@@ -40,14 +41,15 @@ class PictogramView extends React.PureComponent {
   }
 
   render() {
-    const { selectedPictogram, locale } = this.props
+    const { selectedPictogram, locale, classes } = this.props
     // console.log(`Selected pictogram: ${selectedPictogram}`)
     const categoriesData = this.props.categories.data || {}
     return (
       <View>
-        <h2>Categorías pictograma</h2>
-        <Pictogram pictogram={selectedPictogram} locale={locale} />
-        <CategoriesSelector categories={categoriesData} />
+        <div className={classes.wrapper}>
+          <Pictogram pictogram={selectedPictogram} locale={locale} />
+          <PictogramForm data={selectedPictogram} categories={categoriesData} />
+        </div>
       </View>
     )
   }
@@ -63,6 +65,7 @@ PictogramView.propTypes = {
   requestCategories: PropTypes.func.isRequired,
   lastUpdatedCategories: PropTypes.string,
   categories: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = (state, ownProps) => ({
