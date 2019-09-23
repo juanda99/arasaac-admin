@@ -31,15 +31,16 @@ export const getFilteredItems = (items, filters) =>
 export const keywordSelector = (searchText, keywords) => {
   const searchTextArray = searchText ? searchText.split(' ') : []
   if (!searchTextArray.length) {
-    console.log(`Keyword: ${keywords[0]}`)
-    return keywords[0]
+    return keywords[0] || ''
   }
   return (
     keywords.find(keywordsItem => {
       const keywordArray = keywordsItem.keyword.split(' ')
       const found = searchTextArray.some(word => keywordArray.includes(word))
       return found
-    }) || keywords[0]
+    }) ||
+    keywords[0] ||
+    ''
   ) /* in case find doesn't get any results, we get first one */
 }
 

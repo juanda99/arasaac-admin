@@ -11,7 +11,7 @@ import { Form, Field } from 'react-final-form'
 import arrayMutators from 'final-form-arrays'
 import { FieldArray } from 'react-final-form-arrays'
 import { TextField, Select, Checkbox } from 'final-form-material-ui'
-import LanguageSelector from 'components/LanguageSelector'
+import { languages } from 'utils/index'
 import CategoriesSelector from 'components/CategoriesSelector'
 import ChipInput from 'components/ChipInput'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -19,6 +19,8 @@ import { FormattedMessage } from 'react-intl'
 // see picker doc at https://material-ui-pickers-v2.dmtr-kovalenko.now.sh
 // also configured in app.js
 import { DatePicker } from 'material-ui-pickers'
+import { injectIntl, intlShape } from 'react-intl'
+import langMessages from 'components/LanguageSelector/messages'
 import styles from './styles'
 import messages from './messages'
 // import { styles } from 'material-ui-pickers/DatePicker/DatePicker'
@@ -63,6 +65,7 @@ export class PictogramForm extends Component {
 
   state = {
     showSuggestions: false,
+    language: localStorage.getItem('referenceLanguage'),
   }
 
   handleSubmit = values => {
@@ -77,12 +80,22 @@ export class PictogramForm extends Component {
     return null
   }
 
+  handleChangeLanguage = value => {
+    console.log(value)
+  }
+
   render() {
-    const { data, classes, categories } = this.props
-    const { showSuggestions } = this.state
-    console.log(`STATE: ${JSON.stringify(this.state)}`)
+    const { data, classes, categories, intl } = this.props
+    const { formatMessage } = intl
+    const { showSuggestions, language } = this.state
     return (
       <div className={classes.form}>
+        <div style={{ marginTop: 30 }}>
+          <h2>
+            <FormattedMessage {...messages.pictogramData} />
+          </h2>
+          <Divider />
+        </div>
         <Form
           onSubmit={this.handleSubmit}
           mutators={{
@@ -99,35 +112,43 @@ export class PictogramForm extends Component {
             submitting,
             values,
           }) => (
-            <form onSubmit={handleSubmit} style={{ width: '100%' }}>
-              <div style={{ marginTop: 30 }}>
+            <>
+              <div style={{ display: 'flex', marginTop: 30 }}>
                 <h2>
-                  <FormattedMessage {...messages.pictogramData} />
+                  <FormattedMessage {...messages.keywordsList} />
                 </h2>
-                <Divider />
+
+                {(!values.keywords || !values.keywords.length) && (
+                  <>
+                    <Fab
+                      style={{ position: 'relative', left: 10, top: -10 }}
+                      color="primary"
+                      size="small"
+                      aria-label="Add"
+                      onClick={() => push('keywords', undefined)}
+                    >
+                      <AddIcon />
+                    </Fab>
+                  </>
+                )}
               </div>
-
-              <div style={{ marginTop: 30 }}>
-                <div style={{ display: 'flex' }}>
-                  <h2>
-                    <FormattedMessage {...messages.keywordsList} />
-                  </h2>
-
-                  {(!values.keywords || !values.keywords.length) && (
-                    <>
-                      <Fab
-                        style={{ position: 'relative', left: 10, top: -10 }}
-                        color="primary"
-                        size="small"
-                        aria-label="Add"
-                        onClick={() => push('keywords', undefined)}
-                      >
-                        <AddIcon />
-                      </Fab>
-                    </>
-                  )}
+              <Button variant="outlined" color="primary" onClick={this.toggleSuggestions}>
+                {showSuggestions ? 'Hide Suggestions' : 'Show suggestions'}
+              </Button>
+              {showSuggestions && (
+                <div className={classes.suggestions}>
+                  <p>Choose a language to see the translation in another language</p>
+                  <Select value={language} onChange={this.handleChangeLanguage}>
+                    {languages.map(item => (
+                      <MenuItem key={item.code} selected={language === item.code} onClick={() => onClick(item.code)}>
+                        {`${item.text} - ${formatMessage(langMessages[item.code])}`}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  <p>Sugerencias en español:</p>
                 </div>
-
+              )}
+              <form onSubmit={handleSubmit} style={{ width: '100%' }}>
                 <FieldArray name="keywords">
                   {({ fields }) =>
                     fields.map((keyword, index) => (
@@ -178,92 +199,82 @@ export class PictogramForm extends Component {
                     ))
                   }
                 </FieldArray>
-                <Button variant="outlined" color="primary" onClick={this.toggleSuggestions}>
-                  {showSuggestions ? 'Hide Suggestions' : 'Show suggestions'}
-                </Button>
-                {showSuggestions && (
-                  <div className={classes.suggestions}>
-                    <p>Choose a language to see the translation in another language</p>
-                    <LanguageSelector value="en" onClick={this.props.changeLocale} />
-                    <p>Sugerencias en español:</p>
+
+                <div style={{ marginTop: 30 }}>
+                  <h2>
+                    <FormattedMessage {...messages.pictogramStatus} />
+                  </h2>
+                  <div style={{ display: 'flex' }}>
+                    <FormControlLabel
+                      label="Publicado"
+                      control={<Field name="published" component={Checkbox} type="checkbox" />}
+                    />
+                    <FormControlLabel
+                      label="Visible para traductores"
+                      control={<Field name="available" component={Checkbox} type="checkbox" />}
+                    />
+                    <FormControlLabel
+                      label="Revisado"
+                      control={<Field name="validated " component={Checkbox} type="checkbox" />}
+                    />
                   </div>
-                )}
-              </div>
-
-              <div style={{ marginTop: 30 }}>
-                <h2>
-                  <FormattedMessage {...messages.pictogramStatus} />
-                </h2>
+                </div>
                 <div style={{ display: 'flex' }}>
-                  <FormControlLabel
-                    label="Publicado"
-                    control={<Field name="published" component={Checkbox} type="checkbox" />}
+                  <Field
+                    name="created"
+                    style={{ marginRight: '15px' }}
+                    component={DatePickerWrapper}
+                    margin="normal"
+                    label="Fecha de creación"
                   />
-                  <FormControlLabel
-                    label="Visible para traductores"
-                    control={<Field name="available" component={Checkbox} type="checkbox" />}
-                  />
-                  <FormControlLabel
-                    label="Revisado"
-                    control={<Field name="validated " component={Checkbox} type="checkbox" />}
+
+                  <Field
+                    name="lastUpdated"
+                    component={DatePickerWrapper}
+                    margin="normal"
+                    label="Fecha de actualización"
                   />
                 </div>
-              </div>
-              <div style={{ display: 'flex' }}>
-                <Field
-                  name="created"
-                  style={{ marginRight: '15px' }}
-                  component={DatePickerWrapper}
-                  margin="normal"
-                  label="Fecha de creación"
-                />
 
-                <Field
-                  name="lastUpdated"
-                  component={DatePickerWrapper}
-                  margin="normal"
-                  label="Fecha de actualización"
-                />
-              </div>
-
-              <div style={{ marginTop: 30 }}>
-                <h2>
-                  <FormattedMessage {...messages.categories} />
-                </h2>
-                <Field
-                  name="tags"
-                  component={CategoriesSelectorWrapper}
-                  label="Estado del pictograma"
-                  categories={categories}
-                />
-              </div>
-
-              <div style={{ marginTop: 30 }}>
-                <h2>
-                  <FormattedMessage {...messages.synsets} />
-                </h2>
-                <div style={{ maxWidth: '400px' }}>
-                  <Field name="synsets" component={ChipInputWrapper} />
+                <div style={{ marginTop: 30 }}>
+                  <h2>
+                    <FormattedMessage {...messages.categories} />
+                  </h2>
+                  <Field
+                    name="tags"
+                    component={CategoriesSelectorWrapper}
+                    label="Estado del pictograma"
+                    categories={categories}
+                  />
                 </div>
-              </div>
 
-              <div style={{ marginTop: 16, display: 'flex', flexDirection: 'row-reverse' }}>
-                <Button
-                  style={{ marginLeft: '15px' }}
-                  variant="contained"
-                  color="primary"
-                  type="submit"
-                  disabled={submitting || pristine}
-                >
-                  <FormattedMessage {...messages.save} />
-                </Button>
+                <div style={{ marginTop: 30 }}>
+                  <h2>
+                    <FormattedMessage {...messages.synsets} />
+                  </h2>
+                  <div style={{ maxWidth: '400px' }}>
+                    <Field name="synsets" component={ChipInputWrapper} />
+                  </div>
+                </div>
 
-                <Button variant="contained" color="secondary" type="submit">
-                  <FormattedMessage {...messages.cancel} />
-                </Button>
-              </div>
-              <pre>{JSON.stringify(values, 0, 2)}</pre>
-            </form>
+                <div style={{ marginTop: 16, display: 'flex', flexDirection: 'row-reverse' }}>
+                  <Button
+                    style={{ marginLeft: '15px' }}
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                    disabled={submitting || pristine}
+                  >
+                    <FormattedMessage {...messages.save} />
+                  </Button>
+
+                  <Button variant="contained" color="secondary" type="submit">
+                    <FormattedMessage {...messages.cancel} />
+                  </Button>
+                </div>
+                <pre>{JSON.stringify(values, 0, 2)}</pre>
+              </form>
+            </>
           )}
         />
       </div>
@@ -275,4 +286,4 @@ PictogramForm.defaultProps = {
   data: {},
 }
 
-export default withStyles(styles, { withTheme: true })(PictogramForm)
+export default withStyles(styles, { withTheme: true })(injectIntl(PictogramForm))
