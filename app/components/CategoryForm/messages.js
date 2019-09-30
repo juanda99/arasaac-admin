@@ -12,7 +12,7 @@ export default defineMessages({
     defaultMessage: 'List of keywords',
   },
   tagsList: {
-    id: `${scope}.keywordsList`,
+    id: `${scope}.tagsList`,
     defaultMessage: 'List of tags',
   },
   save: {
