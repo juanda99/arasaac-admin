@@ -126,16 +126,14 @@ class ListTree extends Component {
     // get all keys and values from Category
     const categoryValues = categories => {
       Object.keys(categories).forEach(key => {
-        menuItems.push({ key, tag: categories[key].tag })
+        menuItems.push({ key, text: categories[key].text, tags: categories[key].tags, keywords: categories[key].keywords })
         if (categories[key].children) categoryValues(categories[key].children)
       })
-      menuItems.sort((a, b) => a.tag < b.tag)
+      menuItems.sort((a, b) => a.text < b.ttext)
     }
-    menuItems.sort((a, b) => a.tag < b.tag)
+    menuItems.sort((a, b) => a.text < b.text)
     // load data to menuItems, we will sort them inside CategoryForm when c
     categoryValues(data)
-
-    console.log(subData)
 
     return (
       <CategoryForm
@@ -171,7 +169,7 @@ class ListTree extends Component {
                     style={{ paddingRight: 10 }}
                     badgeContent={Object.keys(data[item].children).length}
                   >
-                    {data[item].tag}
+                    {data[item].text}
                   </Badge>
                 }
               />
@@ -212,12 +210,12 @@ class ListTree extends Component {
                     style={{ paddingRight: 10 }}
                     badgeContent={Object.keys(data[item].children).length}
                   >
-                    {data[item].tag}
+                    {data[item].text}
                   </Badge>
                 }
               />
             )}
-            {!data[item].children && <ListItemText primary={data[item].tag} />}
+            {!data[item].children && <ListItemText primary={data[item].text} />}
             {this.renderActionIcons(item)}
           </ListItem>
           {this.state.openForm === item && this.renderForm(this.state.targetItem)}

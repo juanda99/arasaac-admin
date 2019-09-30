@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button'
 import { Form, Field } from 'react-final-form'
 import arrayMutators from 'final-form-arrays'
 import { FieldArray } from 'react-final-form-arrays'
+import { OnBlur } from 'react-final-form-listeners'
 import { TextField, Select, Checkbox } from 'final-form-material-ui'
 import { languages } from 'utils/index'
 import CategoriesSelector from 'components/CategoriesSelector'
@@ -42,9 +43,15 @@ const DatePickerWrapper = props => {
       error={showError}
       inputProps={restInput}
       onChange={onChange}
+      format="L"
       value={value === '' ? null : value}
     />
   )
+}
+
+const make_ajax_request = () => {
+  console.log('ajax executed')
+  return 'kkkkk'
 }
 
 const CategoriesSelectorWrapper = props => <CategoriesSelector {...props} />
@@ -61,6 +68,7 @@ export class PictogramForm extends Component {
     ),
     item: PropTypes.string,
     categories: PropTypes.object.isRequired,
+    locale: PropTypes.string.isRequired,
   }
 
   state = {
@@ -85,17 +93,11 @@ export class PictogramForm extends Component {
   }
 
   render() {
-    const { data, classes, categories, intl } = this.props
+    const { data, classes, categories, intl, locale } = this.props
     const { formatMessage } = intl
     const { showSuggestions, language } = this.state
     return (
       <div className={classes.form}>
-        <div style={{ marginTop: 30 }}>
-          <h2>
-            <FormattedMessage {...messages.pictogramData} />
-          </h2>
-          <Divider />
-        </div>
         <Form
           onSubmit={this.handleSubmit}
           mutators={{
@@ -112,43 +114,35 @@ export class PictogramForm extends Component {
             submitting,
             values,
           }) => (
-            <>
-              <div style={{ display: 'flex', marginTop: 30 }}>
+            <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+              <div style={{ marginTop: 30 }}>
                 <h2>
-                  <FormattedMessage {...messages.keywordsList} />
+                  <FormattedMessage {...messages.pictogramData} />
                 </h2>
-
-                {(!values.keywords || !values.keywords.length) && (
-                  <>
-                    <Fab
-                      style={{ position: 'relative', left: 10, top: -10 }}
-                      color="primary"
-                      size="small"
-                      aria-label="Add"
-                      onClick={() => push('keywords', undefined)}
-                    >
-                      <AddIcon />
-                    </Fab>
-                  </>
-                )}
+                <Divider />
               </div>
-              <Button variant="outlined" color="primary" onClick={this.toggleSuggestions}>
-                {showSuggestions ? 'Hide Suggestions' : 'Show suggestions'}
-              </Button>
-              {showSuggestions && (
-                <div className={classes.suggestions}>
-                  <p>Choose a language to see the translation in another language</p>
-                  <Select value={language} onChange={this.handleChangeLanguage}>
-                    {languages.map(item => (
-                      <MenuItem key={item.code} selected={language === item.code} onClick={() => onClick(item.code)}>
-                        {`${item.text} - ${formatMessage(langMessages[item.code])}`}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                  <p>Sugerencias en español:</p>
+
+              <div style={{ marginTop: 30 }}>
+                <div style={{ display: 'flex' }}>
+                  <h2>
+                    <FormattedMessage {...messages.keywordsList} />
+                  </h2>
+
+                  {(!values.keywords || !values.keywords.length) && (
+                    <>
+                      <Fab
+                        style={{ position: 'relative', left: 10, top: -10 }}
+                        color="primary"
+                        size="small"
+                        aria-label="Add"
+                        onClick={() => push('keywords', undefined)}
+                      >
+                        <AddIcon />
+                      </Fab>
+                    </>
+                  )}
                 </div>
-              )}
-              <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+
                 <FieldArray name="keywords">
                   {({ fields }) =>
                     fields.map((keyword, index) => (
@@ -159,9 +153,28 @@ export class PictogramForm extends Component {
                             name={`${keyword}.keyword`}
                             label="keyword"
                             component={TextField}
+                            onBlur={() => console.log('blur event!!!')}
                             type="text"
                           />
                         </div>
+                        <OnBlur name={`${keyword}.keyword`}>
+                          {() => {
+                            const keyword = values.keywords[index] && values.keywords[index].keyword
+                            if (!keyword) return
+                            const keywordType = values.keywords[index].type
+                            if (!keywordType) {
+                              const endPoint = `https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=dict.1.1.20190920T104929Z.2bfd4c00cbc5e87e.d3baecf50951cb94e3834ffee05d92801894da49&lang=${locale}-${locale}&text=${keyword}`
+                              console.log(endPoint)
+                              fetch(endPoint)
+                                .then(data => data.json())
+                                .then(data => {
+                                  const type = data && data.def && data.def[0] && data.def[0].pos
+                                  console.log(`Type: ${type}`)
+                                  if (type) values.keywords[index].type = type
+                                })
+                            }
+                          }}
+                        </OnBlur>
                         <div style={{ width: '200px', marginRight: '10px' }}>
                           <Field
                             fullWidth
@@ -199,82 +212,98 @@ export class PictogramForm extends Component {
                     ))
                   }
                 </FieldArray>
-
-                <div style={{ marginTop: 30 }}>
-                  <h2>
-                    <FormattedMessage {...messages.pictogramStatus} />
-                  </h2>
-                  <div style={{ display: 'flex' }}>
-                    <FormControlLabel
-                      label="Publicado"
-                      control={<Field name="published" component={Checkbox} type="checkbox" />}
-                    />
-                    <FormControlLabel
-                      label="Visible para traductores"
-                      control={<Field name="available" component={Checkbox} type="checkbox" />}
-                    />
-                    <FormControlLabel
-                      label="Revisado"
-                      control={<Field name="validated " component={Checkbox} type="checkbox" />}
-                    />
+                <Button variant="outlined" color="primary" onClick={this.toggleSuggestions}>
+                  {showSuggestions ? 'Hide Suggestions' : 'Show suggestions'}
+                </Button>
+                {showSuggestions && (
+                  <div className={classes.suggestions}>
+                    <p>Choose a language to see the translation in another language</p>
+                    <Select value={language} onChange={this.handleChangeLanguage}>
+                      {languages.map(item => (
+                        <MenuItem key={item.code} selected={language === item.code} onClick={() => onClick(item.code)}>
+                          {`${item.text} - ${formatMessage(langMessages[item.code])}`}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                    <p>Sugerencias en español:</p>
                   </div>
-                </div>
+                )}
+              </div>
+
+              <div style={{ marginTop: 30 }}>
+                <h2>
+                  <FormattedMessage {...messages.pictogramStatus} />
+                </h2>
                 <div style={{ display: 'flex' }}>
-                  <Field
-                    name="created"
-                    style={{ marginRight: '15px' }}
-                    component={DatePickerWrapper}
-                    margin="normal"
-                    label="Fecha de creación"
+                  <FormControlLabel
+                    label="Publicado"
+                    control={<Field name="published" component={Checkbox} type="checkbox" />}
                   />
-
-                  <Field
-                    name="lastUpdated"
-                    component={DatePickerWrapper}
-                    margin="normal"
-                    label="Fecha de actualización"
+                  <FormControlLabel
+                    label="Visible para traductores"
+                    control={<Field name="available" component={Checkbox} type="checkbox" />}
+                  />
+                  <FormControlLabel
+                    label="Revisado"
+                    control={<Field name="validated " component={Checkbox} type="checkbox" />}
                   />
                 </div>
+              </div>
+              <div style={{ display: 'flex' }}>
+                <Field
+                  name="created"
+                  style={{ marginRight: '15px' }}
+                  component={DatePickerWrapper}
+                  margin="normal"
+                  label="Fecha de creación"
+                />
 
-                <div style={{ marginTop: 30 }}>
-                  <h2>
-                    <FormattedMessage {...messages.categories} />
-                  </h2>
-                  <Field
-                    name="tags"
-                    component={CategoriesSelectorWrapper}
-                    label="Estado del pictograma"
-                    categories={categories}
-                  />
+                <Field
+                  name="lastUpdated"
+                  component={DatePickerWrapper}
+                  margin="normal"
+                  label="Fecha de actualización"
+                />
+              </div>
+
+              <div style={{ marginTop: 30 }}>
+                <h2>
+                  <FormattedMessage {...messages.categories} />
+                </h2>
+                <Field
+                  name="tags"
+                  component={CategoriesSelectorWrapper}
+                  label="Estado del pictograma"
+                  categories={categories}
+                />
+              </div>
+
+              <div style={{ marginTop: 30 }}>
+                <h2>
+                  <FormattedMessage {...messages.synsets} />
+                </h2>
+                <div style={{ maxWidth: '400px' }}>
+                  <Field name="synsets" component={ChipInputWrapper} />
                 </div>
+              </div>
 
-                <div style={{ marginTop: 30 }}>
-                  <h2>
-                    <FormattedMessage {...messages.synsets} />
-                  </h2>
-                  <div style={{ maxWidth: '400px' }}>
-                    <Field name="synsets" component={ChipInputWrapper} />
-                  </div>
-                </div>
+              <div style={{ marginTop: 16, display: 'flex', flexDirection: 'row-reverse' }}>
+                <Button
+                  style={{ marginLeft: '15px' }}
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                  disabled={submitting || pristine}
+                >
+                  <FormattedMessage {...messages.save} />
+                </Button>
 
-                <div style={{ marginTop: 16, display: 'flex', flexDirection: 'row-reverse' }}>
-                  <Button
-                    style={{ marginLeft: '15px' }}
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                    disabled={submitting || pristine}
-                  >
-                    <FormattedMessage {...messages.save} />
-                  </Button>
-
-                  <Button variant="contained" color="secondary" type="submit">
-                    <FormattedMessage {...messages.cancel} />
-                  </Button>
-                </div>
-                <pre>{JSON.stringify(values, 0, 2)}</pre>
-              </form>
-            </>
+                <Button variant="contained" color="secondary" type="submit">
+                  <FormattedMessage {...messages.cancel} />
+                </Button>
+              </div>
+              <pre>{JSON.stringify(values, 0, 2)}</pre>
+            </form>
           )}
         />
       </div>

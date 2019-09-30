@@ -21,7 +21,9 @@ export class CategoryForm extends Component {
     menuItems: PropTypes.arrayOf(
       PropTypes.shape({
         key: PropTypes.string.isRequired,
-        tag: PropTypes.string.isRequired,
+        text: PropTypes.string.isRequired,
+        tags: PropTypes.arrayOf(PropTypes.string),
+        keywords: PropTypes.arrayOf(PropTypes.string)
       }).isRequired,
     ),
     item: PropTypes.string,
@@ -56,7 +58,17 @@ export class CategoryForm extends Component {
                     <FormattedMessage {...messages.category} />
                   </h2>
                   <div style={{ maxWidth: '271px' }}>
-                    <Field fullWidth name="tag" component={TextField} type="text" autoFocus />
+                    <Field fullWidth name="text" component={TextField} type="text" autoFocus />
+                  </div>
+                </div>
+                <div style={{ marginTop: 30 }}>
+                  <div style={{ display: 'flex' }}>
+                    <h2>
+                      <FormattedMessage {...messages.tagsList} />
+                    </h2>
+                  </div>
+                  <div style={{ maxWidth: '400px' }}>
+                    <Field name="tags" component={ChipInputWrapper} />
                   </div>
                 </div>
                 <div style={{ marginTop: 30 }}>

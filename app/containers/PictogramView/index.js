@@ -48,7 +48,7 @@ class PictogramView extends React.PureComponent {
       <View>
         <div className={classes.wrapper}>
           <Pictogram pictogram={selectedPictogram} locale={locale} />
-          <PictogramForm data={selectedPictogram} categories={categoriesData} />
+          <PictogramForm data={selectedPictogram} categories={categoriesData} locale={locale} />
         </div>
       </View>
     )
