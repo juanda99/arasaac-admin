@@ -8,8 +8,8 @@ import 'antd/dist/antd.css'
 const categoriesToArray = obj =>
   Object.keys(obj).map(k => {
     obj[k].key = k
-    obj[k].label = obj[k].tag
-    obj[k].value = k
+    obj[k].label = obj[k].text
+    obj[k].value = obj[k].text
     obj[k].disabled = obj[k].keywords.length === 0
     if (obj[k].children) obj[k].children = categoriesToArray(obj[k].children)
     return obj[k]

@@ -9,6 +9,8 @@ import ListTree from 'components/ListTree'
 import { DAEMON } from 'utils/constants'
 import injectSaga from 'utils/injectSaga'
 import { makeSelectLocale } from 'containers/LanguageProvider/selectors'
+import SearchField from 'components/SearchField'
+import jp from 'jsonpath'
 // import DragDropFile from './DragDropFile'
 import styles from './styles'
 import { categories, categoriesUpdate, categoriesAdd, categoriesDelete } from './actions'
@@ -22,6 +24,9 @@ import saga from './sagas'
 class CategoriesView extends React.PureComponent {
   state = {
     category: '',
+    searchText: '',
+    open: {}, // category trees that are opened
+    openForm: '', // category form open, just once at a time
   }
 
   componentDidMount() {
@@ -29,9 +34,28 @@ class CategoriesView extends React.PureComponent {
     this.props.requestCategories(locale, lastUpdated)
   }
 
-  handleSelect = category => {
-    // const category = data.selectedKeys[0]
-    this.setState({ category })
+  handleClick = category => {
+    const { open } = this.state
+    open[category] = !open[category]
+    // we close the form when opening a category
+    this.setState({ open, openForm: '', category })
+  }
+
+  handleSubmit = category => {
+    console.log('Handle Submit!!!s')
+    // we get all subcategories with keyword as category(searchText) submitted.
+    // open all items categories in path
+    const { data } = this.props.categories
+    const paths = jp.paths(data, `$..keywords[?(@==(["${category}"]))]`)
+    const open = {}
+    let openForm
+    paths.forEach(path => {
+      const filtered = path.filter(item => isNaN(item) && item !== '$' && item !== 'children' && item !== 'keywords')
+      if (filtered.length) filtered.forEach(element => (open[element] = true))
+      openForm = filtered[filtered.length - 1]
+    })
+    console.log(open)
+    this.setState({ open, openForm })
   }
 
   handleAdd = (data, parentItem) => {
@@ -49,22 +73,40 @@ class CategoriesView extends React.PureComponent {
     requestCategoriesDelete('shouldBeToken', locale, item)
   }
 
+  test = key => {
+    console.log(key)
+    console.log('ha hecho click')
+  }
+
   render() {
-    const { category } = this.state
+    const { category, searchText, open, openForm } = this.state
     const { data } = this.props.categories
+    const tmpKeywords = jp.query(data, '$..keywords')
+    const keywords = [].concat.apply([], tmpKeywords)
+    const uniqueKeywords = [...new Set(keywords)]
     return (
       <View>
         <h1>
           <FormattedMessage {...messages.header} />
         </h1>
+        <SearchField
+          value={searchText}
+          // onRequestSearch={this.handleSubmit}
+          onSubmit={this.handleSubmit}
+          style={styles.searchBar}
+          dataSource={uniqueKeywords}
+          onChange={this.test}
+        />
         {data && (
           <ListTree
             data={data}
-            onSelect={this.handleSelect}
             category={category}
             onDelete={this.handleDelete}
             onUpdate={this.handleUpdate}
             onAdd={this.handleAdd}
+            onClick={this.handleClick}
+            open={open}
+            openForm={openForm}
           />
         )}
       </View>

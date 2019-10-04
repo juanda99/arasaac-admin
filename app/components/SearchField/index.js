@@ -120,6 +120,8 @@ class SearchField extends Component {
     })
   }
 
+  handleSuggestionSelection = (event, { suggestionValue }) => this.props.onSubmit(suggestionValue)
+
   handleSuggestionsClearRequested = () => {
     this.setState({
       suggestions: [],
@@ -141,6 +143,7 @@ class SearchField extends Component {
       suggestions: this.state.suggestions.slice(0, 10),
       onSuggestionsFetchRequested: this.handleSuggestionsFetchRequested,
       onSuggestionsClearRequested: this.handleSuggestionsClearRequested,
+      onSuggestionSelected: this.handleSuggestionSelection,
       getSuggestionValue,
       renderSuggestion: this.renderSuggestion,
     }

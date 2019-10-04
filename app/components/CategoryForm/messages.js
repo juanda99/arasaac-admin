@@ -7,6 +7,10 @@ export default defineMessages({
     id: `${scope}.category`,
     defaultMessage: 'Category',
   },
+  key: {
+    id: `${scope}.key`,
+    defaultMessage: 'Category key',
+  },
   keywordsList: {
     id: `${scope}.keywordsList`,
     defaultMessage: 'List of keywords',

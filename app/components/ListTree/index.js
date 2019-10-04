@@ -35,9 +35,8 @@ class Item extends Component {
 // eslint-disable-next-line react/no-multi-comp
 class ListTree extends Component {
   state = {
-    open: {},
+
     confirmationBoxOpen: false,
-    openForm: '',
     action: '',
     visibilityIcons: '',
     targetItem: null, // so we can open same form for adding or editing items
@@ -45,22 +44,16 @@ class ListTree extends Component {
 
   static propTypes = {
     data: PropTypes.object.isRequired,
-    onSelect: PropTypes.func.isRequired,
     category: PropTypes.string.isRequired,
     onDelete: PropTypes.func.isRequired,
     onAdd: PropTypes.func.isRequired,
     onUpdate: PropTypes.func.isRequired,
+    open: PropTypes.object.isRequired, //which categories keys are open by default
+    onClick: PropTypes.func.isRequired,
+    openForm: PropTypes.string.isRequired,
   }
 
-  handleClick = (event, item) => {
-    const { onSelect } = this.props
-    // if was selected, then deselect:
-    onSelect(item)
-    const { open } = this.state
-    open[item] = !open[item]
-    // if hide item, then hide also form
-    this.setState({ open, openForm: '' })
-  }
+  handleClick = (event, item) => this.props.onClick(item)
 
   handleIconsVisibility = (event, item) => this.setState({ visibilityIcons: item })
 
@@ -151,7 +144,7 @@ class ListTree extends Component {
       // calculate how deep it is
       const depth = jp.paths(this.props.data, `$..["${item}"]`)[0].length / 2 - 1
       // add this.state.open[item] to improve performance!!!
-      if (data[item].children && this.state.open[item]) {
+      if (data[item].children && this.props.open[item]) {
         return (
           <React.Fragment key={item}>
             <ListItem
@@ -175,11 +168,11 @@ class ListTree extends Component {
               />
               {this.renderActionIcons(item)}
 
-              {this.state.open[item] ? <ExpandLess /> : <ExpandMore />}
+              {this.props.open[item] ? <ExpandLess /> : <ExpandMore />}
             </ListItem>
-            {this.state.openForm === item && this.renderForm(this.state.targetItem)}
+            {this.props.openForm === item && this.renderForm(this.state.targetItem)}
 
-            <Collapse in={!!this.state.open[item]} timeout="auto" unmountOnExit>
+            <Collapse in={!!this.props.open[item]} timeout="auto" unmountOnExit>
               <List
                 component="div"
                 disablePadding
@@ -218,7 +211,7 @@ class ListTree extends Component {
             {!data[item].children && <ListItemText primary={data[item].text} />}
             {this.renderActionIcons(item)}
           </ListItem>
-          {this.state.openForm === item && this.renderForm(this.state.targetItem)}
+          {this.props.openForm === item && this.renderForm(this.state.targetItem)}
         </React.Fragment>
       )
     })

@@ -41,6 +41,7 @@ export class CategoryForm extends Component {
 
   render() {
     const { data } = this.props
+    console.log('render!!!!!')
     return (
       <div>
         <Form
@@ -53,6 +54,14 @@ export class CategoryForm extends Component {
                 <IconButton style={{ position: 'absolute', right: '50px' }} onClick={this.handleClose}>
                   <CloseIcon />
                 </IconButton>
+                <div style={{ marginTop: 30 }}>
+                  <h2>
+                    <FormattedMessage {...messages.key} />
+                  </h2>
+                  <div style={{ maxWidth: '271px' }}>
+                    <Field fullWidth name="key" component={TextField} type="text" autoFocus />
+                  </div>
+                </div>
                 <div style={{ marginTop: 30 }}>
                   <h2>
                     <FormattedMessage {...messages.category} />
