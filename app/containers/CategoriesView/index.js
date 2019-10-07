@@ -80,8 +80,8 @@ class CategoriesView extends React.PureComponent {
 
   render() {
     const { category, searchText, open, openForm } = this.state
-    const { data } = this.props.categories
-    const tmpKeywords = jp.query(data, '$..keywords')
+    const { data } = this.props.categories || {}
+    const tmpKeywords = data ? jp.query(data, '$..keywords') : []
     const keywords = [].concat.apply([], tmpKeywords)
     const uniqueKeywords = [...new Set(keywords)]
     return (
