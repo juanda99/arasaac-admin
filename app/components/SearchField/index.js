@@ -164,7 +164,7 @@ class SearchField extends Component {
           suggestion: classes.suggestion,
         }}
         renderSuggestionsContainer={options => (
-          <Paper {...options.containerProps} square>
+          <Paper {...options.containerProps} style={{ zIndex: 2 }} square>
             {options.children}
           </Paper>
         )}
