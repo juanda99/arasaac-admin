@@ -19,7 +19,9 @@ import { makeLoadingSelector, makeCategoriesSelectorByLocale, makeLastUpdatedSel
 import messages from './messages'
 import saga from './sagas'
 
-/* eslint-disable react/prefer-stateless-function */
+// get autocomplete keywords for tag selector and search field in cdm
+let uniqueKeywords
+let uniqueTags
 
 class CategoriesView extends React.Component {
   state = {
@@ -32,9 +34,19 @@ class CategoriesView extends React.Component {
     confirmationBoxOpen: false, // use prior to deleting
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const { locale, lastUpdated } = this.props
-    this.props.requestCategories(locale, lastUpdated)
+    await this.props.requestCategories(locale, lastUpdated)
+    // get keywords:
+    const { data } = this.props.categories || {}
+    const tmpKeywords = data ? jp.query(data, '$..keywords') : []
+    const keywords = [].concat.apply([], tmpKeywords)
+    uniqueKeywords = [...new Set(keywords)]
+    // get tags
+    const tmpTags = data ? jp.query(data, '$..tags') : []
+    const tags = [].concat.apply([], tmpTags)
+    uniqueTags = [...new Set(tags)]
+    console.log(uniqueTags)
   }
 
   handleClick = category => {
@@ -89,9 +101,6 @@ class CategoriesView extends React.Component {
   render() {
     const { category, searchText, open, openForm, targetItem, confirmationBoxOpen, action } = this.state
     const { data } = this.props.categories || {}
-    const tmpKeywords = data ? jp.query(data, '$..keywords') : []
-    const keywords = [].concat.apply([], tmpKeywords)
-    const uniqueKeywords = [...new Set(keywords)]
     return (
       <View>
         <h1>
@@ -121,6 +130,7 @@ class CategoriesView extends React.Component {
             action={action}
             targetItem={targetItem}
             confirmationBoxOpen={confirmationBoxOpen}
+            tags={uniqueTags}
           />
         )}
       </View>

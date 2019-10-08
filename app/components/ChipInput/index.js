@@ -24,20 +24,9 @@ class ChipInput extends Component {
   }
 
   render() {
-    const { input, dataSource, text, value } = this.props
+    const { input } = this.props
     const chips = input.value || []
-    if (dataSource) {
-      return (
-        <ChipInputSource
-          {...this.props}
-          dataSource={dataSource}
-          dataSourceConfig={{ text, value }}
-          value={chips}
-          onAdd={this.handleRequestAdd}
-          onDelete={this.handleRequestDelete}
-        />
-      )
-    }
+    console.log(this.props)
     return (
       <ChipInputSource
         {...this.props}
@@ -52,8 +41,6 @@ class ChipInput extends Component {
 ChipInput.propTypes = {
   input: PropTypes.object.isRequired,
   dataSource: PropTypes.arrayOf(PropTypes.object.isRequired),
-  text: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
 }
 
 export default ChipInput

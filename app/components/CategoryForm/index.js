@@ -11,8 +11,10 @@ import ChipInput from 'components/ChipInput'
 import AutoSave from 'components/AutoSave'
 import messages from './messages'
 
-const ChipInputWrapper = props => <ChipInput {...props} text="tag" value="key" />
-
+const KeywordsInputWrapper = props => <ChipInput {...props} />
+const TagsInputWrapper = props => <ChipInput {...props} dataSource={dataSource} dataSourceConfig={dataSourceConfig} />
+let dataSource
+const dataSourceConfig = { text: 'tag', value: 'value' }
 export class CategoryForm extends Component {
   static propTypes = {
     data: PropTypes.object.isRequired,
@@ -27,6 +29,14 @@ export class CategoryForm extends Component {
       }).isRequired,
     ),
     item: PropTypes.string,
+    tags: PropTypes.array.isRequired,
+  }
+
+  componentDidMount() {
+    const { tags } = this.props
+    console.log(this.props)
+    dataSource = tags.map(tag => ({ tag, value: tag }))
+    console.log(`dataSource`, dataSource)
   }
 
   handleSubmit = async values => {
@@ -41,7 +51,6 @@ export class CategoryForm extends Component {
 
   render() {
     const { data } = this.props
-    console.log('render!!!!!')
     return (
       <Form
         onSubmit={this.handleSubmit}
@@ -76,7 +85,7 @@ export class CategoryForm extends Component {
                   </h2>
                 </div>
                 <div style={{ maxWidth: '400px' }}>
-                  <Field name="tags" component={ChipInputWrapper} />
+                  <Field name="tags" component={TagsInputWrapper} />
                 </div>
               </div>
               <div style={{ marginTop: 30 }}>
@@ -86,7 +95,7 @@ export class CategoryForm extends Component {
                   </h2>
                 </div>
                 <div style={{ maxWidth: '400px' }}>
-                  <Field name="keywords" component={ChipInputWrapper} />
+                  <Field name="keywords" component={KeywordsInputWrapper} />
                 </div>
               </div>
               {Object.keys(data).length === 0 && (

@@ -51,6 +51,7 @@ class ListTree extends Component {
     action: PropTypes.string.isRequired,
     targetItem: PropTypes.string.isRequired,
     confirmationBoxOpen: PropTypes.bool.isRequired,
+    tags: PropTypes.array,
   }
 
   handleClick = (event, item) => this.props.onClick(item)
@@ -132,6 +133,7 @@ class ListTree extends Component {
           menuItems={menuItems}
           onSubmit={action === 'edit' ? this.handleUpdate : this.handleAdd}
           onClose={this.handleClose}
+          tags={this.props.tags}
         />
       </div>
     )
