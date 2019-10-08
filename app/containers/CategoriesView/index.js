@@ -27,6 +27,9 @@ class CategoriesView extends React.PureComponent {
     searchText: '',
     open: {}, // category trees that are opened
     openForm: '', // category form open, just once at a time
+    action: '',
+    targetItem: '', // for delete
+    confirmationBoxOpen: false, // use prior to deleting
   }
 
   componentDidMount() {
@@ -41,10 +44,11 @@ class CategoriesView extends React.PureComponent {
     this.setState({ open, openForm: '', category })
   }
 
+  handleClose = () => this.setState({ openForm: '' })
+
+  // we get treeview open as category(searchText) is submitted.
+  // form category is open for edition
   handleSubmit = category => {
-    console.log('Handle Submit!!!s')
-    // we get all subcategories with keyword as category(searchText) submitted.
-    // open all items categories in path
     const { data } = this.props.categories
     const paths = jp.paths(data, `$..keywords[?(@==(["${category}"]))]`)
     const open = {}
@@ -54,12 +58,12 @@ class CategoriesView extends React.PureComponent {
       if (filtered.length) filtered.forEach(element => (open[element] = true))
       openForm = filtered[filtered.length - 1]
     })
-    console.log(open)
-    this.setState({ open, openForm })
+    this.setState({ open, openForm, action: 'edit' })
   }
 
   handleAdd = (data, parentItem) => {
     const { locale, requestCategoriesAdd } = this.props
+    this.setState({ openForm: '' })
     requestCategoriesAdd('shouldBeToken', locale, parentItem, data)
   }
 
@@ -68,18 +72,16 @@ class CategoriesView extends React.PureComponent {
     requestCategoriesUpdate('shouldBeToken', locale, item, data)
   }
 
-  handleDelete = item => {
-    const { locale, requestCategoriesDelete } = this.props
-    requestCategoriesDelete('shouldBeToken', locale, item)
-  }
+  handleBeforeDelete = targetItem => this.setState({ confirmationBoxOpen: true, targetItem, action: 'delete' })
 
-  test = key => {
-    console.log(key)
-    console.log('ha hecho click')
+  handleDelete = (item, accept) => {
+    this.setState({ confirmationBoxOpen: false })
+    const { locale, requestCategoriesDelete } = this.props
+    if (accept) requestCategoriesDelete('shouldBeToken', locale, item)
   }
 
   render() {
-    const { category, searchText, open, openForm } = this.state
+    const { category, searchText, open, openForm, targetItem, confirmationBoxOpen, action } = this.state
     const { data } = this.props.categories || {}
     const tmpKeywords = data ? jp.query(data, '$..keywords') : []
     const keywords = [].concat.apply([], tmpKeywords)
@@ -95,18 +97,22 @@ class CategoriesView extends React.PureComponent {
           onSubmit={this.handleSubmit}
           style={styles.searchBar}
           dataSource={uniqueKeywords}
-          onChange={this.test}
         />
         {data && (
           <ListTree
             data={data}
             category={category}
+            onBeforeDelete={this.handleBeforeDelete}
             onDelete={this.handleDelete}
             onUpdate={this.handleUpdate}
+            onClose={this.handleClose}
             onAdd={this.handleAdd}
             onClick={this.handleClick}
             open={open}
             openForm={openForm}
+            action={action}
+            targetItem={targetItem}
+            confirmationBoxOpen={confirmationBoxOpen}
           />
         )}
       </View>

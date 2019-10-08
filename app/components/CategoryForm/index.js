@@ -23,7 +23,7 @@ export class CategoryForm extends Component {
         key: PropTypes.string.isRequired,
         text: PropTypes.string.isRequired,
         tags: PropTypes.arrayOf(PropTypes.string),
-        keywords: PropTypes.arrayOf(PropTypes.string)
+        keywords: PropTypes.arrayOf(PropTypes.string),
       }).isRequired,
     ),
     item: PropTypes.string,
@@ -43,75 +43,73 @@ export class CategoryForm extends Component {
     const { data } = this.props
     console.log('render!!!!!')
     return (
-      <div>
-        <Form
-          onSubmit={this.handleSubmit}
-          initialValues={data}
-          render={({ handleSubmit, pristine, form, submitting, values }) => (
-            <form onSubmit={handleSubmit} style={{ width: '100%' }}>
-              {Object.keys(data).length !== 0 && <AutoSave debounce={1000} save={handleSubmit} />}
-              <Paper style={{ padding: 32, margin: 20 }}>
-                <IconButton style={{ position: 'absolute', right: '50px' }} onClick={this.handleClose}>
-                  <CloseIcon />
-                </IconButton>
-                <div style={{ marginTop: 30 }}>
+      <Form
+        onSubmit={this.handleSubmit}
+        initialValues={data}
+        render={({ handleSubmit, pristine, form, submitting, values }) => (
+          <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+            {Object.keys(data).length !== 0 && <AutoSave debounce={1000} save={handleSubmit} />}
+            <Paper style={{ padding: 32, margin: 20 }}>
+              <IconButton style={{ position: 'absolute', right: '50px' }} onClick={this.handleClose}>
+                <CloseIcon />
+              </IconButton>
+              <div style={{ marginTop: 30 }}>
+                <h2>
+                  <FormattedMessage {...messages.key} />
+                </h2>
+                <div style={{ maxWidth: '271px' }}>
+                  <Field fullWidth name="key" component={TextField} type="text" autoFocus />
+                </div>
+              </div>
+              <div style={{ marginTop: 30 }}>
+                <h2>
+                  <FormattedMessage {...messages.category} />
+                </h2>
+                <div style={{ maxWidth: '271px' }}>
+                  <Field fullWidth name="text" component={TextField} type="text" autoFocus />
+                </div>
+              </div>
+              <div style={{ marginTop: 30 }}>
+                <div style={{ display: 'flex' }}>
                   <h2>
-                    <FormattedMessage {...messages.key} />
+                    <FormattedMessage {...messages.tagsList} />
                   </h2>
-                  <div style={{ maxWidth: '271px' }}>
-                    <Field fullWidth name="key" component={TextField} type="text" autoFocus />
-                  </div>
                 </div>
-                <div style={{ marginTop: 30 }}>
+                <div style={{ maxWidth: '400px' }}>
+                  <Field name="tags" component={ChipInputWrapper} />
+                </div>
+              </div>
+              <div style={{ marginTop: 30 }}>
+                <div style={{ display: 'flex' }}>
                   <h2>
-                    <FormattedMessage {...messages.category} />
+                    <FormattedMessage {...messages.keywordsList} />
                   </h2>
-                  <div style={{ maxWidth: '271px' }}>
-                    <Field fullWidth name="text" component={TextField} type="text" autoFocus />
-                  </div>
                 </div>
-                <div style={{ marginTop: 30 }}>
-                  <div style={{ display: 'flex' }}>
-                    <h2>
-                      <FormattedMessage {...messages.tagsList} />
-                    </h2>
-                  </div>
-                  <div style={{ maxWidth: '400px' }}>
-                    <Field name="tags" component={ChipInputWrapper} />
-                  </div>
+                <div style={{ maxWidth: '400px' }}>
+                  <Field name="keywords" component={ChipInputWrapper} />
                 </div>
-                <div style={{ marginTop: 30 }}>
-                  <div style={{ display: 'flex' }}>
-                    <h2>
-                      <FormattedMessage {...messages.keywordsList} />
-                    </h2>
-                  </div>
-                  <div style={{ maxWidth: '400px' }}>
-                    <Field name="keywords" component={ChipInputWrapper} />
-                  </div>
+              </div>
+              {Object.keys(data).length === 0 && (
+                <div style={{ marginTop: 16, display: 'flex', flexDirection: 'row-reverse' }}>
+                  <Button
+                    style={{ marginLeft: '15px' }}
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                    disabled={submitting || pristine}
+                  >
+                    <FormattedMessage {...messages.save} />
+                  </Button>
+                  <Button variant="contained" color="secondary" type="submit">
+                    <FormattedMessage {...messages.cancel} />
+                  </Button>
                 </div>
-                {Object.keys(data).length === 0 && (
-                  <div style={{ marginTop: 16, display: 'flex', flexDirection: 'row-reverse' }}>
-                    <Button
-                      style={{ marginLeft: '15px' }}
-                      variant="contained"
-                      color="primary"
-                      type="submit"
-                      disabled={submitting || pristine}
-                    >
-                      <FormattedMessage {...messages.save} />
-                    </Button>
-                    <Button variant="contained" color="secondary" type="submit">
-                      <FormattedMessage {...messages.cancel} />
-                    </Button>
-                  </div>
-                )}
-              </Paper>
-              <pre>{JSON.stringify(values, 0, 2)}</pre>
-            </form>
-          )}
-        />
-      </div>
+              )}
+            </Paper>
+            <pre>{JSON.stringify(values, 0, 2)}</pre>
+          </form>
+        )}
+      />
     )
   }
 }

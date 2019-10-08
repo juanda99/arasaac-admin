@@ -35,22 +35,23 @@ class Item extends Component {
 // eslint-disable-next-line react/no-multi-comp
 class ListTree extends Component {
   state = {
-
-    confirmationBoxOpen: false,
-    action: '',
     visibilityIcons: '',
-    targetItem: null, // so we can open same form for adding or editing items
   }
 
   static propTypes = {
     data: PropTypes.object.isRequired,
     category: PropTypes.string.isRequired,
     onDelete: PropTypes.func.isRequired,
+    onBeforeDelete: PropTypes.func.isRequired,
     onAdd: PropTypes.func.isRequired,
     onUpdate: PropTypes.func.isRequired,
-    open: PropTypes.object.isRequired, //which categories keys are open by default
+    open: PropTypes.object.isRequired, // which categories keys are open by default
     onClick: PropTypes.func.isRequired,
     openForm: PropTypes.string.isRequired,
+    onClose: PropTypes.func.isRequired,
+    action: PropTypes.string.isRequired,
+    targetItem: PropTypes.string.isRequired,
+    confirmationBoxOpen: PropTypes.bool.isRequired,
   }
 
   handleClick = (event, item) => this.props.onClick(item)
@@ -69,25 +70,16 @@ class ListTree extends Component {
   }
 
   clickDeleteButton = item => {
-    this.setState({ confirmationBoxOpen: true, targetItem: item, action: 'delete' })
+    this.props.onBeforeDelete(item)
   }
 
-  handleDelete = accept => {
-    this.setState({ confirmationBoxOpen: false })
-    if (accept) this.props.onDelete(this.state.targetItem)
-  }
+  handleDelete = accept => this.props.onDelete(this.props.targetItem, accept)
 
-  handleUpdate = (event, item) => {
-    this.props.onUpdate(event, item)
-    // this.setState({ openForm: '', targetItem: null })
-  }
+  handleUpdate = (event, item) => this.props.onUpdate(event, item)
 
-  handleClose = () => this.setState({ openForm: '', targetItem: null })
+  handleClose = () => this.props.onClose()
 
-  handleAdd = (event, item) => {
-    this.props.onAdd(event, item)
-    this.setState({ openForm: '', targetItem: null })
-  }
+  handleAdd = (event, item) => this.props.onAdd(event, item)
 
   renderActionIcons = item =>
     this.state.visibilityIcons === item ? (
@@ -106,12 +98,13 @@ class ListTree extends Component {
       ''
     )
 
-  renderForm = item => {
-    const { data } = this.props
+  renderForm = (item, depth) => {
+    const { data, action } = this.props
     // calculate its path and its content for CategoryForm:
 
     // const subData = jp.value(data, `$..${item}`)
     // get keys with spaces
+
     const subData = jp.value(data, `$..["${item}"]`)
 
     const menuItems = []
@@ -119,23 +112,30 @@ class ListTree extends Component {
     // get all keys and values from Category
     const categoryValues = categories => {
       Object.keys(categories).forEach(key => {
-        menuItems.push({ key, text: categories[key].text, tags: categories[key].tags, keywords: categories[key].keywords })
+        menuItems.push({
+          key,
+          text: categories[key].text,
+          tags: categories[key].tags,
+          keywords: categories[key].keywords,
+        })
         if (categories[key].children) categoryValues(categories[key].children)
       })
-      menuItems.sort((a, b) => a.text < b.ttext)
+      menuItems.sort((a, b) => a.text < b.text)
     }
     menuItems.sort((a, b) => a.text < b.text)
     // load data to menuItems, we will sort them inside CategoryForm when c
     categoryValues(data)
 
     return (
-      <CategoryForm
-        data={this.state.action === 'edit' ? subData : {}}
-        item={item}
-        menuItems={menuItems}
-        onSubmit={this.state.action === 'edit' ? this.handleUpdate : this.handleAdd}
-        onClose={this.handleClose}
-      />
+      <div style={{ paddingLeft: depth * 30 }}>
+        <CategoryForm
+          data={action === 'edit' ? subData : {}}
+          item={item}
+          menuItems={menuItems}
+          onSubmit={action === 'edit' ? this.handleUpdate : this.handleAdd}
+          onClose={this.handleClose}
+        />
+      </div>
     )
   }
 
@@ -143,7 +143,7 @@ class ListTree extends Component {
     Object.keys(data).map(item => {
       // calculate how deep it is
       const depth = jp.paths(this.props.data, `$..["${item}"]`)[0].length / 2 - 1
-      // add this.state.open[item] to improve performance!!!
+      // add this.props.open[item] to improve performance!!!
       if (data[item].children && this.props.open[item]) {
         return (
           <React.Fragment key={item}>
@@ -170,7 +170,7 @@ class ListTree extends Component {
 
               {this.props.open[item] ? <ExpandLess /> : <ExpandMore />}
             </ListItem>
-            {this.props.openForm === item && this.renderForm(this.state.targetItem)}
+            {this.props.openForm === item && this.renderForm(item, depth)}
 
             <Collapse in={!!this.props.open[item]} timeout="auto" unmountOnExit>
               <List
@@ -211,7 +211,7 @@ class ListTree extends Component {
             {!data[item].children && <ListItemText primary={data[item].text} />}
             {this.renderActionIcons(item)}
           </ListItem>
-          {this.props.openForm === item && this.renderForm(this.state.targetItem)}
+          {this.props.openForm === item && this.renderForm(item, depth)}
         </React.Fragment>
       )
     })
@@ -220,7 +220,7 @@ class ListTree extends Component {
     return (
       <React.Fragment>
         <List component="nav">{this.renderTreeNodes(this.props.data)}</List>
-        <ConfirmationDialog onClose={this.handleDelete} open={this.state.confirmationBoxOpen} />
+        <ConfirmationDialog onClose={this.handleDelete} open={this.props.confirmationBoxOpen} />
       </React.Fragment>
     )
   }
