@@ -21,7 +21,7 @@ import saga from './sagas'
 
 /* eslint-disable react/prefer-stateless-function */
 
-class CategoriesView extends React.PureComponent {
+class CategoriesView extends React.Component {
   state = {
     category: '',
     searchText: '',
@@ -42,6 +42,7 @@ class CategoriesView extends React.PureComponent {
     open[category] = !open[category]
     // we close the form when opening a category
     this.setState({ open, openForm: '', category })
+    console.log('changed!!!')
   }
 
   handleClose = () => this.setState({ openForm: '' })
@@ -61,11 +62,17 @@ class CategoriesView extends React.PureComponent {
     this.setState({ open, openForm, action: 'edit' })
   }
 
+  handleBeforeAdd = item => {
+    this.setState({ openForm: item, targetItem: item, action: 'add' })
+  }
+
   handleAdd = (data, parentItem) => {
     const { locale, requestCategoriesAdd } = this.props
     this.setState({ openForm: '' })
     requestCategoriesAdd('shouldBeToken', locale, parentItem, data)
   }
+
+  handleEdit = item => this.setState({ openForm: item, targetItem: item, action: 'edit' })
 
   handleUpdate = (data, item) => {
     const { locale, requestCategoriesUpdate } = this.props
@@ -86,6 +93,7 @@ class CategoriesView extends React.PureComponent {
     const tmpKeywords = data ? jp.query(data, '$..keywords') : []
     const keywords = [].concat.apply([], tmpKeywords)
     const uniqueKeywords = [...new Set(keywords)]
+    console.log('render2')
     return (
       <View>
         <h1>
@@ -104,8 +112,10 @@ class CategoriesView extends React.PureComponent {
             category={category}
             onBeforeDelete={this.handleBeforeDelete}
             onDelete={this.handleDelete}
+            onEdit={this.handleEdit}
             onUpdate={this.handleUpdate}
             onClose={this.handleClose}
+            onBeforeAdd={this.handleBeforeAdd}
             onAdd={this.handleAdd}
             onClick={this.handleClick}
             open={open}

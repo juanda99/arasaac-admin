@@ -3,12 +3,9 @@ import PropTypes from 'prop-types'
 import jp from 'jsonpath'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
 import Badge from '@material-ui/core/Badge'
-import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import CategoryForm from 'components/CategoryForm'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import DeleteIcon from '@material-ui/icons/Delete'
 import Collapse from '@material-ui/core/Collapse'
 import ExpandLess from '@material-ui/icons/ExpandLess'
@@ -44,6 +41,8 @@ class ListTree extends Component {
     onDelete: PropTypes.func.isRequired,
     onBeforeDelete: PropTypes.func.isRequired,
     onAdd: PropTypes.func.isRequired,
+    onBeforeAdd: PropTypes.func.isRequired,
+    onEdit: PropTypes.func.isRequired,
     onUpdate: PropTypes.func.isRequired,
     open: PropTypes.object.isRequired, // which categories keys are open by default
     onClick: PropTypes.func.isRequired,
@@ -60,13 +59,12 @@ class ListTree extends Component {
 
   clickEditButton = (event, item) => {
     event.stopPropagation()
-    this.setState({ openForm: item, targetItem: item, action: 'edit' })
+    this.props.onEdit(item)
   }
 
   clickAddButton = (event, item) => {
     event.stopPropagation()
-    this.setState({ openForm: item, targetItem: item, action: 'add' })
-    // this.props.onAdd(item)
+    this.props.onBeforeAdd(item)
   }
 
   clickDeleteButton = item => {
