@@ -42,7 +42,6 @@ class CategoriesView extends React.Component {
     open[category] = !open[category]
     // we close the form when opening a category
     this.setState({ open, openForm: '', category })
-    console.log('changed!!!')
   }
 
   handleClose = () => this.setState({ openForm: '' })
@@ -93,7 +92,6 @@ class CategoriesView extends React.Component {
     const tmpKeywords = data ? jp.query(data, '$..keywords') : []
     const keywords = [].concat.apply([], tmpKeywords)
     const uniqueKeywords = [...new Set(keywords)]
-    console.log('render2')
     return (
       <View>
         <h1>
