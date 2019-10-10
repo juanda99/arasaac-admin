@@ -11,6 +11,7 @@ import theme from 'containers/ThemeSelector/reducer'
 import { loadingBarReducer } from 'react-redux-loading-bar'
 import auth from 'containers/App/reducer'
 import pictogramsViewReducer from 'containers/PictogramsView/reducer'
+import categoriesViewReducer from 'containers/CategoriesView/reducer'
 
 /**
  * Merges the main reducer with the router state and dynamically injected reducers
@@ -23,6 +24,7 @@ export default function createReducer(injectedReducers = {}) {
     auth,
     usersView,
     pictogramsView: pictogramsViewReducer,
+    categoriesView: categoriesViewReducer,
     ...injectedReducers,
   })
 

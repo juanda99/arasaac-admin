@@ -4,17 +4,18 @@ import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 import withWidth from '@material-ui/core/withWidth'
 import { compose } from 'redux'
-import injectReducer from 'utils/injectReducer'
+// import injectReducer from 'utils/injectReducer'
 import injectSaga from 'utils/injectSaga'
 import { makeSelectHasUser } from 'containers/UsersView/selectors'
 import { makeSelectLocale } from 'containers/LanguageProvider/selectors'
 import View from 'components/View'
 import Pictogram from 'components/Pictogram'
-import { TreeSelect } from 'antd/lib/tree-select'
-import 'antd/dist/antd.css'
-import treeData from './treeData.js'
-import reducer from '../PictogramsView/reducer'
-import saga from '../PictogramsView/sagas'
+import PictogramForm from 'components/PictogramForm'
+// import reducer from 'containers/PictogramsView/reducer'
+import saga from 'containers/PictogramsView/sagas'
+import { categories } from 'containers/CategoriesView/actions'
+import { makeCategoriesSelectorByLocale, makeLastUpdatedSelectorByLocale } from 'containers/CategoriesView/selectors'
+
 import styles from './styles'
 import { makeLoadingSelector, makeSelectIdPictogram, makePictogramByIdSelector } from '../PictogramsView/selectors'
 import { pictogram } from './actions'
@@ -22,19 +23,16 @@ import { pictogram } from './actions'
 /* eslint-disable react/prefer-stateless-function */
 
 class PictogramView extends React.PureComponent {
-  state = {
-    value: undefined,
-  }
-
-  onChange = value => {
-    this.setState({ value })
-  }
-
   componentDidMount() {
-    const { requestPictogram, idPictogram, locale, selectedPictogram } = this.props
+    const { requestPictogram, idPictogram, locale, selectedPictogram, lastUpdatedCategories } = this.props
+    /* if pictogram is already in the state we don't request it: */
     if (!selectedPictogram) {
       requestPictogram(idPictogram, locale)
     }
+    /* Maybe we should check our data is updated, as it's done in PictogramsView:
+     this.props.requestNewPictograms(locale, lastUpdated)
+     */
+    // this.props.requestCategories(locale, lastUpdatedCategories)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -43,21 +41,15 @@ class PictogramView extends React.PureComponent {
   }
 
   render() {
-    const { selectedPictogram, locale } = this.props
-    console.log(`Selected pictogram: ${selectedPictogram}`)
+    const { selectedPictogram, locale, classes } = this.props
+    // console.log(`Selected pictogram: ${selectedPictogram}`)
+    const categoriesData = this.props.categories.data || {}
     return (
       <View>
-        <h2>Categorías pictograma</h2>
-        <Pictogram pictogram={selectedPictogram} locale={locale} />
-        <TreeSelect
-          style={{ width: '100%' }}
-          value={this.state.value}
-          dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-          treeData={treeData}
-          placeholder="Please select"
-          onChange={this.onChange}
-          multiple
-        />
+        <div className={classes.wrapper}>
+          <Pictogram pictogram={selectedPictogram} locale={locale} />
+          <PictogramForm data={selectedPictogram} categories={categoriesData} locale={locale} />
+        </div>
       </View>
     )
   }
@@ -70,19 +62,29 @@ PictogramView.propTypes = {
   searchText: PropTypes.string,
   loading: PropTypes.bool.isRequired,
   locale: PropTypes.string.isRequired,
+  requestCategories: PropTypes.func.isRequired,
+  lastUpdatedCategories: PropTypes.string,
+  categories: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  loading: makeLoadingSelector()(state),
+  loading: makeLoadingSelector()(state), // for pictos
   selectedPictogram: makePictogramByIdSelector()(state, ownProps),
   locale: makeSelectLocale()(state),
   token: makeSelectHasUser()(state),
   idPictogram: makeSelectIdPictogram()(state, ownProps),
+  // for categories
+  lastUpdatedCategories: makeLastUpdatedSelectorByLocale()(state),
+  categories: makeCategoriesSelectorByLocale()(state),
 })
 
 const mapDispatchToProps = dispatch => ({
   requestPictogram: (locale, searchText) => {
     dispatch(pictogram.request(locale, searchText))
+  },
+  requestCategories: (locale, lastUpdated) => {
+    dispatch(categories.request(locale, lastUpdated))
   },
 })
 
@@ -90,11 +92,14 @@ const withConnect = connect(
   mapStateToProps,
   mapDispatchToProps,
 )
-const withReducer = injectReducer({ key: 'pictogramsView', reducer })
-const withSaga = injectSaga({ key: 'pictogramView', saga })
+// const withReducer = injectReducer({ key: 'pictogramsView', reducer }) // key is the part of the state?
+const withSaga = injectSaga({ key: 'pictogramView', saga }) // key is y   our component
+
+// const withCategoriesReducer = injectReducer({ key: 'categoriesView', categoriesReducer }) // key is the part of the state?
+//  const withCategoriesSaga = injectSaga({ key: 'categoriesView', categoriesSaga }) // key is your component
 
 export default compose(
-  withReducer,
+  // withReducer,
   withSaga,
   withConnect,
 )(withStyles(styles, { withTheme: true })(withWidth()(PictogramView)))

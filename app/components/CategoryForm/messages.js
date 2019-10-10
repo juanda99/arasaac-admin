@@ -7,17 +7,17 @@ export default defineMessages({
     id: `${scope}.category`,
     defaultMessage: 'Category',
   },
+  key: {
+    id: `${scope}.key`,
+    defaultMessage: 'Category key',
+  },
   keywordsList: {
     id: `${scope}.keywordsList`,
     defaultMessage: 'List of keywords',
   },
-  relatedCategories: {
-    id: `${scope}.relatedCategories`,
-    defaultMessage: 'Related categories',
-  },
-  addRelatedCategory: {
-    id: `${scope}.button.addRelatedCategory`,
-    defaultMessage: 'Add related category',
+  tagsList: {
+    id: `${scope}.tagsList`,
+    defaultMessage: 'List of tags',
   },
   save: {
     id: `${scope}.button.save`,

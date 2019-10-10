@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import SearchIcon from '@material-ui/icons/Search'
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl'
 import ClearIcon from '@material-ui/icons/Clear'
 import Paper from '@material-ui/core/Paper'
 import IconButton from '@material-ui/core/IconButton'
@@ -14,6 +15,7 @@ import parse from 'autosuggest-highlight/parse'
 import TextField from '@material-ui/core/TextField'
 import styles from './styles'
 import getSuggestions from './filter'
+import messages from './messages'
 
 const getSuggestionValue = suggestion => suggestion // could be an array of objects
 
@@ -80,10 +82,14 @@ class SearchField extends Component {
             <InputAdornment position="end">
               {this.state.searchText && (
                 <div className={classes.searchButtons}>
-                  <IconButton className={classes.removeIcon} aria-label="Toggle password visibility">
+                  <IconButton
+                    className={classes.removeIcon}
+                    aria-label="Toggle password visibility"
+                    onClick={this.handleRemoveSearchText}
+                  >
                     <ClearIcon />
                   </IconButton>
-                  <Button variant="contained" color="primary" className={classes.button}>
+                  <Button variant="contained" color="primary" className={classes.button} onClick={this.handleClick}>
                     <SearchIcon />
                   </Button>
                 </div>
@@ -114,24 +120,30 @@ class SearchField extends Component {
     })
   }
 
+  handleSuggestionSelection = (event, { suggestionValue }) => this.props.onSubmit(suggestionValue)
+
   handleSuggestionsClearRequested = () => {
     this.setState({
       suggestions: [],
     })
   }
 
-  handleClick = () => {
-    this.props.onSubmit(this.state.searchText)
+  handleClick = () => this.props.onSubmit(this.state.searchText)
+
+  handleRemoveSearchText = () => {
+    this.setState({ searchText: '' })
   }
 
   render() {
-    const { classes } = this.props
+    const { classes, intl } = this.props
+    const { formatMessage } = intl
     const { searchText } = this.state
     const autosuggestProps = {
       renderInputComponent: this.renderInputComponent,
       suggestions: this.state.suggestions.slice(0, 10),
       onSuggestionsFetchRequested: this.handleSuggestionsFetchRequested,
       onSuggestionsClearRequested: this.handleSuggestionsClearRequested,
+      onSuggestionSelected: this.handleSuggestionSelection,
       getSuggestionValue,
       renderSuggestion: this.renderSuggestion,
     }
@@ -140,7 +152,7 @@ class SearchField extends Component {
         {...autosuggestProps}
         inputProps={{
           classes,
-          placeholder: 'prueba',
+          placeholder: formatMessage(messages.search),
           value: searchText,
           onChange: this.handleChange,
           onKeyDown: this.onKeyDown,
@@ -152,7 +164,7 @@ class SearchField extends Component {
           suggestion: classes.suggestion,
         }}
         renderSuggestionsContainer={options => (
-          <Paper {...options.containerProps} square>
+          <Paper {...options.containerProps} style={{ zIndex: 2 }} square>
             {options.children}
           </Paper>
         )}
@@ -171,6 +183,7 @@ SearchField.propTypes = {
   value: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
 }
 
-export default withStyles(styles)(SearchField)
+export default withStyles(styles)(injectIntl(SearchField))

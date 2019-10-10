@@ -29,18 +29,20 @@ export const getFilteredItems = (items, filters) =>
 
 /* inside pictograms, check which keywords meets an specific searchText */
 export const keywordSelector = (searchText, keywords) => {
-  const searchTextArray = searchText ? searchText.split(' ') : []
-  if (!searchTextArray.length) {
-    console.log(`Keyword: ${keywords[0]}`)
-    return keywords[0]
-  }
+  const searchTextArray = searchText.split(' ')
+  if (!searchTextArray.length) return keywords[0] || ''
+  // if same keyword exists, return it
+  const keyword = keywords.find(keywordsItem => keywordsItem.keyword.toLowerCase() === searchText.toLowerCase())
+  if (keyword) return keyword || ''
+  // otherwise, return first partial match or fist keyword if no matches
   return (
     keywords.find(keywordsItem => {
-      const keywordArray = keywordsItem.keyword.split(' ')
-      const found = searchTextArray.some(word => keywordArray.includes(word))
-      return found
-    }) || keywords[0]
-  ) /* in case find doesn't get any results, we get first one */
+      const keywordArray = keywordsItem.keyword.split(' ').map(keyword => keyword.toLowerCase())
+      return searchTextArray.some(word => keywordArray.includes(word.toLowerCase()))
+    }) ||
+    keywords[0] ||
+    ''
+  )
 }
 
 export const getQueryStringValue = key =>
@@ -84,3 +86,78 @@ export const removeKeys = (obj, keys) => {
     }
   }
 }
+
+export const languages = [
+  {
+    code: 'ca',
+    text: 'Català',
+  },
+  {
+    code: 'de',
+    text: 'Deutsche',
+  },
+  {
+    code: 'es',
+    text: 'Español',
+  },
+  {
+    code: 'en',
+    text: 'English',
+  },
+  {
+    code: 'eu',
+    text: 'Euskal',
+  },
+  {
+    code: 'fr',
+    text: 'Français',
+  },
+  {
+    code: 'gl',
+    text: 'Galego',
+  },
+  {
+    code: 'cr',
+    text: 'Hrvatski',
+  },
+  {
+    code: 'it',
+    text: 'Italiano',
+  },
+  {
+    code: 'bg',
+    text: 'български',
+  },
+  {
+    code: 'pl',
+    text: 'Polskie',
+  },
+  {
+    code: 'pt',
+    text: 'Português',
+  },
+  {
+    code: 'br',
+    text: 'Português do Brasil',
+  },
+  {
+    code: 'ro',
+    text: 'Română',
+  },
+  {
+    code: 'ru',
+    text: 'Pусский',
+  },
+  {
+    code: 'val',
+    text: 'Valencia',
+  },
+  {
+    code: 'ar',
+    text: 'عربى',
+  },
+  {
+    code: 'zh',
+    text: '简体中文）',
+  },
+]

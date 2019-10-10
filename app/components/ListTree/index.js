@@ -3,12 +3,9 @@ import PropTypes from 'prop-types'
 import jp from 'jsonpath'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
 import Badge from '@material-ui/core/Badge'
-import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import CategoryForm from 'components/CategoryForm'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import DeleteIcon from '@material-ui/icons/Delete'
 import Collapse from '@material-ui/core/Collapse'
 import ExpandLess from '@material-ui/icons/ExpandLess'
@@ -35,66 +32,53 @@ class Item extends Component {
 // eslint-disable-next-line react/no-multi-comp
 class ListTree extends Component {
   state = {
-    open: {},
-    confirmationBoxOpen: false,
-    openForm: '',
-    action: '',
     visibilityIcons: '',
-    targetItem: null, // so we can open same form for adding or editing items
   }
 
   static propTypes = {
     data: PropTypes.object.isRequired,
-    onSelect: PropTypes.func.isRequired,
     category: PropTypes.string.isRequired,
     onDelete: PropTypes.func.isRequired,
+    onBeforeDelete: PropTypes.func.isRequired,
     onAdd: PropTypes.func.isRequired,
+    onBeforeAdd: PropTypes.func.isRequired,
+    onEdit: PropTypes.func.isRequired,
     onUpdate: PropTypes.func.isRequired,
+    open: PropTypes.object.isRequired, // which categories keys are open by default
+    onClick: PropTypes.func.isRequired,
+    openForm: PropTypes.string.isRequired,
+    onClose: PropTypes.func.isRequired,
+    action: PropTypes.string.isRequired,
+    targetItem: PropTypes.string.isRequired,
+    confirmationBoxOpen: PropTypes.bool.isRequired,
+    tags: PropTypes.array,
   }
 
-  handleClick = (event, item) => {
-    const { onSelect } = this.props
-    // if was selected, then deselect:
-    onSelect(item)
-    const { open } = this.state
-    open[item] = !open[item]
-    // if hide item, then hide also form
-    this.setState({ open, openForm: '' })
-  }
+  handleClick = (event, item) => this.props.onClick(item)
 
   handleIconsVisibility = (event, item) => this.setState({ visibilityIcons: item })
 
   clickEditButton = (event, item) => {
     event.stopPropagation()
-    this.setState({ openForm: item, targetItem: item, action: 'edit' })
+    this.props.onEdit(item)
   }
 
   clickAddButton = (event, item) => {
     event.stopPropagation()
-    this.setState({ openForm: item, targetItem: item, action: 'add' })
-    // this.props.onAdd(item)
+    this.props.onBeforeAdd(item)
   }
 
   clickDeleteButton = item => {
-    this.setState({ confirmationBoxOpen: true, targetItem: item, action: 'delete' })
+    this.props.onBeforeDelete(item)
   }
 
-  handleDelete = accept => {
-    this.setState({ confirmationBoxOpen: false })
-    if (accept) this.props.onDelete(this.state.targetItem)
-  }
+  handleDelete = accept => this.props.onDelete(this.props.targetItem, accept)
 
-  handleUpdate = (event, item) => {
-    this.props.onUpdate(event, item)
-    // this.setState({ openForm: '', targetItem: null })
-  }
+  handleUpdate = (event, item) => this.props.onUpdate(event, item)
 
-  handleClose = () => this.setState({ openForm: '', targetItem: null })
+  handleClose = () => this.props.onClose()
 
-  handleAdd = (event, item) => {
-    this.props.onAdd(event, item)
-    this.setState({ openForm: '', targetItem: null })
-  }
+  handleAdd = (event, item) => this.props.onAdd(event, item)
 
   renderActionIcons = item =>
     this.state.visibilityIcons === item ? (
@@ -113,12 +97,13 @@ class ListTree extends Component {
       ''
     )
 
-  renderForm = item => {
-    const { data } = this.props
+  renderForm = (item, depth) => {
+    const { data, action } = this.props
     // calculate its path and its content for CategoryForm:
 
     // const subData = jp.value(data, `$..${item}`)
     // get keys with spaces
+
     const subData = jp.value(data, `$..["${item}"]`)
 
     const menuItems = []
@@ -126,23 +111,31 @@ class ListTree extends Component {
     // get all keys and values from Category
     const categoryValues = categories => {
       Object.keys(categories).forEach(key => {
-        menuItems.push({ key, tag: categories[key].tag })
+        menuItems.push({
+          key,
+          text: categories[key].text,
+          tags: categories[key].tags,
+          keywords: categories[key].keywords,
+        })
         if (categories[key].children) categoryValues(categories[key].children)
       })
-      menuItems.sort((a, b) => a.tag < b.tag)
+      menuItems.sort((a, b) => a.text < b.text)
     }
-    menuItems.sort((a, b) => a.tag < b.tag)
+    menuItems.sort((a, b) => a.text < b.text)
     // load data to menuItems, we will sort them inside CategoryForm when c
     categoryValues(data)
 
     return (
-      <CategoryForm
-        data={this.state.action === 'edit' ? subData : {}}
-        item={item}
-        menuItems={menuItems}
-        onSubmit={this.state.action === 'edit' ? this.handleUpdate : this.handleAdd}
-        onClose={this.handleClose}
-      />
+      <div style={{ paddingLeft: depth * 30 }}>
+        <CategoryForm
+          data={action === 'edit' ? subData : {}}
+          item={item}
+          menuItems={menuItems}
+          onSubmit={action === 'edit' ? this.handleUpdate : this.handleAdd}
+          onClose={this.handleClose}
+          tags={this.props.tags}
+        />
+      </div>
     )
   }
 
@@ -150,8 +143,8 @@ class ListTree extends Component {
     Object.keys(data).map(item => {
       // calculate how deep it is
       const depth = jp.paths(this.props.data, `$..["${item}"]`)[0].length / 2 - 1
-      // add this.state.open[item] to improve performance!!!
-      if (data[item].children && this.state.open[item]) {
+      // add this.props.open[item] to improve performance!!!
+      if (data[item].children && this.props.open[item]) {
         return (
           <React.Fragment key={item}>
             <ListItem
@@ -169,17 +162,17 @@ class ListTree extends Component {
                     style={{ paddingRight: 10 }}
                     badgeContent={Object.keys(data[item].children).length}
                   >
-                    {data[item].tag}
+                    {data[item].text}
                   </Badge>
                 }
               />
               {this.renderActionIcons(item)}
 
-              {this.state.open[item] ? <ExpandLess /> : <ExpandMore />}
+              {this.props.open[item] ? <ExpandLess /> : <ExpandMore />}
             </ListItem>
-            {this.state.openForm === item && this.renderForm(this.state.targetItem)}
+            {this.props.openForm === item && this.renderForm(item, depth)}
 
-            <Collapse in={!!this.state.open[item]} timeout="auto" unmountOnExit>
+            <Collapse in={!!this.props.open[item]} timeout="auto" unmountOnExit>
               <List
                 component="div"
                 disablePadding
@@ -210,15 +203,15 @@ class ListTree extends Component {
                     style={{ paddingRight: 10 }}
                     badgeContent={Object.keys(data[item].children).length}
                   >
-                    {data[item].tag}
+                    {data[item].text}
                   </Badge>
                 }
               />
             )}
-            {!data[item].children && <ListItemText primary={data[item].tag} />}
+            {!data[item].children && <ListItemText primary={data[item].text} />}
             {this.renderActionIcons(item)}
           </ListItem>
-          {this.state.openForm === item && this.renderForm(this.state.targetItem)}
+          {this.props.openForm === item && this.renderForm(item, depth)}
         </React.Fragment>
       )
     })
@@ -227,7 +220,7 @@ class ListTree extends Component {
     return (
       <React.Fragment>
         <List component="nav">{this.renderTreeNodes(this.props.data)}</List>
-        <ConfirmationDialog onClose={this.handleDelete} open={this.state.confirmationBoxOpen} />
+        <ConfirmationDialog onClose={this.handleDelete} open={this.props.confirmationBoxOpen} />
       </React.Fragment>
     )
   }

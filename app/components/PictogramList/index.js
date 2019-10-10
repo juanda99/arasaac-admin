@@ -23,7 +23,7 @@ const styles = {
 }
 
 export class PictogramList extends PureComponent {
-  handleClick(offset) {
+  handleClick = offset => {
     const { type, onPageClick } = this.props
     onPageClick(type, offset)
   }

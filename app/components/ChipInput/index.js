@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import ChipInput from 'material-ui-chip-input'
+import ChipInputSource from 'material-ui-chip-input'
 
-class CustomChipInput extends Component {
+class ChipInput extends Component {
   handleRequestAdd = chip => {
     const { value, onChange } = this.props.input
     let chips = value || []
@@ -24,27 +24,23 @@ class CustomChipInput extends Component {
   }
 
   render() {
-    const { input, dataSource } = this.props
+    const { input } = this.props
     const chips = input.value || []
-    if (dataSource) {
-      return (
-        <ChipInput
-          {...this.props}
-          dataSource={dataSource}
-          dataSourceConfig={{ text: 'key', value: 'tag' }}
-          value={chips}
-          onAdd={this.handleRequestAdd}
-          onDelete={this.handleRequestDelete}
-        />
-      )
-    }
-    return <ChipInput {...this.props} value={chips} onAdd={this.handleRequestAdd} onDelete={this.handleRequestDelete} />
+    console.log(this.props)
+    return (
+      <ChipInputSource
+        {...this.props}
+        value={chips}
+        onAdd={this.handleRequestAdd}
+        onDelete={this.handleRequestDelete}
+      />
+    )
   }
 }
 
-CustomChipInput.propTypes = {
+ChipInput.propTypes = {
   input: PropTypes.object.isRequired,
   dataSource: PropTypes.arrayOf(PropTypes.object.isRequired),
 }
 
-export default CustomChipInput
+export default ChipInput

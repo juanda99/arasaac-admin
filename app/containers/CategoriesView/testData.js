@@ -44,3 +44,12 @@
   ]
   )
 */
+
+/* change nested object to array of objects for antd treeselect:
+
+var objectToArray = (obj) => Object.keys(obj).map(function(k) { 
+  obj[k].key = k;
+  if (obj[k].children) obj[k].children = objectToArray(obj[k].children)
+  return obj[k] 
+});
+*/
