@@ -106,31 +106,30 @@ class ListTree extends Component {
 
     const subData = jp.value(data, `$..["${item}"]`)
 
-    const menuItems = []
+    // const menuItems = []
 
-    // get all keys and values from Category
-    const categoryValues = categories => {
-      Object.keys(categories).forEach(key => {
-        menuItems.push({
-          key,
-          text: categories[key].text,
-          tags: categories[key].tags,
-          keywords: categories[key].keywords,
-        })
-        if (categories[key].children) categoryValues(categories[key].children)
-      })
-      menuItems.sort((a, b) => a.text < b.text)
-    }
-    menuItems.sort((a, b) => a.text < b.text)
-    // load data to menuItems, we will sort them inside CategoryForm when c
-    categoryValues(data)
-
+    // // get all keys and values from Category
+    // const categoryValues = categories => {
+    //   Object.keys(categories).forEach(key => {
+    //     menuItems.push({
+    //       key,
+    //       text: categories[key].text,
+    //       tags: categories[key].tags,
+    //       keywords: categories[key].keywords,
+    //     })
+    //     if (categories[key].children) categoryValues(categories[key].children)
+    //   })
+    //   menuItems.sort((a, b) => a.text < b.text)
+    // }
+    // menuItems.sort((a, b) => a.text < b.text)
+    // categoryValues(data)
+    console.log('subData', subData)
+    console.log(item)
     return (
       <div style={{ paddingLeft: depth * 30 }}>
         <CategoryForm
           data={action === 'edit' ? subData : {}}
           item={item}
-          menuItems={menuItems}
           onSubmit={action === 'edit' ? this.handleUpdate : this.handleAdd}
           onClose={this.handleClose}
           tags={this.props.tags}
