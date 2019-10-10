@@ -46,7 +46,6 @@ class CategoriesView extends React.Component {
     const tmpTags = data ? jp.query(data, '$..tags') : []
     const tags = [].concat.apply([], tmpTags)
     uniqueTags = [...new Set(tags)]
-    console.log(uniqueTags)
   }
 
   handleClick = category => {

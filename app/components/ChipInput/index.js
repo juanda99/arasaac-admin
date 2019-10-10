@@ -29,6 +29,7 @@ class ChipInput extends Component {
     console.log(this.props)
     return (
       <ChipInputSource
+        fullWidth
         {...this.props}
         value={chips}
         onAdd={this.handleRequestAdd}

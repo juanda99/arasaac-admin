@@ -118,6 +118,7 @@
     "react-redux": "5.0.7",
     "react-redux-loading-bar": "^4.4.0",
     "react-router-dom": "^5.1.2",
+    "react-select": "^3.0.8",
     "redux": "4.0.1",
     "redux-action-buffer": "^1.2.0",
     "redux-auth-wrapper": "^2.1.0",

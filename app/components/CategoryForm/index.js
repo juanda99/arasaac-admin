@@ -5,38 +5,37 @@ import CloseIcon from '@material-ui/icons/Close'
 import Button from '@material-ui/core/Button'
 import { Form, Field } from 'react-final-form'
 import { TextField } from 'final-form-material-ui'
-import { FormattedMessage } from 'react-intl'
+import { OnChange } from 'react-final-form-listeners'
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import IconButton from '@material-ui/core/IconButton'
 import ChipInput from 'components/ChipInput'
+import Autosuggest from 'components/Autosuggest'
 import AutoSave from 'components/AutoSave'
 import messages from './messages'
+import tagLabels from './tagsMessages'
 
 const KeywordsInputWrapper = props => <ChipInput {...props} />
-const TagsInputWrapper = props => <ChipInput {...props} dataSource={dataSource} dataSourceConfig={dataSourceConfig} />
-let dataSource
-const dataSourceConfig = { text: 'tag', value: 'value' }
+const TagsInputWrapper = props => <Autosuggest {...props} suggestions={suggestions} />
+let suggestions = []
 export class CategoryForm extends Component {
   static propTypes = {
     data: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
-    menuItems: PropTypes.arrayOf(
-      PropTypes.shape({
-        key: PropTypes.string.isRequired,
-        text: PropTypes.string.isRequired,
-        tags: PropTypes.arrayOf(PropTypes.string),
-        keywords: PropTypes.arrayOf(PropTypes.string),
-      }).isRequired,
-    ),
     item: PropTypes.string,
     tags: PropTypes.array.isRequired,
   }
 
   componentDidMount() {
-    const { tags } = this.props
-    console.log(this.props)
-    dataSource = tags.map(tag => ({ tag, value: tag }))
-    console.log(`dataSource`, dataSource)
+    const { tags, intl } = this.props
+    const { formatMessage } = intl
+    console.log('***************')
+    suggestions = tags.map(tag => {
+      console.log(tag)
+      return { label: formatMessage(tagLabels[tag]), value: tag }
+    })
+    console.log(suggestions)
+    console.log('kkkkkkkkkkkk')
   }
 
   handleSubmit = async values => {
@@ -50,11 +49,16 @@ export class CategoryForm extends Component {
   }
 
   render() {
-    const { data } = this.props
+    const { data, item } = this.props
+    // new category, key empty, edit category, key from item
+    const formData = Object.entries(data).length === 0 ? { ...data, key: '' } : { ...data, key: item }
     return (
       <Form
         onSubmit={this.handleSubmit}
-        initialValues={data}
+        initialValues={formData}
+        mutators={{
+          replicate: (args, state, utils) => utils.changeValue(state, 'key', () => state.lastFormState.values.text),
+        }}
         render={({ handleSubmit, pristine, form, submitting, values }) => (
           <form onSubmit={handleSubmit} style={{ width: '100%' }}>
             {Object.keys(data).length !== 0 && <AutoSave debounce={1000} save={handleSubmit} />}
@@ -63,38 +67,49 @@ export class CategoryForm extends Component {
                 <CloseIcon />
               </IconButton>
               <div style={{ marginTop: 30 }}>
-                <h2>
+                <h3>
                   <FormattedMessage {...messages.key} />
-                </h2>
-                <div style={{ maxWidth: '271px' }}>
-                  <Field fullWidth name="key" component={TextField} type="text" autoFocus />
+                </h3>
+                <OnChange name="text">
+                  {(value, previous) => {
+                    if (!values.key || values.key === previous) form.mutators.replicate()
+                  }}
+                </OnChange>
+                <div style={{ maxWidth: '400px' }}>
+                  <Field
+                    fullWidth
+                    name="key"
+                    component={TextField}
+                    type="text"
+                    disabled={Object.entries(data).length !== 0}
+                  />
                 </div>
               </div>
               <div style={{ marginTop: 30 }}>
-                <h2>
+                <h3>
                   <FormattedMessage {...messages.category} />
-                </h2>
-                <div style={{ maxWidth: '271px' }}>
+                </h3>
+                <div style={{ maxWidth: '400px' }}>
                   <Field fullWidth name="text" component={TextField} type="text" autoFocus />
                 </div>
               </div>
               <div style={{ marginTop: 30 }}>
                 <div style={{ display: 'flex' }}>
-                  <h2>
+                  <h3>
                     <FormattedMessage {...messages.tagsList} />
-                  </h2>
+                  </h3>
                 </div>
-                <div style={{ maxWidth: '400px' }}>
+                <div>
                   <Field name="tags" component={TagsInputWrapper} />
                 </div>
               </div>
               <div style={{ marginTop: 30 }}>
                 <div style={{ display: 'flex' }}>
-                  <h2>
+                  <h3>
                     <FormattedMessage {...messages.keywordsList} />
-                  </h2>
+                  </h3>
                 </div>
-                <div style={{ maxWidth: '400px' }}>
+                <div>
                   <Field name="keywords" component={KeywordsInputWrapper} />
                 </div>
               </div>
@@ -127,4 +142,4 @@ CategoryForm.defaultProps = {
   data: {},
 }
 
-export default CategoryForm
+export default injectIntl(CategoryForm)
