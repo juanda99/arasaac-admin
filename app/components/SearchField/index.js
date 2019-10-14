@@ -41,11 +41,11 @@ class SearchField extends Component {
           {parts.map(
             (part, index) =>
               part.highlight ? (
-                <span key={String(index)} style={{ fontWeight: 500 }}>
+                <span key={String(index)} style={{ fontWeight: 300 }}>
                   {part.text}
                 </span>
               ) : (
-                <strong key={String(index)} style={{ fontWeight: 300 }}>
+                <strong key={String(index)} style={{ fontWeight: 500 }}>
                   {part.text}
                 </strong>
               ),
@@ -131,7 +131,8 @@ class SearchField extends Component {
   handleClick = () => this.props.onSubmit(this.state.searchText)
 
   handleRemoveSearchText = () => {
-    this.setState({ searchText: '' })
+    // this.setState({ searchText: '' })
+    this.props.onClear()
   }
 
   render() {
@@ -184,6 +185,7 @@ SearchField.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
+  onClear: PropTypes.func.isRequired,
 }
 
 export default withStyles(styles)(injectIntl(SearchField))

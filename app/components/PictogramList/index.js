@@ -4,7 +4,7 @@ import Pagination from 'material-ui-flat-pagination'
 import PictogramSnippet from '../PictogramSnippet'
 const Masonry = require('react-masonry-component')
 const masonryOptions = {
-  transitionDuration: '1s',
+  transitionDuration: 0,
 }
 const itemsPerPage = 30
 
@@ -23,10 +23,7 @@ const styles = {
 }
 
 export class PictogramList extends PureComponent {
-  handleClick = offset => {
-    const { type, onPageClick } = this.props
-    onPageClick(type, offset)
-  }
+  handleClick = offset => this.props.onPageClick(offset)
 
   render() {
     const { locale, pictograms, searchText, offset } = this.props
@@ -73,7 +70,6 @@ PictogramList.propTypes = {
   pictograms: PropTypes.arrayOf(PropTypes.object).isRequired,
   locale: PropTypes.string,
   searchText: PropTypes.string,
-  type: PropTypes.string,
   offset: PropTypes.number.isRequired,
   onPageClick: PropTypes.func.isRequired,
 }
