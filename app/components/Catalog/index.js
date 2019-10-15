@@ -17,13 +17,13 @@ import messages from './messages'
 
 const styles = theme => ({
   button: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
   },
   leftIcon: {
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(1),
   },
   rightIcon: {
-    marginLeft: theme.spacing.unit,
+    marginLeft: theme.spacing(1),
   },
   iconSmall: {
     fontSize: 20,
@@ -62,7 +62,7 @@ export class Catalog extends PureComponent {
     const { catalog, catalogStatus, classes } = this.props
     // values provided from api call and sockets:
     const { status, lastUpdated, language, colorPictograms, noColorPictograms, variations } = catalog
-    const { step, info, complete/*, err*/ } = catalogStatus
+    const { step, info, complete /* , err */ } = catalogStatus
     const rows = [createData(colorPictograms, noColorPictograms, variations)]
     const downloadStatus = complete ? (
       <div>

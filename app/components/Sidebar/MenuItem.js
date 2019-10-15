@@ -41,10 +41,10 @@ const MenuItem = props => {
           </Collapse>
         </div>
       ) : (
-        <NavLink to={path} key={path}>
+        <NavLink to={path} key={path} className={classes.navlink}>
           <ListItem button>
             <ListItemIcon>{typeof icon === 'string' ? <Icon>{icon}</Icon> : <props.icon />}</ListItemIcon>
-            <ListItemText inset primary={title} />
+            <ListItemText primary={title} />
           </ListItem>
         </NavLink>
       )}
