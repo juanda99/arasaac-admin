@@ -16,11 +16,10 @@ import { languages } from 'utils/index'
 import CategoriesSelector from 'components/CategoriesSelector'
 import ChipInput from 'components/ChipInput'
 import MenuItem from '@material-ui/core/MenuItem'
-import { FormattedMessage } from 'react-intl'
 // see picker doc at https://material-ui-pickers-v2.dmtr-kovalenko.now.sh
 // also configured in app.js
 import { DatePicker } from 'material-ui-pickers'
-import { injectIntl, intlShape } from 'react-intl'
+import { injectIntl, FormattedMessage } from 'react-intl'
 import langMessages from 'components/LanguageSelector/messages'
 import styles from './styles'
 import messages from './messages'

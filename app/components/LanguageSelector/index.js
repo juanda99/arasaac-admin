@@ -6,7 +6,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { injectIntl, intlShape } from 'react-intl'
+import { injectIntl } from 'react-intl'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import { languages } from 'utils/index'
@@ -28,7 +28,9 @@ const LanguageSelector = ({ id, anchorEl, intl, value, onClick, onClose, menu })
 }
 
 LanguageSelector.propTypes = {
-  intl: intlShape.isRequired,
+  intl: PropTypes.shape({
+    formatMessage: PropTypes.func.isRequired,
+  }).isRequired,
   onClick: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   value: PropTypes.string,

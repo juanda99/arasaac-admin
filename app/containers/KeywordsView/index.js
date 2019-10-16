@@ -12,7 +12,7 @@ import {
   IntegratedFiltering,
 } from '@devexpress/dx-react-grid'
 import { Grid, Table, TableHeaderRow, PagingPanel, TableFilterRow } from '@devexpress/dx-react-grid-material-ui'
-import { injectIntl, intlShape } from 'react-intl'
+import { injectIntl } from 'react-intl'
 import history from 'utils/history'
 import injectReducer from 'utils/injectReducer'
 import injectSaga from 'utils/injectSaga'
@@ -131,7 +131,9 @@ UsersView.propTypes = {
   requestUsers: PropTypes.func.isRequired,
   users: PropTypes.arrayOf(PropTypes.object),
   loading: PropTypes.bool.isRequired,
-  intl: intlShape.isRequired,
+  intl: PropTypes.shape({
+    formatMessage: PropTypes.func.isRequired,
+  }).isRequired,
   token: PropTypes.string.isRequired,
   updated: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.string]),
 }

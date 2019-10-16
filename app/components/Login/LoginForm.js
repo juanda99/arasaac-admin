@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { injectIntl, intlShape, FormattedMessage } from 'react-intl'
+import { injectIntl, FormattedMessage } from 'react-intl'
 import { Form, Field } from 'react-final-form'
 import Grid from '@material-ui/core/Grid'
 import { TextField } from 'final-form-material-ui'
@@ -120,7 +120,9 @@ const LoginForm = class LoginForm extends Component {
 }
 
 LoginForm.propTypes = {
-  intl: intlShape.isRequired,
+  intl: PropTypes.shape({
+    formatMessage: PropTypes.func.isRequired,
+  }).isRequired,
   onSubmit: PropTypes.func.isRequired,
 }
 

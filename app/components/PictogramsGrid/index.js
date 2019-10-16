@@ -19,7 +19,7 @@ import {
   TableFilterRow,
   TableRowDetail,
 } from '@devexpress/dx-react-grid-material-ui'
-import { injectIntl, intlShape, FormattedTime, FormattedDate } from 'react-intl'
+import { injectIntl, FormattedTime, FormattedDate } from 'react-intl'
 import history from 'utils/history'
 import View from 'components/View'
 import PublishedIcon from '@material-ui/icons/Done'
@@ -179,7 +179,9 @@ class PictogramsGrid extends React.PureComponent {
 
 PictogramsGrid.propTypes = {
   pictograms: PropTypes.arrayOf(PropTypes.object),
-  intl: intlShape.isRequired,
+  intl: PropTypes.shape({
+    formatMessage: PropTypes.func.isRequired,
+  }).isRequired,
 }
 
 export default injectIntl(PictogramsGrid)

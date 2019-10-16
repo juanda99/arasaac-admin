@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
+import { useIntl } from 'react-intl'
+import { useTheme } from '@material-ui/core/styles'
+import messages from './messages.js'
+import SvgPreview from './SvgPreview'
 
 const thumbsContainer = {
   display: 'flex',
@@ -14,8 +18,8 @@ const thumb = {
   border: '1px solid #eaeaea',
   marginBottom: 8,
   marginRight: 8,
-  width: 100,
-  height: 100,
+  width: 200,
+  height: 200,
   padding: 4,
   boxSizing: 'border-box',
 }
@@ -26,31 +30,42 @@ const thumbInner = {
   overflow: 'hidden',
 }
 
-const img = {
-  display: 'block',
-  width: 'auto',
-  height: '100%',
-}
-
-const Preview = props => {
+const Preview = () => {
   const [files, setFiles] = useState([])
+  const { formatMessage } = useIntl()
+  const theme = useTheme()
   const { getRootProps, getInputProps } = useDropzone({
-    accept: 'image/*',
+    accept: 'image/svg+xml',
     onDrop: acceptedFiles => {
-      setFiles(
-        acceptedFiles.map(file =>
-          Object.assign(file, {
-            preview: URL.createObjectURL(file),
-          }),
-        ),
+      const newFiles = acceptedFiles.map(file =>
+        Object.assign(file, {
+          preview: URL.createObjectURL(file),
+        }),
       )
+      const oldFiles = files.map(file => file)
+      const allFiles = [...oldFiles, ...newFiles]
+      const uniqueFiles = removeDuplicates(allFiles, 'name')
+      setFiles(uniqueFiles)
     },
   })
+
+  const removeDuplicates = (array, key) => {
+    const lookup = {}
+    return array.filter(obj => {
+      const isNewValue = !lookup[obj[key]]
+      lookup[obj[key]] = true
+      return isNewValue
+    })
+  }
+  const handleDelete = fileName => {
+    const newFiles = files.filter(file => file.name !== fileName)
+    setFiles(newFiles)
+  }
 
   const thumbs = files.map(file => (
     <div style={thumb} key={file.name}>
       <div style={thumbInner}>
-        <img src={file.preview} style={img} />
+        <SvgPreview file={file} onDelete={handleDelete} />
       </div>
     </div>
   ))
@@ -64,11 +79,22 @@ const Preview = props => {
   )
 
   return (
-    <section>
-      <div {...getRootProps()}>
-        <input {...getInputProps()} />
-        <p>Drag 'n' drop some files here, or click to select files</p>
-      </div>
+    <section
+      {...getRootProps()}
+      style={{
+        borderWidth: '2px',
+        maxWidth: '850px',
+        minHeight: '100px',
+        borderStyle: 'dashed',
+        borderColor: theme.palette.primary.main,
+        justifyContent: 'center',
+        alignItems: 'center',
+        display: 'flex',
+        flexWrap: 'wrap',
+      }}
+    >
+      <input {...getInputProps()} />
+      <p style={{ margin: '0px' }}>{formatMessage(messages.addFiles)}</p>
       <aside style={thumbsContainer}>{thumbs}</aside>
     </section>
   )

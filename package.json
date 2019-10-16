@@ -114,7 +114,7 @@
     "react-final-form-arrays": "2.0.3",
     "react-final-form-listeners": "^1.0.2",
     "react-helmet": "5.2.0",
-    "react-intl": "2.7.2",
+    "react-intl": "^3.3.2",
     "react-masonry-component": "^6.2.1",
     "react-redux": "^5.1.2",
     "react-redux-loading-bar": "^4.4.0",

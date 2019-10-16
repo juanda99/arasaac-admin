@@ -12,4 +12,8 @@ export default defineMessages({
     id: `${scope}.header`,
     defaultMessage: 'This is the AddPictograms container!',
   },
+  addFiles: {
+    id: `${scope}.addFiles`,
+    defaultMessage: 'Add pictogram files',
+  },
 })

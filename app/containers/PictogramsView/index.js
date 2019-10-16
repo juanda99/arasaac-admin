@@ -220,6 +220,8 @@ class PictogramsView extends React.PureComponent {
               label={width === 'xs' ? '' : <FormattedMessage {...messages.search} />}
               icon={<SearchIcon />}
               value={0}
+              // bug? remove boxShadow here:
+              style={{ boxShadow: 'none' }}
             />
             <Tab
               label={width === 'xs' ? '' : <FormattedMessage {...messages.notPlublished} />}
