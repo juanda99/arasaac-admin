@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
+import Button from '@material-ui/core/Button'
 import { useIntl } from 'react-intl'
 import { useTheme } from '@material-ui/core/styles'
-import messages from './messages.js'
+import messages from './messages'
 import SvgPreview from './SvgPreview'
 
 const thumbsContainer = {
@@ -30,7 +31,7 @@ const thumbInner = {
   overflow: 'hidden',
 }
 
-const Preview = () => {
+const PictogramUploader = ({ onSubmit }) => {
   const [files, setFiles] = useState([])
   const { formatMessage } = useIntl()
   const theme = useTheme()
@@ -60,8 +61,13 @@ const Preview = () => {
   const handleDelete = fileName => {
     const newFiles = files.filter(file => file.name !== fileName)
     setFiles(newFiles)
+    return false
   }
 
+  const handleSend = event => {
+    event.stopPropagation()
+    onSubmit(files)
+  }
   const thumbs = files.map(file => (
     <div style={thumb} key={file.name}>
       <div style={thumbInner}>
@@ -79,25 +85,33 @@ const Preview = () => {
   )
 
   return (
-    <section
-      {...getRootProps()}
-      style={{
-        borderWidth: '2px',
-        maxWidth: '850px',
-        minHeight: '100px',
-        borderStyle: 'dashed',
-        borderColor: theme.palette.primary.main,
-        justifyContent: 'center',
-        alignItems: 'center',
-        display: 'flex',
-        flexWrap: 'wrap',
-      }}
-    >
-      <input {...getInputProps()} />
-      <p style={{ margin: '0px' }}>{formatMessage(messages.addFiles)}</p>
-      <aside style={thumbsContainer}>{thumbs}</aside>
-    </section>
+    <>
+      <section
+        {...getRootProps()}
+        style={{
+          borderWidth: '2px',
+          maxWidth: '850px',
+          minHeight: '100px',
+          borderStyle: 'dashed',
+          borderColor: theme.palette.primary.main,
+          justifyContent: 'center',
+          alignItems: 'center',
+          display: 'flex',
+          flexWrap: 'wrap',
+          flexDirection: 'column',
+        }}
+      >
+        <input {...getInputProps()} />
+        <p style={{ margin: '20px', textAlign: 'center' }}>{formatMessage(messages.addFiles)}</p>
+        <aside style={thumbsContainer}>{thumbs}</aside>
+        {!!files.length && (
+          <Button variant="contained" color="primary" style={{ margin: '20px' }} onClick={handleSend}>
+            {formatMessage(messages.uploadPictograms)}
+          </Button>
+        )}
+      </section>
+    </>
   )
 }
 
-export default Preview
+export default PictogramUploader

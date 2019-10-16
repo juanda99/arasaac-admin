@@ -12,6 +12,12 @@ const img = {
 
 const SvgPreview = ({ file, onDelete }) => {
   const [elevation, setElevation] = useState(1)
+
+  const handleOnDelete = fileName => onDelete(fileName)
+
+  // stopPropagation inside iconButton does not work :-(
+  const handleDelete = event => event.stopPropagation()
+
   return (
     <Paper
       square
@@ -23,13 +29,14 @@ const SvgPreview = ({ file, onDelete }) => {
       onMouseLeave={() => {
         setElevation(1)
       }}
+      onClick={handleDelete}
     >
       <img src={file.preview} style={img} />
       {elevation === 3 && (
         <IconButton
           aria-label="delete"
           style={{ position: 'absolute', right: '0px', top: '0px' }}
-          onClick={() => onDelete(file.name)}
+          onClick={() => handleOnDelete(file.name)}
         >
           <DeleteIcon fontSize="large" color="secondary" />
         </IconButton>

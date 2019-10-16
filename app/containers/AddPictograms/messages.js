@@ -16,4 +16,8 @@ export default defineMessages({
     id: `${scope}.addFiles`,
     defaultMessage: 'Add pictogram files',
   },
+  uploadPictograms: {
+    id: `${scope}.uploadPictograms`,
+    defaultMessage: 'Upload pictograms',
+  },
 })

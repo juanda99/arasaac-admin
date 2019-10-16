@@ -170,3 +170,13 @@ export const uploadMaterial = {
     }
   },
 }
+
+export const uploadPictograms = {
+  url: `${PRIVATE_API_ROOT}/pictograms`,
+  options: files => ({
+    config: {
+      method: 'POST',
+      body: files,
+    },
+  }),
+}
