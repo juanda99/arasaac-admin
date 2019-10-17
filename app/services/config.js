@@ -173,10 +173,14 @@ export const uploadMaterial = {
 
 export const uploadPictograms = {
   url: `${PRIVATE_API_ROOT}/pictograms`,
-  options: files => ({
-    config: {
-      method: 'POST',
-      body: files,
-    },
-  }),
+  options: files => {
+    const formData = new FormData()
+    if (files) files.map(file => formData.append('files', file))
+    return {
+      config: {
+        method: 'POST',
+        body: formData,
+      },
+    }
+  },
 }

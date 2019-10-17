@@ -8,16 +8,8 @@ import { defineMessages } from 'react-intl'
 export const scope = 'app.containers.AddPictograms'
 
 export default defineMessages({
-  header: {
-    id: `${scope}.header`,
-    defaultMessage: 'This is the AddPictograms container!',
-  },
-  addFiles: {
-    id: `${scope}.addFiles`,
-    defaultMessage: 'Add pictogram files',
-  },
-  uploadPictograms: {
-    id: `${scope}.uploadPictograms`,
-    defaultMessage: 'Upload pictograms',
+  errorUploading: {
+    id: `${scope}.errorUploading`,
+    defaultMessage: 'Uppps, files were not uploaded!',
   },
 })
