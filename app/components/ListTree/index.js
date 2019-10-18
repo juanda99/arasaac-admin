@@ -74,11 +74,11 @@ class ListTree extends Component {
 
   handleDelete = accept => this.props.onDelete(this.props.targetItem, accept)
 
-  handleUpdate = (event, item) => this.props.onUpdate(event, item)
+  handleUpdate = (values, item) => this.props.onUpdate(values, item)
 
   handleClose = () => this.props.onClose()
 
-  handleAdd = (event, item) => this.props.onAdd(event, item)
+  handleAdd = (values, item) => this.props.onAdd(values, item)
 
   renderActionIcons = item =>
     this.state.visibilityIcons === item ? (
@@ -123,8 +123,6 @@ class ListTree extends Component {
     // }
     // menuItems.sort((a, b) => a.text < b.text)
     // categoryValues(data)
-    console.log('subData', subData)
-    console.log(item)
     return (
       <div style={{ paddingLeft: depth * 30 }}>
         <CategoryForm

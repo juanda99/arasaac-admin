@@ -29,13 +29,10 @@ export class CategoryForm extends Component {
   componentDidMount() {
     const { tags, intl } = this.props
     const { formatMessage } = intl
-    console.log('***************')
     suggestions = tags.map(tag => {
       console.log(tag)
       return { label: formatMessage(tagLabels[tag]), value: tag }
     })
-    console.log(suggestions)
-    console.log('kkkkkkkkkkkk')
   }
 
   handleSubmit = async values => {

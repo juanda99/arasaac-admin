@@ -76,6 +76,17 @@ class CategoriesView extends React.Component {
     this.setState({ openForm: item, targetItem: item, action: 'add' })
   }
 
+  handleRemoveSearchText = () =>
+    this.setState({
+      category: '',
+      searchText: '',
+      open: {},
+      openForm: '',
+      action: '',
+      targetItem: '',
+      confirmationBoxOpen: false,
+    })
+
   handleAdd = (data, parentItem) => {
     const { locale, requestCategoriesAdd } = this.props
     this.setState({ openForm: '' })
@@ -111,6 +122,7 @@ class CategoriesView extends React.Component {
           onSubmit={this.handleSubmit}
           style={styles.searchBar}
           dataSource={uniqueKeywords}
+          onClear={this.handleRemoveSearchText}
         />
         {data && (
           <ListTree

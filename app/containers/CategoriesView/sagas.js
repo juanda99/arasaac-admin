@@ -36,7 +36,7 @@ function* categoriesAddGetData(action) {
     /* we do all the process in the client, send computed categories to the server */
     const allCategories = yield select(makeCategoriesSelectorByLanguage(locale))
     const parentData = jp.value(allCategories, `$..["${parentItem}"]`)
-    const key = data.tag
+    const key = data.key
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '') // removing accents and diacritics
       // .replace(/\s/g, '') // without blank spaces
@@ -44,6 +44,8 @@ function* categoriesAddGetData(action) {
     const keyExists = jp.value(allCategories, `$..["${key}"]`)
     if (keyExists) throw new Error(`key ${key} already exists in category tree`)
     if (!parentData.children) parentData.children = {}
+    // remove key from data
+    delete data.key
     parentData.children[key] = data
     jp.value(allCategories, `$..["${parentItem}"]`, parentData)
     const response = yield call(api[action.type], { token, data: allCategories })

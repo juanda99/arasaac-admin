@@ -31,8 +31,6 @@ class CategoriesSelector extends PureComponent {
 
   onChange = (key, tag) => {
     const { value, onChange } = this.props.input
-    console.log(`****${key}`)
-    console.log(value)
     onChange(key)
     // this.setState({ value: key })
   }
@@ -40,7 +38,6 @@ class CategoriesSelector extends PureComponent {
   render() {
     const { treeData } = this.state
     const { value } = this.props.input
-    console.log(treeData)
     return (
       <TreeSelect
         style={{ width: '100%' }}
