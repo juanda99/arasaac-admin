@@ -20,14 +20,14 @@ export class ThemeSelector extends React.PureComponent {
             aria-label={<FormattedMessage {...messages.toggleTheme} />}
             onClick={() => this.props.changeTheme(DARK_THEME)}
           >
-            <LightbulbFullIcon />
+            <LightbulbFullIcon style={{ color: 'white' }} />
           </IconButton>
         ) : (
           <IconButton
             aria-label={<FormattedMessage {...messages.toggleTheme} />}
             onClick={() => this.props.changeTheme(LIGHT_THEME)}
           >
-            <LightbulbOutlineIcon />
+            <LightbulbOutlineIcon style={{ color: 'white' }} />
           </IconButton>
         )}
       </Tooltip>

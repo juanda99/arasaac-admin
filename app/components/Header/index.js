@@ -55,7 +55,6 @@ class Header extends Component {
   getTitle = () => {
     let title
     const url = this.props.location.pathname
-    console.log(url)
     switch (true) {
       case /pictograms\/add/.test(url):
         title = <FormattedMessage {...messages.addPictograms} />
@@ -95,7 +94,7 @@ class Header extends Component {
               aria-label="Open menu"
               onClick={this.toggleSidebar}
             >
-              <MenuIcon />
+              <MenuIcon style={{ color: 'white' }} />
             </IconButton>
           </Hidden>
           <Typography variant="h6" color="inherit" className={classes.grow}>
@@ -111,7 +110,7 @@ class Header extends Component {
                   aria-haspopup="true"
                   onClick={this.handleAuthMenu}
                 >
-                  <UserOptionsIcon />
+                  <UserOptionsIcon style={{ color: 'white' }} />
                 </IconButton>
               </Tooltip>
               <Menu id="menu-appbar" anchorEl={loginButton} open={Boolean(loginButton)} onClose={this.handleAuthClose}>
@@ -122,7 +121,7 @@ class Header extends Component {
             </React.Fragment>
           ) : (
             <IconButton aria-owns={loginButton ? 'menu-appbar' : null} aria-haspopup="true" onClick={this.handleSignin}>
-              <AccountCircle />
+              <AccountCircle style={{ color: 'white' }} />
             </IconButton>
           )}
         </Toolbar>
