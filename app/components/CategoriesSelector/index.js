@@ -10,7 +10,7 @@ const categoriesToArray = obj =>
     obj[k].key = k
     obj[k].label = obj[k].text
     obj[k].value = obj[k].text
-    obj[k].disabled = obj[k].keywords.length === 0
+    obj[k].disabled = !obj[k].keywords || obj[k].keywords.length === 0
     if (obj[k].children) obj[k].children = categoriesToArray(obj[k].children)
     return obj[k]
   })
