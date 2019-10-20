@@ -4,6 +4,7 @@ export const CATEGORIES = createRequestTypes('CATEGORIES')
 export const CATEGORIES_UPDATE = createRequestTypes('CATEGORIES_UPDATE')
 export const CATEGORIES_ADD = createRequestTypes('CATEGORIES_ADD')
 export const CATEGORIES_DELETE = createRequestTypes('CATEGORIES_DELETE')
+export const REMOVE_ERROR = 'REMOVE_ERROR'
 
 export const categories = {
   request: (locale, updated) => action(CATEGORIES.REQUEST, { locale, updated }),
@@ -28,3 +29,5 @@ export const categoriesDelete = {
   success: data => action(CATEGORIES_DELETE.SUCCESS, { data }),
   failure: error => action(CATEGORIES_DELETE.FAILURE, { error }),
 }
+
+export const removeError = () => action(REMOVE_ERROR)

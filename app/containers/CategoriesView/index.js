@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import ErrorDialog from 'components/ErrorDialog'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import View from 'components/View'
@@ -13,8 +14,13 @@ import SearchField from 'components/SearchField'
 import jp from 'jsonpath'
 // import DragDropFile from './DragDropFile'
 import styles from './styles'
-import { categories, categoriesUpdate, categoriesAdd, categoriesDelete } from './actions'
-import { makeLoadingSelector, makeCategoriesSelectorByLocale, makeLastUpdatedSelectorByLocale } from './selectors'
+import { categories, categoriesUpdate, categoriesAdd, categoriesDelete, removeError } from './actions'
+import {
+  makeLoadingSelector,
+  makeCategoriesSelectorByLocale,
+  makeLastUpdatedSelectorByLocale,
+  makeErrorSelector,
+} from './selectors'
 // import reducer from './reducer'
 import messages from './messages'
 import saga from './sagas'
@@ -40,11 +46,11 @@ class CategoriesView extends React.Component {
     // get keywords:
     const { data } = this.props.categories || {}
     const tmpKeywords = data ? jp.query(data, '$..keywords') : []
-    const keywords = [].concat.apply([], tmpKeywords)
+    const keywords = [].concat(...tmpKeywords)
     uniqueKeywords = [...new Set(keywords)]
     // get tags
     const tmpTags = data ? jp.query(data, '$..tags') : []
-    const tags = [].concat.apply([], tmpTags)
+    const tags = [].concat(...tmpTags)
     uniqueTags = [...new Set(tags)]
   }
 
@@ -57,6 +63,8 @@ class CategoriesView extends React.Component {
 
   handleClose = () => this.setState({ openForm: '' })
 
+  handleErrorDialogClose = () => this.props.requestRemoveError()
+
   // we get treeview open as category(searchText) is submitted.
   // form category is open for edition
   handleSubmit = category => {
@@ -66,7 +74,10 @@ class CategoriesView extends React.Component {
     let openForm
     paths.forEach(path => {
       const filtered = path.filter(item => isNaN(item) && item !== '$' && item !== 'children' && item !== 'keywords')
-      if (filtered.length) filtered.forEach(element => (open[element] = true))
+      if (filtered.length)
+        filtered.forEach(element => {
+          open[element] = true
+        })
       openForm = filtered[filtered.length - 1]
     })
     this.setState({ open, openForm, action: 'edit' })
@@ -76,7 +87,7 @@ class CategoriesView extends React.Component {
     this.setState({ openForm: item, targetItem: item, action: 'add' })
   }
 
-  handleRemoveSearchText = () =>
+  handleRemoveSearchText = () => {
     this.setState({
       category: '',
       searchText: '',
@@ -86,9 +97,12 @@ class CategoriesView extends React.Component {
       targetItem: '',
       confirmationBoxOpen: false,
     })
+  }
 
   handleAdd = (data, parentItem) => {
     const { locale, requestCategoriesAdd } = this.props
+    if (!data.keywords) data.keywords = []
+    if (!data.tags) data.tags = []
     this.setState({ openForm: '' })
     requestCategoriesAdd('shouldBeToken', locale, parentItem, data)
   }
@@ -116,6 +130,13 @@ class CategoriesView extends React.Component {
         <h1>
           <FormattedMessage {...messages.header} />
         </h1>
+        {!!this.props.error && (
+          <ErrorDialog
+            title={<FormattedMessage {...messages.errorTitle} />}
+            message={this.props.error}
+            onClose={this.handleErrorDialogClose}
+          />
+        )}
         <SearchField
           value={searchText}
           // onRequestSearch={this.handleSubmit}
@@ -152,6 +173,7 @@ class CategoriesView extends React.Component {
 const mapStateToProps = state => ({
   locale: makeSelectLocale()(state),
   loading: makeLoadingSelector()(state), // for categories
+  error: makeErrorSelector()(state),
   lastUpdated: makeLastUpdatedSelectorByLocale()(state),
   categories: makeCategoriesSelectorByLocale()(state),
 })
@@ -169,6 +191,7 @@ const mapDispatchToProps = dispatch => ({
   requestCategoriesAdd: (token, locale, parentItem, data) => {
     dispatch(categoriesAdd.request(token, locale, parentItem, data))
   },
+  requestRemoveError: () => dispatch(removeError()),
 })
 
 const withConnect = connect(

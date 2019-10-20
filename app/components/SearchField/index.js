@@ -131,7 +131,7 @@ class SearchField extends Component {
   handleClick = () => this.props.onSubmit(this.state.searchText)
 
   handleRemoveSearchText = () => {
-    // this.setState({ searchText: '' })
+    this.setState({ searchText: '' })
     this.props.onClear()
   }
 

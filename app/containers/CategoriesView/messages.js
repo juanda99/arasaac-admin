@@ -12,4 +12,8 @@ export default defineMessages({
     id: `${scope}.header`,
     defaultMessage: 'Categories',
   },
+  errorTitle: {
+    id: `${scope}.errorTitle`,
+    defaultMessage: 'Category error',
+  },
 })
