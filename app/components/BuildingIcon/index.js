@@ -8,8 +8,6 @@ import style from './styles'
 class RotateBuildingIcon extends Component {
   render() {
     const { classes } = this.props
-    console.log(classes)
-    console.log(classes.icon)
     return <BuildingIcon className={classes.rotateIcon} />
   }
 }

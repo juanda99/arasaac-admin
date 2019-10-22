@@ -6,7 +6,6 @@ class AutoSave extends React.Component {
   constructor(props) {
     super(props)
     this.state = { values: props.values, submitting: false }
-    console.log('Autosave loaded!!!!!!!!!!!!')
   }
 
   componentWillReceiveProps(nextProps) {
