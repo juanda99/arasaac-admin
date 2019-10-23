@@ -29,8 +29,25 @@ export class CategoryForm extends Component {
   componentDidMount() {
     const { tags, intl } = this.props
     const { formatMessage } = intl
-    suggestions = tags.map(tag => ({ label: formatMessage(tagLabels[tag]), value: tag }))
+    suggestions = tags.map(tag => ({ label: formatMessage(tagLabels[tag]), value: tag })).sort(
+      (a, b) =>
+        a.label
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '') >
+        b.label
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          ? 1
+          : -1,
+    )
+    console.log(suggestions)
     // fix: first time open form, suggestions are loaded after render
+    // suggestions = tags.map(tag => {
+    //   console.log(tag)
+    //   return { label: formatMessage(tagLabels[tag]), value: tag }
+    // })
     this.forceUpdate()
   }
 
