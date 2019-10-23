@@ -50,9 +50,9 @@ class PictogramsView extends React.PureComponent {
 
   componentDidMount() {
     const { locale, searchText, searchResults, lastUpdated } = this.props
-    // if (searchText && !searchResults) {
-    //   this.props.requestPictograms(locale, searchText)
-    // }
+    if (searchText && !searchResults) {
+      this.props.requestPictograms(locale, searchText)
+    }
     this.props.requestNewPictograms(locale, lastUpdated)
     this.props.requestAutocomplete(locale)
   }
@@ -64,9 +64,9 @@ class PictogramsView extends React.PureComponent {
     }
   }
 
-  handleSubmit = nextValue => {
-    history.push(`/pictograms/search/${nextValue}`)
-  }
+  handleSubmit = nextValue => history.push(`/pictograms/search/${nextValue}`)
+
+  handleRemoveSearchText = () => history.push(`/pictograms/`)
 
   handleChange = (event, slideIndex) => {
     this.setState({ slideIndex })
@@ -84,10 +84,28 @@ class PictogramsView extends React.PureComponent {
     sessionStorage.setItem('pictoViewType', viewType)
   }
 
-  handlePageClick = (type, offset) => {
-    const key = `${type}Offset`
-    this.setState({ [key]: offset })
-    sessionStorage.setItem(key, offset)
+  handlePageClick = offset => {
+    const { slideIndex } = this.state
+    let key
+
+    switch (slideIndex) {
+      case 0:
+        key = 'allPictosOffset'
+        break
+      case 1:
+        key = 'notPublishedOffset'
+        break
+      case 2:
+        key = 'notValidatedOffset'
+        break
+      default:
+        key = ''
+        break
+    }
+    if (key) {
+      this.setState({ [key]: offset })
+      sessionStorage.setItem(key, offset)
+    }
   }
 
   render() {
@@ -103,10 +121,16 @@ class PictogramsView extends React.PureComponent {
       locale,
     } = this.props
     const { notPublishedOffset, notValidOffset, allPictosOffset, slideIndex, viewType } = this.state
-    const pictogramValid = pictogramCollection.filter(pictogram => pictogram.status === 1)
+
     const searchBox = (
       <View>
-        <SearchField value={searchText} onSubmit={this.handleSubmit} style={styles.searchBar} dataSource={keywords} />
+        <SearchField
+          onClear={this.handleRemoveSearchText}
+          value={searchText}
+          onSubmit={this.handleSubmit}
+          style={styles.searchBar}
+          dataSource={keywords}
+        />
       </View>
     )
     let renderComponent
@@ -117,34 +141,34 @@ class PictogramsView extends React.PureComponent {
             <PictogramsGrid pictograms={pictogramCollection} locale={locale} searchText={searchText} />
           ) : (
             <PictogramList
-              pictograms={pictogramCollection}
+              pictograms={searchText ? visiblePictograms : pictogramCollection}
               locale={locale}
               searchText={searchText}
-              type="allPictos"
               offset={allPictosOffset}
               onPageClick={this.handlePageClick}
             />
           )
         break
       case 1:
+        // TODO: use reselect for memoization
+        const unpublishedPictos = pictogramCollection.filter(pictogram => pictogram.published === false)
         renderComponent = (
           <PictogramList
-            pictograms={pictogramValid}
+            pictograms={unpublishedPictos}
             locale={locale}
             searchText={searchText}
-            type="notPublished"
             offset={notPublishedOffset}
             onPageClick={this.handlePageClick}
           />
         )
         break
       case 2:
+        const invalidPictos = pictogramCollection.filter(pictogram => pictogram.validated === false)
         renderComponent = (
           <PictogramList
-            pictograms={pictogramValid}
+            pictograms={invalidPictos}
             locale={locale}
             searchText={searchText}
-            type="notValid"
             offset={notValidOffset}
             onPageClick={this.handlePageClick}
           />
@@ -196,6 +220,8 @@ class PictogramsView extends React.PureComponent {
               label={width === 'xs' ? '' : <FormattedMessage {...messages.search} />}
               icon={<SearchIcon />}
               value={0}
+              // bug? remove boxShadow here:
+              style={{ boxShadow: 'none' }}
             />
             <Tab
               label={width === 'xs' ? '' : <FormattedMessage {...messages.notPlublished} />}

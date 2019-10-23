@@ -10,6 +10,7 @@ import {
   socialLogin,
   generateCatalog,
   generateCatalogs,
+  uploadPictograms,
   API_ROOT,
   PRIVATE_API_ROOT,
 } from './config'
@@ -33,6 +34,7 @@ const api = {
       schema: searchMaterialSchema,
     }),
   PICTOGRAM_REQUEST: ({ idPictogram, locale }) => callApi(`${API_ROOT}/pictograms/${locale}/${idPictogram}`),
+  PICTOGRAMS_UPLOAD_REQUEST: files => callApi(uploadPictograms.url, uploadPictograms.options(files)),
   LOGIN_REQUEST: ({ username, password }) => callApi(login.url, login.options(username, password)),
   SOCIAL_LOGIN_REQUEST: ({ socialToken, provider }) =>
     callApi(socialLogin.url, socialLogin.options(socialToken, provider)),

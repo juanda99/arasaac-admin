@@ -14,7 +14,11 @@ const styles = theme => ({
   grow: {
     flexGrow: 1,
     paddingLeft: 80,
+    [theme.breakpoints.down('sm')]: {
+      paddingLeft: 0,
+    },
   },
+  h6: {},
 })
 
 export default styles

@@ -35,7 +35,7 @@ export class LocaleSelector extends React.PureComponent {
             aria-haspopup="true"
             onClick={this.handleLanguageMenu}
           >
-            <LanguageIcon />
+            <LanguageIcon style={{ color: 'white' }} />
           </IconButton>
         </Tooltip>
         <LanguageSelector

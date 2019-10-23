@@ -13,7 +13,7 @@ import BuildingIcon from 'components/BuildingIcon'
 import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
 import classNames from 'classnames'
-import { FormattedMessage, injectIntl, intlShape, FormattedTime, FormattedDate } from 'react-intl'
+import { FormattedMessage, injectIntl, FormattedTime, FormattedDate } from 'react-intl'
 import styles from './styles'
 import messages from './messages'
 
@@ -233,7 +233,9 @@ class CatalogsView extends React.PureComponent {
 }
 
 CatalogsView.propTypes = {
-  intl: intlShape.isRequired,
+  intl: PropTypes.shape({
+    formatMessage: PropTypes.func.isRequired,
+  }).isRequired,
   classes: PropTypes.object.isRequired,
 }
 

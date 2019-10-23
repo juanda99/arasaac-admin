@@ -10,7 +10,7 @@ const categoriesToArray = obj =>
     obj[k].key = k
     obj[k].label = obj[k].text
     obj[k].value = obj[k].text
-    obj[k].disabled = obj[k].keywords.length === 0
+    obj[k].disabled = !obj[k].keywords || obj[k].keywords.length === 0
     if (obj[k].children) obj[k].children = categoriesToArray(obj[k].children)
     return obj[k]
   })
@@ -31,8 +31,6 @@ class CategoriesSelector extends PureComponent {
 
   onChange = (key, tag) => {
     const { value, onChange } = this.props.input
-    console.log(`****${key}`)
-    console.log(value)
     onChange(key)
     // this.setState({ value: key })
   }
@@ -40,7 +38,6 @@ class CategoriesSelector extends PureComponent {
   render() {
     const { treeData } = this.state
     const { value } = this.props.input
-    console.log(treeData)
     return (
       <TreeSelect
         style={{ width: '100%' }}

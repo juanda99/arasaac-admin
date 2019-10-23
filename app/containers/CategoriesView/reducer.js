@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-case-declarations */
 import { Map } from 'immutable'
-import { CATEGORIES, CATEGORIES_UPDATE, CATEGORIES_DELETE, CATEGORIES_ADD } from './actions'
+import { CATEGORIES, CATEGORIES_UPDATE, CATEGORIES_DELETE, CATEGORIES_ADD, REMOVE_ERROR } from './actions'
 export const initialState = Map({
   loading: false,
   error: false,
@@ -29,6 +29,7 @@ export const initialState = Map({
 
 const categoriesViewReducer = (state = initialState, action) => {
   let categories
+  console.log(action)
   switch (action.type) {
     case CATEGORIES.REQUEST:
     case CATEGORIES_UPDATE.REQUEST:
@@ -46,8 +47,13 @@ const categoriesViewReducer = (state = initialState, action) => {
       categories[locale] = action.payload.data
       return state.set('loading', false).set('categories', categories)
     case CATEGORIES.FAILURE:
+    case CATEGORIES_UPDATE.FAILURE:
+    case CATEGORIES_DELETE.FAILURE:
+    case CATEGORIES_ADD.FAILURE:
       return state.set('error', action.payload.error).set('loading', false)
-
+    case REMOVE_ERROR:
+      console.log('remove error processed')
+      return state.set('error', false)
     default:
       return state
   }

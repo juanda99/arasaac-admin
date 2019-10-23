@@ -3,13 +3,13 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper,
   },
   button: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
   },
   leftIcon: {
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(1),
   },
   rightIcon: {
-    marginLeft: theme.spacing.unit,
+    marginLeft: theme.spacing(1),
   },
   iconSmall: {
     fontSize: 16,

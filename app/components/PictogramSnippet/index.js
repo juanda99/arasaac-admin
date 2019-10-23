@@ -43,7 +43,11 @@ class PictogramSnippet extends PureComponent {
         <Paper className={classes.paper} elevation={this.state.zDepth}>
           <Item url={`/pictograms/${locale}/${idPictogram}/${keyword}`}>
             <div style={{ position: 'relative' }}>
-              <img className={classes.image} src={`${PICTOGRAMS_URL}/${idPictogram}_300.png`} alt={keyword} />
+              <img
+                className={classes.image}
+                src={`${PICTOGRAMS_URL}/${idPictogram}/${idPictogram}_300.png`}
+                alt={keyword}
+              />
               <div className={classes.cardActions}>
                 <p className={classes.cardTitle}>{keyword}</p>
               </div>

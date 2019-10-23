@@ -26,7 +26,6 @@ class ChipInput extends Component {
   render() {
     const { input } = this.props
     const chips = input.value || []
-    console.log(this.props)
     return (
       <ChipInputSource
         fullWidth

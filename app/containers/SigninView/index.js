@@ -14,7 +14,7 @@ import SocialLogin from 'components/SocialLogin'
 import Separator from 'components/Separator'
 import Logo from 'components/Logo'
 import AlertWindow from 'components/AlertWindow'
-import { injectIntl, intlShape } from 'react-intl'
+import { injectIntl } from 'react-intl'
 import { login, socialLogin, resetError } from 'containers/App/actions'
 import ConditionalPaper from 'components/ConditionalPaper'
 import { getQueryStringValue } from 'utils'
@@ -85,7 +85,9 @@ LoginView.propTypes = {
   error: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   resetError: PropTypes.func.isRequired,
   requestAppToken: PropTypes.func.isRequired,
-  intl: intlShape.isRequired,
+  intl: PropTypes.shape({
+    formatMessage: PropTypes.func.isRequired,
+  }).isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   history: PropTypes.object.isRequired,
 }

@@ -15,6 +15,7 @@ const sidebarStyle = theme => ({
   },
   navlink: {
     textDecoration: 'none',
+    color: theme.palette.text.primary,
   },
   logoLink: {
     textTransform: 'uppercase',
@@ -54,27 +55,5 @@ const sidebarStyle = theme => ({
     paddingTop: 20,
   },
 })
-
-/*
-const styles = theme => ({
-  root: {
-    flexGrow: 1,
-    zIndex: 1,
-    overflow: 'hidden',
-    position: 'relative',
-    display: 'flex',
-    width: '100%',
-  },
-  toolbar: theme.mixins.toolbar,
-  drawerPaper: {
-    width: drawerWidth,
-    [theme.breakpoints.up('md')]: {
-      position: 'relative',
-    },
-    height: '100vh',
-  },
-});
-
-*/
 
 export default sidebarStyle

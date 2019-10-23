@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { injectIntl, intlShape, FormattedMessage } from 'react-intl'
+import { injectIntl } from 'react-intl'
 import { Form, Field } from 'react-final-form'
 import { Checkbox, Radio, Select, TextField } from 'final-form-material-ui'
 import Paper from '@material-ui/core/Paper'
@@ -184,7 +184,9 @@ const UserForm = class UserForm extends Component {
 }
 
 UserForm.propTypes = {
-  intl: intlShape.isRequired,
+  intl: PropTypes.shape({
+    formatMessage: PropTypes.func.isRequired,
+  }).isRequired,
   locale: PropTypes.string.isRequired,
   initialValues: PropTypes.object.isRequired,
   onSubmit: PropTypes.func.isRequired,

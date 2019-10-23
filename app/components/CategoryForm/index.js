@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button'
 import { Form, Field } from 'react-final-form'
 import { TextField } from 'final-form-material-ui'
 import { OnChange } from 'react-final-form-listeners'
-import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import IconButton from '@material-ui/core/IconButton'
 import ChipInput from 'components/ChipInput'
 import Autosuggest from 'components/Autosuggest'
@@ -29,13 +29,9 @@ export class CategoryForm extends Component {
   componentDidMount() {
     const { tags, intl } = this.props
     const { formatMessage } = intl
-    console.log('***************')
-    suggestions = tags.map(tag => {
-      console.log(tag)
-      return { label: formatMessage(tagLabels[tag]), value: tag }
-    })
-    console.log(suggestions)
-    console.log('kkkkkkkkkkkk')
+    suggestions = tags.map(tag => ({ label: formatMessage(tagLabels[tag]), value: tag }))
+    // fix: first time open form, suggestions are loaded after render
+    this.forceUpdate()
   }
 
   handleSubmit = async values => {
