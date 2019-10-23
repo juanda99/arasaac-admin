@@ -355,10 +355,6 @@ export default defineMessages({
     defaultMessage: 'natural science',
   },
   nature: { id: 'tags.nature', defaultMessage: 'nature' },
-  'nature science': {
-    id: 'tags.nature science',
-    defaultMessage: 'nature science',
-  },
   'nervous system': {
     id: 'tags.nervous system',
     defaultMessage: 'nervous system',
@@ -479,10 +475,7 @@ export default defineMessages({
   },
   skeleton: { id: 'tags.skeleton', defaultMessage: 'skeleton' },
   sketching: { id: 'tags.sketching', defaultMessage: 'sketching' },
-  'social science': {
-    id: 'tags.social science',
-    defaultMessage: 'social science',
-  },
+  social: { id: 'tags.social', defaultMessage: 'social' },
   sociology: { id: 'tags.sociology', defaultMessage: 'sociology' },
   song: { id: 'tags.song', defaultMessage: 'song' },
   sponge: { id: 'tags.sponge', defaultMessage: 'sponge' },
