@@ -44,6 +44,9 @@ import messages from './messages'
 
 const AuthUsersView = userIsAuthenticatedRedir(userIsAdminRedir(UsersView))
 const AuthCatalogsView = userIsAuthenticatedRedir(userIsAdminRedir(CatalogsView))
+const AuthAddPictograms = userIsAuthenticatedRedir(userIsAdminRedir(AddPictograms))
+const AuthCategoriesView = userIsAuthenticatedRedir(userIsAdminRedir(CategoriesView))
+const AuthPictogramsView = userIsAuthenticatedRedir(userIsAdminRedir(PictogramsView))
 // const AuthUsersView = userIsAuthenticatedRedir(UsersView)
 // using sagas instead of redux-auth:
 // const AuthSigninView = userIsNotAuthenticatedRedir(SigninView)
@@ -58,19 +61,19 @@ const sidebarRoutes = [
         path: '/pictograms/add',
         title: <FormattedMessage {...messages.uploadPictograms} />,
         icon: PictogramUploadIcon,
-        component: AddPictograms,
+        component: AuthAddPictograms,
       },
       {
         path: '/pictograms/',
         title: <FormattedMessage {...messages.tagPictograms} />,
         icon: TagsIcon,
-        component: PictogramsView,
+        component: AuthPictogramsView,
       },
       {
         path: '/pictograms/categories',
         title: <FormattedMessage {...messages.categories} />,
         icon: CategoriesIcon,
-        component: CategoriesView,
+        component: AuthCategoriesView,
       },
       {
         path: '/pictograms/keywords',
