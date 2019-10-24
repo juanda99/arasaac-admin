@@ -31,4 +31,28 @@ export default defineMessages({
     id: `${scope}.button.cancel`,
     defaultMessage: 'Cancel',
   },
+  published: {
+    id: `${scope}.checkbox.published`,
+    defaultMessage: 'Published',
+  },
+  validated: {
+    id: `${scope}.checkbox.validated`,
+    defaultMessage: 'Validated',
+  },
+  visible: {
+    id: `${scope}.checkbox.visible`,
+    defaultMessage: 'Visible for translators',
+  },
+  sex: {
+    id: `${scope}.checkbox.sex`,
+    defaultMessage: 'Sex',
+  },
+  violence: {
+    id: `${scope}.checkbox.violence`,
+    defaultMessage: 'Violence',
+  },
+  schematic: {
+    id: `${scope}.checkbox.schematic`,
+    defaultMessage: 'Schematic',
+  },
 })

@@ -21,8 +21,11 @@ import MenuItem from '@material-ui/core/MenuItem'
 import { DatePicker } from 'material-ui-pickers'
 import { injectIntl, FormattedMessage } from 'react-intl'
 import langMessages from 'components/LanguageSelector/messages'
+import tagLabels from 'components/CategoryForm/tagsMessages'
+
 import styles from './styles'
 import messages from './messages'
+
 // import { styles } from 'material-ui-pickers/DatePicker/DatePicker'
 
 const ChipInputWrapper = props => <ChipInput {...props} text="tag" value="key" />
@@ -47,6 +50,9 @@ const DatePickerWrapper = props => {
     />
   )
 }
+
+const TagsInputWrapper = props => <Autosuggest {...props} suggestions={suggestions} />
+let suggestions = []
 
 const make_ajax_request = () => {
   console.log('ajax executed')
@@ -73,6 +79,31 @@ export class PictogramForm extends Component {
   state = {
     showSuggestions: false,
     language: localStorage.getItem('referenceLanguage'),
+  }
+
+  componentDidMount() {
+    const { tags, intl } = this.props
+    const { formatMessage } = intl
+    suggestions = tags.map(tag => ({ label: formatMessage(tagLabels[tag]), value: tag })).sort(
+      (a, b) =>
+        a.label
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '') >
+        b.label
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          ? 1
+          : -1,
+    )
+    // console.log(suggestions)
+    // fix: first time open form, suggestions are loaded after render
+    // suggestions = tags.map(tag => {
+    //   console.log(tag)
+    //   return { label: formatMessage(tagLabels[tag]), value: tag }
+    // })
+    this.forceUpdate()
   }
 
   handleSubmit = values => {
@@ -235,22 +266,23 @@ export class PictogramForm extends Component {
                 </h2>
                 <div style={{ display: 'flex' }}>
                   <FormControlLabel
-                    label="Publicado"
+                    label={<FormattedMessage {...messages.published} />}
                     control={<Field name="published" component={Checkbox} type="checkbox" />}
                   />
                   <FormControlLabel
-                    label="Visible para traductores"
+                    label={<FormattedMessage {...messages.visible} />}
                     control={<Field name="available" component={Checkbox} type="checkbox" />}
                   />
                   <FormControlLabel
-                    label="Revisado"
-                    control={<Field name="validated " component={Checkbox} type="checkbox" />}
+                    label={<FormattedMessage {...messages.validated} />}
+                    control={<Field name="validated" component={Checkbox} type="checkbox" />}
                   />
                 </div>
               </div>
               <div style={{ display: 'flex' }}>
                 <Field
                   name="created"
+                  disabled
                   style={{ marginRight: '15px' }}
                   component={DatePickerWrapper}
                   margin="normal"
@@ -259,6 +291,7 @@ export class PictogramForm extends Component {
 
                 <Field
                   name="lastUpdated"
+                  disabled
                   component={DatePickerWrapper}
                   margin="normal"
                   label="Fecha de actualización"
@@ -275,6 +308,33 @@ export class PictogramForm extends Component {
                   label="Estado del pictograma"
                   categories={categories}
                 />
+              </div>
+
+              <div style={{ marginTop: 30 }}>
+                <h2>Filtros</h2>
+                <div style={{ display: 'flex' }}>
+                  <FormControlLabel
+                    label={<FormattedMessage {...messages.schematic} />}
+                    control={<Field name="schematic" component={Checkbox} type="checkbox" />}
+                  />
+                  <FormControlLabel
+                    label={<FormattedMessage {...messages.violence} />}
+                    control={<Field name="violence" component={Checkbox} type="checkbox" />}
+                  />
+                  <FormControlLabel
+                    label={<FormattedMessage {...messages.sex} />}
+                    control={<Field name="sex" component={Checkbox} type="checkbox" />}
+                  />
+                </div>
+              </div>
+
+              <div style={{ marginTop: 30 }}>
+                <h2>
+                  <FormattedMessage {...messages.tags} />
+                </h2>
+                <div style={{ maxWidth: '400px' }}>
+                  <Field name="tags" component={TagsInputWrapper} />
+                </div>
               </div>
 
               <div style={{ marginTop: 30 }}>
