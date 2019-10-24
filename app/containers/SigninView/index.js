@@ -18,6 +18,7 @@ import { injectIntl } from 'react-intl'
 import { login, socialLogin, resetError } from 'containers/App/actions'
 import ConditionalPaper from 'components/ConditionalPaper'
 import { getQueryStringValue } from 'utils'
+import { makeSelectLocale } from 'containers/LanguageProvider/selectors'
 import messages from './messages'
 import { makeSelectError, makeSelectHasRole } from '../App/selectors'
 
@@ -46,7 +47,7 @@ class LoginView extends Component {
   }
 
   render() {
-    const { error, requestLogin, resetError, requestAppToken, intl } = this.props
+    const { error, requestLogin, resetError, requestAppToken, intl, locale } = this.props
     const { formatMessage } = intl
     let showError = null
     if (error === 'Failed to fetch') {
@@ -71,7 +72,7 @@ class LoginView extends Component {
         {showError}
         <ConditionalPaper>
           <Logo />
-          <SocialLogin onSuccess={requestAppToken} />
+          <SocialLogin onSuccess={requestAppToken} locale={locale} />
           <Separator />
           <LoginForm onSubmit={formData => handleSubmit(requestLogin, formData)} message={error} />
         </ConditionalPaper>
@@ -90,6 +91,7 @@ LoginView.propTypes = {
   }).isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   history: PropTypes.object.isRequired,
+  locale: PropTypes.string.isRequired,
 }
 
 // const mapStateToProps = state => ({
@@ -99,10 +101,12 @@ LoginView.propTypes = {
 const mapStateToProps = state => {
   /* we don't use token for auth, as we wait saga for the profile before redirection!!! */
   const isAuthenticated = (makeSelectHasRole()(state) && true) || false
+  const locale = makeSelectLocale()(state)
   const error = makeSelectError()(state)
   return {
     isAuthenticated,
     error,
+    locale,
   }
 }
 
@@ -113,8 +117,8 @@ const mapDispatchToProps = dispatch => ({
   resetError: () => {
     dispatch(resetError())
   },
-  requestAppToken: (token, socialNetwork) => {
-    dispatch(socialLogin.request(token, socialNetwork))
+  requestAppToken: (token, socialNetwork, locale) => {
+    dispatch(socialLogin.request(token, socialNetwork, locale))
   },
 })
 

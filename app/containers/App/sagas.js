@@ -122,15 +122,8 @@ function* authenticate() {
       url: `${API_ROOT}/users/profile`,
       options: { config: { method: 'GET' } },
       onSuccess: function* acabar(response) {
-        console.log('***************')
-        console.log(response)
-        console.log('*********************')
         yield put(tokenValidation.success(response))
-
-        console.log('antes de cargar profile')
-        yield put(push('/profile'))
         yield put(changeLocale(response.locale))
-        console.log('profile cargado...')
       },
     },
     onError,

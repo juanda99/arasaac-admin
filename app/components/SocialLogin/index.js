@@ -26,12 +26,12 @@ class SocialLogin extends PureComponent {
   responseFacebook = response => {
     // one we get facebook token we ask for our app token
     const token = response.accessToken
-    this.props.onSuccess(token, 'facebook')
+    this.props.onSuccess(token, 'facebook', this.props.locale)
   }
 
   success = response => {
     const token = response.accessToken
-    this.props.onSuccess(token, 'google')
+    this.props.onSuccess(token, 'google', this.props.locale)
   }
 
   error = response => {
@@ -68,6 +68,7 @@ class SocialLogin extends PureComponent {
 SocialLogin.propTypes = {
   onSuccess: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
+  locale: PropTypes.string.isRequired,
 }
 
 export default withStyles(styles)(SocialLogin)

@@ -85,7 +85,7 @@ export const generateCatalogs = {
 
 export const socialLogin = {
   url: `${AUTH_ROOT}/oauth/token`,
-  options: (token, provider) => ({
+  options: (token, provider, locale) => ({
     config: {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -95,6 +95,7 @@ export const socialLogin = {
         client_secret: CLIENT_ID,
         grant_type: provider,
         scope: 'offline_access',
+        locale,
       }),
     },
   }),
