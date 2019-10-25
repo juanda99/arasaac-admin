@@ -11,10 +11,4 @@
 
 export const appLocales = ['en', 'es', 'fr', 'it', 'de']
 const navigatorLanguage = navigator.language.split('-')[0] // es-ES get reduced to es
-<<<<<<< HEAD
 export const DEFAULT_LOCALE = appLocales.includes(navigatorLanguage) ? navigatorLanguage : 'en'
-=======
-export const DEFAULT_LOCALE = appLocales.includes(navigatorLanguage)
-  ? navigatorLanguage
-  : 'en'
->>>>>>> 54d44538ffd50844bc99a330b250a267c0477d61
