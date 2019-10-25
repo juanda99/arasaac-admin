@@ -8,3 +8,7 @@
  * Follow this format:
  * export const YOUR_ACTION_CONSTANT = 'yourproject/YourContainer/YOUR_ACTION_CONSTANT';
  */
+
+export const appLocales = ['en', 'es', 'fr', 'it', 'de']
+const navigatorLanguage = navigator.language.split('-')[0] // es-ES get reduced to es
+export const DEFAULT_LOCALE = appLocales.includes(navigatorLanguage) ? navigatorLanguage : 'en'

@@ -8,15 +8,17 @@
  *   You CANNOT use import/export in this file.
  */
 
-const enTranslationMessages = require('./translations/en.json')
-const esTranslationMessages = require('./translations/es.json')
 // const frTranslationMessages = require('./translations/fr.json')
 // const itTranslationMessages = require('./translations/it.json')
 // const deTranslationMessages = require('./translations/de.json')
 // const valTranslationMessages = require('./translations/val.json')
 // const afTranslationMessages = require('./translations/af.json')
 
-const DEFAULT_LOCALE = 'en'
+// DEFAULT_LOCALE = 'en'
+// import { DEFAULT_LOCALE } from './containers/App/constants'
+const DEFAULT_LOCALE = require('./containers/App/constants')
+const enTranslationMessages = require('./translations/en.json')
+const esTranslationMessages = require('./translations/es.json')
 
 // prettier-ignore
 const appLocales = [
