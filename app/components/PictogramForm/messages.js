@@ -55,4 +55,8 @@ export default defineMessages({
     id: `${scope}.checkbox.schematic`,
     defaultMessage: 'Schematic',
   },
+  tags: {
+    id: `${scope}.tags`,
+    defaultMessage: 'Tags',
+  },
 })

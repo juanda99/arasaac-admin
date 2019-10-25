@@ -29,7 +29,6 @@ export const initialState = Map({
 
 const categoriesViewReducer = (state = initialState, action) => {
   let categories
-  console.log(action)
   switch (action.type) {
     case CATEGORIES.REQUEST:
     case CATEGORIES_UPDATE.REQUEST:
@@ -52,7 +51,6 @@ const categoriesViewReducer = (state = initialState, action) => {
     case CATEGORIES_ADD.FAILURE:
       return state.set('error', action.payload.error).set('loading', false)
     case REMOVE_ERROR:
-      console.log('remove error processed')
       return state.set('error', false)
     default:
       return state

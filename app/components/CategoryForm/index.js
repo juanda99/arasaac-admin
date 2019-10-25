@@ -42,7 +42,7 @@ export class CategoryForm extends Component {
           ? 1
           : -1,
     )
-    console.log(suggestions)
+    // console.log(suggestions)
     // fix: first time open form, suggestions are loaded after render
     // suggestions = tags.map(tag => {
     //   console.log(tag)
