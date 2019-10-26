@@ -16,7 +16,7 @@ export const pictograms = {
 
 export const newPictograms = {
   request: (locale, updated) => action(NEW_PICTOGRAMS.REQUEST, { locale, updated }),
-  success: (locale, data) => action(NEW_PICTOGRAMS.SUCCESS, { locale, data }),
+  success: (locale, data, updated) => action(NEW_PICTOGRAMS.SUCCESS, { locale, data, updated }),
   failure: error => action(NEW_PICTOGRAMS.FAILURE, { error }),
 }
 

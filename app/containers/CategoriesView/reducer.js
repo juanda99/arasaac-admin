@@ -1,10 +1,11 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-case-declarations */
 import { Map } from 'immutable'
+import jp from 'jsonpath'
 import { CATEGORIES, CATEGORIES_UPDATE, CATEGORIES_DELETE, CATEGORIES_ADD, REMOVE_ERROR } from './actions'
 export const initialState = Map({
   loading: false,
-  error: false,
+  error: '',
   categories: {
     es: {},
     en: {},
@@ -34,7 +35,7 @@ const categoriesViewReducer = (state = initialState, action) => {
     case CATEGORIES_UPDATE.REQUEST:
     case CATEGORIES_DELETE.REQUEST:
     case CATEGORIES_ADD.REQUEST:
-      return state.set('loading', true).set('error', false)
+      return state.set('loading', true).set('error', '')
     case CATEGORIES.SUCCESS:
     case CATEGORIES_UPDATE.SUCCESS:
     case CATEGORIES_DELETE.SUCCESS:
@@ -44,14 +45,21 @@ const categoriesViewReducer = (state = initialState, action) => {
       const { locale } = action.payload.data
       categories = state.get('categories')
       categories[locale] = action.payload.data
-      return state.set('loading', false).set('categories', categories)
+      const tmpKeywords = categories ? jp.query(categories, '$..keywords') : []
+      const keywords = [].concat(...tmpKeywords)
+      categories[locale].keywords = [...new Set(keywords)]
+      // get tags
+      const tmpTags = categories ? jp.query(categories, '$..tags') : []
+      const tags = [].concat(...tmpTags)
+      categories[locale].tags = [...new Set(tags)]
+      return state.set('categories', categories).set('loading', false)
     case CATEGORIES.FAILURE:
     case CATEGORIES_UPDATE.FAILURE:
     case CATEGORIES_DELETE.FAILURE:
     case CATEGORIES_ADD.FAILURE:
       return state.set('error', action.payload.error).set('loading', false)
     case REMOVE_ERROR:
-      return state.set('error', false)
+      return state.set('error', '')
     default:
       return state
   }

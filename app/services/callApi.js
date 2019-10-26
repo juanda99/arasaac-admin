@@ -24,7 +24,8 @@ const callApi = async (endpoint, options, token) => {
     const response = await fetch(endpoint, config)
     if (response.status === 401) throw new Error('UNAUTHORIZED')
     const data = await response.json()
-    if (response.status >= 400) throw new Error(data.error)
+    // 404 is used for api empty response, without error
+    if (response.status >= 400 && response.status !== 404) throw new Error(data.error)
     return schema ? normalize(data, schema) : data
   } catch (error) {
     throw new Error(error.message)

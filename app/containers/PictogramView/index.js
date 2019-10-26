@@ -24,15 +24,11 @@ import { pictogram } from './actions'
 
 class PictogramView extends React.PureComponent {
   componentDidMount() {
-    const { requestPictogram, idPictogram, locale, selectedPictogram, lastUpdatedCategories } = this.props
+    const { requestPictogram, idPictogram, locale, selectedPictogram } = this.props
     /* if pictogram is already in the state we don't request it: */
     if (!selectedPictogram) {
       requestPictogram(idPictogram, locale)
     }
-    /* Maybe we should check our data is updated, as it's done in PictogramsView:
-     this.props.requestNewPictograms(locale, lastUpdated)
-     */
-    // this.props.requestCategories(locale, lastUpdatedCategories)
   }
 
   componentWillReceiveProps(nextProps) {

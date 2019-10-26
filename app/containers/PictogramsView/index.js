@@ -49,11 +49,11 @@ class PictogramsView extends React.PureComponent {
   }
 
   componentDidMount() {
-    const { locale, searchText, searchResults, lastUpdated } = this.props
+    const { locale, searchText, searchResults, updated } = this.props
     if (searchText && !searchResults) {
       this.props.requestPictograms(locale, searchText)
     }
-    this.props.requestNewPictograms(locale, lastUpdated)
+    this.props.requestNewPictograms(locale, updated)
     this.props.requestAutocomplete(locale)
   }
 
@@ -66,18 +66,14 @@ class PictogramsView extends React.PureComponent {
 
   handleSubmit = nextValue => history.push(`/pictograms/search/${nextValue}`)
 
-  handleRemoveSearchText = () => history.push(`/pictograms/`)
-
   handleChange = (event, slideIndex) => {
     this.setState({ slideIndex })
     sessionStorage.setItem('pictoSlideIndex', slideIndex)
   }
 
-  renderLoading = () => <div>Loading...</div>
+  renderLoading = () => <View>Loading...</View>
 
-  renderError = () => <div>I am sorry! Please try again.</div>
-
-  renderNoPictos = () => <div>{<FormattedMessage {...messages.pictogramsNotFound} />}</div>
+  renderError = () => <div>Loading pictograms....</div>
 
   handleViewType = viewType => {
     this.setState({ viewType })
@@ -124,86 +120,74 @@ class PictogramsView extends React.PureComponent {
 
     const searchBox = (
       <View>
-        <SearchField
-          onClear={this.handleRemoveSearchText}
-          value={searchText}
-          onSubmit={this.handleSubmit}
-          style={styles.searchBar}
-          dataSource={keywords}
-        />
+        <SearchField value={searchText} onSubmit={this.handleSubmit} style={styles.searchBar} dataSource={keywords} />
       </View>
     )
     let renderComponent
     switch (slideIndex) {
       case 0:
-        renderComponent =
-          viewType === 'list' ? (
-            <PictogramsGrid pictograms={pictogramCollection} locale={locale} searchText={searchText} />
-          ) : (
+        {
+          const pictogramList = searchText ? visiblePictograms : pictogramCollection
+          renderComponent =
+            viewType === 'list' ? (
+              <>
+                <SearchToggleBar viewType={viewType} changeViewType={this.handleViewType} />
+                <PictogramsGrid pictograms={pictogramCollection} locale={locale} searchText={searchText} />
+              </>
+            ) : (
+              <>
+                {pictogramList.length ? (
+                  <>
+                    <SearchToggleBar viewType={viewType} changeViewType={this.handleViewType} />
+                    <PictogramList
+                      pictograms={pictogramList}
+                      locale={locale}
+                      searchText={searchText}
+                      offset={allPictosOffset}
+                      onPageClick={this.handlePageClick}
+                    />
+                  </>
+                ) : (
+                  <View>
+                    <h3>{<FormattedMessage {...messages.pictogramsNotFound} />}</h3>
+                  </View>
+                )}
+              </>
+            )
+        }
+        break
+      case 1:
+        {
+          // TODO: use reselect for memoization
+          const unpublishedPictos = pictogramCollection.filter(pictogram => pictogram.published === false)
+          renderComponent = (
             <PictogramList
-              pictograms={searchText ? visiblePictograms : pictogramCollection}
+              pictograms={unpublishedPictos}
               locale={locale}
               searchText={searchText}
-              offset={allPictosOffset}
+              offset={notPublishedOffset}
               onPageClick={this.handlePageClick}
             />
           )
-        break
-      case 1:
-        // TODO: use reselect for memoization
-        const unpublishedPictos = pictogramCollection.filter(pictogram => pictogram.published === false)
-        renderComponent = (
-          <PictogramList
-            pictograms={unpublishedPictos}
-            locale={locale}
-            searchText={searchText}
-            offset={notPublishedOffset}
-            onPageClick={this.handlePageClick}
-          />
-        )
+        }
         break
       case 2:
-        const invalidPictos = pictogramCollection.filter(pictogram => pictogram.validated === false)
-        renderComponent = (
-          <PictogramList
-            pictograms={invalidPictos}
-            locale={locale}
-            searchText={searchText}
-            offset={notValidOffset}
-            onPageClick={this.handlePageClick}
-          />
-        )
+        {
+          const invalidPictos = pictogramCollection.filter(pictogram => pictogram.validated === false)
+          renderComponent = (
+            <PictogramList
+              pictograms={invalidPictos}
+              locale={locale}
+              searchText={searchText}
+              offset={notValidOffset}
+              onPageClick={this.handlePageClick}
+            />
+          )
+        }
         break
       default:
       // not used
     }
-    // let renderComponent
-    // let pictogramsCounter
-    // let pictogramsList
-    // let gallery
-    // if (loading) gallery = this.renderLoading()
-    // else if (error) gallery = this.renderError()
-    // else if (!searchText && slideIndex === 0) gallery = null
-    // else {
-    //   /* depending on slide we show one or other component */
-
-    //   }
-    //   pictogramsCounter = pictogramsList.length
-    //   gallery = pictogramsCounter ? (
-    //     <div>
-    //       <PictogramList
-    //         pictograms={pictogramsList}
-    //         locale={locale}
-    //         // filtersMap={filters}
-    //         setFilterItems={this.props.setFilterItems}
-    //         // showLabels={visibleLabels}
-    //         searchText={searchText}
-    //       />
-    //     </div>
-    //   ) : (
-    //     this.renderNoPictos()
-    //   )
-    // }
 
     return (
       <React.Fragment>
@@ -235,7 +219,6 @@ class PictogramsView extends React.PureComponent {
             />
           </Tabs>
           {slideIndex === 0 && searchBox}
-          {slideIndex === 0 && <SearchToggleBar viewType={viewType} changeViewType={this.handleViewType} />}
           {renderComponent}
         </div>
       </React.Fragment>
@@ -256,13 +239,13 @@ PictogramsView.propTypes = {
   visiblePictograms: PropTypes.arrayOf(PropTypes.object),
   locale: PropTypes.string.isRequired,
   searchResults: PropTypes.arrayOf(PropTypes.number),
-  lastUpdated: PropTypes.string,
+  updated: PropTypes.string,
 }
 
 const mapStateToProps = (state, ownProps) => ({
   locale: makeSelectLocale()(state),
   loading: makeLoadingSelector()(state),
-  lastUpdated: makeLastUpdatedSelector()(state),
+  updated: makeLastUpdatedSelector()(state),
   searchResults: makeSearchResultsSelector()(state, ownProps),
   pictogramCollection: makePictogramsListSelector()(state),
   visiblePictograms: makeVisiblePictogramsSelector()(state, ownProps),
@@ -274,8 +257,8 @@ const mapDispatchToProps = dispatch => ({
   requestPictograms: (locale, searchText) => {
     dispatch(pictograms.request(locale, searchText))
   },
-  requestNewPictograms: (locale, lastUpdated) => {
-    dispatch(newPictograms.request(locale, lastUpdated))
+  requestNewPictograms: (locale, updated) => {
+    dispatch(newPictograms.request(locale, updated))
   },
   requestAutocomplete: locale => {
     dispatch(autocomplete.request(locale))

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import ErrorDialog from 'components/ErrorDialog'
 import { compose } from 'redux'
@@ -19,15 +20,13 @@ import {
   makeLoadingSelector,
   makeCategoriesSelectorByLocale,
   makeLastUpdatedSelectorByLocale,
+  makeTagsSelectorByLocale,
+  makeKeywordsSelectorByLocale,
   makeErrorSelector,
 } from './selectors'
 // import reducer from './reducer'
 import messages from './messages'
 import saga from './sagas'
-
-// get autocomplete keywords for tag selector and search field in cdm
-let uniqueKeywords
-let uniqueTags
 
 class CategoriesView extends React.Component {
   state = {
@@ -40,18 +39,9 @@ class CategoriesView extends React.Component {
     confirmationBoxOpen: false, // use prior to deleting
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     const { locale, lastUpdated } = this.props
-    await this.props.requestCategories(locale, lastUpdated)
-    // get keywords:
-    const { data } = this.props.categories || {}
-    const tmpKeywords = data ? jp.query(data, '$..keywords') : []
-    const keywords = [].concat(...tmpKeywords)
-    uniqueKeywords = [...new Set(keywords)]
-    // get tags
-    const tmpTags = data ? jp.query(data, '$..tags') : []
-    const tags = [].concat(...tmpTags)
-    uniqueTags = [...new Set(tags)]
+    this.props.requestCategories(locale, lastUpdated)
   }
 
   handleClick = category => {
@@ -124,6 +114,7 @@ class CategoriesView extends React.Component {
 
   render() {
     const { category, searchText, open, openForm, targetItem, confirmationBoxOpen, action } = this.state
+    const { keywords, tags, loading } = this.props
     const { data } = this.props.categories || {}
     return (
       <View>
@@ -142,7 +133,7 @@ class CategoriesView extends React.Component {
           // onRequestSearch={this.handleSubmit}
           onSubmit={this.handleSubmit}
           style={styles.searchBar}
-          dataSource={uniqueKeywords}
+          dataSource={keywords}
           onClear={this.handleRemoveSearchText}
         />
         {data && (
@@ -162,7 +153,7 @@ class CategoriesView extends React.Component {
             action={action}
             targetItem={targetItem}
             confirmationBoxOpen={confirmationBoxOpen}
-            tags={uniqueTags}
+            tags={tags}
           />
         )}
       </View>
@@ -173,9 +164,12 @@ class CategoriesView extends React.Component {
 const mapStateToProps = state => ({
   locale: makeSelectLocale()(state),
   loading: makeLoadingSelector()(state), // for categories
+  // loading: state.getIn(['categoriesView', 'loading']),
   error: makeErrorSelector()(state),
   lastUpdated: makeLastUpdatedSelectorByLocale()(state),
   categories: makeCategoriesSelectorByLocale()(state),
+  keywords: makeKeywordsSelectorByLocale()(state),
+  tags: makeTagsSelectorByLocale()(state),
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -206,3 +200,14 @@ export default compose(
   withSaga,
   withConnect,
 )(withStyles(styles, { withTheme: true })(CategoriesView))
+
+CategoriesView.propTypes = {
+  locale: PropTypes.string.isRequired,
+  loading: PropTypes.bool.isRequired,
+  error: PropTypes.string,
+  lastUpdated: PropTypes.string,
+  categories: PropTypes.object,
+  keywords: PropTypes.array,
+  tags: PropTypes.array,
+  classes: PropTypes.object.isRequired,
+}

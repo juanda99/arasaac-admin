@@ -6,7 +6,7 @@ import { makeSelectLocale } from 'containers/LanguageProvider/selectors'
 import { Map } from 'immutable'
 
 const PICTOGRAMS = 'pictograms'
-const LAST_UPDATED = 'lastUpdated'
+const LAST_UPDATED = 'updated'
 
 export const selectPictogramsViewDomain = state => state.get('pictogramsView')
 

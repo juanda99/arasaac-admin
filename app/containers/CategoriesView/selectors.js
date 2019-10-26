@@ -17,3 +17,9 @@ export const makeCategoriesSelectorByLanguage = language =>
 
 export const makeLastUpdatedSelectorByLocale = () =>
   createSelector(makeCategoriesSelector(), makeSelectLocale(), (substate, locale) => substate[locale].lastUpdated || '')
+
+export const makeKeywordsSelectorByLocale = () =>
+  createSelector(makeCategoriesSelector(), makeSelectLocale(), (substate, locale) => substate[locale].keywords || [])
+
+export const makeTagsSelectorByLocale = () =>
+  createSelector(makeCategoriesSelector(), makeSelectLocale(), (substate, locale) => substate[locale].tags || [])

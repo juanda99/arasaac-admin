@@ -130,10 +130,7 @@ class SearchField extends Component {
 
   handleClick = () => this.props.onSubmit(this.state.searchText)
 
-  handleRemoveSearchText = () => {
-    this.setState({ searchText: '' })
-    this.props.onClear()
-  }
+  handleRemoveSearchText = () => this.setState({ searchText: '' })
 
   render() {
     const { classes, intl } = this.props
@@ -158,6 +155,7 @@ class SearchField extends Component {
           onChange: this.handleChange,
           onKeyDown: this.onKeyDown,
         }}
+        ref={node => (this.autosuggest = node)}
         theme={{
           container: classes.container,
           suggestionsContainerOpen: classes.suggestionsContainerOpen,
@@ -187,7 +185,6 @@ SearchField.propTypes = {
   intl: PropTypes.shape({
     formatMessage: PropTypes.func.isRequired,
   }).isRequired,
-  onClear: PropTypes.func.isRequired,
 }
 
 export default withStyles(styles)(injectIntl(SearchField))

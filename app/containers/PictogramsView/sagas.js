@@ -38,8 +38,10 @@ function* newPictogramsGetData(action) {
     const { locale } = action.payload
     yield put(showLoading())
     const response = yield call(api[action.type], action.payload)
-    yield put(newPictograms.success(locale, response))
+    const updated = new Date().toISOString()
+    yield put(newPictograms.success(locale, response, updated))
   } catch (error) {
+    console.log(error)
     yield put(newPictograms.failure(error.message))
   } finally {
     yield put(hideLoading())

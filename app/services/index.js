@@ -21,9 +21,9 @@ const api = {
     callApi(`${API_ROOT}/pictograms/${locale}/search/${searchText}`, {
       schema: searchPictogramSchema,
     }),
-  NEW_PICTOGRAMS_REQUEST: ({ locale, lastUpdated }) => {
-    const url = lastUpdated
-      ? `${PRIVATE_API_ROOT}/pictograms/${locale}/${lastUpdated}`
+  NEW_PICTOGRAMS_REQUEST: ({ locale, updated }) => {
+    const url = updated
+      ? `${PRIVATE_API_ROOT}/pictograms/${locale}/${updated}`
       : `${PRIVATE_API_ROOT}/pictograms/${locale}`
     return callApi(url, {
       schema: searchPictogramSchema,
