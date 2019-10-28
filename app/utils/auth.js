@@ -24,9 +24,9 @@ export const userIsAdminRedir = connectedRouterRedirect({
 })
 
 export const userIsTranslatorRedir = connectedRouterRedirect({
-  redirectPath: '/',
+  redirectPath: '/permissionsError',
   allowRedirectBack: false,
-  authenticatedSelector: state => state.auth.profile === 'translator',
+  authenticatedSelector: state => state.getIn(['auth', 'role']) === 'translator',
   wrapperDisplayName: 'UserIsTranslator',
 })
 

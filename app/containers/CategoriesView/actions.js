@@ -13,7 +13,8 @@ export const categories = {
 }
 
 export const categoriesUpdate = {
-  request: (token, locale, item, data) => action(CATEGORIES_UPDATE.REQUEST, { token, locale, item, data }),
+  request: (token, locale, item, text, tags, keywords) =>
+    action(CATEGORIES_UPDATE.REQUEST, { token, locale, item, text, tags, keywords }),
   success: data => action(CATEGORIES_UPDATE.SUCCESS, { data }),
   failure: error => action(CATEGORIES_UPDATE.FAILURE, { error }),
 }

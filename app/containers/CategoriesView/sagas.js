@@ -77,15 +77,10 @@ function* categoriesDeleteGetData(action) {
 
 function* categoriesUpdateGetData(action) {
   try {
-    const { token, locale, item, data } = action.payload
+    const { token, locale, item, text, tags, keywords } = action.payload
     yield put(showLoading())
-    /* we do all the process in the client, send computed categories to the server */
-    const allCategories = yield select(makeCategoriesSelectorByLanguage(locale))
-    jp.value(allCategories, `$..["${item}"]`, data)
-    const response = yield call(api[action.type], { token, data: allCategories })
-    allCategories.lastUpdated = response.lastUpdated
-    // we should get updatedTime and process it inside reducer
-    yield put(categoriesUpdate.success(allCategories))
+    const response = yield call(api[action.type], { token, locale, item, text, tags, keywords })
+    yield put(categoriesUpdate.success(response))
   } catch (error) {
     yield put(categoriesUpdate.failure(error.message))
   } finally {

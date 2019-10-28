@@ -48,7 +48,7 @@ export class CategoryForm extends Component {
     //   console.log(tag)
     //   return { label: formatMessage(tagLabels[tag]), value: tag }
     // })
-    this.forceUpdate()
+    // this.forceUpdate()
   }
 
   handleSubmit = async values => {

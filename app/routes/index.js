@@ -29,6 +29,7 @@ import {
   userIsAuthenticatedRedir,
   userIsNotAuthenticatedRedir,
   userIsAdminRedir,
+  userIsTranslatorRedir,
   userIsAuthenticated,
   userIsNotAuthenticated,
 } from 'utils/auth'
@@ -45,8 +46,8 @@ import messages from './messages'
 const AuthUsersView = userIsAuthenticatedRedir(userIsAdminRedir(UsersView))
 const AuthCatalogsView = userIsAuthenticatedRedir(userIsAdminRedir(CatalogsView))
 const AuthAddPictograms = userIsAuthenticatedRedir(userIsAdminRedir(AddPictograms))
-const AuthCategoriesView = userIsAuthenticatedRedir(userIsAdminRedir(CategoriesView))
-const AuthPictogramsView = userIsAuthenticatedRedir(userIsAdminRedir(PictogramsView))
+const AuthCategoriesView = userIsAuthenticatedRedir(userIsTranslatorRedir(CategoriesView))
+const AuthPictogramsView = userIsAuthenticatedRedir(userIsTranslatorRedir(PictogramsView))
 // const AuthUsersView = userIsAuthenticatedRedir(UsersView)
 // using sagas instead of redux-auth:
 // const AuthSigninView = userIsNotAuthenticatedRedir(SigninView)

@@ -92,6 +92,7 @@ class CategoriesView extends React.Component {
 
   handleAdd = (data, parentItem) => {
     const { locale, requestCategoriesAdd, token } = this.props
+    console.log('executed handleAdd')
     if (!data.keywords) data.keywords = []
     if (!data.tags) data.tags = []
     this.setState({ openForm: '' })
@@ -101,8 +102,10 @@ class CategoriesView extends React.Component {
   handleEdit = item => this.setState({ openForm: item, targetItem: item, action: 'edit' })
 
   handleUpdate = (data, item) => {
+    console.log('executed handleUpdaet')
     const { locale, requestCategoriesUpdate, token } = this.props
-    requestCategoriesUpdate(token, locale, item, data)
+    const { text, tags, keywords } = data
+    requestCategoriesUpdate(token, locale, item, text, tags, keywords)
   }
 
   handleBeforeDelete = targetItem => this.setState({ confirmationBoxOpen: true, targetItem, action: 'delete' })
@@ -178,8 +181,8 @@ const mapDispatchToProps = dispatch => ({
   requestCategories: (locale, lastUpdated, token) => {
     dispatch(categories.request(locale, lastUpdated, token))
   },
-  requestCategoriesUpdate: (token, locale, item, data) => {
-    dispatch(categoriesUpdate.request(token, locale, item, data))
+  requestCategoriesUpdate: (token, locale, item, text, tags, keywords) => {
+    dispatch(categoriesUpdate.request(token, locale, item, text, tags, keywords))
   },
   requestCategoriesDelete: (token, locale, item) => {
     dispatch(categoriesDelete.request(token, locale, item))

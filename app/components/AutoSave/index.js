@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormSpy } from 'react-final-form'
-import diff from 'object-diff'
+import { diff } from 'deep-object-diff'
 
 class AutoSave extends React.Component {
   constructor(props) {

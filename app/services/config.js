@@ -32,13 +32,22 @@ export const login = {
 
 export const categories = {
   url: `${PRIVATE_API_ROOT}/categories`,
-  options: categoriesData => ({
-    config: {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(categoriesData),
-    },
-  }),
+  options: (locale, item, text, tags, keywords) => {
+    console.log(locale, item, text, tags, keywords)
+    return {
+      config: {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          locale,
+          item,
+          text,
+          tags,
+          keywords,
+        }),
+      },
+    }
+  },
 }
 
 export const categoriesAdd = {
