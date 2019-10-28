@@ -13,6 +13,7 @@ import injectSaga from 'utils/injectSaga'
 import { makeSelectLocale } from 'containers/LanguageProvider/selectors'
 import SearchField from 'components/SearchField'
 import jp from 'jsonpath'
+import { makeSelectHasUser } from 'containers/UsersView/selectors'
 // import DragDropFile from './DragDropFile'
 import styles from './styles'
 import { categories, categoriesUpdate, categoriesAdd, categoriesDelete, removeError } from './actions'
@@ -90,26 +91,26 @@ class CategoriesView extends React.Component {
   }
 
   handleAdd = (data, parentItem) => {
-    const { locale, requestCategoriesAdd } = this.props
+    const { locale, requestCategoriesAdd, token } = this.props
     if (!data.keywords) data.keywords = []
     if (!data.tags) data.tags = []
     this.setState({ openForm: '' })
-    requestCategoriesAdd('shouldBeToken', locale, parentItem, data)
+    requestCategoriesAdd(token, locale, parentItem, data)
   }
 
   handleEdit = item => this.setState({ openForm: item, targetItem: item, action: 'edit' })
 
   handleUpdate = (data, item) => {
-    const { locale, requestCategoriesUpdate } = this.props
-    requestCategoriesUpdate('shouldBeToken', locale, item, data)
+    const { locale, requestCategoriesUpdate, token } = this.props
+    requestCategoriesUpdate(token, locale, item, data)
   }
 
   handleBeforeDelete = targetItem => this.setState({ confirmationBoxOpen: true, targetItem, action: 'delete' })
 
   handleDelete = (item, accept) => {
     this.setState({ confirmationBoxOpen: false })
-    const { locale, requestCategoriesDelete } = this.props
-    if (accept) requestCategoriesDelete('shouldBeToken', locale, item)
+    const { locale, requestCategoriesDelete, token } = this.props
+    if (accept) requestCategoriesDelete(token, locale, item)
   }
 
   render() {
@@ -170,11 +171,12 @@ const mapStateToProps = state => ({
   categories: makeCategoriesSelectorByLocale()(state),
   keywords: makeKeywordsSelectorByLocale()(state),
   tags: makeTagsSelectorByLocale()(state),
+  token: makeSelectHasUser()(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  requestCategories: (locale, lastUpdated) => {
-    dispatch(categories.request(locale, lastUpdated))
+  requestCategories: (locale, lastUpdated, token) => {
+    dispatch(categories.request(locale, lastUpdated, token))
   },
   requestCategoriesUpdate: (token, locale, item, data) => {
     dispatch(categoriesUpdate.request(token, locale, item, data))
@@ -210,4 +212,5 @@ CategoriesView.propTypes = {
   keywords: PropTypes.array,
   tags: PropTypes.array,
   classes: PropTypes.object.isRequired,
+  token: PropTypes.string.isRequired,
 }
