@@ -46,9 +46,19 @@ function* categoriesAddGetData(action) {
     if (!parentData.children) parentData.children = {}
     // remove key from data
     delete data.key
+
+    // copy object to another object so we don't modify it till ajax returns ok
+    // modify object copy
+    let newCategories = JSON.stringify(allCategories)
+    newCategories = JSON.parse(newCategories)
+    const newParentData = jp.value(newCategories, `$..["${parentItem}"]`)
+    newParentData.children[key] = data
+    jp.value(newCategories, `$..["${parentItem}"]`, newParentData)
+    // ajax call:
+    const response = yield call(api[action.type], { token, data: newCategories })
+    // modify object
     parentData.children[key] = data
     jp.value(allCategories, `$..["${parentItem}"]`, parentData)
-    const response = yield call(api[action.type], { token, data: allCategories })
     allCategories.lastUpdated = response.lastUpdated
     yield put(categoriesAdd.success(allCategories))
   } catch (error) {
@@ -63,8 +73,8 @@ function* categoriesDeleteGetData(action) {
     const { token, locale, item } = action.payload
     yield put(showLoading())
     const allCategories = yield select(makeCategoriesSelectorByLanguage(locale))
-    removeKeys(allCategories, item)
     const response = yield call(api[action.type], { token, data: allCategories, item })
+    removeKeys(allCategories, item)
     allCategories.lastUpdated = response.lastUpdated
     // we should get updatedTime and process it inside reducer
     yield put(categoriesDelete.success(allCategories))

@@ -109,30 +109,15 @@ class ListTree extends Component {
 
   renderForm = (item, depth) => {
     const { data, action } = this.props
-    // calculate its path and its content for CategoryForm:
-
-    // const subData = jp.value(data, `$..${item}`)
-    // get keys with spaces
-
-    const subData = jp.value(data, `$..["${item}"]`)
-
-    // const menuItems = []
-
-    // // get all keys and values from Category
-    // const categoryValues = categories => {
-    //   Object.keys(categories).forEach(key => {
-    //     menuItems.push({
-    //       key,
-    //       text: categories[key].text,
-    //       tags: categories[key].tags,
-    //       keywords: categories[key].keywords,
-    //     })
-    //     if (categories[key].children) categoryValues(categories[key].children)
-    //   })
-    //   menuItems.sort((a, b) => a.text < b.text)
-    // }
-    // menuItems.sort((a, b) => a.text < b.text)
-    // categoryValues(data)
+    let subData
+    /* in case of adding, we add as tags, parent tags if possible */
+    if (action === 'add') {
+      subData = {}
+      const path = jp.paths(this.props.data, `$..["${item}"]`)[0]
+      const filteredPath = path.filter(item => item !== $)
+    } else {
+      subData = jp.value(data, `$..["${item}"]`)
+    }
     return (
       <div style={{ paddingLeft: depth * 30 }}>
         <CategoryForm
