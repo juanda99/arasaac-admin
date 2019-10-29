@@ -130,6 +130,7 @@ class ListTree extends Component {
           tags={this.props.tags}
           disabled={disabled}
           role={role}
+          action={action}
         />
       </div>
     )

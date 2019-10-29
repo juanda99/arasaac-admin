@@ -48,7 +48,7 @@ export class CategoryForm extends Component {
     //   console.log(tag)
     //   return { label: formatMessage(tagLabels[tag]), value: tag }
     // })
-    // this.forceUpdate()
+    this.forceUpdate()
   }
 
   handleSubmit = async values => {
@@ -62,9 +62,9 @@ export class CategoryForm extends Component {
   }
 
   render() {
-    const { data, item, disabled, role } = this.props
+    const { data, item, disabled, role, action } = this.props
     // new category, key empty, edit category, key from item
-    const formData = Object.entries(data).length === 0 ? { ...data, key: '' } : { ...data, key: item }
+    const formData = action === 'add' ? { ...data, key: '' } : { ...data, key: item }
     return (
       <Form
         onSubmit={this.handleSubmit}
@@ -143,7 +143,7 @@ export class CategoryForm extends Component {
                 </div>
               )}
             </Paper>
-            {/* <pre>{JSON.stringify(values, 0, 2)}</pre> */}
+            <pre>{JSON.stringify(values, 0, 2)}</pre>
           </form>
         )}
       />
@@ -155,6 +155,7 @@ CategoryForm.defaultProps = {
   data: {},
   disabled: PropTypes.bool.isRequired,
   role: PropTypes.string.isRequired,
+  action: PropTypes.string.isRequired,
 }
 
 export default injectIntl(CategoryForm)

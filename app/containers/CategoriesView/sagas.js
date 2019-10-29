@@ -73,7 +73,13 @@ function* categoriesDeleteGetData(action) {
     const { token, locale, item } = action.payload
     yield put(showLoading())
     const allCategories = yield select(makeCategoriesSelectorByLanguage(locale))
-    const response = yield call(api[action.type], { token, data: allCategories, item })
+
+    // copy object to another object so we don't modify it till ajax returns ok
+    // modify object copy
+    const newCategories = JSON.stringify(allCategories)
+    removeKeys(newCategories, item)
+
+    const response = yield call(api[action.type], { token, data: newCategories, item })
     removeKeys(allCategories, item)
     allCategories.lastUpdated = response.lastUpdated
     // we should get updatedTime and process it inside reducer
