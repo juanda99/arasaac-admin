@@ -62,7 +62,7 @@ export class CategoryForm extends Component {
   }
 
   render() {
-    const { data, item } = this.props
+    const { data, item, disabled, role } = this.props
     // new category, key empty, edit category, key from item
     const formData = Object.entries(data).length === 0 ? { ...data, key: '' } : { ...data, key: item }
     return (
@@ -103,7 +103,7 @@ export class CategoryForm extends Component {
                   <FormattedMessage {...messages.category} />
                 </h3>
                 <div style={{ maxWidth: '400px' }}>
-                  <Field fullWidth name="text" component={TextField} type="text" autoFocus />
+                  <Field fullWidth name="text" component={TextField} type="text" autoFocus disabled={disabled} />
                 </div>
               </div>
               <div style={{ marginTop: 30 }}>
@@ -113,7 +113,7 @@ export class CategoryForm extends Component {
                   </h3>
                 </div>
                 <div>
-                  <Field name="tags" component={TagsInputWrapper} />
+                  <Field name="tags" component={TagsInputWrapper} disabled={role !== 'admin'} />
                 </div>
               </div>
               <div style={{ marginTop: 30 }}>
@@ -123,7 +123,7 @@ export class CategoryForm extends Component {
                   </h3>
                 </div>
                 <div>
-                  <Field name="keywords" component={KeywordsInputWrapper} />
+                  <Field name="keywords" component={KeywordsInputWrapper} disabled={disabled} />
                 </div>
               </div>
               {Object.keys(data).length === 0 && (
@@ -143,7 +143,7 @@ export class CategoryForm extends Component {
                 </div>
               )}
             </Paper>
-            <pre>{JSON.stringify(values, 0, 2)}</pre>
+            {/* <pre>{JSON.stringify(values, 0, 2)}</pre> */}
           </form>
         )}
       />
@@ -153,6 +153,8 @@ export class CategoryForm extends Component {
 
 CategoryForm.defaultProps = {
   data: {},
+  disabled: PropTypes.bool.isRequired,
+  role: PropTypes.string.isRequired,
 }
 
 export default injectIntl(CategoryForm)

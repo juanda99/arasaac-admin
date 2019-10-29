@@ -167,7 +167,7 @@ class IntegrationReactSelect extends React.Component {
   }
 
   render() {
-    const { classes, theme, suggestions } = this.props
+    const { classes, theme, suggestions, disabled } = this.props
     const { value } = this.props.input
     // const arrayValues = suggestions.filter(suggestion => value.some(item => item === suggestion.value))
     const arrayValues = Array.isArray(value)
@@ -186,6 +186,7 @@ class IntegrationReactSelect extends React.Component {
 
     return (
       <Select
+        isDisabled={disabled}
         classes={classes}
         styles={selectStyles}
         textFieldProps={{
@@ -214,6 +215,7 @@ IntegrationReactSelect.propTypes = {
       value: PropTypes.string.isRequired,
     }).isRequired,
   ),
+  disabled: PropTypes.bool.isRequired,
 }
 
 export default withStyles(styles, { withTheme: true })(IntegrationReactSelect)

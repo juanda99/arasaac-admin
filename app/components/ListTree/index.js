@@ -54,6 +54,7 @@ class ListTree extends Component {
     tags: PropTypes.array,
     role: PropTypes.string.isRequired,
     targetLanguages: PropTypes.arrayOf(PropTypes.string),
+    locale: PropTypes.string.isRequired,
   }
 
   handleClick = (event, item) => this.props.onClick(item)
@@ -108,24 +109,27 @@ class ListTree extends Component {
     )
 
   renderForm = (item, depth) => {
-    const { data, action } = this.props
+    const { data, action, role, targetLanguages, locale } = this.props
     let subData
     /* in case of adding, we add as tags, parent tags if possible */
     if (action === 'add') {
       subData = {}
-      const path = jp.paths(this.props.data, `$..["${item}"]`)[0]
-      const filteredPath = path.filter(item => item !== $)
+      const path = jp.paths(data, `$..["${item}"]`)[0]
+      subData.tags = jp.value(data, path).tags
     } else {
       subData = jp.value(data, `$..["${item}"]`)
     }
+    const disabled = role === 'translator' && !targetLanguages.includes(locale)
     return (
       <div style={{ paddingLeft: depth * 30 }}>
         <CategoryForm
-          data={action === 'edit' ? subData : {}}
+          data={subData}
           item={item}
           onSubmit={action === 'edit' ? this.handleUpdate : this.handleAdd}
           onClose={this.handleClose}
           tags={this.props.tags}
+          disabled={disabled}
+          role={role}
         />
       </div>
     )
@@ -151,7 +155,7 @@ class ListTree extends Component {
                 primary={
                   <Badge
                     color="secondary"
-                    style={{ paddingRight: 10 }}
+                    style={{ paddingRight: 10, zIndex: 0 }}
                     badgeContent={Object.keys(data[item].children).length}
                   >
                     {data[item].text}
@@ -192,7 +196,7 @@ class ListTree extends Component {
                 primary={
                   <Badge
                     color="secondary"
-                    style={{ paddingRight: 10 }}
+                    style={{ paddingRight: 10, zIndex: 0 }}
                     badgeContent={Object.keys(data[item].children).length}
                   >
                     {data[item].text}

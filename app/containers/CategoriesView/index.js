@@ -117,7 +117,7 @@ class CategoriesView extends React.Component {
 
   render() {
     const { category, searchText, open, openForm, targetItem, confirmationBoxOpen, action } = this.state
-    const { keywords, tags, loading, role, targetLanguages } = this.props
+    const { keywords, tags, loading, role, targetLanguages, locale } = this.props
     const { data } = this.props.categories || {}
     return (
       <View>
@@ -159,6 +159,7 @@ class CategoriesView extends React.Component {
             tags={tags}
             role={role}
             targetLanguages={targetLanguages}
+            locale={locale}
           />
         )}
       </View>
