@@ -13,7 +13,7 @@ import injectSaga from 'utils/injectSaga'
 import { makeSelectLocale } from 'containers/LanguageProvider/selectors'
 import SearchField from 'components/SearchField'
 import jp from 'jsonpath'
-import { makeSelectHasUser } from 'containers/UsersView/selectors'
+import { makeSelectHasUser, makeSelectUserRole, makeSelectTargetLanguages } from 'containers/UsersView/selectors'
 // import DragDropFile from './DragDropFile'
 import styles from './styles'
 import { categories, categoriesUpdate, categoriesAdd, categoriesDelete, removeError } from './actions'
@@ -25,6 +25,7 @@ import {
   makeKeywordsSelectorByLocale,
   makeErrorSelector,
 } from './selectors'
+
 // import reducer from './reducer'
 import messages from './messages'
 import saga from './sagas'
@@ -118,7 +119,7 @@ class CategoriesView extends React.Component {
 
   render() {
     const { category, searchText, open, openForm, targetItem, confirmationBoxOpen, action } = this.state
-    const { keywords, tags, loading } = this.props
+    const { keywords, tags, loading, role, targetLanguages } = this.props
     const { data } = this.props.categories || {}
     return (
       <View>
@@ -158,6 +159,8 @@ class CategoriesView extends React.Component {
             targetItem={targetItem}
             confirmationBoxOpen={confirmationBoxOpen}
             tags={tags}
+            role={role}
+            targetLanguages={targetLanguages}
           />
         )}
       </View>
@@ -167,6 +170,8 @@ class CategoriesView extends React.Component {
 
 const mapStateToProps = state => ({
   locale: makeSelectLocale()(state),
+  targetLanguages: makeSelectTargetLanguages()(state),
+  role: makeSelectUserRole()(state),
   loading: makeLoadingSelector()(state), // for categories
   // loading: state.getIn(['categoriesView', 'loading']),
   error: makeErrorSelector()(state),
@@ -216,4 +221,6 @@ CategoriesView.propTypes = {
   tags: PropTypes.array,
   classes: PropTypes.object.isRequired,
   token: PropTypes.string.isRequired,
+  role: PropTypes.string.isRequired,
+  targetLanguages: PropTypes.arrayOf(PropTypes.string),
 }

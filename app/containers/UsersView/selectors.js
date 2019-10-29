@@ -20,3 +20,6 @@ const selectAuth = state => state.get('auth')
 
 // we use Token as User
 export const makeSelectHasUser = () => createSelector(selectAuth, auth => auth.get('accessToken'))
+
+export const makeSelectUserRole = () => createSelector(selectAuth, auth => auth.get('role'))
+export const makeSelectTargetLanguages = () => createSelector(selectAuth, auth => auth.get('targetLanguages'))

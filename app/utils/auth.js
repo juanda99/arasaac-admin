@@ -44,3 +44,8 @@ export const userIsNotAuthenticatedRedir = connectedRouterRedirect({
   redirectPath: (state, ownProps) => locationHelper.getRedirectQueryParam(ownProps) || '/signin',
   allowRedirectBack: false,
 })
+
+export const visibleOnlyAdmin = connectedAuthWrapper({
+  authenticatedSelector: state => state.getIn(['auth', 'role']) === 'admin',
+  wrapperDisplayName: 'VisibleOnlyAdmin',
+})

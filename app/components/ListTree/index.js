@@ -52,6 +52,8 @@ class ListTree extends Component {
     targetItem: PropTypes.string.isRequired,
     confirmationBoxOpen: PropTypes.bool.isRequired,
     tags: PropTypes.array,
+    role: PropTypes.string.isRequired,
+    targetLanguages: PropTypes.arrayOf(PropTypes.string),
   }
 
   handleClick = (event, item) => this.props.onClick(item)
@@ -86,10 +88,18 @@ class ListTree extends Component {
         <IconButton aria-label="Edit" onClick={event => this.clickEditButton(event, item)}>
           <EditIcon />
         </IconButton>
-        <IconButton aria-label="Add" onClick={event => this.clickAddButton(event, item)}>
+        <IconButton
+          aria-label="Add"
+          disabled={this.props.role !== 'admin'}
+          onClick={event => this.clickAddButton(event, item)}
+        >
           <AddIcon />
         </IconButton>
-        <IconButton aria-label="Delete" onClick={() => this.clickDeleteButton(item)}>
+        <IconButton
+          aria-label="Delete"
+          disabled={this.props.role !== 'admin'}
+          onClick={() => this.clickDeleteButton(item)}
+        >
           <DeleteIcon />
         </IconButton>
       </>
