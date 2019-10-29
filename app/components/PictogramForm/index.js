@@ -75,6 +75,7 @@ export class PictogramForm extends Component {
     item: PropTypes.string,
     categories: PropTypes.object.isRequired,
     locale: PropTypes.string.isRequired,
+    tags: PropTypes.array.isRequired,
   }
 
   state = {
