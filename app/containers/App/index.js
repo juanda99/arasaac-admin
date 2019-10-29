@@ -71,22 +71,33 @@ export class App extends Component {
             isAuthenticated={isAuthenticated}
             logout={doLogout}
           />
-          <LoadingBar
-            style={{
-              height: 2,
-              backgroundColor: 'rgb(0, 188, 212)',
-              zIndex: 100000,
-              position: 'relative',
-              top: '64px',
-            }}
-            updateTime={100}
-            maxProgress={95}
-            progressIncrease={20}
-          />
           <div className={classes.content}>
             <Switch>{getRoutes()}</Switch>
           </div>
         </div>
+        {/* <div
+          style={{
+            backgroundColor: 'black',
+            position: 'absolute',
+            top: '64px',
+            height: 4,
+            width: '100%',
+            zIndex: '10000',
+          }}
+        /> */}
+        <LoadingBar
+          style={{
+            height: 2,
+            // backgroundColor: 'rgb(0, 188, 212)',
+            backgroundColor: '#78909c',
+            zIndex: 100000,
+            position: 'absolute',
+            top: '64px',
+          }}
+          updateTime={100}
+          maxProgress={95}
+          progressIncrease={20}
+        />
       </div>
     )
   }

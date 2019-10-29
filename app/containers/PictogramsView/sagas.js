@@ -8,13 +8,13 @@ import { PICTOGRAMS, pictograms, NEW_PICTOGRAMS, newPictograms, AUTOCOMPLETE, au
 function* categoriesGetData(action) {
   try {
     const { locale } = action.payload
-    yield put(showLoading())
+    // yield put(showLoading())
     const response = yield call(api[action.type], action.payload)
     yield put(categories.success(locale, response))
   } catch (error) {
     yield put(categories.failure(error.message))
   } finally {
-    yield put(hideLoading())
+    // yield put(hideLoading())
   }
 }
 

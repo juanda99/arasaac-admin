@@ -6,6 +6,7 @@ const styles = theme => ({
     [theme.breakpoints.up('md')]: {
       width: `calc(100% - ${drawerWidth}px)`,
     },
+    boxShadow: 'none',
   },
   menuButton: {
     marginLeft: -12,

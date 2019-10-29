@@ -149,7 +149,11 @@ class PictogramsView extends React.PureComponent {
                   </>
                 ) : (
                   <View>
-                    <h3>{<FormattedMessage {...messages.pictogramsNotFound} />}</h3>
+                    {loading ? (
+                      <h3> Getting data....</h3>
+                    ) : (
+                      <h3>{<FormattedMessage {...messages.pictogramsNotFound} />}</h3>
+                    )}
                   </View>
                 )}
               </>
