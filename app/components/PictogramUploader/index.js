@@ -25,12 +25,6 @@ const thumb = {
   boxSizing: 'border-box',
 }
 
-const thumbInner = {
-  display: 'flex',
-  minWidth: 0,
-  overflow: 'hidden',
-}
-
 const PictogramUploader = ({ onSubmit }) => {
   const [files, setFiles] = useState([])
   const { formatMessage } = useIntl()
@@ -70,9 +64,7 @@ const PictogramUploader = ({ onSubmit }) => {
   }
   const thumbs = files.map(file => (
     <div style={thumb} key={file.name}>
-      <div style={thumbInner}>
-        <SvgPreview file={file} onDelete={handleDelete} />
-      </div>
+      <SvgPreview file={file} onDelete={handleDelete} />
     </div>
   ))
 

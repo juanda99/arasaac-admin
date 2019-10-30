@@ -6,8 +6,8 @@ import DeleteIcon from '@material-ui/icons/Delete'
 
 const img = {
   display: 'block',
-  width: 'auto',
-  height: '100%',
+  width: '100%',
+  height: 'auto',
 }
 
 const SvgPreview = ({ file, onDelete }) => {
