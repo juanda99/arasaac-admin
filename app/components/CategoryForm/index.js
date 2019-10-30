@@ -89,13 +89,7 @@ export class CategoryForm extends Component {
                   }}
                 </OnChange>
                 <div style={{ maxWidth: '400px' }}>
-                  <Field
-                    fullWidth
-                    name="key"
-                    component={TextField}
-                    type="text"
-                    disabled={Object.entries(data).length !== 0}
-                  />
+                  <Field fullWidth name="key" component={TextField} type="text" disabled={action !== 'add'} />
                 </div>
               </div>
               <div style={{ marginTop: 30 }}>
@@ -137,7 +131,7 @@ export class CategoryForm extends Component {
                   >
                     <FormattedMessage {...messages.save} />
                   </Button>
-                  <Button variant="contained" color="secondary" type="submit">
+                  <Button variant="contained" color="secondary" onClick={this.handleClose}>
                     <FormattedMessage {...messages.cancel} />
                   </Button>
                 </div>

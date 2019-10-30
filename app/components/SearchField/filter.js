@@ -10,8 +10,6 @@ export const getSuggestions = (value, dataSource) => {
   if (inputLength === 0) return []
   return dataSource.filter(
     key =>
-      // console.log(key)
-      // console.log(value)
       removeDiacritics(key)
         .toLowerCase()
         .indexOf(removeDiacritics(value).toLowerCase()) !== -1,

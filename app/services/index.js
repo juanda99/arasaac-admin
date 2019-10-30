@@ -46,8 +46,8 @@ const api = {
   GENERATE_CATALOG: ({ language }) => callApi(generateCatalog.url(language), generateCatalog.options()),
   GENERATE_CATALOGS: () => callApi(generateCatalogs.url, generateCatalogs.options()),
   CATEGORIES_REQUEST: ({ locale, updated }) => callApi(`${PRIVATE_API_ROOT}/categories/${locale}/${updated}`),
-  CATEGORIES_UPDATE_REQUEST: ({ token, locale, item, text, tags, keywords }) =>
-    callApi(categories.url, categories.options(locale, item, text, tags, keywords), token),
+  CATEGORIES_UPDATE_REQUEST: ({ token, locale, item, text, tags, keywords, lastUpdated }) =>
+    callApi(categories.url, categories.options(locale, item, text, tags, keywords, lastUpdated), token),
   // import, same as update
   CATEGORIES_IMPORT_REQUEST: ({ token, data }) => callApi(categories.url, categories.options(data), token),
   CATEGORIES_ADD_REQUEST: ({ token, parentItem, data, locale, lastUpdated }) =>

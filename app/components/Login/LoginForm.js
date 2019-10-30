@@ -57,10 +57,7 @@ const LoginForm = class LoginForm extends Component {
     return errors
   }
 
-  handleSubmit = values => {
-    console.log(values)
-    this.props.onSubmit(values)
-  }
+  handleSubmit = values => this.props.onSubmit(values)
 
   render() {
     const { username, intl } = this.props

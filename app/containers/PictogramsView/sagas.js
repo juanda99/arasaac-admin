@@ -41,7 +41,6 @@ function* newPictogramsGetData(action) {
     const updated = new Date().toISOString()
     yield put(newPictograms.success(locale, response, updated))
   } catch (error) {
-    console.log(error)
     yield put(newPictograms.failure(error.message))
   } finally {
     yield put(hideLoading())
