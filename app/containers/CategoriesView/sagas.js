@@ -47,7 +47,6 @@ function* categoriesDeleteGetData(action) {
     const { token, locale, item, lastUpdated } = action.payload
     yield put(showLoading())
     const response = yield call(api[action.type], { token, locale, item, lastUpdated })
-    // we should get updatedTime and process it inside reducer
     yield put(categoriesDelete.success(response))
   } catch (error) {
     yield put(categoriesDelete.failure(error.message))

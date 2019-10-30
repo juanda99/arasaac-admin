@@ -38,6 +38,6 @@ export default function ErrorDialog({ onClose, title, message }) {
 
 ErrorDialog.propTypes = {
   onClose: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.object.isRequired,
   message: PropTypes.string.isRequired,
 }

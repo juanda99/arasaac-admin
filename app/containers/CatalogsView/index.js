@@ -20,7 +20,6 @@ import messages from './messages'
 const isValidDate = d => d instanceof Date && !isNaN(d)
 
 const DateFormatter = ({ value, row }) => {
-  console.log(`****************${Math.round(row.complete)}`)
   if (value === 'Now')
     return (
       <span>
