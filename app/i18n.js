@@ -14,9 +14,9 @@
 // const valTranslationMessages = require('./translations/val.json')
 // const afTranslationMessages = require('./translations/af.json')
 
-// DEFAULT_LOCALE = 'en'
+const DEFAULT_LOCALE = 'en'
 // import { DEFAULT_LOCALE } from './containers/App/constants'
-const { DEFAULT_LOCALE } = require('./containers/App/constants')
+// const { DEFAULT_LOCALE } = require('./containers/App/constants')
 const enTranslationMessages = require('./translations/en.json')
 const esTranslationMessages = require('./translations/es.json')
 

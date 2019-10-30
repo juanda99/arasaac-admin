@@ -27,6 +27,10 @@ export default defineMessages({
     id: `${scope}.galician`,
     defaultMessage: 'Galician',
   },
+  he: {
+    id: `${scope}.hebrew`,
+    defaultMessage: 'Hebrew',
+  },
   cr: {
     id: `${scope}.croatian`,
     defaultMessage: 'Croatian',
