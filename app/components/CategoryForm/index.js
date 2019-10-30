@@ -89,13 +89,7 @@ export class CategoryForm extends Component {
                   }}
                 </OnChange>
                 <div style={{ maxWidth: '400px' }}>
-                  <Field
-                    fullWidth
-                    name="key"
-                    component={TextField}
-                    type="text"
-                    disabled={Object.entries(data).length !== 0}
-                  />
+                  <Field fullWidth name="key" component={TextField} type="text" disabled={action !== 'add'} />
                 </div>
               </div>
               <div style={{ marginTop: 30 }}>
