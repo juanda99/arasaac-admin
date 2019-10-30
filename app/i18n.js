@@ -19,6 +19,7 @@ const DEFAULT_LOCALE = 'en'
 // const { DEFAULT_LOCALE } = require('./containers/App/constants')
 const enTranslationMessages = require('./translations/en.json')
 const esTranslationMessages = require('./translations/es.json')
+const frTranslationMessages = require('./translations/fr.json')
 
 // prettier-ignore
 const appLocales = [
@@ -39,7 +40,7 @@ const formatTranslationMessages = (locale, messages) => {
 const translationMessages = {
   en: formatTranslationMessages('en', enTranslationMessages),
   es: formatTranslationMessages('es', esTranslationMessages),
-  // fr: formatTranslationMessages('fr', frTranslationMessages),
+  fr: formatTranslationMessages('fr', frTranslationMessages),
   // it: formatTranslationMessages('it', itTranslationMessages),
   // de: formatTranslationMessages('de', deTranslationMessages),
   // val: formatTranslationMessages('val', valTranslationMessages),
