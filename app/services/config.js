@@ -32,42 +32,44 @@ export const login = {
 
 export const categories = {
   url: `${PRIVATE_API_ROOT}/categories`,
-  options: (locale, item, text, tags, keywords) => {
-    console.log(locale, item, text, tags, keywords)
-    return {
-      config: {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          locale,
-          item,
-          text,
-          tags,
-          keywords,
-        }),
-      },
-    }
-  },
+  options: (locale, item, text, tags, keywords) => ({
+    config: {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        locale,
+        item,
+        text,
+        tags,
+        keywords,
+      }),
+    },
+  }),
 }
 
 export const categoriesAdd = {
   url: `${PRIVATE_API_ROOT}/categories/add`,
-  options: categoriesData => ({
+  options: (parentItem, data, locale, lastUpdated) => ({
     config: {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(categoriesData),
+      body: JSON.stringify({
+        parentItem,
+        data,
+        locale,
+        lastUpdated,
+      }),
     },
   }),
 }
 
 export const categoriesRemove = {
   url: `${PRIVATE_API_ROOT}/categories/remove`,
-  options: (categoriesData, item) => ({
+  options: (locale, item, lastUpdated) => ({
     config: {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...categoriesData, item }),
+      body: JSON.stringify({ locale, item, lastUpdated }),
     },
   }),
 }

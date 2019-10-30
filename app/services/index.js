@@ -50,9 +50,10 @@ const api = {
     callApi(categories.url, categories.options(locale, item, text, tags, keywords), token),
   // import, same as update
   CATEGORIES_IMPORT_REQUEST: ({ token, data }) => callApi(categories.url, categories.options(data), token),
-  CATEGORIES_ADD_REQUEST: ({ token, data }) => callApi(categoriesAdd.url, categoriesAdd.options(data), token),
-  CATEGORIES_DELETE_REQUEST: ({ token, data, item }) =>
-    callApi(categoriesRemove.url, categoriesRemove.options(data, item), token),
+  CATEGORIES_ADD_REQUEST: ({ token, parentItem, data, locale, lastUpdated }) =>
+    callApi(categoriesAdd.url, categoriesAdd.options(parentItem, data, locale, lastUpdated), token),
+  CATEGORIES_DELETE_REQUEST: ({ token, locale, item, lastUpdated }) =>
+    callApi(categoriesRemove.url, categoriesRemove.options(locale, item, lastUpdated), token),
 }
 
 export default api

@@ -74,7 +74,7 @@ export class CategoryForm extends Component {
         }}
         render={({ handleSubmit, pristine, form, submitting, values }) => (
           <form onSubmit={handleSubmit} style={{ width: '100%' }}>
-            {Object.keys(data).length !== 0 && <AutoSave debounce={1000} save={handleSubmit} />}
+            {action !== 'add' && <AutoSave debounce={1000} save={handleSubmit} />}
             <Paper style={{ padding: 32, margin: 20 }}>
               <IconButton style={{ position: 'absolute', right: '50px' }} onClick={this.handleClose}>
                 <CloseIcon />
@@ -126,7 +126,7 @@ export class CategoryForm extends Component {
                   <Field name="keywords" component={KeywordsInputWrapper} disabled={disabled} />
                 </div>
               </div>
-              {Object.keys(data).length === 0 && (
+              {action === 'add' && (
                 <div style={{ marginTop: 16, display: 'flex', flexDirection: 'row-reverse' }}>
                   <Button
                     style={{ marginLeft: '15px' }}
@@ -143,7 +143,7 @@ export class CategoryForm extends Component {
                 </div>
               )}
             </Paper>
-            <pre>{JSON.stringify(values, 0, 2)}</pre>
+            {/* <pre>{JSON.stringify(values, 0, 2)}</pre> */}
           </form>
         )}
       />

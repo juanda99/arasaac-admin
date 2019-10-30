@@ -34,33 +34,9 @@ function* categoriesAddGetData(action) {
     const { locale, token, parentItem, data } = action.payload
     yield put(showLoading())
     /* we do all the process in the client, send computed categories to the server */
-    const allCategories = yield select(makeCategoriesSelectorByLanguage(locale))
-    const parentData = jp.value(allCategories, `$..["${parentItem}"]`)
-    const key = data.key
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '') // removing accents and diacritics
-      // .replace(/\s/g, '') // without blank spaces
-      .toLowerCase()
-    const keyExists = jp.value(allCategories, `$..["${key}"]`)
-    if (keyExists) throw new Error(`key ${key} already exists in category tree`)
-    if (!parentData.children) parentData.children = {}
-    // remove key from data
-    delete data.key
-
-    // copy object to another object so we don't modify it till ajax returns ok
-    // modify object copy
-    let newCategories = JSON.stringify(allCategories)
-    newCategories = JSON.parse(newCategories)
-    const newParentData = jp.value(newCategories, `$..["${parentItem}"]`)
-    newParentData.children[key] = data
-    jp.value(newCategories, `$..["${parentItem}"]`, newParentData)
-    // ajax call:
-    const response = yield call(api[action.type], { token, data: newCategories })
-    // modify object
-    parentData.children[key] = data
-    jp.value(allCategories, `$..["${parentItem}"]`, parentData)
-    allCategories.lastUpdated = response.lastUpdated
-    yield put(categoriesAdd.success(allCategories))
+    const { lastUpdated } = yield select(makeCategoriesSelectorByLanguage(locale))
+    const response = yield call(api[action.type], { token, parentItem, data, locale, lastUpdated })
+    yield put(categoriesAdd.success(response))
   } catch (error) {
     yield put(categoriesAdd.failure(error.message))
   } finally {
@@ -72,18 +48,11 @@ function* categoriesDeleteGetData(action) {
   try {
     const { token, locale, item } = action.payload
     yield put(showLoading())
-    const allCategories = yield select(makeCategoriesSelectorByLanguage(locale))
-
-    // copy object to another object so we don't modify it till ajax returns ok
-    // modify object copy
-    const newCategories = JSON.stringify(allCategories)
-    removeKeys(newCategories, item)
-
-    const response = yield call(api[action.type], { token, data: newCategories, item })
-    removeKeys(allCategories, item)
-    allCategories.lastUpdated = response.lastUpdated
+    const { lastUpdated } = yield select(makeCategoriesSelectorByLanguage(locale))
+    // should add lastUpdate, just in case.... so we have the same in client&server
+    const response = yield call(api[action.type], { token, locale, item, lastUpdated })
     // we should get updatedTime and process it inside reducer
-    yield put(categoriesDelete.success(allCategories))
+    yield put(categoriesDelete.success(response))
   } catch (error) {
     yield put(categoriesDelete.failure(error.message))
   } finally {
