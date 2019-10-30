@@ -31,10 +31,8 @@ function* categoriesGetData(action) {
 
 function* categoriesAddGetData(action) {
   try {
-    const { locale, token, parentItem, data } = action.payload
+    const { locale, token, parentItem, data, lastUpdated } = action.payload
     yield put(showLoading())
-    /* we do all the process in the client, send computed categories to the server */
-    const { lastUpdated } = yield select(makeCategoriesSelectorByLanguage(locale))
     const response = yield call(api[action.type], { token, parentItem, data, locale, lastUpdated })
     yield put(categoriesAdd.success(response))
   } catch (error) {
@@ -46,10 +44,8 @@ function* categoriesAddGetData(action) {
 
 function* categoriesDeleteGetData(action) {
   try {
-    const { token, locale, item } = action.payload
+    const { token, locale, item, lastUpdated } = action.payload
     yield put(showLoading())
-    const { lastUpdated } = yield select(makeCategoriesSelectorByLanguage(locale))
-    // should add lastUpdate, just in case.... so we have the same in client&server
     const response = yield call(api[action.type], { token, locale, item, lastUpdated })
     // we should get updatedTime and process it inside reducer
     yield put(categoriesDelete.success(response))
@@ -62,9 +58,11 @@ function* categoriesDeleteGetData(action) {
 
 function* categoriesUpdateGetData(action) {
   try {
-    const { token, locale, item, text, tags, keywords } = action.payload
+    const { token, locale, item, text, tags, keywords, lastUpdated } = action.payload
     yield put(showLoading())
-    const response = yield call(api[action.type], { token, locale, item, text, tags, keywords })
+    // should be also in the payload
+    // const { lastUpdated } = yield select(makeCategoriesSelectorByLanguage(locale))
+    const response = yield call(api[action.type], { token, locale, item, text, tags, keywords, lastUpdated })
     yield put(categoriesUpdate.success(response))
   } catch (error) {
     yield put(categoriesUpdate.failure(error.message))

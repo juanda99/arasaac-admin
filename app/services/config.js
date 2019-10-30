@@ -32,7 +32,7 @@ export const login = {
 
 export const categories = {
   url: `${PRIVATE_API_ROOT}/categories`,
-  options: (locale, item, text, tags, keywords) => ({
+  options: (locale, item, text, tags, keywords, lastUpdated) => ({
     config: {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -42,6 +42,7 @@ export const categories = {
         text,
         tags,
         keywords,
+        lastUpdated,
       }),
     },
   }),

@@ -162,6 +162,8 @@ const components = {
 class IntegrationReactSelect extends React.Component {
   handleChange = values => {
     const { onChange } = this.props.input
+    // fix if removing last tag:
+    if (!values) onChange([])
     const keyValues = values.map(value => value.value)
     onChange(keyValues)
   }

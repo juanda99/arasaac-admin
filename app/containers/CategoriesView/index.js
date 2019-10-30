@@ -92,27 +92,27 @@ class CategoriesView extends React.Component {
   }
 
   handleAdd = (data, parentItem) => {
-    const { locale, requestCategoriesAdd, token } = this.props
+    const { locale, requestCategoriesAdd, token, lastUpdated } = this.props
     if (!data.keywords) data.keywords = []
     if (!data.tags) data.tags = []
     this.setState({ openForm: '' })
-    requestCategoriesAdd(token, locale, parentItem, data)
+    requestCategoriesAdd(token, locale, parentItem, data, lastUpdated)
   }
 
   handleEdit = item => this.setState({ openForm: item, targetItem: item, action: 'edit' })
 
   handleUpdate = (data, item) => {
-    const { locale, requestCategoriesUpdate, token } = this.props
+    const { locale, requestCategoriesUpdate, token, lastUpdated } = this.props
     const { text, tags, keywords } = data
-    requestCategoriesUpdate(token, locale, item, text, tags, keywords)
+    requestCategoriesUpdate(token, locale, item, text, tags, keywords, lastUpdated)
   }
 
   handleBeforeDelete = targetItem => this.setState({ confirmationBoxOpen: true, targetItem, action: 'delete' })
 
   handleDelete = (item, accept) => {
     this.setState({ confirmationBoxOpen: false })
-    const { locale, requestCategoriesDelete, token } = this.props
-    if (accept) requestCategoriesDelete(token, locale, item)
+    const { locale, requestCategoriesDelete, token, lastUpdated } = this.props
+    if (accept) requestCategoriesDelete(token, locale, item, lastUpdated)
   }
 
   render() {
@@ -185,14 +185,14 @@ const mapDispatchToProps = dispatch => ({
   requestCategories: (locale, lastUpdated, token) => {
     dispatch(categories.request(locale, lastUpdated, token))
   },
-  requestCategoriesUpdate: (token, locale, item, text, tags, keywords) => {
-    dispatch(categoriesUpdate.request(token, locale, item, text, tags, keywords))
+  requestCategoriesUpdate: (token, locale, item, text, tags, keywords, lastUpdated) => {
+    dispatch(categoriesUpdate.request(token, locale, item, text, tags, keywords, lastUpdated))
   },
-  requestCategoriesDelete: (token, locale, item) => {
-    dispatch(categoriesDelete.request(token, locale, item))
+  requestCategoriesDelete: (token, locale, item, lastUpdated) => {
+    dispatch(categoriesDelete.request(token, locale, item, lastUpdated))
   },
-  requestCategoriesAdd: (token, locale, parentItem, data) => {
-    dispatch(categoriesAdd.request(token, locale, parentItem, data))
+  requestCategoriesAdd: (token, locale, parentItem, data, lastUpdated) => {
+    dispatch(categoriesAdd.request(token, locale, parentItem, data, lastUpdated))
   },
   requestRemoveError: () => dispatch(removeError()),
 })

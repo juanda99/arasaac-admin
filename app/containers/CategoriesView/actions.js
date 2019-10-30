@@ -13,20 +13,22 @@ export const categories = {
 }
 
 export const categoriesUpdate = {
-  request: (token, locale, item, text, tags, keywords) =>
-    action(CATEGORIES_UPDATE.REQUEST, { token, locale, item, text, tags, keywords }),
+  request: (token, locale, item, text, tags, keywords, lastUpdated) =>
+    action(CATEGORIES_UPDATE.REQUEST, { token, locale, item, text, tags, keywords, lastUpdated }),
   success: data => action(CATEGORIES_UPDATE.SUCCESS, { data }),
   failure: error => action(CATEGORIES_UPDATE.FAILURE, { error }),
 }
 
 export const categoriesAdd = {
-  request: (token, locale, parentItem, data) => action(CATEGORIES_ADD.REQUEST, { token, locale, parentItem, data }),
+  request: (token, locale, parentItem, data, lastUpdated) =>
+    action(CATEGORIES_ADD.REQUEST, { token, locale, parentItem, data, lastUpdated }),
   success: data => action(CATEGORIES_ADD.SUCCESS, { data }),
   failure: error => action(CATEGORIES_ADD.FAILURE, { error }),
 }
 
 export const categoriesDelete = {
-  request: (token, locale, item) => action(CATEGORIES_DELETE.REQUEST, { token, locale, item }),
+  request: (token, locale, item, lastUpdated) =>
+    action(CATEGORIES_DELETE.REQUEST, { token, locale, item, lastUpdated }),
   success: data => action(CATEGORIES_DELETE.SUCCESS, { data }),
   failure: error => action(CATEGORIES_DELETE.FAILURE, { error }),
 }
