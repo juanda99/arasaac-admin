@@ -21,7 +21,7 @@ const SvgPreview = ({ file, onDelete }) => {
   return (
     <Paper
       square
-      style={{ padding: '30px', position: 'relative' }}
+      style={{ padding: '30px', position: 'relative', width: '100%' }}
       elevation={elevation}
       onMouseEnter={() => {
         setElevation(3)
