@@ -41,20 +41,34 @@ const WhenFieldChanges = ({ field, set, values, index, locale }) => (
           <OnBlur name={field}>
             {() => {
               const { keyword, type } = values.keywords[index]
-              console.log(keyword, '--keyword---')
-              console.log(type, '--type---')
               if (!keyword) return
-              if (!type) {
-                const endPoint = `https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=dict.1.1.20190920T104929Z.2bfd4c00cbc5e87e.d3baecf50951cb94e3834ffee05d92801894da49&lang=${locale}-${locale}&text=${keyword}`
-                console.log(endPoint)
-                fetch(endPoint)
-                  .then(data => data.json())
-                  .then(data => {
-                    const type = data && data.def && data.def[0] && data.def[0].pos
-                    console.log(`Type: ${type}`)
-                    onChange(type)
-                  })
-              }
+              const endPoint = `https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=dict.1.1.20190920T104929Z.2bfd4c00cbc5e87e.d3baecf50951cb94e3834ffee05d92801894da49&lang=${locale}-${locale}&text=${keyword}`
+              fetch(endPoint)
+                .then(data => data.json())
+                .then(data => {
+                  const currentType = data && data.def && data.def[0] && data.def[0].pos
+                  let valueType = ''
+                  /* 1 properName, 2 commonName, 3 verb, 4 descriptive, 5 socialContent, 6 miscellaneous */
+                  if (currentType) {
+                    switch (currentType) {
+                      case 'verb':
+                        valueType = 3
+                        break
+                      case 'noun':
+                        valueType = 2
+                        break
+                      case 'adjective':
+                      case 'adverb':
+                        valueType = 4
+                        break
+                      default:
+                      // code block
+                    }
+                    onChange(valueType)
+                  }
+                  /* else, we ask our own data */
+                  console.log(currentType, '??????')
+                })
             }}
           </OnBlur>
         )}
@@ -88,11 +102,6 @@ const DatePickerWrapper = props => {
 
 const TagsInputWrapper = props => <Autosuggest {...props} suggestions={suggestions} />
 let suggestions = []
-
-const make_ajax_request = () => {
-  console.log('ajax executed')
-  return 'kkkkk'
-}
 
 const CategoriesSelectorWrapper = props => <CategoriesSelector {...props} />
 
@@ -145,15 +154,6 @@ export class PictogramForm extends Component {
   handleSubmit = values => this.props.onSubmit(values)
 
   toggleSuggestions = () => this.setState(prevState => ({ showSuggestions: !prevState.showSuggestions }))
-
-  handleDateChange = date => {
-    console.log(date)
-    return null
-  }
-
-  handleChangeLanguage = value => {
-    console.log(value)
-  }
 
   render() {
     const { data, classes, categories, intl, locale } = this.props
@@ -215,7 +215,7 @@ export class PictogramForm extends Component {
                           <Field
                             fullWidth
                             name={`${keyword}.keyword`}
-                            label="keyword"
+                            label={<FormattedMessage {...messages.word} />}
                             component={TextField}
                             type="text"
                           />
@@ -249,13 +249,28 @@ export class PictogramForm extends Component {
                           <Field
                             fullWidth
                             name={`${keyword}.plural`}
-                            label="plural"
+                            label={<FormattedMessage {...messages.plural} />}
                             component={TextField}
                             type="text"
                           />
                         </div>
                         <div style={{ width: '200px', marginRight: '10px' }}>
-                          <Field fullWidth name={`${keyword}.type`} label="id" component={TextField} type="text" />
+                          <Field
+                            fullWidth
+                            style={{ minWidth: '200px' }}
+                            name={`${keyword}.type`}
+                            label={<FormattedMessage {...messages.type} />}
+                            component={Select}
+                            type="text"
+                          >
+                            <MenuItem value="" />
+                            <MenuItem value="1">{<FormattedMessage {...messages.properName} />}</MenuItem>
+                            <MenuItem value="2">{<FormattedMessage {...messages.commonName} />}</MenuItem>
+                            <MenuItem value="3">{<FormattedMessage {...messages.verb} />}</MenuItem>
+                            <MenuItem value="4">{<FormattedMessage {...messages.descriptive} />}</MenuItem>
+                            <MenuItem value="5">{<FormattedMessage {...messages.socialContent} />}</MenuItem>
+                            <MenuItem value="6">{<FormattedMessage {...messages.miscellaneous} />}</MenuItem>
+                          </Field>
                         </div>
                         <div>
                           <Fab
@@ -326,7 +341,7 @@ export class PictogramForm extends Component {
                   style={{ marginRight: '15px' }}
                   component={DatePickerWrapper}
                   margin="normal"
-                  label="Fecha de creación"
+                  label={<FormattedMessage {...messages.creationDate} />}
                 />
 
                 <Field
@@ -334,7 +349,7 @@ export class PictogramForm extends Component {
                   disabled
                   component={DatePickerWrapper}
                   margin="normal"
-                  label="Fecha de actualización"
+                  label={<FormattedMessage {...messages.updateDate} />}
                 />
               </div>
 
@@ -342,16 +357,11 @@ export class PictogramForm extends Component {
                 <h2>
                   <FormattedMessage {...messages.categories} />
                 </h2>
-                <Field
-                  name="tags"
-                  component={CategoriesSelectorWrapper}
-                  label="Estado del pictograma"
-                  categories={categories}
-                />
+                <Field name="tags" component={CategoriesSelectorWrapper} categories={categories} />
               </div>
 
               <div style={{ marginTop: 30 }}>
-                <h2>Filtros</h2>
+                <h2>{<FormattedMessage {...messages.filters} />}</h2>
                 <div style={{ display: 'flex' }}>
                   <FormControlLabel
                     label={<FormattedMessage {...messages.schematic} />}
