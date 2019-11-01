@@ -39,6 +39,8 @@ class PictogramView extends React.PureComponent {
     // pictogram data in that language
   }
 
+  handleSubmit = values => console.log(values)
+
   render() {
     const { selectedPictogram, locale, classes, tags } = this.props
     // console.log(`Selected pictogram: ${selectedPictogram}`)
@@ -47,7 +49,13 @@ class PictogramView extends React.PureComponent {
       <View>
         <div className={classes.wrapper}>
           <Pictogram pictogram={selectedPictogram} locale={locale} />
-          <PictogramForm data={selectedPictogram} categories={categoriesData} locale={locale} tags={tags} />
+          <PictogramForm
+            data={selectedPictogram}
+            categories={categoriesData}
+            locale={locale}
+            tags={tags}
+            onSubmit={this.handleSubmit}
+          />
         </div>
       </View>
     )

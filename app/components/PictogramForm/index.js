@@ -7,11 +7,12 @@ import Divider from '@material-ui/core/Divider'
 import AddIcon from '@material-ui/icons/Add'
 import DeleteIcon from '@material-ui/icons/Delete'
 import Button from '@material-ui/core/Button'
-import { Form, Field } from 'react-final-form'
+import { Form, Field, FormSpy } from 'react-final-form'
 import arrayMutators from 'final-form-arrays'
 import { FieldArray } from 'react-final-form-arrays'
 import { OnBlur } from 'react-final-form-listeners'
 import { TextField, Select, Checkbox } from 'final-form-material-ui'
+import AutoSave from 'components/AutoSave'
 import Autosuggest from 'components/Autosuggest'
 import { languages } from 'utils/index'
 import CategoriesSelector from 'components/CategoriesSelector'
@@ -28,6 +29,39 @@ import styles from './styles'
 import messages from './messages'
 
 // import { styles } from 'material-ui-pickers/DatePicker/DatePicker'
+
+const WhenFieldChanges = ({ field, set, values, index, locale }) => (
+  <Field name={set}>
+    {(
+      // No subscription. We only use Field to get to the change function
+      { input: { onChange } },
+    ) => (
+      <FormSpy subscription={{}}>
+        {({ form }) => (
+          <OnBlur name={field}>
+            {() => {
+              const { keyword, type } = values.keywords[index]
+              console.log(keyword, '--keyword---')
+              console.log(type, '--type---')
+              if (!keyword) return
+              if (!type) {
+                const endPoint = `https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=dict.1.1.20190920T104929Z.2bfd4c00cbc5e87e.d3baecf50951cb94e3834ffee05d92801894da49&lang=${locale}-${locale}&text=${keyword}`
+                console.log(endPoint)
+                fetch(endPoint)
+                  .then(data => data.json())
+                  .then(data => {
+                    const type = data && data.def && data.def[0] && data.def[0].pos
+                    console.log(`Type: ${type}`)
+                    onChange(type)
+                  })
+              }
+            }}
+          </OnBlur>
+        )}
+      </FormSpy>
+    )}
+  </Field>
+)
 
 const ChipInputWrapper = props => <ChipInput {...props} text="tag" value="key" />
 const DatePickerWrapper = props => {
@@ -108,10 +142,7 @@ export class PictogramForm extends Component {
     this.forceUpdate()
   }
 
-  handleSubmit = values => {
-    const { item, onSubmit } = this.props
-    onSubmit(values, item)
-  }
+  handleSubmit = values => this.props.onSubmit(values)
 
   toggleSuggestions = () => this.setState(prevState => ({ showSuggestions: !prevState.showSuggestions }))
 
@@ -147,6 +178,7 @@ export class PictogramForm extends Component {
             values,
           }) => (
             <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+              <AutoSave debounce={1000} save={handleSubmit} />
               <div style={{ marginTop: 30 }}>
                 <h2>
                   <FormattedMessage {...messages.pictogramData} />
@@ -185,11 +217,17 @@ export class PictogramForm extends Component {
                             name={`${keyword}.keyword`}
                             label="keyword"
                             component={TextField}
-                            onBlur={() => console.log('blur event!!!')}
                             type="text"
                           />
                         </div>
-                        <OnBlur name={`${keyword}.keyword`}>
+                        <WhenFieldChanges
+                          field={`${keyword}.keyword`}
+                          set={`${keyword}.type`}
+                          values={values}
+                          index={index}
+                          locale={locale}
+                        />
+                        {/* <OnBlur name={`${keyword}.keyword`}>
                           {() => {
                             const keyword = values.keywords[index] && values.keywords[index].keyword
                             if (!keyword) return
@@ -206,7 +244,7 @@ export class PictogramForm extends Component {
                                 })
                             }
                           }}
-                        </OnBlur>
+                        </OnBlur> */}
                         <div style={{ width: '200px', marginRight: '10px' }}>
                           <Field
                             fullWidth
@@ -346,22 +384,6 @@ export class PictogramForm extends Component {
                 <div style={{ maxWidth: '400px' }}>
                   <Field name="synsets" component={ChipInputWrapper} />
                 </div>
-              </div>
-
-              <div style={{ marginTop: 16, display: 'flex', flexDirection: 'row-reverse' }}>
-                <Button
-                  style={{ marginLeft: '15px' }}
-                  variant="contained"
-                  color="primary"
-                  type="submit"
-                  disabled={submitting || pristine}
-                >
-                  <FormattedMessage {...messages.save} />
-                </Button>
-
-                <Button variant="contained" color="secondary" type="submit">
-                  <FormattedMessage {...messages.cancel} />
-                </Button>
               </div>
               <pre>{JSON.stringify(values, 0, 2)}</pre>
             </form>
