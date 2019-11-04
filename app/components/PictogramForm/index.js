@@ -24,6 +24,7 @@ import { DatePicker } from 'material-ui-pickers'
 import { injectIntl, FormattedMessage } from 'react-intl'
 import langMessages from 'components/LanguageSelector/messages'
 import tagLabels from 'components/CategoryForm/tagsMessages'
+import api from 'services'
 
 import styles from './styles'
 import messages from './messages'
@@ -41,6 +42,7 @@ const WhenFieldChanges = ({ field, set, values, index, locale }) => (
           <OnBlur name={field}>
             {() => {
               const { keyword, type } = values.keywords[index]
+              const { idPictogram } = values
               if (!keyword) return
               const endPoint = `https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=dict.1.1.20190920T104929Z.2bfd4c00cbc5e87e.d3baecf50951cb94e3834ffee05d92801894da49&lang=${locale}-${locale}&text=${keyword}`
               fetch(endPoint)
@@ -64,10 +66,15 @@ const WhenFieldChanges = ({ field, set, values, index, locale }) => (
                       default:
                       // code block
                     }
-                    onChange(valueType)
+                    if (valueType) onChange(valueType)
+                    else if (!type && locale !== 'es') {
+                      api.PICTOGRAM_TYPE_REQUEST(idPictogram).then(data => {
+                        if (data.types && data.types.length === 1) {
+                          onChange(data.types[0])
+                        }
+                      })
+                    }
                   }
-                  /* else, we ask our own data */
-                  console.log(currentType, '??????')
                 })
             }}
           </OnBlur>
