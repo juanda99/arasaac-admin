@@ -32,11 +32,14 @@ export const keywordSelector = (searchText, keywords) => {
   const searchTextArray = searchText.split(' ')
   if (!searchTextArray.length) return keywords[0] || ''
   // if same keyword exists, return it
-  const keyword = keywords.find(keywordsItem => keywordsItem.keyword.toLowerCase() === searchText.toLowerCase())
-  if (keyword) return keyword || ''
+  const keyword = keywords.find(
+    keywordsItem => keywordsItem.keyword && keywordsItem.keyword.toLowerCase() === searchText.toLowerCase(),
+  )
+  if (keyword) return keyword
   // otherwise, return first partial match or fist keyword if no matches
   return (
     keywords.find(keywordsItem => {
+      if (!keywords.keyword) return false
       const keywordArray = keywordsItem.keyword.split(' ').map(keyword => keyword.toLowerCase())
       return searchTextArray.some(word => keywordArray.includes(word.toLowerCase()))
     }) ||
