@@ -4,21 +4,22 @@ import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 import withWidth from '@material-ui/core/withWidth'
 import { compose } from 'redux'
-// import injectReducer from 'utils/injectReducer'
+import injectReducer from 'utils/injectReducer'
 import injectSaga from 'utils/injectSaga'
 import { makeSelectHasUser } from 'containers/UsersView/selectors'
 import { makeSelectLocale } from 'containers/LanguageProvider/selectors'
 import View from 'components/View'
 import Pictogram from 'components/Pictogram'
 import PictogramForm from 'components/PictogramForm'
-// import reducer from 'containers/PictogramsView/reducer'
-import saga from 'containers/PictogramsView/sagas'
+import reducer from 'containers/PictogramsView/reducer'
 import { categories } from 'containers/CategoriesView/actions'
+import { DAEMON } from 'utils/constants'
 import {
   makeCategoriesSelectorByLocale,
   makeTagsSelectorByLocale,
   makeLastUpdatedSelectorByLocale,
 } from 'containers/CategoriesView/selectors'
+import saga from './sagas'
 import styles from './styles'
 import { makeLoadingSelector, makeSelectIdPictogram, makePictogramByIdSelector } from '../PictogramsView/selectors'
 import { pictogram } from './actions'
@@ -27,11 +28,15 @@ import { pictogram } from './actions'
 
 class PictogramView extends React.PureComponent {
   componentDidMount() {
-    const { requestPictogram, idPictogram, locale, selectedPictogram } = this.props
+    const { requestPictogram, idPictogram, locale, selectedPictogram, lastUpdatedCategories } = this.props
     /* if pictogram is already in the state we don't request it: */
+    console.log('getting Pictogram.2...')
     if (!selectedPictogram) {
+      console.log('getting Pictogram....')
       requestPictogram(idPictogram, locale)
     }
+    // we get Categories....
+    this.props.requestCategories(locale, lastUpdatedCategories)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -48,14 +53,18 @@ class PictogramView extends React.PureComponent {
     return (
       <View>
         <div className={classes.wrapper}>
-          <Pictogram pictogram={selectedPictogram} locale={locale} />
-          <PictogramForm
-            data={selectedPictogram}
-            categories={categoriesData}
-            locale={locale}
-            tags={tags}
-            onSubmit={this.handleSubmit}
-          />
+          {selectedPictogram && (
+            <div>
+              <Pictogram pictogram={selectedPictogram} locale={locale} />
+              <PictogramForm
+                data={selectedPictogram}
+                categories={categoriesData}
+                locale={locale}
+                tags={tags}
+                onSubmit={this.handleSubmit}
+              />
+            </div>
+          )}
         </div>
       </View>
     )
@@ -101,14 +110,14 @@ const withConnect = connect(
   mapStateToProps,
   mapDispatchToProps,
 )
-// const withReducer = injectReducer({ key: 'pictogramsView', reducer }) // key is the part of the state?
-const withSaga = injectSaga({ key: 'pictogramView', saga }) // key is y   our component
+const withReducer = injectReducer({ key: 'pictogramsView', reducer }) // key is the part of the state?
+const withSaga = injectSaga({ key: 'pictogramView', saga, DAEMON }) // key is your component
 
 // const withCategoriesReducer = injectReducer({ key: 'categoriesView', categoriesReducer }) // key is the part of the state?
 //  const withCategoriesSaga = injectSaga({ key: 'categoriesView', categoriesSaga }) // key is your component
 
 export default compose(
-  // withReducer,
+  withReducer,
   withSaga,
   withConnect,
 )(withStyles(styles, { withTheme: true })(withWidth()(PictogramView)))

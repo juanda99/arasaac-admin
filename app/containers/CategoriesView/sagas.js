@@ -1,9 +1,7 @@
-import { take, select, takeLatest, call, put, cancel, all } from 'redux-saga/effects'
+import { take, call, put, all } from 'redux-saga/effects'
 import { LOCATION_CHANGE } from 'react-router-redux'
 import { showLoading, hideLoading } from 'react-redux-loading-bar'
-import jp from 'jsonpath'
 import api from 'services'
-import { removeKeys } from 'utils'
 import {
   CATEGORIES,
   CATEGORIES_UPDATE,

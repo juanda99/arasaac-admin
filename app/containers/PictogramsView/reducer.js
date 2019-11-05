@@ -58,7 +58,7 @@ const pictogramsViewReducer = (state = initialState, action) => {
     case PICTOGRAM.SUCCESS:
       newPictogram = action.payload.data || {}
       idPictogram = action.payload.data.idPictogram.toString()
-      return state.set('loading', false).setIn(['pictograms', action.payload.locale, idPictogram], newPictogram)
+      return state.set('loading', false).setIn([action.payload.locale, 'pictograms', idPictogram], newPictogram)
     case PICTOGRAM.FAILURE:
     case PICTOGRAMS.FAILURE:
     case NEW_PICTOGRAMS.FAILURE:

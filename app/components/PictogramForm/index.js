@@ -10,7 +10,7 @@ import Button from '@material-ui/core/Button'
 import { Form, Field, FormSpy } from 'react-final-form'
 import arrayMutators from 'final-form-arrays'
 import { FieldArray } from 'react-final-form-arrays'
-import { OnBlur } from 'react-final-form-listeners'
+import { OnBlur, OnChange } from 'react-final-form-listeners'
 import { TextField, Select, Checkbox } from 'final-form-material-ui'
 import AutoSave from 'components/AutoSave'
 import Autosuggest from 'components/Autosuggest'
@@ -172,6 +172,13 @@ export class PictogramForm extends Component {
           onSubmit={this.handleSubmit}
           mutators={{
             ...arrayMutators,
+            tags: (args, state, utils) => {
+              console.log('*************')
+              console.log(args)
+              console.log(state)
+              console.log(utils)
+              console.log('-------------')
+            }, // utils.changeValue(state, 'key', () => state.lastFormState.values.text),
           }}
           initialValues={data}
           render={({
@@ -234,24 +241,6 @@ export class PictogramForm extends Component {
                           index={index}
                           locale={locale}
                         />
-                        {/* <OnBlur name={`${keyword}.keyword`}>
-                          {() => {
-                            const keyword = values.keywords[index] && values.keywords[index].keyword
-                            if (!keyword) return
-                            const keywordType = values.keywords[index].type
-                            if (!keywordType) {
-                              const endPoint = `https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=dict.1.1.20190920T104929Z.2bfd4c00cbc5e87e.d3baecf50951cb94e3834ffee05d92801894da49&lang=${locale}-${locale}&text=${keyword}`
-                              console.log(endPoint)
-                              fetch(endPoint)
-                                .then(data => data.json())
-                                .then(data => {
-                                  const type = data && data.def && data.def[0] && data.def[0].pos
-                                  console.log(`Type: ${type}`)
-                                  if (type) values.keywords[index].type = type
-                                })
-                            }
-                          }}
-                        </OnBlur> */}
                         <div style={{ width: '200px', marginRight: '10px' }}>
                           <Field
                             fullWidth
@@ -364,8 +353,10 @@ export class PictogramForm extends Component {
                 <h2>
                   <FormattedMessage {...messages.categories} />
                 </h2>
-                <Field name="tags" component={CategoriesSelectorWrapper} categories={categories} />
+                <Field name="categories" component={CategoriesSelectorWrapper} categories={categories} />
               </div>
+
+              <OnChange name="categories">{value => form.mutators.getTags(value)}</OnChange>
 
               <div style={{ marginTop: 30 }}>
                 <h2>{<FormattedMessage {...messages.filters} />}</h2>
