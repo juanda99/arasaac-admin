@@ -21,6 +21,13 @@ class CategoriesSelector extends PureComponent {
     this.setState({ treeData: categoriesToArray(cloneCategories) })
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.categories !== this.props.categories) {
+      const cloneCategories = JSON.parse(JSON.stringify(nextProps.categories))
+      this.setState({ treeData: categoriesToArray(cloneCategories) })
+    }
+  }
+
   state = {
     treeData: [],
   }

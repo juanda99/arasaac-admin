@@ -30,9 +30,7 @@ class PictogramView extends React.PureComponent {
   componentDidMount() {
     const { requestPictogram, idPictogram, locale, selectedPictogram, lastUpdatedCategories } = this.props
     /* if pictogram is already in the state we don't request it: */
-    console.log('getting Pictogram.2...')
     if (!selectedPictogram) {
-      console.log('getting Pictogram....')
       requestPictogram(idPictogram, locale)
     }
     // we get Categories....
@@ -44,6 +42,10 @@ class PictogramView extends React.PureComponent {
     // pictogram data in that language
   }
 
+  componentWillReceiveProps(nextProps) {
+    // we should rewrite url
+  }
+
   handleSubmit = values => console.log(values)
 
   render() {
@@ -52,20 +54,18 @@ class PictogramView extends React.PureComponent {
     const categoriesData = this.props.categories.data || {}
     return (
       <View>
-        <div className={classes.wrapper}>
-          {selectedPictogram && (
-            <div>
-              <Pictogram pictogram={selectedPictogram} locale={locale} />
-              <PictogramForm
-                data={selectedPictogram}
-                categories={categoriesData}
-                locale={locale}
-                tags={tags}
-                onSubmit={this.handleSubmit}
-              />
-            </div>
-          )}
-        </div>
+        {selectedPictogram && (
+          <div className={classes.wrapper}>
+            <Pictogram pictogram={selectedPictogram} locale={locale} />
+            <PictogramForm
+              data={selectedPictogram}
+              categories={categoriesData}
+              locale={locale}
+              tags={tags}
+              onSubmit={this.handleSubmit}
+            />
+          </div>
+        )}
       </View>
     )
   }

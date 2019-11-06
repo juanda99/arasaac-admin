@@ -172,7 +172,7 @@ export class PictogramForm extends Component {
           onSubmit={this.handleSubmit}
           mutators={{
             ...arrayMutators,
-            tags: (args, state, utils) => {
+            getTags: (args, state, utils) => {
               console.log('*************')
               console.log(args)
               console.log(state)
@@ -199,7 +199,7 @@ export class PictogramForm extends Component {
                 </h2>
                 <Divider />
               </div>
-
+              {console.log('renderForm!!!')}
               <div style={{ marginTop: 30 }}>
                 <div style={{ display: 'flex' }}>
                   <h2>
@@ -393,7 +393,7 @@ export class PictogramForm extends Component {
                   <Field name="synsets" component={ChipInputWrapper} />
                 </div>
               </div>
-              <pre>{JSON.stringify(values, 0, 2)}</pre>
+              {/* <pre>{JSON.stringify(values, 0, 2)}</pre> */}
             </form>
           )}
         />
