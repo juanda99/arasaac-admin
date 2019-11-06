@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { injectIntl, FormattedMessage } from 'react-intl'
 import { withStyles } from '@material-ui/core/styles'
 import withWidth from '@material-ui/core/withWidth'
 import { compose } from 'redux'
@@ -19,6 +20,7 @@ import {
   makeTagsSelectorByLocale,
   makeLastUpdatedSelectorByLocale,
 } from 'containers/CategoriesView/selectors'
+import tagLabels from 'components/CategoryForm/tagsMessages'
 import saga from './sagas'
 import styles from './styles'
 import { makeLoadingSelector, makeSelectIdPictogram, makePictogramByIdSelector } from '../PictogramsView/selectors'
@@ -46,12 +48,26 @@ class PictogramView extends React.PureComponent {
     // we should rewrite url
   }
 
-  handleSubmit = values => console.log(values)
+  handleSubmit = values => '' // console.log(values)
 
   render() {
-    const { selectedPictogram, locale, classes, tags } = this.props
+    const { selectedPictogram, locale, classes, tags, intl } = this.props
+    const { formatMessage } = intl
     // console.log(`Selected pictogram: ${selectedPictogram}`)
     const categoriesData = this.props.categories.data || {}
+    const suggestions = tags.map(tag => ({ label: formatMessage(tagLabels[tag]), value: tag })).sort(
+      (a, b) =>
+        a.label
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '') >
+        b.label
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          ? 1
+          : -1,
+    )
     return (
       <View>
         {selectedPictogram && (
@@ -61,7 +77,7 @@ class PictogramView extends React.PureComponent {
               data={selectedPictogram}
               categories={categoriesData}
               locale={locale}
-              tags={tags}
+              tags={suggestions}
               onSubmit={this.handleSubmit}
             />
           </div>
@@ -120,4 +136,4 @@ export default compose(
   withReducer,
   withSaga,
   withConnect,
-)(withStyles(styles, { withTheme: true })(withWidth()(PictogramView)))
+)(withStyles(styles, { withTheme: true })(withWidth()(injectIntl(PictogramView))))

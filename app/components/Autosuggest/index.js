@@ -172,6 +172,8 @@ class IntegrationReactSelect extends React.Component {
 
   render() {
     const { classes, theme, suggestions, disabled } = this.props
+    console.log('render again!!!!')
+    console.log('sug', suggestions)
     const { value } = this.props.input
     // const arrayValues = suggestions.filter(suggestion => value.some(item => item === suggestion.value))
     const arrayValues = Array.isArray(value)
@@ -218,7 +220,7 @@ IntegrationReactSelect.propTypes = {
       label: PropTypes.string.isRequired,
       value: PropTypes.string.isRequired,
     }).isRequired,
-  ),
+  ).isRequired,
   disabled: PropTypes.bool.isRequired,
 }
 

@@ -12,6 +12,7 @@ import arrayMutators from 'final-form-arrays'
 import { FieldArray } from 'react-final-form-arrays'
 import { OnBlur, OnChange } from 'react-final-form-listeners'
 import { TextField, Select, Checkbox } from 'final-form-material-ui'
+import jp from 'jsonpath'
 import AutoSave from 'components/AutoSave'
 import Autosuggest from 'components/Autosuggest'
 import { languages } from 'utils/index'
@@ -107,8 +108,7 @@ const DatePickerWrapper = props => {
   )
 }
 
-const TagsInputWrapper = props => <Autosuggest {...props} suggestions={suggestions} />
-let suggestions = []
+const TagsInputWrapper = props => <Autosuggest {...props} />
 
 const CategoriesSelectorWrapper = props => <CategoriesSelector {...props} />
 
@@ -136,26 +136,26 @@ export class PictogramForm extends Component {
   componentDidMount() {
     const { tags, intl } = this.props
     const { formatMessage } = intl
-    suggestions = tags.map(tag => ({ label: formatMessage(tagLabels[tag]), value: tag })).sort(
-      (a, b) =>
-        a.label
-          .toLowerCase()
-          .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, '') >
-        b.label
-          .toLowerCase()
-          .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, '')
-          ? 1
-          : -1,
-    )
+    // suggestions = tags.map(tag => ({ label: formatMessage(tagLabels[tag]), value: tag })).sort(
+    //   (a, b) =>
+    //     a.label
+    //       .toLowerCase()
+    //       .normalize('NFD')
+    //       .replace(/[\u0300-\u036f]/g, '') >
+    //     b.label
+    //       .toLowerCase()
+    //       .normalize('NFD')
+    //       .replace(/[\u0300-\u036f]/g, '')
+    //       ? 1
+    //       : -1,
+    // )
     // console.log(suggestions)
     // fix: first time open form, suggestions are loaded after render
     // suggestions = tags.map(tag => {
     //   console.log(tag)
     //   return { label: formatMessage(tagLabels[tag]), value: tag }
     // })
-    this.forceUpdate()
+    // this.forceUpdate()
   }
 
   handleSubmit = values => this.props.onSubmit(values)
@@ -163,21 +163,19 @@ export class PictogramForm extends Component {
   toggleSuggestions = () => this.setState(prevState => ({ showSuggestions: !prevState.showSuggestions }))
 
   render() {
-    const { data, classes, categories, intl, locale } = this.props
+    const { data, classes, categories, intl, locale, tags } = this.props
     const { formatMessage } = intl
     const { showSuggestions, language } = this.state
+    console.log('Render tags:', tags)
     return (
       <div className={classes.form}>
         <Form
           onSubmit={this.handleSubmit}
           mutators={{
             ...arrayMutators,
-            getTags: (args, state, utils) => {
-              console.log('*************')
-              console.log(args)
-              console.log(state)
-              console.log(utils)
-              console.log('-------------')
+            putTags: (tags, state, utils) => {
+              const newTags = [...state.lastFormState.values.tags, ...tags]
+              console.log('newTAgs:', newTags)
             }, // utils.changeValue(state, 'key', () => state.lastFormState.values.text),
           }}
           initialValues={data}
@@ -199,7 +197,6 @@ export class PictogramForm extends Component {
                 </h2>
                 <Divider />
               </div>
-              {console.log('renderForm!!!')}
               <div style={{ marginTop: 30 }}>
                 <div style={{ display: 'flex' }}>
                   <h2>
@@ -356,7 +353,20 @@ export class PictogramForm extends Component {
                 <Field name="categories" component={CategoriesSelectorWrapper} categories={categories} />
               </div>
 
-              <OnChange name="categories">{value => form.mutators.getTags(value)}</OnChange>
+              <OnChange name="categories">
+                {(value, previous) => {
+                  // we only add tags
+                  console.log('value', value)
+                  if (value.length > previous.length) {
+                    const item = value.filter(x => !previous.includes(x))[0]
+                    console.log('search item:', item)
+                    const path = jp.paths(categories, `$..["${item}"]`)[0]
+                    console.log('path', path)
+                    const { tags } = jp.value(categories, path)
+                    if (tags) form.mutators.putTags(tags)
+                  }
+                }}
+              </OnChange>
 
               <div style={{ marginTop: 30 }}>
                 <h2>{<FormattedMessage {...messages.filters} />}</h2>
@@ -381,7 +391,7 @@ export class PictogramForm extends Component {
                   <FormattedMessage {...messages.tags} />
                 </h2>
                 <div style={{ maxWidth: '400px' }}>
-                  <Field name="tags" component={TagsInputWrapper} />
+                  <Field name="tags" component={TagsInputWrapper} sugggestions={tags} />
                 </div>
               </div>
 
@@ -393,7 +403,7 @@ export class PictogramForm extends Component {
                   <Field name="synsets" component={ChipInputWrapper} />
                 </div>
               </div>
-              {/* <pre>{JSON.stringify(values, 0, 2)}</pre> */}
+              <pre>{JSON.stringify(values, 0, 2)}</pre>
             </form>
           )}
         />
