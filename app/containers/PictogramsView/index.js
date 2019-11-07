@@ -136,25 +136,29 @@ class PictogramsView extends React.PureComponent {
               </>
             ) : (
               <>
-                {pictogramList.length ? (
-                  <>
-                    <SearchToggleBar viewType={viewType} changeViewType={this.handleViewType} />
-                    <PictogramList
-                      pictograms={pictogramList}
-                      locale={locale}
-                      searchText={searchText}
-                      offset={allPictosOffset}
-                      onPageClick={this.handlePageClick}
-                    />
-                  </>
-                ) : (
+                {loading ? (
                   <View>
-                    {loading ? (
-                      <h3> Getting data....</h3>
-                    ) : (
-                      <h3>{<FormattedMessage {...messages.pictogramsNotFound} />}</h3>
-                    )}
+                    <h3> Getting data....</h3>
                   </View>
+                ) : (
+                  <>
+                    {pictogramList.length ? (
+                      <>
+                        <SearchToggleBar viewType={viewType} changeViewType={this.handleViewType} />
+                        <PictogramList
+                          pictograms={pictogramList}
+                          locale={locale}
+                          searchText={searchText}
+                          offset={allPictosOffset}
+                          onPageClick={this.handlePageClick}
+                        />
+                      </>
+                    ) : (
+                      <View>
+                        <h3>{<FormattedMessage {...messages.pictogramsNotFound} />}</h3>
+                      </View>
+                    )}
+                  </>
                 )}
               </>
             )
