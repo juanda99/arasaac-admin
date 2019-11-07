@@ -16,7 +16,6 @@ import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import LocaleSelector from 'containers/LocaleSelector'
 import ThemeSelector from 'containers/ThemeSelector'
-import routes from 'routes/index'
 
 /*
 import FormatTextdirectionLToR from '@material-ui/icons/FormatTextdirectionLToR'
