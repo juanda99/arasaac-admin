@@ -79,7 +79,7 @@ class Header extends Component {
   }
 
   render() {
-    const { classes, locale, isAuthenticated, theme } = this.props
+    const { classes, isAuthenticated } = this.props
     const { loginButton } = this.state
     // TODO: move get title to componentUpdate
     const title = this.getTitle()
@@ -100,8 +100,8 @@ class Header extends Component {
           <Typography variant="h6" color="inherit" className={classes.grow}>
             {title}
           </Typography>
-          {theme && <ThemeSelector />}
-          {locale && <LocaleSelector />}
+          <ThemeSelector />
+          <LocaleSelector />
           {isAuthenticated ? (
             <React.Fragment>
               <Tooltip title={<FormattedMessage {...messages.userMenu} />} enterDelay={300}>
@@ -133,7 +133,6 @@ class Header extends Component {
 Header.propTypes = {
   classes: PropTypes.object.isRequired,
   handleSidebarToggle: PropTypes.func.isRequired,
-  locale: PropTypes.bool,
   isAuthenticated: PropTypes.bool.isRequired,
   logout: PropTypes.func.isRequired,
 }
