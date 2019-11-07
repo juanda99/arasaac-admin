@@ -37,6 +37,7 @@ class PictogramView extends React.PureComponent {
     }
     // we get Categories....
     this.props.requestCategories(locale, lastUpdatedCategories)
+    console.log(this.props)
   }
 
   componentWillReceiveProps(nextProps) {

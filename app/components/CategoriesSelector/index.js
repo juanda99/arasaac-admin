@@ -44,7 +44,6 @@ class CategoriesSelector extends PureComponent {
 
   render() {
     const { treeData } = this.state
-    console.log('treeData', treeData)
     const { value } = this.props.input
     return (
       <TreeSelect

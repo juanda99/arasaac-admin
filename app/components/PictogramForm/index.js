@@ -166,17 +166,19 @@ export class PictogramForm extends Component {
     const { data, classes, categories, intl, locale, tags } = this.props
     const { formatMessage } = intl
     const { showSuggestions, language } = this.state
-    console.log('Render tags:', tags)
     return (
       <div className={classes.form}>
         <Form
           onSubmit={this.handleSubmit}
           mutators={{
             ...arrayMutators,
-            putTags: (tags, state, utils) => {
-              const newTags = [...state.lastFormState.values.tags, ...tags]
+            putTags: (selectedTags, state, utils) => {
+              console.log(selectedTags)
+              console.log(state.lastFormState.values.tags)
+              const newTags = Array.from(new Set([...state.lastFormState.values.tags, ...selectedTags]))
               console.log('newTAgs:', newTags)
-            }, // utils.changeValue(state, 'key', () => state.lastFormState.values.text),
+              utils.changeValue(state, 'tags', () => newTags)
+            },
           }}
           initialValues={data}
           render={({
@@ -356,14 +358,11 @@ export class PictogramForm extends Component {
               <OnChange name="categories">
                 {(value, previous) => {
                   // we only add tags
-                  console.log('value', value)
                   if (value.length > previous.length) {
                     const item = value.filter(x => !previous.includes(x))[0]
-                    console.log('search item:', item)
                     const path = jp.paths(categories, `$..["${item}"]`)[0]
-                    console.log('path', path)
-                    const { tags } = jp.value(categories, path)
-                    if (tags) form.mutators.putTags(tags)
+                    const selectedTags = jp.value(categories, path).tags
+                    form.mutators.putTags(...selectedTags)
                   }
                 }}
               </OnChange>
@@ -390,8 +389,8 @@ export class PictogramForm extends Component {
                 <h2>
                   <FormattedMessage {...messages.tags} />
                 </h2>
-                <div style={{ maxWidth: '400px' }}>
-                  <Field name="tags" component={TagsInputWrapper} sugggestions={tags} />
+                <div>
+                  <Field name="tags" component={TagsInputWrapper} suggestions={tags} style={{ width: '100%' }} />
                 </div>
               </div>
 
@@ -399,7 +398,7 @@ export class PictogramForm extends Component {
                 <h2>
                   <FormattedMessage {...messages.synsets} />
                 </h2>
-                <div style={{ maxWidth: '400px' }}>
+                <div>
                   <Field name="synsets" component={ChipInputWrapper} />
                 </div>
               </div>
