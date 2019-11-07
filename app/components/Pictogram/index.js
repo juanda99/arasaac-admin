@@ -40,6 +40,11 @@ class Pictogram extends PureComponent {
     this.setState({ languageButton: event.currentTarget })
   }
 
+  handleLocaleChange = locale => {
+    this.setState({ languageButton: null })
+    this.props.onChangeKeywordsLocale(locale)
+  }
+
   handleLanguageClose = () => {
     this.setState({ languageButton: null })
   }
@@ -73,10 +78,11 @@ class Pictogram extends PureComponent {
             id={idSelector}
             anchorEl={languageButton}
             value={this.props.locale}
-            onClick={this.props.onChangeKeywordsLocale}
+            onClick={this.handleLocaleChange}
             onClose={this.handleLanguageClose}
           />
-
+          {console.log(keywords.length, 'adfadfdf')}
+          {console.log(keywords)}
           {keywords.length ? (
             <>
               {keywords.map(keyword => {

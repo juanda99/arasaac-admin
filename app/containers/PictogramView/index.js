@@ -40,6 +40,8 @@ class PictogramView extends React.PureComponent {
     api.PICTOGRAM_KEYWORDS_REQUEST({ keywordsHintLocale, idPictogram }).then(data => {
       if (data.keywords && data.keywords.length) {
         this.setState({ keywords: data.keywords, keywordsHintLocale })
+      } else if (!data.keywords || data.keywords.length === 0) {
+        this.setState({ keywords: [], keywordsHintLocale })
       }
     })
   }
