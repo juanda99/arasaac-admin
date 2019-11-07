@@ -6,7 +6,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Divider from '@material-ui/core/Divider'
 import AddIcon from '@material-ui/icons/Add'
 import DeleteIcon from '@material-ui/icons/Delete'
-import Button from '@material-ui/core/Button'
 import { Form, Field, FormSpy } from 'react-final-form'
 import arrayMutators from 'final-form-arrays'
 import { FieldArray } from 'react-final-form-arrays'
@@ -24,7 +23,6 @@ import MenuItem from '@material-ui/core/MenuItem'
 import { DatePicker } from 'material-ui-pickers'
 import { injectIntl, FormattedMessage } from 'react-intl'
 import langMessages from 'components/LanguageSelector/messages'
-import tagLabels from 'components/CategoryForm/tagsMessages'
 import api from 'services'
 
 import styles from './styles'
@@ -129,33 +127,7 @@ export class PictogramForm extends Component {
   }
 
   state = {
-    showSuggestions: false,
     language: localStorage.getItem('referenceLanguage'),
-  }
-
-  componentDidMount() {
-    const { tags, intl } = this.props
-    const { formatMessage } = intl
-    // suggestions = tags.map(tag => ({ label: formatMessage(tagLabels[tag]), value: tag })).sort(
-    //   (a, b) =>
-    //     a.label
-    //       .toLowerCase()
-    //       .normalize('NFD')
-    //       .replace(/[\u0300-\u036f]/g, '') >
-    //     b.label
-    //       .toLowerCase()
-    //       .normalize('NFD')
-    //       .replace(/[\u0300-\u036f]/g, '')
-    //       ? 1
-    //       : -1,
-    // )
-    // console.log(suggestions)
-    // fix: first time open form, suggestions are loaded after render
-    // suggestions = tags.map(tag => {
-    //   console.log(tag)
-    //   return { label: formatMessage(tagLabels[tag]), value: tag }
-    // })
-    // this.forceUpdate()
   }
 
   handleSubmit = values => this.props.onSubmit(values)
@@ -173,10 +145,7 @@ export class PictogramForm extends Component {
           mutators={{
             ...arrayMutators,
             putTags: (selectedTags, state, utils) => {
-              console.log(selectedTags)
-              console.log(state.lastFormState.values.tags)
               const newTags = Array.from(new Set([...state.lastFormState.values.tags, ...selectedTags]))
-              console.log('newTAgs:', newTags)
               utils.changeValue(state, 'tags', () => newTags)
             },
           }}
@@ -292,9 +261,6 @@ export class PictogramForm extends Component {
                     ))
                   }
                 </FieldArray>
-                <Button variant="outlined" color="primary" onClick={this.toggleSuggestions}>
-                  {showSuggestions ? 'Hide Suggestions' : 'Show suggestions'}
-                </Button>
                 {showSuggestions && (
                   <div className={classes.suggestions}>
                     <p>Choose a language to see the translation in another language</p>
@@ -402,7 +368,7 @@ export class PictogramForm extends Component {
                   <Field name="synsets" component={ChipInputWrapper} />
                 </div>
               </div>
-              <pre>{JSON.stringify(values, 0, 2)}</pre>
+              {/* <pre>{JSON.stringify(values, 0, 2)}</pre> */}
             </form>
           )}
         />

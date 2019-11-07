@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { injectIntl, FormattedMessage } from 'react-intl'
+import api from 'services'
 import { withStyles } from '@material-ui/core/styles'
 import withWidth from '@material-ui/core/withWidth'
 import { compose } from 'redux'
@@ -29,30 +30,42 @@ import { pictogram } from './actions'
 /* eslint-disable react/prefer-stateless-function */
 
 class PictogramView extends React.PureComponent {
+  state = {
+    keywordsHintLocale: localStorage.getItem('keywordsHintLocale') || null,
+    keywords: [],
+  }
+
+  getKeywords = keywordsHintLocale => {
+    const { idPictogram } = this.props
+    api.PICTOGRAM_KEYWORDS_REQUEST({ keywordsHintLocale, idPictogram }).then(data => {
+      if (data.keywords && data.keywords.length) {
+        this.setState({ keywords: data.keywords, keywordsHintLocale })
+      }
+    })
+  }
+
   componentDidMount() {
     const { requestPictogram, idPictogram, locale, selectedPictogram, lastUpdatedCategories } = this.props
+    const { keywordsHintLocale } = this.state
     /* if pictogram is already in the state we don't request it: */
     if (!selectedPictogram) {
       requestPictogram(idPictogram, locale)
     }
     // we get Categories....
     this.props.requestCategories(locale, lastUpdatedCategories)
-    console.log(this.props)
+    if (!keywordsHintLocale) {
+      if (locale === 'en' || locale === 'val' || locale === 'gl' || locale === 'ca') this.getKeywords('es')
+      else this.getKeywords('en')
+    }
   }
 
-  componentWillReceiveProps(nextProps) {
-    // we can change origin/target language, so we should get
-    // pictogram data in that language
-  }
-
-  componentWillReceiveProps(nextProps) {
-    // we should rewrite url
-  }
+  handleChangeKeywordsLocale = keywordsHintLocale => this.getKeywords(keywordsHintLocale)
 
   handleSubmit = values => '' // console.log(values)
 
   render() {
     const { selectedPictogram, locale, classes, tags, intl } = this.props
+    const { keywordsHintLocale, keywords } = this.state
     const { formatMessage } = intl
     // console.log(`Selected pictogram: ${selectedPictogram}`)
     const categoriesData = this.props.categories.data || {}
@@ -73,7 +86,12 @@ class PictogramView extends React.PureComponent {
       <View>
         {selectedPictogram && (
           <div className={classes.wrapper}>
-            <Pictogram pictogram={selectedPictogram} locale={locale} />
+            <Pictogram
+              pictogram={selectedPictogram}
+              language={keywordsHintLocale}
+              keywords={keywords}
+              onChangeKeywordsLocale={this.handleChangeKeywordsLocale}
+            />
             <PictogramForm
               data={selectedPictogram}
               categories={categoriesData}

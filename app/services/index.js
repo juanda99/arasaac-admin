@@ -36,6 +36,8 @@ const api = {
   PICTOGRAM_REQUEST: ({ idPictogram, locale }) => callApi(`${API_ROOT}/pictograms/${locale}/${idPictogram}`),
   PICTOGRAMS_UPLOAD_REQUEST: files => callApi(uploadPictograms.url, uploadPictograms.options(files)),
   PICTOGRAM_TYPE_REQUEST: idPictogram => callApi(`${PRIVATE_API_ROOT}/pictograms/types/${idPictogram}`),
+  PICTOGRAM_KEYWORDS_REQUEST: ({ keywordsHintLocale, idPictogram }) =>
+    callApi(`${PRIVATE_API_ROOT}/pictograms/keywords/${keywordsHintLocale}/${idPictogram}`),
   LOGIN_REQUEST: ({ username, password }) => callApi(login.url, login.options(username, password)),
   SOCIAL_LOGIN_REQUEST: ({ socialToken, provider, locale }) =>
     callApi(socialLogin.url, socialLogin.options(socialToken, provider, locale)),
