@@ -26,7 +26,7 @@ export class PictogramList extends PureComponent {
   handleClick = offset => this.props.onPageClick(offset)
 
   render() {
-    const { locale, pictograms, searchText, offset } = this.props
+    const { pictograms, searchText, offset } = this.props
     const numberItems = pictograms.length
     // const offset = Math.ceil((currentPage - 1) * itemsPerPage)
     const visiblePictograms = pictograms.slice(offset, offset + itemsPerPage)
@@ -68,7 +68,6 @@ export class PictogramList extends PureComponent {
 
 PictogramList.propTypes = {
   pictograms: PropTypes.arrayOf(PropTypes.object).isRequired,
-  locale: PropTypes.string,
   searchText: PropTypes.string,
   offset: PropTypes.number.isRequired,
   onPageClick: PropTypes.func.isRequired,

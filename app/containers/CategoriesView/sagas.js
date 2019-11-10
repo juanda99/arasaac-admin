@@ -1,4 +1,4 @@
-import { take, call, put, all } from 'redux-saga/effects'
+import { take, call, put, all, takeLatest } from 'redux-saga/effects'
 import { LOCATION_CHANGE } from 'react-router-redux'
 import { showLoading, hideLoading } from 'react-redux-loading-bar'
 import api from 'services'
@@ -12,7 +12,6 @@ import {
   categoriesDelete,
   categoriesAdd,
 } from './actions'
-import { makeCategoriesSelectorByLanguage } from './selectors'
 
 function* categoriesGetData(action) {
   try {

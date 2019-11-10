@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import qs from 'qs'
 import { withStyles } from '@material-ui/core/styles'
 import withWidth from '@material-ui/core/withWidth'
 import SearchIcon from '@material-ui/icons/Search'
@@ -40,16 +41,31 @@ class PictogramsView extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      slideIndex: parseInt(sessionStorage.getItem('pictoSlideIndex'), 10) || 0,
       viewType: sessionStorage.getItem('pictoViewType') || 'module',
-      notPublishedOffset: parseInt(sessionStorage.getItem('notPublishedOffset'), 10) || 0,
-      notValidOffset: parseInt(sessionStorage.getItem('notValidOffset'), 10) || 0,
-      allPictosOffset: parseInt(sessionStorage.getItem('allPictosOffset'), 10) || 0,
+      tab: 0,
+      offset: 0,
     }
+  }
+
+  processQuery = props => {
+    const { location } = props || this.props
+    let { search } = location
+    let parameters = { offset: 0, viewType: 'module', tab: 0 }
+    if (search) {
+      search = search.slice(1) // remove ?
+      parameters = { ...parameters, ...qs.parse(search) }
+      const validKeys = ['offset', 'tab', 'viewType']
+      Object.keys(parameters).forEach(key => validKeys.includes(key) || delete parameters[key])
+      parameters.offset = parseInt(parameters.offset, 10)
+      parameters.tab = parseInt(parameters.tab, 10)
+    }
+    const needUpdate = Object.keys(parameters).some(key => parameters[key] !== this.state[key])
+    if (needUpdate) this.setState(parameters)
   }
 
   componentDidMount() {
     const { locale, searchText, searchResults, updated } = this.props
+    this.processQuery()
     if (searchText && !searchResults) {
       this.props.requestPictograms(locale, searchText)
     }
@@ -62,13 +78,19 @@ class PictogramsView extends React.PureComponent {
       const { requestPictograms, locale } = this.props
       requestPictograms(locale, nextProps.searchText)
     }
+    if (this.props.location.search !== nextProps.location.search) this.processQuery(nextProps)
   }
 
-  handleSubmit = nextValue => history.push(`/pictograms/search/${nextValue}`)
+  handleSubmit = nextValue => {
+    console.log(nexValue, 'vamosssss')
+    history.push(`/pictograms/search/${nextValue}`)
+  }
 
-  handleChange = (event, slideIndex) => {
-    this.setState({ slideIndex })
-    sessionStorage.setItem('pictoSlideIndex', slideIndex)
+  handleChange = (event, tab) => {
+    const { pathname } = this.props.location
+    const url = `${pathname}?tab=${tab}`
+    this.props.history.push(url)
+    // sessionStorage.setItem('pictoSlideIndex', slideIndex)
   }
 
   renderLoading = () => <View>Loading...</View>
@@ -81,26 +103,12 @@ class PictogramsView extends React.PureComponent {
   }
 
   handlePageClick = offset => {
-    const { slideIndex } = this.state
-    let key
-
-    switch (slideIndex) {
-      case 0:
-        key = 'allPictosOffset'
-        break
-      case 1:
-        key = 'notPublishedOffset'
-        break
-      case 2:
-        key = 'notValidatedOffset'
-        break
-      default:
-        key = ''
-        break
-    }
-    if (key) {
-      this.setState({ [key]: offset })
-      sessionStorage.setItem(key, offset)
+    // fix bug if offset is not number, click comes from picto link, should not be processed here
+    if (typeof offset === 'number') {
+      const { tab } = this.state
+      const { pathname } = this.props.location
+      const url = `${pathname}?offset=${offset}&tab=${tab}`
+      this.props.history.push(url)
     }
   }
 
@@ -116,15 +124,16 @@ class PictogramsView extends React.PureComponent {
       pictogramCollection,
       locale,
     } = this.props
-    const { notPublishedOffset, notValidOffset, allPictosOffset, slideIndex, viewType } = this.state
+    const { offset, tab, viewType } = this.state
 
     const searchBox = (
       <View>
         <SearchField value={searchText} onSubmit={this.handleSubmit} style={styles.searchBar} dataSource={keywords} />
       </View>
     )
+
     let renderComponent
-    switch (slideIndex) {
+    switch (tab) {
       case 0:
         {
           const pictogramList = searchText ? visiblePictograms : pictogramCollection
@@ -147,9 +156,8 @@ class PictogramsView extends React.PureComponent {
                         <SearchToggleBar viewType={viewType} changeViewType={this.handleViewType} />
                         <PictogramList
                           pictograms={pictogramList}
-                          locale={locale}
                           searchText={searchText}
-                          offset={allPictosOffset}
+                          offset={offset}
                           onPageClick={this.handlePageClick}
                         />
                       </>
@@ -173,7 +181,7 @@ class PictogramsView extends React.PureComponent {
               pictograms={unpublishedPictos}
               locale={locale}
               searchText={searchText}
-              offset={notPublishedOffset}
+              offset={offset}
               onPageClick={this.handlePageClick}
             />
           )
@@ -187,7 +195,7 @@ class PictogramsView extends React.PureComponent {
               pictograms={invalidPictos}
               locale={locale}
               searchText={searchText}
-              offset={notValidOffset}
+              offset={offset}
               onPageClick={this.handlePageClick}
             />
           )
@@ -203,7 +211,7 @@ class PictogramsView extends React.PureComponent {
           <Tabs
             className={classes.tab}
             variant="fullWidth"
-            value={slideIndex}
+            value={tab}
             onChange={this.handleChange}
             indicatorColor="primary"
             textColor="primary"
@@ -226,7 +234,7 @@ class PictogramsView extends React.PureComponent {
               value={2}
             />
           </Tabs>
-          {slideIndex === 0 && searchBox}
+          {tab === 0 && searchBox}
           {renderComponent}
         </div>
       </React.Fragment>
