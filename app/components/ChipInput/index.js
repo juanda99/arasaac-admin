@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ChipInputSource from 'material-ui-chip-input'
+import Chip from '@material-ui/core/Chip'
 
 class ChipInput extends Component {
   handleRequestAdd = chip => {
@@ -23,6 +24,10 @@ class ChipInput extends Component {
     onChange(chips)
   }
 
+  handleOnClick = value => {
+    console.log(value)
+  }
+
   render() {
     const { input } = this.props
     const chips = input.value || []
@@ -33,6 +38,9 @@ class ChipInput extends Component {
         value={chips}
         onAdd={this.handleRequestAdd}
         onDelete={this.handleRequestDelete}
+        // chipRenderer={({ value, isFocused, isDisabled, handleClick, handleRequestDelete }, key) => (
+        //   <Chip key={key} label={value} onClick={() => this.handleOnClick(value)} />
+        // )}
       />
     )
   }
