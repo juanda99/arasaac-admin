@@ -82,7 +82,6 @@ class PictogramsView extends React.PureComponent {
   }
 
   handleSubmit = nextValue => {
-    console.log(nexValue, 'vamosssss')
     history.push(`/pictograms/search/${nextValue}`)
   }
 
