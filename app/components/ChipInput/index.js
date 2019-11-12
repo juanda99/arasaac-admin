@@ -25,7 +25,10 @@ class ChipInput extends Component {
   }
 
   handleOnClick = value => {
-    console.log(value)
+    const { url } = this.props
+    if (this.props.url) {
+      window.open(`${url}/${value}`, '_blank')
+    }
   }
 
   render() {
@@ -38,9 +41,15 @@ class ChipInput extends Component {
         value={chips}
         onAdd={this.handleRequestAdd}
         onDelete={this.handleRequestDelete}
-        // chipRenderer={({ value, isFocused, isDisabled, handleClick, handleRequestDelete }, key) => (
-        //   <Chip key={key} label={value} onClick={() => this.handleOnClick(value)} />
-        // )}
+        chipRenderer={({ value }, key) => (
+          <Chip
+            key={key}
+            label={value}
+            onClick={() => this.handleOnClick(value)}
+            onDelete={() => this.handleRequestDelete(value)}
+            style={{ marginLeft: '5px' }}
+          />
+        )}
       />
     )
   }
@@ -49,6 +58,7 @@ class ChipInput extends Component {
 ChipInput.propTypes = {
   input: PropTypes.object.isRequired,
   dataSource: PropTypes.arrayOf(PropTypes.object.isRequired),
+  url: PropTypes.string,
 }
 
 export default ChipInput

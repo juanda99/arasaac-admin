@@ -365,7 +365,11 @@ export class PictogramForm extends Component {
                   <FormattedMessage {...messages.synsets} />
                 </h2>
                 <div>
-                  <Field name="synsets" component={ChipInputWrapper} />
+                  <Field
+                    name="synsets"
+                    component={ChipInputWrapper}
+                    url="http://wordnet-rdf.princeton.edu/id"
+                  />
                 </div>
               </div>
               {/* <pre>{JSON.stringify(values, 0, 2)}</pre> */}
