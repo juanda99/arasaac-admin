@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles'
 import Fab from '@material-ui/core/Fab'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Divider from '@material-ui/core/Divider'
+import Typography from '@material-ui/core/Typography'
 import AddIcon from '@material-ui/icons/Add'
 import DeleteIcon from '@material-ui/icons/Delete'
 import { Form, Field, FormSpy } from 'react-final-form'
@@ -163,16 +164,16 @@ export class PictogramForm extends Component {
             <form onSubmit={handleSubmit} style={{ width: '100%' }}>
               <AutoSave debounce={1000} save={handleSubmit} />
               <div style={{ marginTop: 30 }}>
-                <h2>
+                <Typography variant="h4" color="textPrimary" gutterBottom>
                   <FormattedMessage {...messages.pictogramData} />
-                </h2>
+                </Typography>
                 <Divider />
               </div>
               <div style={{ marginTop: 30 }}>
                 <div style={{ display: 'flex' }}>
-                  <h2>
+                  <Typography variant="h5" color="textPrimary" gutterBottom>
                     <FormattedMessage {...messages.keywordsList} />
-                  </h2>
+                  </Typography>
 
                   {(!values.keywords || !values.keywords.length) && (
                     <>
@@ -277,9 +278,9 @@ export class PictogramForm extends Component {
               </div>
 
               <div style={{ marginTop: 30 }}>
-                <h2>
+                <Typography variant="h5" color="textPrimary" gutterBottom>
                   <FormattedMessage {...messages.pictogramStatus} />
-                </h2>
+                </Typography>
                 <div style={{ display: 'flex' }}>
                   <FormControlLabel
                     label={<FormattedMessage {...messages.published} />}
@@ -315,9 +316,9 @@ export class PictogramForm extends Component {
               </div>
 
               <div style={{ marginTop: 30 }}>
-                <h2>
+                <Typography variant="h5" color="textPrimary" gutterBottom>
                   <FormattedMessage {...messages.categories} />
-                </h2>
+                </Typography>
                 <Field name="categories" component={CategoriesSelectorWrapper} categories={categories} />
               </div>
 
@@ -334,7 +335,9 @@ export class PictogramForm extends Component {
               </OnChange>
 
               <div style={{ marginTop: 30 }}>
-                <h2>{<FormattedMessage {...messages.filters} />}</h2>
+                <Typography variant="h5" color="textPrimary" gutterBottom>
+                  {<FormattedMessage {...messages.filters} />}
+                </Typography>
                 <div style={{ display: 'flex' }}>
                   <FormControlLabel
                     label={<FormattedMessage {...messages.schematic} />}
@@ -352,24 +355,20 @@ export class PictogramForm extends Component {
               </div>
 
               <div style={{ marginTop: 30 }}>
-                <h2>
+                <Typography variant="h5" color="textPrimary" gutterBottom>
                   <FormattedMessage {...messages.tags} />
-                </h2>
+                </Typography>
                 <div>
                   <Field name="tags" component={TagsInputWrapper} suggestions={tags} style={{ width: '100%' }} />
                 </div>
               </div>
 
               <div style={{ marginTop: 30 }}>
-                <h2>
+                <Typography variant="h5" color="textPrimary" gutterBottom>
                   <FormattedMessage {...messages.synsets} />
-                </h2>
+                </Typography>
                 <div>
-                  <Field
-                    name="synsets"
-                    component={ChipInputWrapper}
-                    url="http://wordnet-rdf.princeton.edu/id"
-                  />
+                  <Field name="synsets" component={ChipInputWrapper} url="http://wordnet-rdf.princeton.edu/id" />
                 </div>
               </div>
               {/* <pre>{JSON.stringify(values, 0, 2)}</pre> */}

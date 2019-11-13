@@ -121,9 +121,6 @@ class CategoriesView extends React.Component {
     const { data } = this.props.categories || {}
     return (
       <View>
-        <h1>
-          <FormattedMessage {...messages.header} />
-        </h1>
         {!!this.props.error && (
           <ErrorDialog
             title={<FormattedMessage {...messages.errorTitle} />}

@@ -58,6 +58,9 @@ class Header extends Component {
       case /pictograms\/add/.test(url):
         title = <FormattedMessage {...messages.addPictograms} />
         break
+      case /pictograms\/categories/.test(url):
+        title = <FormattedMessage {...messages.categories} />
+        break
       case /pictograms/.test(url):
         title = <FormattedMessage {...messages.pictograms} />
         break
