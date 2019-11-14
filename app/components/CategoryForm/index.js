@@ -4,6 +4,7 @@ import Paper from '@material-ui/core/Paper'
 import CloseIcon from '@material-ui/icons/Close'
 import Button from '@material-ui/core/Button'
 import { Form, Field } from 'react-final-form'
+import Typography from '@material-ui/core/Typography'
 import { TextField } from 'final-form-material-ui'
 import { OnChange } from 'react-final-form-listeners'
 import { FormattedMessage, injectIntl } from 'react-intl'
@@ -80,9 +81,9 @@ export class CategoryForm extends Component {
                 <CloseIcon />
               </IconButton>
               <div style={{ marginTop: 30 }}>
-                <h3>
+                <Typography variant="h6" component="h3" color="textPrimary" gutterBottom>
                   <FormattedMessage {...messages.key} />
-                </h3>
+                </Typography>
                 <OnChange name="text">
                   {(value, previous) => {
                     if (!values.key || values.key === previous) form.mutators.replicate()
@@ -93,18 +94,18 @@ export class CategoryForm extends Component {
                 </div>
               </div>
               <div style={{ marginTop: 30 }}>
-                <h3>
+                <Typography variant="h6" component="h3" color="textPrimary" gutterBottom>
                   <FormattedMessage {...messages.category} />
-                </h3>
+                </Typography>
                 <div style={{ maxWidth: '400px' }}>
                   <Field fullWidth name="text" component={TextField} type="text" autoFocus disabled={disabled} />
                 </div>
               </div>
               <div style={{ marginTop: 30 }}>
                 <div style={{ display: 'flex' }}>
-                  <h3>
+                  <Typography variant="h6" component="h3" color="textPrimary" gutterBottom>
                     <FormattedMessage {...messages.tagsList} />
-                  </h3>
+                  </Typography>
                 </div>
                 <div>
                   <Field name="tags" component={TagsInputWrapper} disabled={role !== 'admin'} />
@@ -112,9 +113,9 @@ export class CategoryForm extends Component {
               </div>
               <div style={{ marginTop: 30 }}>
                 <div style={{ display: 'flex' }}>
-                  <h3>
+                  <Typography variant="h6" component="h3" color="textPrimary" gutterBottom>
                     <FormattedMessage {...messages.keywordsList} />
-                  </h3>
+                  </Typography>
                 </div>
                 <div>
                   <Field name="keywords" component={KeywordsInputWrapper} disabled={disabled} />

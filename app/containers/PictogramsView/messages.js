@@ -27,4 +27,8 @@ export default defineMessages({
     id: `${scope}.pictogramsNotFound`,
     defaultMessage: 'No pictograms found',
   },
+  loadingPictograms: {
+    id: `${scope}.loadingPictograms`,
+    defaultMessage: 'Loading pictograms...',
+  },
 })

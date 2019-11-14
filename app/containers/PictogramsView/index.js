@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import qs from 'qs'
 import { withStyles } from '@material-ui/core/styles'
+import Typography from '@material-ui/core/Typography'
 import withWidth from '@material-ui/core/withWidth'
 import SearchIcon from '@material-ui/icons/Search'
 import VisibilityIcon from '@material-ui/icons/VisibilityOff'
@@ -92,10 +93,6 @@ class PictogramsView extends React.PureComponent {
     // sessionStorage.setItem('pictoSlideIndex', slideIndex)
   }
 
-  renderLoading = () => <View>Loading...</View>
-
-  renderError = () => <div>Loading pictograms....</div>
-
   handleViewType = viewType => {
     this.setState({ viewType })
     sessionStorage.setItem('pictoViewType', viewType)
@@ -146,7 +143,9 @@ class PictogramsView extends React.PureComponent {
               <>
                 {loading ? (
                   <View>
-                    <h3> Getting data....</h3>
+                    <Typography variant="h6" component="h3" color="textPrimary" gutterBottom>
+                      {<FormattedMessage {...messages.loadingPictograms} />}
+                    </Typography>
                   </View>
                 ) : (
                   <>
@@ -162,7 +161,9 @@ class PictogramsView extends React.PureComponent {
                       </>
                     ) : (
                       <View>
-                        <h3>{<FormattedMessage {...messages.pictogramsNotFound} />}</h3>
+                        <Typography variant="h6" component="h3" color="textPrimary" gutterBottom>
+                          {<FormattedMessage {...messages.pictogramsNotFound} />}
+                        </Typography>
                       </View>
                     )}
                   </>

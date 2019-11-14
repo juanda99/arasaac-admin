@@ -81,8 +81,6 @@ class Pictogram extends PureComponent {
             onClick={this.handleLocaleChange}
             onClose={this.handleLanguageClose}
           />
-          {console.log(keywords.length, 'adfadfdf')}
-          {console.log(keywords)}
           {keywords.length ? (
             <>
               {keywords.map(keyword => {
