@@ -7,9 +7,9 @@ export default defineMessages({
     id: `${scope}.categoryDetele.confirmationTitle`,
     defaultMessage: 'Delete category',
   },
-  confirmationText: {
-    id: `${scope}.categoryDelete.confirmationText`,
-    defaultMessage: 'Are you sure you want to delete this category?',
+  confirmationInfoText: {
+    id: `${scope}.categoryDelete.confirmationInfoText`,
+    defaultMessage: 'Are you sure you want to delete <strong>{category}</strong>?',
   },
   okButton: {
     id: `${scope}.categoryDelete.okButton`,

@@ -107,10 +107,14 @@ class CategoriesView extends React.Component {
     requestCategoriesUpdate(token, locale, item, text, tags, keywords, lastUpdated)
   }
 
-  handleBeforeDelete = targetItem => this.setState({ confirmationBoxOpen: true, targetItem, action: 'delete' })
+  handleBeforeDelete = targetItem => {
+    console.log(`Before ${targetItem}`)
+    this.setState({ confirmationBoxOpen: true, targetItem, action: 'delete' })
+  }
 
   handleDelete = (item, accept) => {
     this.setState({ confirmationBoxOpen: false })
+    console.log(`After ${item}`)
     const { locale, requestCategoriesDelete, token, lastUpdated } = this.props
     if (accept) requestCategoriesDelete(token, locale, item, lastUpdated)
   }

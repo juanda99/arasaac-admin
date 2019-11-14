@@ -5,7 +5,7 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogActions from '@material-ui/core/DialogActions'
 import Dialog from '@material-ui/core/Dialog'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import messages from './messages'
 
 class ConfirmationDialog extends React.Component {
@@ -18,7 +18,7 @@ class ConfirmationDialog extends React.Component {
   }
 
   render() {
-    const { open, ...other } = this.props
+    const { open, category, ...other } = this.props
 
     return (
       <Dialog aria-labelledby="confirmation-dialog-title" {...other} open={open}>
@@ -27,7 +27,7 @@ class ConfirmationDialog extends React.Component {
         </DialogTitle>
         <DialogContent>
           <p>
-            <FormattedMessage {...messages.confirmationText} />
+            <FormattedHTMLMessage {...messages.confirmationInfoText} values={{ category }} />
           </p>
         </DialogContent>
         <DialogActions>
