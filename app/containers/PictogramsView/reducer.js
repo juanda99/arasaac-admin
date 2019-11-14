@@ -14,9 +14,25 @@ export const initialState = fromJS({
   search: {},
   words: {},
   searchText: '',
-  es: { updated: '', pictograms: {} },
+  ar: { updated: '', pictograms: {} },
+  bg: { updated: '', pictograms: {} },
+  br: { updated: '', pictograms: {} },
+  ca: { updated: '', pictograms: {} },
+  de: { updated: '', pictograms: {} },
   en: { updated: '', pictograms: {} },
+  es: { updated: '', pictograms: {} },
+  eu: { updated: '', pictograms: {} },
   fr: { updated: '', pictograms: {} },
+  gl: { updated: '', pictograms: {} },
+  hr: { updated: '', pictograms: {} },
+  it: { updated: '', pictograms: {} },
+  nl: { updated: '', pictograms: {} },
+  pl: { updated: '', pictograms: {} },
+  pt: { updated: '', pictograms: {} },
+  ro: { updated: '', pictograms: {} },
+  ru: { updated: '', pictograms: {} },
+  val: { updated: '', pictograms: {} },
+  zh: { updated: '', pictograms: {} },
 })
 
 const pictogramsViewReducer = (state = initialState, action) => {
@@ -42,7 +58,7 @@ const pictogramsViewReducer = (state = initialState, action) => {
     case PICTOGRAM.SUCCESS:
       newPictogram = action.payload.data || {}
       idPictogram = action.payload.data.idPictogram.toString()
-      return state.set('loading', false).setIn(['pictograms', action.payload.locale, idPictogram], newPictogram)
+      return state.set('loading', false).setIn([action.payload.locale, 'pictograms', idPictogram], newPictogram)
     case PICTOGRAM.FAILURE:
     case PICTOGRAMS.FAILURE:
     case NEW_PICTOGRAMS.FAILURE:

@@ -136,7 +136,7 @@ const sidebarRoutes = [
     component: PermissionsErrorView,
   },
   {
-    path: '/pictograms/:locale/:idPictogram/:searchText?',
+    path: '/pictograms/:idPictogram/:searchText?',
     component: PictogramView,
   },
 ]

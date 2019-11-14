@@ -218,7 +218,7 @@ IntegrationReactSelect.propTypes = {
       label: PropTypes.string.isRequired,
       value: PropTypes.string.isRequired,
     }).isRequired,
-  ),
+  ).isRequired,
   disabled: PropTypes.bool.isRequired,
 }
 

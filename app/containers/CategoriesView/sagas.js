@@ -1,9 +1,7 @@
-import { take, select, takeLatest, call, put, cancel, all } from 'redux-saga/effects'
+import { take, call, put, all, takeLatest } from 'redux-saga/effects'
 import { LOCATION_CHANGE } from 'react-router-redux'
 import { showLoading, hideLoading } from 'react-redux-loading-bar'
-import jp from 'jsonpath'
 import api from 'services'
-import { removeKeys } from 'utils'
 import {
   CATEGORIES,
   CATEGORIES_UPDATE,
@@ -14,7 +12,6 @@ import {
   categoriesDelete,
   categoriesAdd,
 } from './actions'
-import { makeCategoriesSelectorByLanguage } from './selectors'
 
 function* categoriesGetData(action) {
   try {

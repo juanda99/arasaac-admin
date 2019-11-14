@@ -20,6 +20,10 @@ export default defineMessages({
     id: `${scope}.title.pictograms`,
     defaultMessage: 'Pictograms',
   },
+  categories: {
+    id: `${scope}.title.categories`,
+    defaultMessage: 'Categories',
+  },
   catalogs: {
     id: `${scope}.title.catalogs`,
     defaultMessage: 'Catalos',

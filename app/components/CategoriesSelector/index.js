@@ -8,8 +8,8 @@ import 'antd/dist/antd.css'
 const categoriesToArray = obj =>
   Object.keys(obj).map(k => {
     obj[k].key = k
-    obj[k].label = obj[k].text
-    obj[k].value = obj[k].text
+    obj[k].title = obj[k].text
+    obj[k].value = k
     obj[k].disabled = !obj[k].keywords || obj[k].keywords.length === 0
     if (obj[k].children) obj[k].children = categoriesToArray(obj[k].children)
     return obj[k]
@@ -19,6 +19,13 @@ class CategoriesSelector extends PureComponent {
   componentDidMount() {
     const cloneCategories = JSON.parse(JSON.stringify(this.props.categories))
     this.setState({ treeData: categoriesToArray(cloneCategories) })
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.categories !== this.props.categories) {
+      const cloneCategories = JSON.parse(JSON.stringify(nextProps.categories))
+      this.setState({ treeData: categoriesToArray(cloneCategories) })
+    }
   }
 
   state = {

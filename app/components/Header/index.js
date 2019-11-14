@@ -16,7 +16,6 @@ import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import LocaleSelector from 'containers/LocaleSelector'
 import ThemeSelector from 'containers/ThemeSelector'
-import routes from 'routes/index'
 
 /*
 import FormatTextdirectionLToR from '@material-ui/icons/FormatTextdirectionLToR'
@@ -59,6 +58,9 @@ class Header extends Component {
       case /pictograms\/add/.test(url):
         title = <FormattedMessage {...messages.addPictograms} />
         break
+      case /pictograms\/categories/.test(url):
+        title = <FormattedMessage {...messages.categories} />
+        break
       case /pictograms/.test(url):
         title = <FormattedMessage {...messages.pictograms} />
         break
@@ -79,7 +81,7 @@ class Header extends Component {
   }
 
   render() {
-    const { classes, locale, isAuthenticated, theme } = this.props
+    const { classes, isAuthenticated } = this.props
     const { loginButton } = this.state
     // TODO: move get title to componentUpdate
     const title = this.getTitle()
@@ -100,8 +102,8 @@ class Header extends Component {
           <Typography variant="h6" color="inherit" className={classes.grow}>
             {title}
           </Typography>
-          {theme && <ThemeSelector />}
-          {locale && <LocaleSelector />}
+          <ThemeSelector />
+          <LocaleSelector />
           {isAuthenticated ? (
             <React.Fragment>
               <Tooltip title={<FormattedMessage {...messages.userMenu} />} enterDelay={300}>
@@ -133,7 +135,6 @@ class Header extends Component {
 Header.propTypes = {
   classes: PropTypes.object.isRequired,
   handleSidebarToggle: PropTypes.func.isRequired,
-  locale: PropTypes.bool,
   isAuthenticated: PropTypes.bool.isRequired,
   logout: PropTypes.func.isRequired,
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ChipInputSource from 'material-ui-chip-input'
+import Chip from '@material-ui/core/Chip'
 
 class ChipInput extends Component {
   handleRequestAdd = chip => {
@@ -23,6 +24,13 @@ class ChipInput extends Component {
     onChange(chips)
   }
 
+  handleOnClick = value => {
+    const { url } = this.props
+    if (this.props.url) {
+      window.open(`${url}/${value}`, '_blank')
+    }
+  }
+
   render() {
     const { input } = this.props
     const chips = input.value || []
@@ -33,6 +41,15 @@ class ChipInput extends Component {
         value={chips}
         onAdd={this.handleRequestAdd}
         onDelete={this.handleRequestDelete}
+        chipRenderer={({ value }, key) => (
+          <Chip
+            key={key}
+            label={value}
+            onClick={() => this.handleOnClick(value)}
+            onDelete={() => this.handleRequestDelete(value)}
+            style={{ marginLeft: '5px' }}
+          />
+        )}
       />
     )
   }
@@ -41,6 +58,7 @@ class ChipInput extends Component {
 ChipInput.propTypes = {
   input: PropTypes.object.isRequired,
   dataSource: PropTypes.arrayOf(PropTypes.object.isRequired),
+  url: PropTypes.string,
 }
 
 export default ChipInput

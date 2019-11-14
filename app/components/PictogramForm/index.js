@@ -4,14 +4,16 @@ import { withStyles } from '@material-ui/core/styles'
 import Fab from '@material-ui/core/Fab'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Divider from '@material-ui/core/Divider'
+import Typography from '@material-ui/core/Typography'
 import AddIcon from '@material-ui/icons/Add'
 import DeleteIcon from '@material-ui/icons/Delete'
-import Button from '@material-ui/core/Button'
-import { Form, Field } from 'react-final-form'
+import { Form, Field, FormSpy } from 'react-final-form'
 import arrayMutators from 'final-form-arrays'
 import { FieldArray } from 'react-final-form-arrays'
-import { OnBlur } from 'react-final-form-listeners'
+import { OnBlur, OnChange } from 'react-final-form-listeners'
 import { TextField, Select, Checkbox } from 'final-form-material-ui'
+import jp from 'jsonpath'
+import AutoSave from 'components/AutoSave'
 import Autosuggest from 'components/Autosuggest'
 import { languages } from 'utils/index'
 import CategoriesSelector from 'components/CategoriesSelector'
@@ -22,12 +24,65 @@ import MenuItem from '@material-ui/core/MenuItem'
 import { DatePicker } from 'material-ui-pickers'
 import { injectIntl, FormattedMessage } from 'react-intl'
 import langMessages from 'components/LanguageSelector/messages'
-import tagLabels from 'components/CategoryForm/tagsMessages'
+import api from 'services'
 
 import styles from './styles'
 import messages from './messages'
 
 // import { styles } from 'material-ui-pickers/DatePicker/DatePicker'
+
+const WhenFieldChanges = ({ field, set, values, index, locale }) => (
+  <Field name={set}>
+    {(
+      // No subscription. We only use Field to get to the change function
+      { input: { onChange } },
+    ) => (
+      <FormSpy subscription={{}}>
+        {({ form }) => (
+          <OnBlur name={field}>
+            {() => {
+              const { keyword, type } = values.keywords[index]
+              const { idPictogram } = values
+              if (!keyword) return
+              const endPoint = `https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=dict.1.1.20190920T104929Z.2bfd4c00cbc5e87e.d3baecf50951cb94e3834ffee05d92801894da49&lang=${locale}-${locale}&text=${keyword}`
+              fetch(endPoint)
+                .then(data => data.json())
+                .then(data => {
+                  const currentType = data && data.def && data.def[0] && data.def[0].pos
+                  let valueType = ''
+                  /* 1 properName, 2 commonName, 3 verb, 4 descriptive, 5 socialContent, 6 miscellaneous */
+                  if (currentType) {
+                    switch (currentType) {
+                      case 'verb':
+                        valueType = 3
+                        break
+                      case 'noun':
+                        valueType = 2
+                        break
+                      case 'adjective':
+                      case 'adverb':
+                        valueType = 4
+                        break
+                      default:
+                      // code block
+                    }
+                    if (valueType) onChange(valueType)
+                    else if (!type && locale !== 'es') {
+                      api.PICTOGRAM_TYPE_REQUEST(idPictogram).then(data => {
+                        if (data.types && data.types.length === 1) {
+                          onChange(data.types[0])
+                        }
+                      })
+                    }
+                  }
+                })
+            }}
+          </OnBlur>
+        )}
+      </FormSpy>
+    )}
+  </Field>
+)
 
 const ChipInputWrapper = props => <ChipInput {...props} text="tag" value="key" />
 const DatePickerWrapper = props => {
@@ -52,13 +107,7 @@ const DatePickerWrapper = props => {
   )
 }
 
-const TagsInputWrapper = props => <Autosuggest {...props} suggestions={suggestions} />
-let suggestions = []
-
-const make_ajax_request = () => {
-  console.log('ajax executed')
-  return 'kkkkk'
-}
+const TagsInputWrapper = props => <Autosuggest {...props} />
 
 const CategoriesSelectorWrapper = props => <CategoriesSelector {...props} />
 
@@ -79,53 +128,15 @@ export class PictogramForm extends Component {
   }
 
   state = {
-    showSuggestions: false,
     language: localStorage.getItem('referenceLanguage'),
   }
 
-  componentDidMount() {
-    const { tags, intl } = this.props
-    const { formatMessage } = intl
-    suggestions = tags.map(tag => ({ label: formatMessage(tagLabels[tag]), value: tag })).sort(
-      (a, b) =>
-        a.label
-          .toLowerCase()
-          .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, '') >
-        b.label
-          .toLowerCase()
-          .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, '')
-          ? 1
-          : -1,
-    )
-    // console.log(suggestions)
-    // fix: first time open form, suggestions are loaded after render
-    // suggestions = tags.map(tag => {
-    //   console.log(tag)
-    //   return { label: formatMessage(tagLabels[tag]), value: tag }
-    // })
-    this.forceUpdate()
-  }
-
-  handleSubmit = values => {
-    const { item, onSubmit } = this.props
-    onSubmit(values, item)
-  }
+  handleSubmit = values => this.props.onSubmit(values)
 
   toggleSuggestions = () => this.setState(prevState => ({ showSuggestions: !prevState.showSuggestions }))
 
-  handleDateChange = date => {
-    console.log(date)
-    return null
-  }
-
-  handleChangeLanguage = value => {
-    console.log(value)
-  }
-
   render() {
-    const { data, classes, categories, intl, locale } = this.props
+    const { data, classes, categories, intl, locale, tags } = this.props
     const { formatMessage } = intl
     const { showSuggestions, language } = this.state
     return (
@@ -134,6 +145,10 @@ export class PictogramForm extends Component {
           onSubmit={this.handleSubmit}
           mutators={{
             ...arrayMutators,
+            putTags: (selectedTags, state, utils) => {
+              const newTags = Array.from(new Set([...state.lastFormState.values.tags, ...selectedTags]))
+              utils.changeValue(state, 'tags', () => newTags)
+            },
           }}
           initialValues={data}
           render={({
@@ -147,18 +162,18 @@ export class PictogramForm extends Component {
             values,
           }) => (
             <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+              <AutoSave debounce={1000} save={handleSubmit} />
               <div style={{ marginTop: 30 }}>
-                <h2>
+                <Typography variant="h4" color="textPrimary" gutterBottom>
                   <FormattedMessage {...messages.pictogramData} />
-                </h2>
+                </Typography>
                 <Divider />
               </div>
-
               <div style={{ marginTop: 30 }}>
                 <div style={{ display: 'flex' }}>
-                  <h2>
+                  <Typography variant="h5" color="textPrimary" gutterBottom>
                     <FormattedMessage {...messages.keywordsList} />
-                  </h2>
+                  </Typography>
 
                   {(!values.keywords || !values.keywords.length) && (
                     <>
@@ -183,41 +198,44 @@ export class PictogramForm extends Component {
                           <Field
                             fullWidth
                             name={`${keyword}.keyword`}
-                            label="keyword"
+                            label={<FormattedMessage {...messages.word} />}
                             component={TextField}
-                            onBlur={() => console.log('blur event!!!')}
                             type="text"
                           />
                         </div>
-                        <OnBlur name={`${keyword}.keyword`}>
-                          {() => {
-                            const keyword = values.keywords[index] && values.keywords[index].keyword
-                            if (!keyword) return
-                            const keywordType = values.keywords[index].type
-                            if (!keywordType) {
-                              const endPoint = `https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=dict.1.1.20190920T104929Z.2bfd4c00cbc5e87e.d3baecf50951cb94e3834ffee05d92801894da49&lang=${locale}-${locale}&text=${keyword}`
-                              console.log(endPoint)
-                              fetch(endPoint)
-                                .then(data => data.json())
-                                .then(data => {
-                                  const type = data && data.def && data.def[0] && data.def[0].pos
-                                  console.log(`Type: ${type}`)
-                                  if (type) values.keywords[index].type = type
-                                })
-                            }
-                          }}
-                        </OnBlur>
+                        <WhenFieldChanges
+                          field={`${keyword}.keyword`}
+                          set={`${keyword}.type`}
+                          values={values}
+                          index={index}
+                          locale={locale}
+                        />
                         <div style={{ width: '200px', marginRight: '10px' }}>
                           <Field
                             fullWidth
                             name={`${keyword}.plural`}
-                            label="plural"
+                            label={<FormattedMessage {...messages.plural} />}
                             component={TextField}
                             type="text"
                           />
                         </div>
                         <div style={{ width: '200px', marginRight: '10px' }}>
-                          <Field fullWidth name={`${keyword}.type`} label="id" component={TextField} type="text" />
+                          <Field
+                            fullWidth
+                            style={{ minWidth: '200px' }}
+                            name={`${keyword}.type`}
+                            label={<FormattedMessage {...messages.type} />}
+                            component={Select}
+                            type="text"
+                          >
+                            <MenuItem value="" />
+                            <MenuItem value="1">{<FormattedMessage {...messages.properName} />}</MenuItem>
+                            <MenuItem value="2">{<FormattedMessage {...messages.commonName} />}</MenuItem>
+                            <MenuItem value="3">{<FormattedMessage {...messages.verb} />}</MenuItem>
+                            <MenuItem value="4">{<FormattedMessage {...messages.descriptive} />}</MenuItem>
+                            <MenuItem value="5">{<FormattedMessage {...messages.socialContent} />}</MenuItem>
+                            <MenuItem value="6">{<FormattedMessage {...messages.miscellaneous} />}</MenuItem>
+                          </Field>
                         </div>
                         <div>
                           <Fab
@@ -244,9 +262,6 @@ export class PictogramForm extends Component {
                     ))
                   }
                 </FieldArray>
-                <Button variant="outlined" color="primary" onClick={this.toggleSuggestions}>
-                  {showSuggestions ? 'Hide Suggestions' : 'Show suggestions'}
-                </Button>
                 {showSuggestions && (
                   <div className={classes.suggestions}>
                     <p>Choose a language to see the translation in another language</p>
@@ -263,9 +278,9 @@ export class PictogramForm extends Component {
               </div>
 
               <div style={{ marginTop: 30 }}>
-                <h2>
+                <Typography variant="h5" color="textPrimary" gutterBottom>
                   <FormattedMessage {...messages.pictogramStatus} />
-                </h2>
+                </Typography>
                 <div style={{ display: 'flex' }}>
                   <FormControlLabel
                     label={<FormattedMessage {...messages.published} />}
@@ -288,7 +303,7 @@ export class PictogramForm extends Component {
                   style={{ marginRight: '15px' }}
                   component={DatePickerWrapper}
                   margin="normal"
-                  label="Fecha de creación"
+                  label={<FormattedMessage {...messages.creationDate} />}
                 />
 
                 <Field
@@ -296,24 +311,33 @@ export class PictogramForm extends Component {
                   disabled
                   component={DatePickerWrapper}
                   margin="normal"
-                  label="Fecha de actualización"
+                  label={<FormattedMessage {...messages.updateDate} />}
                 />
               </div>
 
               <div style={{ marginTop: 30 }}>
-                <h2>
+                <Typography variant="h5" color="textPrimary" gutterBottom>
                   <FormattedMessage {...messages.categories} />
-                </h2>
-                <Field
-                  name="tags"
-                  component={CategoriesSelectorWrapper}
-                  label="Estado del pictograma"
-                  categories={categories}
-                />
+                </Typography>
+                <Field name="categories" component={CategoriesSelectorWrapper} categories={categories} />
               </div>
 
+              <OnChange name="categories">
+                {(value, previous) => {
+                  // we only add tags
+                  if (value.length > previous.length) {
+                    const item = value.filter(x => !previous.includes(x))[0]
+                    const path = jp.paths(categories, `$..["${item}"]`)[0]
+                    const selectedTags = jp.value(categories, path).tags
+                    form.mutators.putTags(...selectedTags)
+                  }
+                }}
+              </OnChange>
+
               <div style={{ marginTop: 30 }}>
-                <h2>Filtros</h2>
+                <Typography variant="h5" color="textPrimary" gutterBottom>
+                  {<FormattedMessage {...messages.filters} />}
+                </Typography>
                 <div style={{ display: 'flex' }}>
                   <FormControlLabel
                     label={<FormattedMessage {...messages.schematic} />}
@@ -331,39 +355,23 @@ export class PictogramForm extends Component {
               </div>
 
               <div style={{ marginTop: 30 }}>
-                <h2>
+                <Typography variant="h5" color="textPrimary" gutterBottom>
                   <FormattedMessage {...messages.tags} />
-                </h2>
-                <div style={{ maxWidth: '400px' }}>
-                  <Field name="tags" component={TagsInputWrapper} />
+                </Typography>
+                <div>
+                  <Field name="tags" component={TagsInputWrapper} suggestions={tags} style={{ width: '100%' }} />
                 </div>
               </div>
 
               <div style={{ marginTop: 30 }}>
-                <h2>
+                <Typography variant="h5" color="textPrimary" gutterBottom>
                   <FormattedMessage {...messages.synsets} />
-                </h2>
-                <div style={{ maxWidth: '400px' }}>
-                  <Field name="synsets" component={ChipInputWrapper} />
+                </Typography>
+                <div>
+                  <Field name="synsets" component={ChipInputWrapper} url="http://wordnet-rdf.princeton.edu/id" />
                 </div>
               </div>
-
-              <div style={{ marginTop: 16, display: 'flex', flexDirection: 'row-reverse' }}>
-                <Button
-                  style={{ marginLeft: '15px' }}
-                  variant="contained"
-                  color="primary"
-                  type="submit"
-                  disabled={submitting || pristine}
-                >
-                  <FormattedMessage {...messages.save} />
-                </Button>
-
-                <Button variant="contained" color="secondary" type="submit">
-                  <FormattedMessage {...messages.cancel} />
-                </Button>
-              </div>
-              <pre>{JSON.stringify(values, 0, 2)}</pre>
+              {/* <pre>{JSON.stringify(values, 0, 2)}</pre> */}
             </form>
           )}
         />

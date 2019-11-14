@@ -214,10 +214,16 @@ class ListTree extends Component {
     })
 
   render() {
+    const { confirmationBoxOpen, data, targetItem } = this.props
+    let category = ''
+    if (confirmationBoxOpen) {
+      const targetData = jp.value(data, `$..["${targetItem}"]`)
+      category = targetData.text
+    }
     return (
       <React.Fragment>
-        <List component="nav">{this.renderTreeNodes(this.props.data)}</List>
-        <ConfirmationDialog onClose={this.handleDelete} open={this.props.confirmationBoxOpen} />
+        <List component="nav">{this.renderTreeNodes(data)}</List>
+        <ConfirmationDialog onClose={this.handleDelete} open={confirmationBoxOpen} category={category} />
       </React.Fragment>
     )
   }

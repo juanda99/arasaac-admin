@@ -7,6 +7,30 @@ export default defineMessages({
     id: `${scope}.pictogramData`,
     defaultMessage: 'Pictogram data',
   },
+  word: {
+    id: `${scope}.word`,
+    defaultMessage: 'Word',
+  },
+  plural: {
+    id: `${scope}.plural`,
+    defaultMessage: 'Plural word',
+  },
+  type: {
+    id: `${scope}.type`,
+    defaultMessage: 'Type of word',
+  },
+  updateDate: {
+    id: `${scope}.updateDate`,
+    defaultMessage: 'Update date',
+  },
+  creationDate: {
+    id: `${scope}.creationDate`,
+    defaultMessage: 'Creation date',
+  },
+  filters: {
+    id: `${scope}.filters`,
+    defaultMessage: 'Filters',
+  },
   keywordsList: {
     id: `${scope}.keywordsList`,
     defaultMessage: 'Translation',
@@ -58,5 +82,29 @@ export default defineMessages({
   tags: {
     id: `${scope}.tags`,
     defaultMessage: 'Tags',
+  },
+  properName: {
+    id: `${scope}.wordType.properName`,
+    defaultMessage: 'Proper name',
+  },
+  commonName: {
+    id: `${scope}.wordType.commonName`,
+    defaultMessage: 'Common name',
+  },
+  verb: {
+    id: `${scope}.wordType.verb`,
+    defaultMessage: 'Verb',
+  },
+  descriptive: {
+    id: `${scope}.wordType.descriptive`,
+    defaultMessage: 'Descriptive (adj or adv)',
+  },
+  socialContent: {
+    id: `${scope}.wordType.socialContent`,
+    defaultMessage: 'Social content',
+  },
+  miscellaneous: {
+    id: `${scope}.wordType.miscelleneous`,
+    defaultMessage: 'Miscellaneous',
   },
 })

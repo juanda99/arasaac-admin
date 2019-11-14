@@ -28,7 +28,6 @@ class PictogramSnippet extends PureComponent {
     const {
       pictogram: { idPictogram, keywords },
       searchText,
-      locale,
       classes,
     } = this.props
     const { keyword } = keywordSelector(searchText, keywords)
@@ -41,7 +40,7 @@ class PictogramSnippet extends PureComponent {
         onMouseLeave={this.handleMouseLeave}
       >
         <Paper className={classes.paper} elevation={this.state.zDepth}>
-          <Item url={`/pictograms/${locale}/${idPictogram}/${keyword}`}>
+          <Item url={`/pictograms/${idPictogram}/${keyword}`}>
             <div style={{ position: 'relative' }}>
               <img
                 className={classes.image}
@@ -62,7 +61,6 @@ class PictogramSnippet extends PureComponent {
 PictogramSnippet.propTypes = {
   pictogram: PropTypes.object.isRequired,
   searchText: PropTypes.string,
-  locale: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
 }
 

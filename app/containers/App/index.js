@@ -66,8 +66,6 @@ export class App extends Component {
           <Header
             routes={routes}
             handleSidebarToggle={this.handleSidebarToggle}
-            locale
-            theme
             isAuthenticated={isAuthenticated}
             logout={doLogout}
           />
