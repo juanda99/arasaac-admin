@@ -30,6 +30,7 @@ const handleSubmit = (requestLogin, formData) => {
 class LoginView extends Component {
   componentDidUpdate() {
     const { isAuthenticated, history } = this.props
+    console.log(this.props)
     // we redirect or load default directory, depending on initail route
     const redirect = getQueryStringValue('redirect') || '/'
     if (redirect && isAuthenticated) {
@@ -39,6 +40,7 @@ class LoginView extends Component {
 
   componentWillMount() {
     const { isAuthenticated, history } = this.props
+    console.log(this.props)
     // we redirect or load default directory, depending on initail route
     const redirect = getQueryStringValue('redirect') || '/'
     if (redirect && isAuthenticated) {

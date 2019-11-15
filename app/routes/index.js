@@ -17,6 +17,7 @@ import UsersView from 'containers/UsersView/Loadable'
 import News from 'containers/News/Loadable'
 import AddNews from 'containers/AddNews/Loadable'
 import PictogramsView from 'containers/PictogramsView/'
+import HomeView from 'containers/HomeView/'
 import SigninView from 'containers/SigninView/'
 import CategoriesView from 'containers/CategoriesView/'
 import KeywordsView from 'containers/KeywordsView/'
@@ -25,14 +26,7 @@ import CatalogsView from 'containers/CatalogsView/Loadable'
 import AddPictograms from 'containers/AddPictograms/Loadable'
 import PictogramView from 'containers/PictogramView'
 
-import {
-  userIsAuthenticatedRedir,
-  userIsNotAuthenticatedRedir,
-  userIsAdminRedir,
-  userIsTranslatorRedir,
-  userIsAuthenticated,
-  userIsNotAuthenticated,
-} from 'utils/auth'
+import { userIsAuthenticatedRedir, userIsAdminRedir, userIsTranslatorRedir } from 'utils/auth'
 
 import messages from './messages'
 // import ErrorBoundary from 'components/ErrorBoundary'
@@ -43,6 +37,7 @@ import messages from './messages'
 //   userIsAdmin,
 // )
 
+const AuthHomeView = userIsAuthenticatedRedir(HomeView)
 const AuthUsersView = userIsAuthenticatedRedir(userIsAdminRedir(UsersView))
 const AuthCatalogsView = userIsAuthenticatedRedir(userIsAdminRedir(CatalogsView))
 const AuthAddPictograms = userIsAuthenticatedRedir(userIsAdminRedir(AddPictograms))
@@ -138,6 +133,10 @@ const sidebarRoutes = [
   {
     path: '/pictograms/:idPictogram/:searchText?',
     component: PictogramView,
+  },
+  {
+    path: '/',
+    component: AuthHomeView,
   },
 ]
 

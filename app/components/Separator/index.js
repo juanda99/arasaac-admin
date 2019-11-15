@@ -1,32 +1,32 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { withStyles } from '@material-ui/core/styles'
 import Div from 'components/Div'
 import messages from './messages'
 
-const styles = {
+const styles = theme => ({
   separator: {
     textAlign: 'center',
     paddingTop: 20,
-    clear: 'both'
+    clear: 'both',
   },
   separatorText: {
     display: 'inlineBlock',
     padding: 4,
     position: 'relative',
-    backgroundColor: '#fff'
+    /* theme.palette.background acts as inherit and is no well rendered */
+    backgroundColor: theme.palette.type === 'light' ? 'white' : '#424242',
   },
   separatorLine: {
-    marginTop: '-10px'
-  }
-}
+    marginTop: '-10px',
+  },
+})
 
-const Separator = () => (
-  <Div style={styles.separator}>
-    <span style={styles.separatorText}>
-      {<FormattedMessage {...messages.or} />}
-    </span>
-    <hr style={styles.separatorLine} />
+const Separator = ({ classes }) => (
+  <Div className={classes.separator}>
+    <span className={classes.separatorText}>{<FormattedMessage {...messages.or} />}</span>
+    <hr className={classes.separatorLine} />
   </Div>
 )
 
-export default Separator
+export default withStyles(styles, { withTheme: true })(Separator)

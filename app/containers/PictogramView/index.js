@@ -15,6 +15,7 @@ import Pictogram from 'components/Pictogram'
 import PictogramForm from 'components/PictogramForm'
 import reducer from 'containers/PictogramsView/reducer'
 import { categories } from 'containers/CategoriesView/actions'
+import { makeSelectUserRole } from 'containers/UsersView/selectors'
 import { DAEMON } from 'utils/constants'
 import {
   makeCategoriesSelectorByLocale,
@@ -66,7 +67,7 @@ class PictogramView extends React.PureComponent {
   handleSubmit = values => '' // console.log(values)
 
   render() {
-    const { selectedPictogram, locale, classes, tags, intl } = this.props
+    const { selectedPictogram, locale, classes, tags, intl, role } = this.props
     const { keywordsHintLocale, keywords } = this.state
     const { formatMessage } = intl
     // console.log(`Selected pictogram: ${selectedPictogram}`)
@@ -100,6 +101,7 @@ class PictogramView extends React.PureComponent {
               locale={locale}
               tags={suggestions}
               onSubmit={this.handleSubmit}
+              role={role}
             />
           </div>
         )}
@@ -120,6 +122,10 @@ PictogramView.propTypes = {
   categories: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
   tags: PropTypes.array.isRequired,
+  role: PropTypes.string.isRequired,
+  intl: PropTypes.shape({
+    formatMessage: PropTypes.func.isRequired,
+  }).isRequired,
 }
 
 const mapStateToProps = (state, ownProps) => ({
@@ -132,6 +138,7 @@ const mapStateToProps = (state, ownProps) => ({
   lastUpdatedCategories: makeLastUpdatedSelectorByLocale()(state),
   categories: makeCategoriesSelectorByLocale()(state),
   tags: makeTagsSelectorByLocale()(state),
+  role: makeSelectUserRole()(state),
 })
 
 const mapDispatchToProps = dispatch => ({

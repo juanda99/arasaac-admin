@@ -18,6 +18,7 @@ const styles = theme => ({
     [theme.breakpoints.down('sm')]: {
       paddingLeft: 0,
     },
+    color: 'white',
   },
   h6: {},
 })

@@ -99,7 +99,7 @@ class Header extends Component {
               <MenuIcon style={{ color: 'white' }} />
             </IconButton>
           </Hidden>
-          <Typography variant="h6" color="inherit" className={classes.grow}>
+          <Typography variant="h6" color="white" className={classes.grow}>
             {title}
           </Typography>
           <ThemeSelector />

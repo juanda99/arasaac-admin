@@ -56,7 +56,7 @@ export default function configureStore(initialState = {}, history) {
       // begin periodically persisting the store
       persistStore(
         store,
-        { blacklist: ['router', 'loadingBar', 'pictogramsView', 'categoriesView', 'auth'], storage: localForage },
+        { blacklist: ['router', 'loadingBar', 'pictogramsView', 'categoriesView'], storage: localForage },
         () => resolve(store),
       )
     } catch (e) {
