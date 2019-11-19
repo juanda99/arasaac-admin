@@ -1,22 +1,10 @@
 import { defineMessages } from 'react-intl'
 
-export const scope = 'app.containers.Pictograms'
+export const scope = 'app.containers.Pictogram'
 
 export default defineMessages({
-  header: {
-    id: `${scope}.header`,
-    defaultMessage: 'This is the Pictograms container!',
-  },
-  search: {
-    id: `${scope}.TabHeader.search`,
-    defaultMessage: 'Search',
-  },
-  notPlublished: {
-    id: `${scope}.TabHeader.notPublished`,
-    defaultMessage: 'Not published',
-  },
-  notValidated: {
-    id: `${scope}.TabHeader.notValidated`,
-    defaultMessage: 'Not validated',
+  errorTitle: {
+    id: `${scope}.errorTitle`,
+    defaultMessage: 'Pictogram error',
   },
 })

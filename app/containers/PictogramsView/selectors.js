@@ -1,7 +1,6 @@
 import { denormalize } from 'normalizr'
 import { createSelector } from 'reselect'
 import { searchPictogramSchema } from 'services/schemas'
-import { getFilteredItems } from 'utils'
 import { makeSelectLocale } from 'containers/LanguageProvider/selectors'
 import { Map } from 'immutable'
 
@@ -9,6 +8,8 @@ const PICTOGRAMS = 'pictograms'
 const LAST_UPDATED = 'updated'
 
 export const selectPictogramsViewDomain = state => state.get('pictogramsView')
+
+export const makeErrorSelector = () => createSelector(selectPictogramsViewDomain, substate => substate.get('error'))
 
 export const makeLoadingSelector = () => createSelector(selectPictogramsViewDomain, substate => substate.get('loading'))
 

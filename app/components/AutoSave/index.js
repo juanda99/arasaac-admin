@@ -23,6 +23,8 @@ class AutoSave extends React.Component {
 
     // This diff step is totally optional
     const difference = diff(this.state.values, values)
+    // it changes in server (PictogramForm, and cause autoSave to rerender)
+    delete difference.lastUpdated
     if (Object.keys(difference).length) {
       // values have changed
       this.setState({ submitting: true, values })

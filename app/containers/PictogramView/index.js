@@ -2,20 +2,20 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { injectIntl, FormattedMessage } from 'react-intl'
+import ErrorDialog from 'components/ErrorDialog'
 import api from 'services'
 import { withStyles } from '@material-ui/core/styles'
 import withWidth from '@material-ui/core/withWidth'
 import { compose } from 'redux'
 import injectReducer from 'utils/injectReducer'
 import injectSaga from 'utils/injectSaga'
-import { makeSelectHasUser } from 'containers/UsersView/selectors'
 import { makeSelectLocale } from 'containers/LanguageProvider/selectors'
 import View from 'components/View'
 import Pictogram from 'components/Pictogram'
 import PictogramForm from 'components/PictogramForm'
 import reducer from 'containers/PictogramsView/reducer'
 import { categories } from 'containers/CategoriesView/actions'
-import { makeSelectUserRole } from 'containers/UsersView/selectors'
+import { makeSelectUserRole, makeSelectHasUser } from 'containers/UsersView/selectors'
 import { DAEMON } from 'utils/constants'
 import {
   makeCategoriesSelectorByLocale,
@@ -25,8 +25,14 @@ import {
 import tagLabels from 'components/CategoryForm/tagsMessages'
 import saga from './sagas'
 import styles from './styles'
-import { makeLoadingSelector, makeSelectIdPictogram, makePictogramByIdSelector } from '../PictogramsView/selectors'
-import { pictogram } from './actions'
+import {
+  makeLoadingSelector,
+  makeSelectIdPictogram,
+  makePictogramByIdSelector,
+  makeErrorSelector,
+} from '../PictogramsView/selectors'
+import { pictogram, pictogramUpdate, removeError } from './actions'
+import messages from './messages'
 
 /* eslint-disable react/prefer-stateless-function */
 
@@ -47,13 +53,12 @@ class PictogramView extends React.PureComponent {
     })
   }
 
-  componentDidMount() {
-    const { requestPictogram, idPictogram, locale, selectedPictogram, lastUpdatedCategories } = this.props
+  async componentDidMount() {
+    const { requestPictogram, idPictogram, locale, lastUpdatedCategories } = this.props
     const { keywordsHintLocale } = this.state
-    /* if pictogram is already in the state we don't request it: */
-    if (!selectedPictogram) {
-      requestPictogram(idPictogram, locale)
-    }
+    /* we always request pictogram, can have changes */
+    await requestPictogram(idPictogram, locale)
+    this.setState({ init: true })
     // we get Categories....
     this.props.requestCategories(locale, lastUpdatedCategories)
     if (!keywordsHintLocale) {
@@ -62,9 +67,14 @@ class PictogramView extends React.PureComponent {
     }
   }
 
+  handleErrorDialogClose = () => this.props.requestRemoveError()
+
   handleChangeKeywordsLocale = keywordsHintLocale => this.getKeywords(keywordsHintLocale)
 
-  handleSubmit = values => '' // console.log(values)
+  handleSubmit = pictogram => {
+    const { locale, token, requestPictogramUpdate } = this.props
+    requestPictogramUpdate(token, locale, pictogram)
+  }
 
   render() {
     const { selectedPictogram, locale, classes, tags, intl, role } = this.props
@@ -87,6 +97,13 @@ class PictogramView extends React.PureComponent {
     )
     return (
       <View>
+        {!!this.props.error && (
+          <ErrorDialog
+            title={<FormattedMessage {...messages.errorTitle} />}
+            message={this.props.error}
+            onClose={this.handleErrorDialogClose}
+          />
+        )}
         {selectedPictogram && (
           <div className={classes.wrapper}>
             <Pictogram
@@ -114,11 +131,12 @@ PictogramView.propTypes = {
   idPictogram: PropTypes.string.isRequired,
   requestPictogram: PropTypes.func.isRequired,
   selectedPictogram: PropTypes.object,
-  searchText: PropTypes.string,
   loading: PropTypes.bool.isRequired,
+  error: PropTypes.string,
   locale: PropTypes.string.isRequired,
   requestCategories: PropTypes.func.isRequired,
   lastUpdatedCategories: PropTypes.string,
+  requestPictogramUpdate: PropTypes.func.isRequired,
   categories: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
   tags: PropTypes.array.isRequired,
@@ -126,10 +144,12 @@ PictogramView.propTypes = {
   intl: PropTypes.shape({
     formatMessage: PropTypes.func.isRequired,
   }).isRequired,
+  token: PropTypes.string.isRequired,
 }
 
 const mapStateToProps = (state, ownProps) => ({
   loading: makeLoadingSelector()(state), // for pictos
+  error: makeErrorSelector()(state),
   selectedPictogram: makePictogramByIdSelector()(state, ownProps),
   locale: makeSelectLocale()(state),
   token: makeSelectHasUser()(state),
@@ -142,12 +162,16 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  requestPictogram: (locale, searchText) => {
-    dispatch(pictogram.request(locale, searchText))
+  requestPictogram: (idPictogram, locale) => {
+    dispatch(pictogram.request(idPictogram, locale))
   },
   requestCategories: (locale, lastUpdated) => {
     dispatch(categories.request(locale, lastUpdated))
   },
+  requestPictogramUpdate: (token, locale, pictogram) => {
+    dispatch(pictogramUpdate.request(token, locale, pictogram))
+  },
+  requestRemoveError: () => dispatch(removeError()),
 })
 
 const withConnect = connect(

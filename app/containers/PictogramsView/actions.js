@@ -6,6 +6,7 @@ export const NOT_PUBLISHED_PICTOGRAMS = createRequestTypes('NOT_PUBLISHED_PICTOG
 export const NOT_VALIDATED_PICTOGRAMS = createRequestTypes('NOT_VALIDATED_PICTOGRAMS')
 export const NEW_PICTOGRAMS = createRequestTypes('NEW_PICTOGRAMS')
 export const AUTOCOMPLETE = createRequestTypes('AUTOCOMPLETE')
+export const REMOVE_ERROR = 'REMOVE_ERROR'
 // actions: pictograms.request/success/failure
 
 export const pictograms = {
