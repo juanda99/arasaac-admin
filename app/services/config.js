@@ -48,6 +48,20 @@ export const categories = {
   }),
 }
 
+export const pictogramUpdate = {
+  url: `${PRIVATE_API_ROOT}/pictograms`,
+  options: (locale, pictogram) => ({
+    config: {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        locale,
+        pictogram,
+      }),
+    },
+  }),
+}
+
 export const categoriesAdd = {
   url: `${PRIVATE_API_ROOT}/categories/add`,
   options: (parentItem, data, locale, lastUpdated) => ({
@@ -186,13 +200,14 @@ export const uploadMaterial = {
 
 export const uploadPictograms = {
   url: `${PRIVATE_API_ROOT}/pictograms`,
-  options: files => {
+  options: (files, token) => {
     const formData = new FormData()
     if (files) files.map(file => formData.append('files', file))
     return {
       config: {
         method: 'POST',
         body: formData,
+        headers: { Authorization: `Bearer ${token}` },
       },
     }
   },

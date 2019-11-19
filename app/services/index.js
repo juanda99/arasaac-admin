@@ -3,6 +3,7 @@ import callApi from './callApi'
 import {
   login,
   categories, // for update: tag or keywords
+  pictogramUpdate,
   categoriesAdd,
   categoriesRemove,
   signup,
@@ -34,10 +35,13 @@ const api = {
       schema: searchMaterialSchema,
     }),
   PICTOGRAM_REQUEST: ({ idPictogram, locale }) => callApi(`${API_ROOT}/pictograms/${locale}/${idPictogram}`),
-  PICTOGRAMS_UPLOAD_REQUEST: files => callApi(uploadPictograms.url, uploadPictograms.options(files)),
+  // token in options, because is not application/json
+  PICTOGRAMS_UPLOAD_REQUEST: (files, token) => callApi(uploadPictograms.url, uploadPictograms.options(files, token)),
   PICTOGRAM_TYPE_REQUEST: idPictogram => callApi(`${PRIVATE_API_ROOT}/pictograms/types/${idPictogram}`),
   PICTOGRAM_KEYWORDS_REQUEST: ({ keywordsHintLocale, idPictogram }) =>
     callApi(`${PRIVATE_API_ROOT}/pictograms/keywords/${keywordsHintLocale}/${idPictogram}`),
+  PICTOGRAM_UPDATE_REQUEST: ({ token, locale, pictogram }) =>
+    callApi(pictogramUpdate.url, pictogramUpdate.options(locale, pictogram), token),
   LOGIN_REQUEST: ({ username, password }) => callApi(login.url, login.options(username, password)),
   SOCIAL_LOGIN_REQUEST: ({ socialToken, provider, locale }) =>
     callApi(socialLogin.url, socialLogin.options(socialToken, provider, locale)),
