@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import View from 'components/View'
+import Button from '@material-ui/core/Button'
 import { FormattedMessage } from 'react-intl'
 import api from 'services'
 import { makeSelectHasUser } from 'containers/UsersView/selectors'
@@ -22,6 +23,10 @@ class AddPictogramsView extends React.PureComponent {
     }
   }
 
+  handleClick = () => {
+    this.setState({ error: false, loaded: false })
+  }
+
   render() {
     const { loaded, error } = this.state
     return (
@@ -31,7 +36,17 @@ class AddPictogramsView extends React.PureComponent {
             <FormattedMessage {...messages.errorUploading} />
           </p>
         )}
-        {loaded && <p>Se han subido correctamente los ficheross</p>}
+        {loaded && (
+          <div>
+            <p>
+              <FormattedMessage {...messages.successUploading} />
+            </p>
+
+            <Button onClick={this.handleClick} variant="contained" color="primary">
+              <FormattedMessage {...messages.uploadMoreFiles} />
+            </Button>
+          </div>
+        )}
         {!loaded && <PictogramUploader onSubmit={this.handleUpload} />}
       </View>
     )
