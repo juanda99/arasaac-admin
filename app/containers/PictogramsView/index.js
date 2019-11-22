@@ -204,40 +204,37 @@ class PictogramsView extends React.PureComponent {
       default:
       // not used
     }
-
     return (
-      <React.Fragment>
-        <div className={classes.root}>
-          <Tabs
-            className={classes.tab}
-            variant="fullWidth"
-            value={tab}
-            onChange={this.handleChange}
-            indicatorColor="primary"
-            textColor="primary"
-          >
-            <Tab
-              label={width === 'xs' ? '' : <FormattedMessage {...messages.search} />}
-              icon={<SearchIcon />}
-              value={0}
-              // bug? remove boxShadow here:
-              style={{ boxShadow: 'none' }}
-            />
-            <Tab
-              label={width === 'xs' ? '' : <FormattedMessage {...messages.notPlublished} />}
-              icon={<VisibilityIcon />}
-              value={1}
-            />
-            <Tab
-              label={width === 'xs' ? '' : <FormattedMessage {...messages.notValidated} />}
-              icon={<ValidateIcon />}
-              value={2}
-            />
-          </Tabs>
-          {tab === 0 && searchBox}
-          {renderComponent}
-        </div>
-      </React.Fragment>
+      <div className={classes.root}>
+        <Tabs
+          className={classes.tab}
+          variant="fullWidth"
+          value={tab}
+          onChange={this.handleChange}
+          indicatorColor="primary"
+          textColor="primary"
+        >
+          <Tab
+            label={width === 'xs' ? '' : <FormattedMessage {...messages.search} />}
+            icon={<SearchIcon />}
+            value={0}
+            // bug? remove boxShadow here:
+            style={{ boxShadow: 'none' }}
+          />
+          <Tab
+            label={width === 'xs' ? '' : <FormattedMessage {...messages.notPlublished} />}
+            icon={<VisibilityIcon />}
+            value={1}
+          />
+          <Tab
+            label={width === 'xs' ? '' : <FormattedMessage {...messages.notValidated} />}
+            icon={<ValidateIcon />}
+            value={2}
+          />
+        </Tabs>
+        {tab === 0 && searchBox}
+        {renderComponent}
+      </div>
     )
   }
 }

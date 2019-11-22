@@ -28,7 +28,6 @@ export class PictogramList extends PureComponent {
   render() {
     const { pictograms, searchText, offset } = this.props
     const numberItems = pictograms.length
-    // const offset = Math.ceil((currentPage - 1) * itemsPerPage)
     const visiblePictograms = pictograms.slice(offset, offset + itemsPerPage)
     const pagination =
       numberItems >= itemsPerPage ? (

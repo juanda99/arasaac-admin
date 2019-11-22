@@ -30,6 +30,7 @@ class PictogramSnippet extends PureComponent {
       searchText,
       classes,
     } = this.props
+    console.log(idPictogram, keywords)
     const { keyword } = keywordSelector(searchText, keywords)
     return (
       <li
