@@ -19,12 +19,12 @@ import {
 const api = {
   AUTOCOMPLETE_REQUEST: ({ locale }) => callApi(`${API_ROOT}/keywords/${locale}`),
   PICTOGRAMS_REQUEST: ({ locale, searchText }) =>
-    callApi(`${API_ROOT}/pictograms/${locale}/search/${searchText}`, {
+    callApi(`${PRIVATE_API_ROOT}/pictograms/${locale}/search/${searchText}`, {
       schema: searchPictogramSchema,
     }),
   NEW_PICTOGRAMS_REQUEST: ({ locale, updated }) => {
     const url = updated
-      ? `${PRIVATE_API_ROOT}/pictograms/${locale}/${updated}`
+      ? `${PRIVATE_API_ROOT}/pictograms/${locale}/lastUpdated/${updated}`
       : `${PRIVATE_API_ROOT}/pictograms/${locale}`
     return callApi(url, {
       schema: searchPictogramSchema,
@@ -34,7 +34,7 @@ const api = {
     callApi(`${API_ROOT}/materials/${locale}/${searchText}`, {
       schema: searchMaterialSchema,
     }),
-  PICTOGRAM_REQUEST: ({ idPictogram, locale }) => callApi(`${API_ROOT}/pictograms/${locale}/${idPictogram}`),
+  PICTOGRAM_REQUEST: ({ idPictogram, locale }) => callApi(`${PRIVATE_API_ROOT}/pictograms/${locale}/${idPictogram}`),
   // token in options, because is not application/json
   PICTOGRAMS_UPLOAD_REQUEST: (files, token) => callApi(uploadPictograms.url, uploadPictograms.options(files, token)),
   PICTOGRAM_TYPE_REQUEST: idPictogram => callApi(`${PRIVATE_API_ROOT}/pictograms/types/${idPictogram}`),
