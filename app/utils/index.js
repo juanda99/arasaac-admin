@@ -92,20 +92,32 @@ export const removeKeys = (obj, keys) => {
 
 export const languages = [
   {
-    code: 'ca',
-    text: 'Català',
-  },
-  {
-    code: 'de',
-    text: 'Deutsche',
-  },
-  {
     code: 'es',
     text: 'Español',
   },
   {
     code: 'en',
     text: 'English',
+  },
+  {
+    code: 'ar',
+    text: 'عربى',
+  },
+  {
+    code: 'bg',
+    text: 'български',
+  },
+  {
+    code: 'br',
+    text: 'Português do Brasil',
+  },
+  {
+    code: 'ca',
+    text: 'Català',
+  },
+  {
+    code: 'de',
+    text: 'Deutsche',
   },
   {
     code: 'eu',
@@ -120,20 +132,20 @@ export const languages = [
     text: 'Galego',
   },
   {
-    code: 'cr',
-    text: 'Hrvatski',
-  },
-  {
     code: 'he',
     text: 'עברי', // hebreo
+  },
+  {
+    code: 'hr',
+    text: 'Hrvatski',
   },
   {
     code: 'it',
     text: 'Italiano',
   },
   {
-    code: 'bg',
-    text: 'български',
+    code: 'nl',
+    text: 'Nederlands',
   },
   {
     code: 'pl',
@@ -142,10 +154,6 @@ export const languages = [
   {
     code: 'pt',
     text: 'Português',
-  },
-  {
-    code: 'br',
-    text: 'Português do Brasil',
   },
   {
     code: 'ro',
@@ -158,10 +166,6 @@ export const languages = [
   {
     code: 'val',
     text: 'Valencia',
-  },
-  {
-    code: 'ar',
-    text: 'عربى',
   },
   {
     code: 'zh',
