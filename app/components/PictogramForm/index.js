@@ -42,7 +42,7 @@ const WhenFieldChanges = ({ field, set, values, index, locale }) => (
           <OnBlur name={field}>
             {() => {
               const { keyword, type } = values.keywords[index]
-              const { idPictogram } = values
+              const { _id } = values
               if (!keyword) return
               const endPoint = `https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=dict.1.1.20190920T104929Z.2bfd4c00cbc5e87e.d3baecf50951cb94e3834ffee05d92801894da49&lang=${locale}-${locale}&text=${keyword}`
               fetch(endPoint)
@@ -68,7 +68,7 @@ const WhenFieldChanges = ({ field, set, values, index, locale }) => (
                     }
                     if (valueType) onChange(valueType)
                     else if (!type && locale !== 'es') {
-                      api.PICTOGRAM_TYPE_REQUEST(idPictogram).then(data => {
+                      api.PICTOGRAM_TYPE_REQUEST(_id).then(data => {
                         if (data.types && data.types.length === 1) {
                           onChange(data.types[0])
                         }

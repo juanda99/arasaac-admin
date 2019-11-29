@@ -58,7 +58,6 @@ class PictogramView extends React.PureComponent {
     const { keywordsHintLocale } = this.state
     /* we always request pictogram, can have changes */
     await requestPictogram(idPictogram, locale)
-    this.setState({ init: true })
     // we get Categories....
     this.props.requestCategories(locale, lastUpdatedCategories)
     if (!keywordsHintLocale) {

@@ -51,18 +51,14 @@ class Pictogram extends PureComponent {
 
   render() {
     const { pictogram, classes, keywords } = this.props
-    const { idPictogram } = pictogram
+    const { _id } = pictogram
     const { languageButton } = this.state
     const idSelector = 'keywords-language'
 
     return (
       <div className={classes.pictoWrapper}>
         <ConditionalPaper>
-          <img
-            className={classes.pictogram}
-            src={`${PICTOGRAMS_URL}/${idPictogram}/${idPictogram}_300.png`}
-            alt="Pictograms"
-          />
+          <img className={classes.pictogram} src={`${PICTOGRAMS_URL}/${_id}/${_id}_300.png`} alt="Pictograms" />
         </ConditionalPaper>
         <div id="keywords-language">
           <Tooltip title={<FormattedMessage {...messages.changeLanguage} />} enterDelay={300}>
