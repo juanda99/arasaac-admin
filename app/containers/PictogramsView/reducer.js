@@ -25,6 +25,7 @@ export const initialState = fromJS({
   fr: { updated: '', pictograms: {} },
   gl: { updated: '', pictograms: {} },
   hr: { updated: '', pictograms: {} },
+  he: { updated: '', pictograms: {} },
   it: { updated: '', pictograms: {} },
   nl: { updated: '', pictograms: {} },
   pl: { updated: '', pictograms: {} },
