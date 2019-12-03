@@ -28,6 +28,8 @@ const makeSelectHasUser = () => createSelector(selectAuth, auth => auth.get('acc
 
 const makeSelectHasRole = () => createSelector(selectAuth, auth => auth.get('role'))
 
+const makeSelectTargetLanguages = () => createSelector(selectAuth, auth => auth.get('targetLanguages'))
+
 const makeSelectLoading = () => createSelector(selectAuth, auth => auth.get('loading'))
 
 const makeSelectError = () => createSelector(selectAuth, auth => auth.get('error'))
@@ -47,6 +49,7 @@ export {
   selectAuth,
   makeSelectHasUser,
   makeSelectHasRole,
+  makeSelectTargetLanguages,
   makeSelectRefreshToken,
   makeSelectTokens,
   makeSelectRefreshing,
