@@ -43,6 +43,7 @@ const AuthCatalogsView = userIsAuthenticatedRedir(userIsAdminRedir(CatalogsView)
 const AuthAddPictograms = userIsAuthenticatedRedir(userIsAdminRedir(AddPictograms))
 const AuthCategoriesView = userIsAuthenticatedRedir(userIsTranslatorRedir(CategoriesView))
 const AuthPictogramsView = userIsAuthenticatedRedir(userIsTranslatorRedir(PictogramsView))
+const AuthPictogramView = userIsAuthenticatedRedir(userIsTranslatorRedir(PictogramView))
 // const AuthUsersView = userIsAuthenticatedRedir(UsersView)
 // using sagas instead of redux-auth:
 // const AuthSigninView = userIsNotAuthenticatedRedir(SigninView)
@@ -132,7 +133,7 @@ const sidebarRoutes = [
   },
   {
     path: '/pictograms/:idPictogram/:searchText?',
-    component: PictogramView,
+    component: AuthPictogramView,
   },
   {
     path: '/',
