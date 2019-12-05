@@ -12,9 +12,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import { languages } from 'utils/index'
 import messages from './messages'
 
-// TODO: zh or zhs? ar or ara?
-
-const LanguageSelector = ({ id, anchorEl, intl, value, onClick, onClose, menu }) => {
+const LanguageSelector = ({ id, anchorEl, intl, value, onClick, onClose }) => {
   const { formatMessage } = intl
   return (
     <Menu id={id} anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={onClose}>
