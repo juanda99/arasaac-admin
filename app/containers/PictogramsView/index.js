@@ -13,7 +13,6 @@ import Tab from '@material-ui/core/Tab'
 import { FormattedMessage } from 'react-intl'
 import { compose } from 'redux'
 import View from 'components/View'
-import PictogramsGrid from 'components/PictogramsGrid'
 import SearchToggleBar from 'components/SearchToggleBar'
 import SearchField from 'components/SearchField'
 import { makeSelectLocale } from 'containers/LanguageProvider/selectors'
@@ -42,7 +41,6 @@ class PictogramsView extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      viewType: sessionStorage.getItem('pictoViewType') || 'module',
       tab: 0,
       offset: 0,
     }
@@ -51,11 +49,11 @@ class PictogramsView extends React.PureComponent {
   processQuery = props => {
     const { location } = props || this.props
     let { search } = location
-    let parameters = { offset: 0, viewType: 'module', tab: 0 }
+    let parameters = { offset: 0, tab: 0 }
     if (search) {
       search = search.slice(1) // remove ?
       parameters = { ...parameters, ...qs.parse(search) }
-      const validKeys = ['offset', 'tab', 'viewType']
+      const validKeys = ['offset', 'tab']
       Object.keys(parameters).forEach(key => validKeys.includes(key) || delete parameters[key])
       parameters.offset = parseInt(parameters.offset, 10)
       parameters.tab = parseInt(parameters.tab, 10)
@@ -93,11 +91,6 @@ class PictogramsView extends React.PureComponent {
     // sessionStorage.setItem('pictoSlideIndex', slideIndex)
   }
 
-  handleViewType = viewType => {
-    this.setState({ viewType })
-    sessionStorage.setItem('pictoViewType', viewType)
-  }
-
   handlePageClick = offset => {
     // fix bug if offset is not number, click comes from picto link, should not be processed here
     if (typeof offset === 'number') {
@@ -120,7 +113,7 @@ class PictogramsView extends React.PureComponent {
       pictogramCollection,
       locale,
     } = this.props
-    const { offset, tab, viewType } = this.state
+    const { offset, tab } = this.state
 
     const searchBox = (
       <View>
@@ -133,43 +126,34 @@ class PictogramsView extends React.PureComponent {
       case 0:
         {
           const pictogramList = searchText ? visiblePictograms : pictogramCollection
-          renderComponent =
-            viewType === 'list' ? (
-              <>
-                <SearchToggleBar viewType={viewType} changeViewType={this.handleViewType} />
-                <PictogramsGrid pictograms={pictogramCollection} locale={locale} searchText={searchText} />
-              </>
-            ) : (
-              <>
-                {loading ? (
-                  <View>
-                    <Typography variant="h6" component="h3" color="textPrimary" gutterBottom>
-                      {<FormattedMessage {...messages.loadingPictograms} />}
-                    </Typography>
-                  </View>
-                ) : (
-                  <>
-                    {pictogramList.length ? (
-                      <>
-                        <SearchToggleBar viewType={viewType} changeViewType={this.handleViewType} />
-                        <PictogramList
-                          pictograms={pictogramList}
-                          searchText={searchText}
-                          offset={offset}
-                          onPageClick={this.handlePageClick}
-                        />
-                      </>
-                    ) : (
-                      <View>
-                        <Typography variant="h6" component="h3" color="textPrimary" gutterBottom>
-                          {<FormattedMessage {...messages.pictogramsNotFound} />}
-                        </Typography>
-                      </View>
-                    )}
-                  </>
-                )}
-              </>
-            )
+          renderComponent = (
+            <>
+              {loading ? (
+                <View>
+                  <Typography variant="h6" component="h3" color="textPrimary" gutterBottom>
+                    {<FormattedMessage {...messages.loadingPictograms} />}
+                  </Typography>
+                </View>
+              ) : (
+                <>
+                  {pictogramList.length ? (
+                    <PictogramList
+                      pictograms={pictogramList}
+                      searchText={searchText}
+                      offset={offset}
+                      onPageClick={this.handlePageClick}
+                    />
+                  ) : (
+                    <View>
+                      <Typography variant="h6" component="h3" color="textPrimary" gutterBottom>
+                        {<FormattedMessage {...messages.pictogramsNotFound} />}
+                      </Typography>
+                    </View>
+                  )}
+                </>
+              )}
+            </>
+          )
         }
         break
       case 1:
