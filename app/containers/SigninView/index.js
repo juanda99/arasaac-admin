@@ -20,7 +20,7 @@ import ConditionalPaper from 'components/ConditionalPaper'
 import { getQueryStringValue } from 'utils'
 import { makeSelectLocale } from 'containers/LanguageProvider/selectors'
 import messages from './messages'
-import { makeSelectError, makeSelectHasRole } from '../App/selectors'
+import { makeSelectError, makeSelectUserRole } from '../App/selectors'
 
 const handleSubmit = (requestLogin, formData) => {
   const { username, password } = formData
@@ -102,7 +102,7 @@ LoginView.propTypes = {
 
 const mapStateToProps = state => {
   /* we don't use token for auth, as we wait saga for the profile before redirection!!! */
-  const isAuthenticated = (makeSelectHasRole()(state) && true) || false
+  const isAuthenticated = (makeSelectUserRole()(state) && true) || false
   const locale = makeSelectLocale()(state)
   const error = makeSelectError()(state)
   return {

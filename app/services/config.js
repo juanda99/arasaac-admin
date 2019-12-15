@@ -62,6 +62,15 @@ export const pictogramUpdate = {
   }),
 }
 
+export const pictogramDelete = {
+  url: idPictogram => `${PRIVATE_API_ROOT}/pictograms/${idPictogram}`,
+  options: {
+    config: {
+      method: 'DELETE',
+    },
+  },
+}
+
 export const categoriesAdd = {
   url: `${PRIVATE_API_ROOT}/categories/add`,
   options: (parentItem, data, locale, lastUpdated) => ({

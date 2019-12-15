@@ -126,6 +126,7 @@ export class PictogramForm extends Component {
     locale: PropTypes.string.isRequired,
     tags: PropTypes.array.isRequired,
     role: PropTypes.string.isRequired,
+    hasEditRole: PropTypes.bool.isRequired,
   }
 
   state = {
@@ -137,7 +138,7 @@ export class PictogramForm extends Component {
   toggleSuggestions = () => this.setState(prevState => ({ showSuggestions: !prevState.showSuggestions }))
 
   render() {
-    const { data, classes, categories, intl, locale, tags, role } = this.props
+    const { data, classes, categories, intl, locale, tags, role, hasEditRole } = this.props
     const { formatMessage } = intl
     const { showSuggestions, language } = this.state
     return (
@@ -207,6 +208,7 @@ export class PictogramForm extends Component {
                             label={<FormattedMessage {...messages.word} />}
                             component={TextField}
                             type="text"
+                            disabled={!hasEditRole}
                           />
                         </div>
                         <WhenFieldChanges
@@ -223,6 +225,7 @@ export class PictogramForm extends Component {
                             label={<FormattedMessage {...messages.plural} />}
                             component={TextField}
                             type="text"
+                            disabled={!hasEditRole}
                           />
                         </div>
                         <div style={{ width: '200px', marginRight: '10px' }}>
@@ -233,6 +236,7 @@ export class PictogramForm extends Component {
                             label={<FormattedMessage {...messages.type} />}
                             component={Select}
                             type="text"
+                            disabled={!hasEditRole}
                           >
                             <MenuItem value="" />
                             <MenuItem value="1">{<FormattedMessage {...messages.properName} />}</MenuItem>
@@ -250,6 +254,7 @@ export class PictogramForm extends Component {
                             size="small"
                             aria-label="Add keyword"
                             onClick={() => push('keywords', undefined)}
+                            disabled={!hasEditRole}
                           >
                             <AddIcon />
                           </Fab>
@@ -260,6 +265,7 @@ export class PictogramForm extends Component {
                             size="small"
                             aria-label="Remove keyword"
                             onClick={() => fields.remove(index)}
+                            disabled={!hasEditRole}
                           >
                             <DeleteIcon />
                           </Fab>
@@ -278,7 +284,6 @@ export class PictogramForm extends Component {
                         </MenuItem>
                       ))}
                     </Select>
-                    <p>Sugerencias en español:</p>
                   </div>
                 )}
               </div>
@@ -302,7 +307,7 @@ export class PictogramForm extends Component {
                   )}
                   <FormControlLabel
                     label={<FormattedMessage {...messages.validated} />}
-                    control={<Field name="validated" component={Checkbox} type="checkbox" />}
+                    control={<Field name="validated" component={Checkbox} type="checkbox" disabled={!hasEditRole} />}
                   />
                 </div>
               </div>

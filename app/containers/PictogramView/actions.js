@@ -3,6 +3,7 @@ import { createRequestTypes, action } from 'utils/actions'
 // constants
 export const PICTOGRAM = createRequestTypes('PICTOGRAM')
 export const PICTOGRAM_UPDATE = createRequestTypes('PICTOGRAM_UPDATE')
+export const PICTOGRAM_DELETE = createRequestTypes('PICTOGRAM_DELETE')
 export const REMOVE_ERROR = 'REMOVE_ERROR'
 
 // actions: material.request/success/failure
@@ -10,6 +11,19 @@ export const pictogram = {
   request: (idPictogram, locale) => action(PICTOGRAM.REQUEST, { idPictogram, locale }),
   success: (locale, data) => action(PICTOGRAM.SUCCESS, { locale, data }),
   failure: error => action(PICTOGRAM.FAILURE, { error }),
+}
+
+export const pictogramDelete = {
+  request: (idPictogram, token) =>
+    action(PICTOGRAM_DELETE.REQUEST, {
+      idPictogram,
+      token,
+    }),
+  success: idPictogram =>
+    action(PICTOGRAM_DELETE.SUCCESS, {
+      idPictogram,
+    }),
+  failure: error => action(PICTOGRAM_DELETE.FAILURE, { error }),
 }
 
 export const pictogramUpdate = {

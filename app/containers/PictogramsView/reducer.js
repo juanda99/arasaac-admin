@@ -5,8 +5,14 @@
  */
 
 import { fromJS, Map } from 'immutable'
-import { PICTOGRAM, PICTOGRAM_UPDATE } from 'containers/PictogramView/actions'
+import { PICTOGRAM, PICTOGRAM_UPDATE, PICTOGRAM_DELETE } from 'containers/PictogramView/actions'
+import { languages } from 'utils/index'
 import { PICTOGRAMS, AUTOCOMPLETE, NEW_PICTOGRAMS, REMOVE_ERROR } from './actions'
+
+const langReducer = {}
+languages.forEach(language => {
+  langReducer[language.code] = { updated: '', pictograms: {} }
+})
 
 export const initialState = fromJS({
   loading: false,
@@ -14,26 +20,7 @@ export const initialState = fromJS({
   search: {},
   words: {},
   searchText: '',
-  ar: { updated: '', pictograms: {} },
-  bg: { updated: '', pictograms: {} },
-  br: { updated: '', pictograms: {} },
-  ca: { updated: '', pictograms: {} },
-  de: { updated: '', pictograms: {} },
-  en: { updated: '', pictograms: {} },
-  es: { updated: '', pictograms: {} },
-  eu: { updated: '', pictograms: {} },
-  fr: { updated: '', pictograms: {} },
-  gl: { updated: '', pictograms: {} },
-  hr: { updated: '', pictograms: {} },
-  he: { updated: '', pictograms: {} },
-  it: { updated: '', pictograms: {} },
-  nl: { updated: '', pictograms: {} },
-  pl: { updated: '', pictograms: {} },
-  pt: { updated: '', pictograms: {} },
-  ro: { updated: '', pictograms: {} },
-  ru: { updated: '', pictograms: {} },
-  val: { updated: '', pictograms: {} },
-  zh: { updated: '', pictograms: {} },
+  ...langReducer,
 })
 
 const pictogramsViewReducer = (state = initialState, action) => {
@@ -44,6 +31,7 @@ const pictogramsViewReducer = (state = initialState, action) => {
     case PICTOGRAM_UPDATE.REQUEST:
     case PICTOGRAMS.REQUEST:
     case NEW_PICTOGRAMS.REQUEST:
+    case PICTOGRAM_DELETE:
       return state.set('loading', true).set('error', '')
     case PICTOGRAMS.SUCCESS:
       newPictogram = Map(action.payload.data.entities.pictograms || {})
@@ -62,10 +50,19 @@ const pictogramsViewReducer = (state = initialState, action) => {
       newPictogram = action.payload.data || {}
       idPictogram = action.payload.data._id.toString()
       return state.set('loading', false).setIn([action.payload.locale, 'pictograms', idPictogram], newPictogram)
+    case PICTOGRAM_DELETE.SUCCESS: {
+      idPictogram = action.payload.idPictogram
+      let tmpState = state
+      languages.forEach(language => {
+        tmpState = tmpState.deleteIn([language.code, 'pictograms', idPictogram])
+      })
+      return tmpState.set('loading', false)
+    }
     case PICTOGRAM.FAILURE:
     case PICTOGRAM_UPDATE.FAILURE:
     case PICTOGRAMS.FAILURE:
     case NEW_PICTOGRAMS.FAILURE:
+    case PICTOGRAM_DELETE.FAILURE:
       return state.set('error', action.payload.error).set('loading', false)
     case AUTOCOMPLETE.REQUEST:
       return state

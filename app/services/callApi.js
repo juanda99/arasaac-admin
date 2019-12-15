@@ -1,6 +1,5 @@
 import { normalize } from 'normalizr'
 // import { camelizeKeys } from 'humps'
-import 'isomorphic-fetch'
 
 // Fetches an API response and normalizes the result JSON according to schema.
 // This makes every API response have the same shape, regardless of how nested it was.
@@ -23,6 +22,8 @@ const callApi = async (endpoint, options, token) => {
   try {
     const response = await fetch(endpoint, config)
     if (response.status === 401) throw new Error('UNAUTHORIZED')
+    // if (response.status === 404) return null // response.json could be empty
+    if (response.status === 204) return null // fetch does not process 204
     const data = await response.json()
     // 404 is used for api empty response, without error
     if (response.status >= 400 && response.status !== 404) throw new Error(data.error)

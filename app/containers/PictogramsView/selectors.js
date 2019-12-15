@@ -2,9 +2,8 @@ import { denormalize } from 'normalizr'
 import { createSelector } from 'reselect'
 import { searchPictogramSchema } from 'services/schemas'
 import { makeSelectLocale } from 'containers/LanguageProvider/selectors'
-import { makeSelectHasRole } from 'containers/App/selectors'
+import { makeSelectUserRole } from 'containers/App/selectors'
 import { Map } from 'immutable'
-import { makeSelectHasUser } from '../App/selectors'
 
 const PICTOGRAMS = 'pictograms'
 const LAST_UPDATED = 'updated'
@@ -45,15 +44,15 @@ export const makePictogramByIdSelector = () =>
   )
 
 export const makePictogramsListSelector = () =>
-  createSelector(selectPictogramsViewDomain, makeSelectLocale(), makeSelectHasRole(), (substate, locale, role) => {
+  createSelector(selectPictogramsViewDomain, makeSelectLocale(), makeSelectUserRole(), (substate, locale, role) => {
     // pictograms.locale does not exists first time, just pictograms
     const pictograms = substate.getIn([locale, PICTOGRAMS]) || new Map()
     return role === 'admin'
       ? pictograms.valueSeq().toArray()
       : pictograms
-          .valueSeq()
-          .toArray()
-          .filter(pictogram => pictogram.available === true)
+        .valueSeq()
+        .toArray()
+        .filter(pictogram => pictogram.available === true)
   })
 
 export const makeLastUpdatedSelector = () =>
@@ -83,7 +82,7 @@ export const makeVisiblePictogramsSelector = () =>
   createSelector(
     makeSearchResultsSelector(),
     makeEntitiesSelector(),
-    makeSelectHasRole(),
+    makeSelectUserRole(),
     // makeFiltersSelector(),
     (searchData, entities, role /* , filters */) => {
       /* searchData could be undefined */

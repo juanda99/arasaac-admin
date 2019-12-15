@@ -11,7 +11,7 @@
 
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { makeSelectHasRole } from '../App/selectors'
+import { makeSelectUserRole } from '../App/selectors'
 import messages from './messages'
 
 /* eslint-disable react/prefer-stateless-function */

@@ -4,6 +4,7 @@ import {
   login,
   categories, // for update: tag or keywords
   pictogramUpdate,
+  pictogramDelete,
   categoriesAdd,
   categoriesRemove,
   signup,
@@ -42,6 +43,8 @@ const api = {
     callApi(`${PRIVATE_API_ROOT}/pictograms/keywords/${keywordsHintLocale}/${idPictogram}`),
   PICTOGRAM_UPDATE_REQUEST: ({ token, locale, pictogram }) =>
     callApi(pictogramUpdate.url, pictogramUpdate.options(locale, pictogram), token),
+  PICTOGRAM_DELETE_REQUEST: ({ token, idPictogram }) =>
+    callApi(pictogramDelete.url(idPictogram), pictogramDelete.options, token),
   LOGIN_REQUEST: ({ username, password }) => callApi(login.url, login.options(username, password)),
   SOCIAL_LOGIN_REQUEST: ({ socialToken, provider, locale }) =>
     callApi(socialLogin.url, socialLogin.options(socialToken, provider, locale)),
