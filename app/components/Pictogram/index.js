@@ -33,6 +33,7 @@ class Pictogram extends PureComponent {
     onChangeKeywordsLocale: PropTypes.func.isRequired,
     keywords: PropTypes.arrayOf(PropTypes.object.isRequireds),
     onDelete: PropTypes.func.isRequired,
+    canDelete: PropTypes.bool.isRequired,
   }
 
   state = {
@@ -53,8 +54,7 @@ class Pictogram extends PureComponent {
   }
 
   render() {
-    const { pictogram, classes, keywords, onDelete } = this.props
-    console.log(pictogram, `********************`)
+    const { pictogram, classes, keywords, onDelete, canDelete } = this.props
     const { _id } = pictogram
     const { languageButton } = this.state
     const idSelector = 'keywords-language'
@@ -63,11 +63,13 @@ class Pictogram extends PureComponent {
       <div className={classes.pictoWrapper}>
         <ConditionalPaper style={{ position: 'relative' }}>
           <img className={classes.pictogram} src={`${PICTOGRAMS_URL}/${_id}/${_id}_300.png`} alt="Pictograms" />
-          <Tooltip title={<FormattedMessage {...ownMessages.deletePictogram} />} enterDelay={300}>
-            <IconButton onClick={onDelete} style={{ position: 'absolute', top: 10, left: 230 }}>
-              <DeleteIcon color="primary" style={{ fontSize: 40 }} />
-            </IconButton>
-          </Tooltip>
+          {canDelete && (
+            <Tooltip title={<FormattedMessage {...ownMessages.deletePictogram} />} enterDelay={300}>
+              <IconButton onClick={onDelete} style={{ position: 'absolute', top: 10, left: 230 }}>
+                <DeleteIcon color="primary" style={{ fontSize: 40 }} />
+              </IconButton>
+            </Tooltip>
+          )}
         </ConditionalPaper>
         <div id="keywords-language">
           <Tooltip title={<FormattedMessage {...messages.changeLanguage} />} enterDelay={300}>

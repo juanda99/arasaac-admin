@@ -43,7 +43,7 @@ export class PictogramList extends PureComponent {
       ) : null
 
     const renderPictograms = visiblePictograms.map(pictogram => (
-      <PictogramSnippet pictogram={pictogram} searchText={searchText} key={pictogram.idPictogram} />
+      <PictogramSnippet pictogram={pictogram} searchText={searchText} key={pictogram._id} />
     ))
 
     return (

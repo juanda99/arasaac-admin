@@ -125,6 +125,7 @@ class PictogramView extends React.PureComponent {
               keywords={keywords}
               onChangeKeywordsLocale={this.handleChangeKeywordsLocale}
               onDelete={this.handleDelete}
+              canDelete={role === 'admin'}
             />
             <PictogramForm
               data={selectedPictogram}
