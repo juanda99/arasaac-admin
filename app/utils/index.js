@@ -29,7 +29,7 @@ export const getFilteredItems = (items, filters) =>
 
 /* inside pictograms, check which keywords meets an specific searchText */
 export const keywordSelector = (searchText, keywords) => {
-  if (!keywords) return ''
+  if (keywords.length === 0) return ''
   const searchTextArray = searchText ? searchText.split(' ') : []
   if (!searchTextArray.length) return keywords[0]
   // if same keyword exists, return it
