@@ -8,6 +8,7 @@ import { withStyles } from '@material-ui/core/styles'
 import withWidth from '@material-ui/core/withWidth'
 import { compose } from 'redux'
 import injectReducer from 'utils/injectReducer'
+import Typography from '@material-ui/core/Typography'
 import injectSaga from 'utils/injectSaga'
 import { makeSelectLocale } from 'containers/LanguageProvider/selectors'
 import View from 'components/View'
@@ -40,6 +41,7 @@ class PictogramView extends React.PureComponent {
   state = {
     keywordsHintLocale: localStorage.getItem('keywordsHintLocale') || null,
     keywords: [],
+    confirmationBoxOpen: false, // use prior to deletings
   }
 
   getKeywords = keywordsHintLocale => {
@@ -68,10 +70,13 @@ class PictogramView extends React.PureComponent {
 
   handleErrorDialogClose = () => this.props.requestRemoveError()
 
-  handleDelete = () => {
+  handleDelete = accept => {
     const { idPictogram, requestPictogramDelete, token } = this.props
-    requestPictogramDelete(idPictogram, token)
+    this.setState({ confirmationBoxOpen: false })
+    if (accept) requestPictogramDelete(idPictogram, token)
   }
+
+  handleBeforeDelete = () => this.setState({ confirmationBoxOpen: true })
 
   handleChangeKeywordsLocale = keywordsHintLocale => this.getKeywords(keywordsHintLocale)
 
@@ -89,7 +94,7 @@ class PictogramView extends React.PureComponent {
 
   render() {
     const { selectedPictogram, locale, classes, tags, intl, role, loading } = this.props
-    const { keywordsHintLocale, keywords } = this.state
+    const { keywordsHintLocale, keywords, confirmationBoxOpen } = this.state
     const { formatMessage } = intl
 
     const hasEditRole = this.hasEditRole()
@@ -124,6 +129,8 @@ class PictogramView extends React.PureComponent {
               language={keywordsHintLocale}
               keywords={keywords}
               onChangeKeywordsLocale={this.handleChangeKeywordsLocale}
+              confirmationBoxOpen={confirmationBoxOpen}
+              onBeforeDelete={this.handleBeforeDelete}
               onDelete={this.handleDelete}
               canDelete={role === 'admin'}
             />
@@ -139,7 +146,15 @@ class PictogramView extends React.PureComponent {
           </div>
         ) : (
           <div className={classes.wrapper}>
-            {loading ? <h2>Cargando el pictograma</h2> : <h2>El pictograma no existe</h2>}
+            {loading ? (
+              <Typography variant="h6" component="h3" color="textPrimary" gutterBottom>
+                <FormattedMessage {...messages.loadingPictogram} />
+              </Typography>
+            ) : (
+              <Typography variant="h6" component="h3" color="textPrimary" gutterBottom>
+                <FormattedMessage {...messages.notFoundPictogram} />
+              </Typography>
+            )}
           </div>
         )}
       </View>

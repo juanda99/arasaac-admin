@@ -5,10 +5,11 @@ import { PICTOGRAMS_URL } from 'services/config'
 import Tooltip from '@material-ui/core/Tooltip'
 import IconButton from '@material-ui/core/IconButton'
 import DeleteIcon from '@material-ui/icons/Delete'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import LanguageIcon from '@material-ui/icons/Language'
 import LanguageSelector from 'components/LanguageSelector'
 import messages from 'containers/LocaleSelector/messages'
+import ConfirmationDialog from 'components/ConfirmationDialog'
 import Chip from '@material-ui/core/Chip'
 import ConditionalPaper from './ConditionalPaper'
 import ownMessages from './messages'
@@ -33,12 +34,18 @@ class Pictogram extends PureComponent {
     onChangeKeywordsLocale: PropTypes.func.isRequired,
     keywords: PropTypes.arrayOf(PropTypes.object.isRequireds),
     onDelete: PropTypes.func.isRequired,
+    onBeforeDelete: PropTypes.func.isRequired,
+    confirmationBoxOpen: PropTypes.bool.isRequired,
     canDelete: PropTypes.bool.isRequired,
   }
 
   state = {
     languageButton: null,
   }
+
+  handleDelete = accept => this.props.onDelete(accept)
+
+  handleClickDelete = () => this.props.onBeforeDelete()
 
   handleLanguageMenu = event => {
     this.setState({ languageButton: event.currentTarget })
@@ -54,18 +61,24 @@ class Pictogram extends PureComponent {
   }
 
   render() {
-    const { pictogram, classes, keywords, onDelete, canDelete } = this.props
+    const { pictogram, classes, keywords, canDelete, confirmationBoxOpen } = this.props
     const { _id } = pictogram
     const { languageButton } = this.state
     const idSelector = 'keywords-language'
 
     return (
       <div className={classes.pictoWrapper}>
+        <ConfirmationDialog
+          onClose={this.handleDelete}
+          open={confirmationBoxOpen}
+          confirmationTitle={<FormattedMessage {...ownMessages.confirmationTitle} />}
+          confirmationInfoText={<FormattedMessage {...ownMessages.confirmationInfoText} />}
+        />
         <ConditionalPaper style={{ position: 'relative' }}>
           <img className={classes.pictogram} src={`${PICTOGRAMS_URL}/${_id}/${_id}_300.png`} alt="Pictograms" />
           {canDelete && (
             <Tooltip title={<FormattedMessage {...ownMessages.deletePictogram} />} enterDelay={300}>
-              <IconButton onClick={onDelete} style={{ position: 'absolute', top: 10, left: 230 }}>
+              <IconButton onClick={this.handleClickDelete} style={{ position: 'absolute', top: 10, left: 230 }}>
                 <DeleteIcon color="primary" style={{ fontSize: 40 }} />
               </IconButton>
             </Tooltip>

@@ -7,4 +7,12 @@ export default defineMessages({
     id: `${scope}.deletePictogram`,
     defaultMessage: 'Delete pictogram',
   },
+  confirmationTitle: {
+    id: `${scope}.confirmationTitle`,
+    defaultMessage: 'Delete pictogram',
+  },
+  confirmationInfoText: {
+    id: `${scope}.confirmationInfoText`,
+    defaultMessage: 'Are you sure you want to delete the pictogram?',
+  },
 })
