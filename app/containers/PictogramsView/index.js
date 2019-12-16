@@ -13,7 +13,6 @@ import Tab from '@material-ui/core/Tab'
 import { FormattedMessage } from 'react-intl'
 import { compose } from 'redux'
 import View from 'components/View'
-import SearchToggleBar from 'components/SearchToggleBar'
 import SearchField from 'components/SearchField'
 import { makeSelectLocale } from 'containers/LanguageProvider/selectors'
 import injectReducer from 'utils/injectReducer'
@@ -101,6 +100,8 @@ class PictogramsView extends React.PureComponent {
     }
   }
 
+  handleDelete = () => history.push('/pictograms/')
+
   render() {
     const {
       classes,
@@ -117,57 +118,63 @@ class PictogramsView extends React.PureComponent {
 
     const searchBox = (
       <View>
-        <SearchField value={searchText} onSubmit={this.handleSubmit} style={styles.searchBar} dataSource={keywords} />
+        <SearchField
+          value={searchText}
+          onSubmit={this.handleSubmit}
+          style={styles.searchBar}
+          dataSource={keywords}
+          onDelete={this.handleDelete}
+        />
       </View>
     )
 
     let renderComponent
     switch (tab) {
       case 0:
-        {
-          const pictogramList = searchText ? visiblePictograms : pictogramCollection
+        if (searchText && loading === false) {
           renderComponent = (
             <>
-              {loading ? (
+              {visiblePictograms.length ? (
+                <PictogramList
+                  pictograms={visiblePictograms}
+                  searchText={searchText}
+                  offset={offset}
+                  onPageClick={this.handlePageClick}
+                />
+              ) : (
                 <View>
                   <Typography variant="h6" component="h3" color="textPrimary" gutterBottom>
-                    {<FormattedMessage {...messages.loadingPictograms} />}
+                    {<FormattedMessage {...messages.pictogramsNotFound} />}
                   </Typography>
                 </View>
-              ) : (
-                <>
-                  {pictogramList.length ? (
-                    <PictogramList
-                      pictograms={pictogramList}
-                      searchText={searchText}
-                      offset={offset}
-                      onPageClick={this.handlePageClick}
-                    />
-                  ) : (
-                    <View>
-                      <Typography variant="h6" component="h3" color="textPrimary" gutterBottom>
-                        {<FormattedMessage {...messages.pictogramsNotFound} />}
-                      </Typography>
-                    </View>
-                  )}
-                </>
               )}
             </>
           )
-        }
+        } else renderComponent = null
+
         break
       case 1:
         {
           // TODO: use reselect for memoization
           const unpublishedPictos = pictogramCollection.filter(pictogram => pictogram.published === false)
           renderComponent = (
-            <PictogramList
-              pictograms={unpublishedPictos}
-              locale={locale}
-              searchText={searchText}
-              offset={offset}
-              onPageClick={this.handlePageClick}
-            />
+            <>
+              {unpublishedPictos.length ? (
+                <PictogramList
+                  pictograms={unpublishedPictos}
+                  locale={locale}
+                  searchText={searchText}
+                  offset={offset}
+                  onPageClick={this.handlePageClick}
+                />
+              ) : (
+                <View>
+                  <Typography variant="h6" component="h3" color="textPrimary" gutterBottom>
+                    {<FormattedMessage {...messages.pictogramsNotFound} />}
+                  </Typography>
+                </View>
+              )}
+            </>
           )
         }
         break

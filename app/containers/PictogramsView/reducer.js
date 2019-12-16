@@ -46,6 +46,16 @@ const pictogramsViewReducer = (state = initialState, action) => {
         .mergeIn([action.payload.locale, 'updated'], action.payload.updated)
         .mergeIn([action.payload.locale, 'pictograms'], newPictogram)
     case PICTOGRAM.SUCCESS:
+      // same as update, but if pictogram does not exist, toString gives error
+      newPictogram = action.payload.data || {}
+      idPictogram = action.payload.data._id
+      if (idPictogram) {
+        return state
+          .set('loading', false)
+          .setIn([action.payload.locale, 'pictograms', idPictogram.toString()], newPictogram)
+      }
+      return state.set('loading', false)
+
     case PICTOGRAM_UPDATE.SUCCESS:
       newPictogram = action.payload.data || {}
       idPictogram = action.payload.data._id.toString()

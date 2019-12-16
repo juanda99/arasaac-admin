@@ -130,7 +130,10 @@ class SearchField extends Component {
 
   handleClick = () => this.props.onSubmit(this.state.searchText)
 
-  handleRemoveSearchText = () => this.setState({ searchText: '' })
+  handleRemoveSearchText = () => {
+    this.setState({ searchText: '' })
+    this.props.onDelete()
+  }
 
   render() {
     const { classes, intl } = this.props
@@ -181,6 +184,7 @@ SearchField.propTypes = {
   style: PropTypes.object,
   value: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   intl: PropTypes.shape({
     formatMessage: PropTypes.func.isRequired,
