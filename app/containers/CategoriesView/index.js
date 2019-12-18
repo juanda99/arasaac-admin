@@ -15,6 +15,7 @@ import SearchField from 'components/SearchField'
 import jp from 'jsonpath'
 import { makeSelectHasUser, makeSelectUserRole, makeSelectTargetLanguages } from 'containers/App/selectors'
 // import DragDropFile from './DragDropFile'
+import Button from '@material-ui/core/Button'
 import styles from './styles'
 import { categories, categoriesUpdate, categoriesAdd, categoriesDelete, removeError } from './actions'
 import {
@@ -88,6 +89,7 @@ class CategoriesView extends React.Component {
       action: '',
       targetItem: '',
       confirmationBoxOpen: false,
+      showTags: false,
     })
   }
 
@@ -117,10 +119,15 @@ class CategoriesView extends React.Component {
     if (accept) requestCategoriesDelete(token, locale, item, lastUpdated)
   }
 
+  toggleShowTags = () => {
+    this.setState({ showTags: !this.state.showTags })
+  }
+
   render() {
-    const { category, searchText, open, openForm, targetItem, confirmationBoxOpen, action } = this.state
+    const { category, searchText, open, openForm, targetItem, confirmationBoxOpen, action, showTags } = this.state
     const { keywords, tags, loading, role, targetLanguages, locale } = this.props
     const { data } = this.props.categories || {}
+    console.log(data, '************')
     return (
       <View>
         {!!this.props.error && (
@@ -131,8 +138,7 @@ class CategoriesView extends React.Component {
           />
         )}
         <SearchField
-          value={searchText}
-          // onRequestSearch={this.handleSubmit}
+          value={searchText} // onRequestSearch={this.handleSubmit}
           onSubmit={this.handleSubmit}
           style={styles.searchBar}
           dataSource={keywords}
@@ -161,6 +167,35 @@ class CategoriesView extends React.Component {
             locale={locale}
           />
         )}
+        {role === 'admin' && (
+          <Button onClick={this.toggleShowTags} variant="contained">
+            {this.state.showTags ? 'Esconder etiquetas' : 'Ver etiquetas'}
+          </Button>
+        )}
+        {showTags &&
+          tags.sort().map(tag => (
+            <p>
+              <strong>{tag}</strong>:<br />
+              {jp.nodes(data, `$..tags[?(@=="${tag}")]`).map(node =>
+                node.path.map(item => {
+                  console.log(item)
+                  if (item === 'children') {
+                    return '->'
+                  }
+                  if (item === '$') {
+                    return ''
+                  }
+                  if (item === 'tags') {
+                    return <br />
+                  }
+                  if (!isNaN(item)) {
+                    return ''
+                  }
+                  return item
+                }),
+              )}
+            </p>
+          ))}
       </View>
     )
   }
