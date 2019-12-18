@@ -61,7 +61,7 @@ class Pictogram extends PureComponent {
   }
 
   render() {
-    const { pictogram, classes, keywords, canDelete, confirmationBoxOpen } = this.props
+    const { pictogram, classes, keywords, canDelete, confirmationBoxOpen, theme } = this.props
     const { _id } = pictogram
     const { languageButton } = this.state
     const idSelector = 'keywords-language'
@@ -104,15 +104,12 @@ class Pictogram extends PureComponent {
           {keywords.length ? (
             <>
               {keywords.map(keyword => {
-                const color = getColor(keyword.type)
+                const color = getColor(keyword.type, theme)
+                const style = { backgroundColor: color, color: 'white', marginRight: '2px' }
+                if (color === white) style.color = 'black'
                 return (
                   keyword.keyword && (
-                    <Chip
-                      variant="outlined"
-                      label={keyword.keyword}
-                      key={keyword.keyword}
-                      style={{ backgroundColor: color, color: 'black', marginRight: '2px' }}
-                    />
+                    <Chip variant="outlined" label={keyword.keyword} key={keyword.keyword} style={style} />
                   )
                 )
               })}
