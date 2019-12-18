@@ -107,7 +107,12 @@ class Pictogram extends PureComponent {
                 const color = getColor(keyword.type)
                 return (
                   keyword.keyword && (
-                    <Chip label={keyword.keyword} key={keyword.keyword} style={{ backgroundColor: color }} />
+                    <Chip
+                      variant="outlined"
+                      label={keyword.keyword}
+                      key={keyword.keyword}
+                      style={{ backgroundColor: color, color: 'black', marginRight: '2px' }}
+                    />
                   )
                 )
               })}
