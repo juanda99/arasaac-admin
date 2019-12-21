@@ -106,7 +106,7 @@ class Pictogram extends PureComponent {
               {keywords.map(keyword => {
                 const color = getColor(keyword.type, theme)
                 const style = { backgroundColor: color, color: 'white', marginRight: '2px' }
-                if (color === white) style.color = 'black'
+                if (color === white || color === yellow) style.color = 'black'
                 return (
                   keyword.keyword && (
                     <Chip variant="outlined" label={keyword.keyword} key={keyword.keyword} style={style} />
@@ -115,8 +115,8 @@ class Pictogram extends PureComponent {
               })}
             </>
           ) : (
-            <span>No keywords found!</span>
-          )}
+              <span>No keywords found!</span>
+            )}
         </div>
       </div>
     )
