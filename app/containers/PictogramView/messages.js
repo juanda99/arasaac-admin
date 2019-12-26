@@ -8,11 +8,11 @@ export default defineMessages({
     defaultMessage: 'Pictogram error',
   },
   loadingPictogram: {
-    id: `${scope}.errorTitle`,
+    id: `${scope}.loadingPictogram`,
     defaultMessage: 'Loading pictogram',
   },
   notFoundPictogram: {
-    id: `${scope}.errorTitle`,
+    id: `${scope}.notFoundPictogram`,
     defaultMessage: 'Pictogram not found',
   },
 })
