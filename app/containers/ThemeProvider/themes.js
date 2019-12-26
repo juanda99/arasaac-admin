@@ -42,8 +42,9 @@ themes[DARK_THEME] = {
   },
 }
 
-const getTheme = (theme = DEFAULT_THEME) => {
+const getTheme = (theme = DEFAULT_THEME, direction) => {
   const currentTheme = themes[theme]
+  currentTheme.direction = direction
   return createMuiTheme(currentTheme)
 }
 
