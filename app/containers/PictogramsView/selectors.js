@@ -48,11 +48,15 @@ export const makePictogramsListSelector = () =>
     // pictograms.locale does not exists first time, just pictograms
     const pictograms = substate.getIn([locale, PICTOGRAMS]) || new Map()
     return role === 'admin'
-      ? pictograms.valueSeq().toArray()
+      ? pictograms
+        .valueSeq()
+        .toArray()
+        .sort((a, b) => (a._id < b._id ? 1 : -1))
       : pictograms
         .valueSeq()
         .toArray()
         .filter(pictogram => pictogram.available === true)
+        .sort((a, b) => (a._id < b._id ? 1 : -1))
   })
 
 export const makeLastUpdatedSelector = () =>
