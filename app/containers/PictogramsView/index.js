@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import qs from 'qs'
 import { withStyles } from '@material-ui/core/styles'
+import Typography from '@material-ui/core/Typography'
 import withWidth from '@material-ui/core/withWidth'
 import SearchIcon from '@material-ui/icons/Search'
 import VisibilityIcon from '@material-ui/icons/VisibilityOff'
@@ -12,8 +13,6 @@ import Tab from '@material-ui/core/Tab'
 import { FormattedMessage } from 'react-intl'
 import { compose } from 'redux'
 import View from 'components/View'
-import PictogramsGrid from 'components/PictogramsGrid'
-import SearchToggleBar from 'components/SearchToggleBar'
 import SearchField from 'components/SearchField'
 import { makeSelectLocale } from 'containers/LanguageProvider/selectors'
 import injectReducer from 'utils/injectReducer'
@@ -41,7 +40,6 @@ class PictogramsView extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      viewType: sessionStorage.getItem('pictoViewType') || 'module',
       tab: 0,
       offset: 0,
     }
@@ -50,11 +48,11 @@ class PictogramsView extends React.PureComponent {
   processQuery = props => {
     const { location } = props || this.props
     let { search } = location
-    let parameters = { offset: 0, viewType: 'module', tab: 0 }
+    let parameters = { offset: 0, tab: 0 }
     if (search) {
       search = search.slice(1) // remove ?
       parameters = { ...parameters, ...qs.parse(search) }
-      const validKeys = ['offset', 'tab', 'viewType']
+      const validKeys = ['offset', 'tab']
       Object.keys(parameters).forEach(key => validKeys.includes(key) || delete parameters[key])
       parameters.offset = parseInt(parameters.offset, 10)
       parameters.tab = parseInt(parameters.tab, 10)
@@ -92,15 +90,6 @@ class PictogramsView extends React.PureComponent {
     // sessionStorage.setItem('pictoSlideIndex', slideIndex)
   }
 
-  renderLoading = () => <View>Loading...</View>
-
-  renderError = () => <div>Loading pictograms....</div>
-
-  handleViewType = viewType => {
-    this.setState({ viewType })
-    sessionStorage.setItem('pictoViewType', viewType)
-  }
-
   handlePageClick = offset => {
     // fix bug if offset is not number, click comes from picto link, should not be processed here
     if (typeof offset === 'number') {
@@ -110,6 +99,8 @@ class PictogramsView extends React.PureComponent {
       this.props.history.push(url)
     }
   }
+
+  handleDelete = () => history.push('/pictograms/')
 
   render() {
     const {
@@ -123,66 +114,67 @@ class PictogramsView extends React.PureComponent {
       pictogramCollection,
       locale,
     } = this.props
-    const { offset, tab, viewType } = this.state
+    const { offset, tab } = this.state
 
     const searchBox = (
       <View>
-        <SearchField value={searchText} onSubmit={this.handleSubmit} style={styles.searchBar} dataSource={keywords} />
+        <SearchField
+          value={searchText}
+          onSubmit={this.handleSubmit}
+          style={styles.searchBar}
+          dataSource={keywords}
+          onDelete={this.handleDelete}
+        />
       </View>
     )
 
     let renderComponent
     switch (tab) {
       case 0:
-        {
-          const pictogramList = searchText ? visiblePictograms : pictogramCollection
-          renderComponent =
-            viewType === 'list' ? (
-              <>
-                <SearchToggleBar viewType={viewType} changeViewType={this.handleViewType} />
-                <PictogramsGrid pictograms={pictogramCollection} locale={locale} searchText={searchText} />
-              </>
-            ) : (
-              <>
-                {loading ? (
-                  <View>
-                    <h3> Getting data....</h3>
-                  </View>
-                ) : (
-                  <>
-                    {pictogramList.length ? (
-                      <>
-                        <SearchToggleBar viewType={viewType} changeViewType={this.handleViewType} />
-                        <PictogramList
-                          pictograms={pictogramList}
-                          searchText={searchText}
-                          offset={offset}
-                          onPageClick={this.handlePageClick}
-                        />
-                      </>
-                    ) : (
-                      <View>
-                        <h3>{<FormattedMessage {...messages.pictogramsNotFound} />}</h3>
-                      </View>
-                    )}
-                  </>
-                )}
-              </>
-            )
-        }
+        if (searchText && loading === false) {
+          renderComponent = (
+            <>
+              {visiblePictograms.length ? (
+                <PictogramList
+                  pictograms={visiblePictograms}
+                  searchText={searchText}
+                  offset={offset}
+                  onPageClick={this.handlePageClick}
+                />
+              ) : (
+                <View>
+                  <Typography variant="h6" component="h3" color="textPrimary" gutterBottom>
+                    {<FormattedMessage {...messages.pictogramsNotFound} />}
+                  </Typography>
+                </View>
+              )}
+            </>
+          )
+        } else renderComponent = null
+
         break
       case 1:
         {
           // TODO: use reselect for memoization
           const unpublishedPictos = pictogramCollection.filter(pictogram => pictogram.published === false)
           renderComponent = (
-            <PictogramList
-              pictograms={unpublishedPictos}
-              locale={locale}
-              searchText={searchText}
-              offset={offset}
-              onPageClick={this.handlePageClick}
-            />
+            <>
+              {unpublishedPictos.length ? (
+                <PictogramList
+                  pictograms={unpublishedPictos}
+                  locale={locale}
+                  searchText={searchText}
+                  offset={offset}
+                  onPageClick={this.handlePageClick}
+                />
+              ) : (
+                <View>
+                  <Typography variant="h6" component="h3" color="textPrimary" gutterBottom>
+                    {<FormattedMessage {...messages.pictogramsNotFound} />}
+                  </Typography>
+                </View>
+              )}
+            </>
           )
         }
         break
@@ -203,40 +195,37 @@ class PictogramsView extends React.PureComponent {
       default:
       // not used
     }
-
     return (
-      <React.Fragment>
-        <div className={classes.root}>
-          <Tabs
-            className={classes.tab}
-            variant="fullWidth"
-            value={tab}
-            onChange={this.handleChange}
-            indicatorColor="primary"
-            textColor="primary"
-          >
-            <Tab
-              label={width === 'xs' ? '' : <FormattedMessage {...messages.search} />}
-              icon={<SearchIcon />}
-              value={0}
-              // bug? remove boxShadow here:
-              style={{ boxShadow: 'none' }}
-            />
-            <Tab
-              label={width === 'xs' ? '' : <FormattedMessage {...messages.notPlublished} />}
-              icon={<VisibilityIcon />}
-              value={1}
-            />
-            <Tab
-              label={width === 'xs' ? '' : <FormattedMessage {...messages.notValidated} />}
-              icon={<ValidateIcon />}
-              value={2}
-            />
-          </Tabs>
-          {tab === 0 && searchBox}
-          {renderComponent}
-        </div>
-      </React.Fragment>
+      <div className={classes.root}>
+        <Tabs
+          className={classes.tab}
+          variant="fullWidth"
+          value={tab}
+          onChange={this.handleChange}
+          indicatorColor="primary"
+          textColor="primary"
+        >
+          <Tab
+            label={width === 'xs' ? '' : <FormattedMessage {...messages.search} />}
+            icon={<SearchIcon />}
+            value={0}
+            // bug? remove boxShadow here:
+            style={{ boxShadow: 'none' }}
+          />
+          <Tab
+            label={width === 'xs' ? '' : <FormattedMessage {...messages.notPlublished} />}
+            icon={<VisibilityIcon />}
+            value={1}
+          />
+          <Tab
+            label={width === 'xs' ? '' : <FormattedMessage {...messages.notValidated} />}
+            icon={<ValidateIcon />}
+            value={2}
+          />
+        </Tabs>
+        {tab === 0 && searchBox}
+        {renderComponent}
+      </div>
     )
   }
 }

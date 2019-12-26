@@ -1,14 +1,16 @@
 import { denormalize } from 'normalizr'
 import { createSelector } from 'reselect'
 import { searchPictogramSchema } from 'services/schemas'
-import { getFilteredItems } from 'utils'
 import { makeSelectLocale } from 'containers/LanguageProvider/selectors'
+import { makeSelectUserRole } from 'containers/App/selectors'
 import { Map } from 'immutable'
 
 const PICTOGRAMS = 'pictograms'
 const LAST_UPDATED = 'updated'
 
 export const selectPictogramsViewDomain = state => state.get('pictogramsView')
+
+export const makeErrorSelector = () => createSelector(selectPictogramsViewDomain, substate => substate.get('error'))
 
 export const makeLoadingSelector = () => createSelector(selectPictogramsViewDomain, substate => substate.get('loading'))
 
@@ -42,10 +44,19 @@ export const makePictogramByIdSelector = () =>
   )
 
 export const makePictogramsListSelector = () =>
-  createSelector(selectPictogramsViewDomain, makeSelectLocale(), (substate, locale) => {
+  createSelector(selectPictogramsViewDomain, makeSelectLocale(), makeSelectUserRole(), (substate, locale, role) => {
     // pictograms.locale does not exists first time, just pictograms
     const pictograms = substate.getIn([locale, PICTOGRAMS]) || new Map()
-    return pictograms.valueSeq().toArray()
+    return role === 'admin'
+      ? pictograms
+        .valueSeq()
+        .toArray()
+        .sort((a, b) => (a._id < b._id ? 1 : -1))
+      : pictograms
+        .valueSeq()
+        .toArray()
+        .filter(pictogram => pictogram.available === true)
+        .sort((a, b) => (a._id < b._id ? 1 : -1))
   })
 
 export const makeLastUpdatedSelector = () =>
@@ -75,12 +86,14 @@ export const makeVisiblePictogramsSelector = () =>
   createSelector(
     makeSearchResultsSelector(),
     makeEntitiesSelector(),
+    makeSelectUserRole(),
     // makeFiltersSelector(),
-    (searchData, entities /* , filters */) => {
+    (searchData, entities, role /* , filters */) => {
       /* searchData could be undefined */
       if (searchData == null) return []
       const pictogramList = denormalize(searchData, searchPictogramSchema, entities)
-      return pictogramList
+      return role === 'admin' ? pictogramList : pictogramList.filter(pictogram => pictogram.available === true)
+
       // return getFilteredItems(pictogramList, filters)
     },
   )

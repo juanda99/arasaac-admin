@@ -3,7 +3,7 @@ import { LOCATION_CHANGE } from 'react-router-redux'
 import { showLoading, hideLoading } from 'react-redux-loading-bar'
 import api from 'services'
 import { CATEGORIES, categories } from 'containers/CategoriesView/actions'
-import { PICTOGRAM, pictogram } from './actions'
+import { PICTOGRAM, pictogram, pictogramUpdate, PICTOGRAM_UPDATE, pictogramDelete, PICTOGRAM_DELETE } from './actions'
 
 function* categoriesGetData(action) {
   try {
@@ -33,8 +33,52 @@ function* pictogramGetData(action) {
   }
 }
 
+function* pictogramUpdateGetData(action) {
+  try {
+    const { locale } = action.payload
+    yield put(showLoading())
+    const response = yield call(api[action.type], action.payload)
+    yield put(pictogramUpdate.success(locale, response))
+  } catch (error) {
+    yield put(pictogramUpdate.failure(error.message))
+  } finally {
+    yield put(hideLoading())
+    // When done, we tell Redux we're not in the middle of a request any more
+    // yield put({type: SENDING_REQUEST, sending: false})
+  }
+}
+
+function* pictogramDeleteGetData(action) {
+  try {
+    const { idPictogram } = action.payload
+    yield put(showLoading())
+    yield call(api[action.type], action.payload)
+    yield put(pictogramDelete.success(idPictogram))
+  } catch (error) {
+    yield put(pictogramDelete.failure(error.message))
+  } finally {
+    yield put(hideLoading())
+    // When done, we tell Redux we're not in the middle of a request any more
+    // yield put({type: SENDING_REQUEST, sending: false})
+  }
+}
+
 export function* pictogramData() {
   const watcher = yield takeLatest(PICTOGRAM.REQUEST, pictogramGetData)
+  // Suspend execution until location changes
+  yield take(LOCATION_CHANGE)
+  // yield cancel(watcher)
+}
+
+export function* pictogramUpdateData() {
+  const watcher = yield takeLatest(PICTOGRAM_UPDATE.REQUEST, pictogramUpdateGetData)
+  // Suspend execution until location changes
+  yield take(LOCATION_CHANGE)
+  // yield cancel(watcher)
+}
+
+export function* pictogramDeleteData() {
+  const watcher = yield takeLatest(PICTOGRAM_DELETE.REQUEST, pictogramDeleteGetData)
   // Suspend execution until location changes
   yield take(LOCATION_CHANGE)
   // yield cancel(watcher)
@@ -50,5 +94,5 @@ export function* categoriesData() {
 
 // All sagas to be loaded
 export default function* rootSaga() {
-  yield all([pictogramData(), categoriesData()])
+  yield all([pictogramData(), categoriesData(), pictogramUpdateData(), pictogramDeleteData()])
 }

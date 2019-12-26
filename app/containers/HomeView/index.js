@@ -9,17 +9,21 @@
  * the linting exception.
  */
 
-import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import messages from './messages';
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { makeSelectUserRole } from '../App/selectors'
+import messages from './messages'
 
 /* eslint-disable react/prefer-stateless-function */
-export default class HomePage extends React.PureComponent {
+export default class HomeView extends React.PureComponent {
   render() {
     return (
-      <h1>
-        <FormattedMessage {...messages.header} />
-      </h1>
-    );
+      <div>
+        <h1>
+          <FormattedMessage {...messages.header} />
+        </h1>
+        <p>añldjalñdfjkadñlkj ñlka dflñajdf ñlajf ñaldkfjñ dsjñfj </p>
+      </div>
+    )
   }
 }

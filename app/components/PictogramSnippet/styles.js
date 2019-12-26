@@ -3,7 +3,7 @@ const styles = theme => ({
     textAlign: 'center',
     fontSize: '1.4rem',
     textTransform: 'uppercase',
-    color: theme.palette.primary.white,
+    color: 'white',
     fontWeight: '900',
   },
   cardActions: {

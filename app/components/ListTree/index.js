@@ -13,7 +13,9 @@ import ExpandMore from '@material-ui/icons/ExpandMore'
 import AddIcon from '@material-ui/icons/Add'
 import EditIcon from '@material-ui/icons/Edit'
 import ListItemText from '@material-ui/core/ListItemText'
-import ConfirmationDialog from './ConfirmationDialog'
+import ConfirmationDialog from 'components/ConfirmationDialog'
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import messages from './messages'
 
 // From: https://codepen.io/mochiron/pen/jrymLG
 
@@ -223,7 +225,13 @@ class ListTree extends Component {
     return (
       <React.Fragment>
         <List component="nav">{this.renderTreeNodes(data)}</List>
-        <ConfirmationDialog onClose={this.handleDelete} open={confirmationBoxOpen} category={category} />
+        <ConfirmationDialog
+          onClose={this.handleDelete}
+          open={confirmationBoxOpen}
+          category={category}
+          confirmationTitle={<FormattedMessage {...messages.confirmationTitle} />}
+          confirmationInfoText={<FormattedHTMLMessage {...messages.confirmationInfoText} values={{ category }} />}
+        />
       </React.Fragment>
     )
   }

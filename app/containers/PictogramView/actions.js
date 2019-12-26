@@ -3,6 +3,8 @@ import { createRequestTypes, action } from 'utils/actions'
 // constants
 export const PICTOGRAM = createRequestTypes('PICTOGRAM')
 export const PICTOGRAM_UPDATE = createRequestTypes('PICTOGRAM_UPDATE')
+export const PICTOGRAM_DELETE = createRequestTypes('PICTOGRAM_DELETE')
+export const REMOVE_ERROR = 'REMOVE_ERROR'
 
 // actions: material.request/success/failure
 export const pictogram = {
@@ -11,8 +13,33 @@ export const pictogram = {
   failure: error => action(PICTOGRAM.FAILURE, { error }),
 }
 
+export const pictogramDelete = {
+  request: (idPictogram, token) =>
+    action(PICTOGRAM_DELETE.REQUEST, {
+      idPictogram,
+      token,
+    }),
+  success: idPictogram =>
+    action(PICTOGRAM_DELETE.SUCCESS, {
+      idPictogram,
+    }),
+  failure: error => action(PICTOGRAM_DELETE.FAILURE, { error }),
+}
+
 export const pictogramUpdate = {
-  request: (token, userData) => action(PICTOGRAM_UPDATE.REQUEST, { token, userData }),
-  success: data => action(PICTOGRAM_UPDATE.SUCCESS, { data }),
+  // eslint-disable-next-line no-shadow
+  request: (token, locale, pictogram) =>
+    action(PICTOGRAM_UPDATE.REQUEST, {
+      token,
+      locale,
+      pictogram,
+    }), // eslint-disable-next-line no-shadow
+  success: (locale, data) =>
+    action(PICTOGRAM_UPDATE.SUCCESS, {
+      locale,
+      data,
+    }),
   failure: error => action(PICTOGRAM_UPDATE.FAILURE, { error }),
 }
+
+export const removeError = () => action(REMOVE_ERROR)

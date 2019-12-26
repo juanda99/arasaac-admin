@@ -3,6 +3,8 @@ import callApi from './callApi'
 import {
   login,
   categories, // for update: tag or keywords
+  pictogramUpdate,
+  pictogramDelete,
   categoriesAdd,
   categoriesRemove,
   signup,
@@ -18,12 +20,12 @@ import {
 const api = {
   AUTOCOMPLETE_REQUEST: ({ locale }) => callApi(`${API_ROOT}/keywords/${locale}`),
   PICTOGRAMS_REQUEST: ({ locale, searchText }) =>
-    callApi(`${API_ROOT}/pictograms/${locale}/search/${searchText}`, {
+    callApi(`${PRIVATE_API_ROOT}/pictograms/${locale}/search/${searchText}`, {
       schema: searchPictogramSchema,
     }),
   NEW_PICTOGRAMS_REQUEST: ({ locale, updated }) => {
     const url = updated
-      ? `${PRIVATE_API_ROOT}/pictograms/${locale}/${updated}`
+      ? `${PRIVATE_API_ROOT}/pictograms/${locale}/lastUpdated/${updated}`
       : `${PRIVATE_API_ROOT}/pictograms/${locale}`
     return callApi(url, {
       schema: searchPictogramSchema,
@@ -33,11 +35,16 @@ const api = {
     callApi(`${API_ROOT}/materials/${locale}/${searchText}`, {
       schema: searchMaterialSchema,
     }),
-  PICTOGRAM_REQUEST: ({ idPictogram, locale }) => callApi(`${API_ROOT}/pictograms/${locale}/${idPictogram}`),
-  PICTOGRAMS_UPLOAD_REQUEST: files => callApi(uploadPictograms.url, uploadPictograms.options(files)),
+  PICTOGRAM_REQUEST: ({ idPictogram, locale }) => callApi(`${PRIVATE_API_ROOT}/pictograms/${locale}/${idPictogram}`),
+  // token in options, because is not application/json
+  PICTOGRAMS_UPLOAD_REQUEST: (files, token) => callApi(uploadPictograms.url, uploadPictograms.options(files, token)),
   PICTOGRAM_TYPE_REQUEST: idPictogram => callApi(`${PRIVATE_API_ROOT}/pictograms/types/${idPictogram}`),
   PICTOGRAM_KEYWORDS_REQUEST: ({ keywordsHintLocale, idPictogram }) =>
     callApi(`${PRIVATE_API_ROOT}/pictograms/keywords/${keywordsHintLocale}/${idPictogram}`),
+  PICTOGRAM_UPDATE_REQUEST: ({ token, locale, pictogram }) =>
+    callApi(pictogramUpdate.url, pictogramUpdate.options(locale, pictogram), token),
+  PICTOGRAM_DELETE_REQUEST: ({ token, idPictogram }) =>
+    callApi(pictogramDelete.url(idPictogram), pictogramDelete.options, token),
   LOGIN_REQUEST: ({ username, password }) => callApi(login.url, login.options(username, password)),
   SOCIAL_LOGIN_REQUEST: ({ socialToken, provider, locale }) =>
     callApi(socialLogin.url, socialLogin.options(socialToken, provider, locale)),

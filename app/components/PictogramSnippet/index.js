@@ -26,7 +26,7 @@ class PictogramSnippet extends PureComponent {
 
   render() {
     const {
-      pictogram: { idPictogram, keywords },
+      pictogram: { _id, keywords },
       searchText,
       classes,
     } = this.props
@@ -34,19 +34,15 @@ class PictogramSnippet extends PureComponent {
     return (
       <li
         style={{ margin: 5, width: '250px', height: '250px' }}
-        key={idPictogram}
+        key={_id}
         className="image-element-class"
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
       >
         <Paper className={classes.paper} elevation={this.state.zDepth}>
-          <Item url={`/pictograms/${idPictogram}/${keyword}`}>
+          <Item url={`/pictograms/${_id}/${keyword}`}>
             <div style={{ position: 'relative' }}>
-              <img
-                className={classes.image}
-                src={`${PICTOGRAMS_URL}/${idPictogram}/${idPictogram}_300.png`}
-                alt={keyword}
-              />
+              <img className={classes.image} src={`${PICTOGRAMS_URL}/${_id}/${_id}_300.png`} alt={keyword} />
               <div className={classes.cardActions}>
                 <p className={classes.cardTitle}>{keyword}</p>
               </div>

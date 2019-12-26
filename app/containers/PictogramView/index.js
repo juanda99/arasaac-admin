@@ -2,19 +2,21 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { injectIntl, FormattedMessage } from 'react-intl'
+import ErrorDialog from 'components/ErrorDialog'
 import api from 'services'
 import { withStyles } from '@material-ui/core/styles'
 import withWidth from '@material-ui/core/withWidth'
 import { compose } from 'redux'
 import injectReducer from 'utils/injectReducer'
+import Typography from '@material-ui/core/Typography'
 import injectSaga from 'utils/injectSaga'
-import { makeSelectHasUser } from 'containers/UsersView/selectors'
 import { makeSelectLocale } from 'containers/LanguageProvider/selectors'
 import View from 'components/View'
 import Pictogram from 'components/Pictogram'
 import PictogramForm from 'components/PictogramForm'
 import reducer from 'containers/PictogramsView/reducer'
 import { categories } from 'containers/CategoriesView/actions'
+import { makeSelectUserRole, makeSelectHasUser, makeSelectTargetLanguages } from 'containers/App/selectors'
 import { DAEMON } from 'utils/constants'
 import {
   makeCategoriesSelectorByLocale,
@@ -24,8 +26,14 @@ import {
 import tagLabels from 'components/CategoryForm/tagsMessages'
 import saga from './sagas'
 import styles from './styles'
-import { makeLoadingSelector, makeSelectIdPictogram, makePictogramByIdSelector } from '../PictogramsView/selectors'
-import { pictogram } from './actions'
+import {
+  makeLoadingSelector,
+  makeSelectIdPictogram,
+  makePictogramByIdSelector,
+  makeErrorSelector,
+} from '../PictogramsView/selectors'
+import { pictogram, pictogramUpdate, pictogramDelete, removeError } from './actions'
+import messages from './messages'
 
 /* eslint-disable react/prefer-stateless-function */
 
@@ -33,6 +41,7 @@ class PictogramView extends React.PureComponent {
   state = {
     keywordsHintLocale: localStorage.getItem('keywordsHintLocale') || null,
     keywords: [],
+    confirmationBoxOpen: false, // use prior to deletings
   }
 
   getKeywords = keywordsHintLocale => {
@@ -46,13 +55,11 @@ class PictogramView extends React.PureComponent {
     })
   }
 
-  componentDidMount() {
-    const { requestPictogram, idPictogram, locale, selectedPictogram, lastUpdatedCategories } = this.props
+  async componentDidMount() {
+    const { requestPictogram, idPictogram, locale, lastUpdatedCategories } = this.props
     const { keywordsHintLocale } = this.state
-    /* if pictogram is already in the state we don't request it: */
-    if (!selectedPictogram) {
-      requestPictogram(idPictogram, locale)
-    }
+    /* we always request pictogram, can have changes */
+    await requestPictogram(idPictogram, locale)
     // we get Categories....
     this.props.requestCategories(locale, lastUpdatedCategories)
     if (!keywordsHintLocale) {
@@ -61,15 +68,37 @@ class PictogramView extends React.PureComponent {
     }
   }
 
+  handleErrorDialogClose = () => this.props.requestRemoveError()
+
+  handleDelete = accept => {
+    const { idPictogram, requestPictogramDelete, token } = this.props
+    this.setState({ confirmationBoxOpen: false })
+    if (accept) requestPictogramDelete(idPictogram, token)
+  }
+
+  handleBeforeDelete = () => this.setState({ confirmationBoxOpen: true })
+
   handleChangeKeywordsLocale = keywordsHintLocale => this.getKeywords(keywordsHintLocale)
 
-  handleSubmit = values => '' // console.log(values)
+  handleSubmit = pictogram => {
+    const { locale, token, requestPictogramUpdate } = this.props
+    requestPictogramUpdate(token, locale, pictogram)
+  }
+
+  hasEditRole = () => {
+    const { role, targetLanguages, locale } = this.props
+    if (role === 'admin') return true
+    if (role === 'translator' && targetLanguages.indexOf(locale) !== -1) return true
+    return false
+  }
 
   render() {
-    const { selectedPictogram, locale, classes, tags, intl } = this.props
-    const { keywordsHintLocale, keywords } = this.state
+    const { selectedPictogram, locale, classes, tags, intl, role, loading } = this.props
+    const { keywordsHintLocale, keywords, confirmationBoxOpen } = this.state
     const { formatMessage } = intl
-    // console.log(`Selected pictogram: ${selectedPictogram}`)
+
+    const hasEditRole = this.hasEditRole()
+
     const categoriesData = this.props.categories.data || {}
     const suggestions = tags.map(tag => ({ label: formatMessage(tagLabels[tag]), value: tag })).sort(
       (a, b) =>
@@ -86,13 +115,24 @@ class PictogramView extends React.PureComponent {
     )
     return (
       <View>
-        {selectedPictogram && (
+        {!!this.props.error && (
+          <ErrorDialog
+            title={<FormattedMessage {...messages.errorTitle} />}
+            message={this.props.error}
+            onClose={this.handleErrorDialogClose}
+          />
+        )}
+        {selectedPictogram ? (
           <div className={classes.wrapper}>
             <Pictogram
               pictogram={selectedPictogram}
               language={keywordsHintLocale}
               keywords={keywords}
               onChangeKeywordsLocale={this.handleChangeKeywordsLocale}
+              confirmationBoxOpen={confirmationBoxOpen}
+              onBeforeDelete={this.handleBeforeDelete}
+              onDelete={this.handleDelete}
+              canDelete={role === 'admin'}
             />
             <PictogramForm
               data={selectedPictogram}
@@ -100,7 +140,21 @@ class PictogramView extends React.PureComponent {
               locale={locale}
               tags={suggestions}
               onSubmit={this.handleSubmit}
+              role={role}
+              hasEditRole={hasEditRole}
             />
+          </div>
+        ) : (
+          <div className={classes.wrapper}>
+            {loading ? (
+              <Typography variant="h6" component="h3" color="textPrimary" gutterBottom>
+                <FormattedMessage {...messages.loadingPictogram} />
+              </Typography>
+            ) : (
+              <Typography variant="h6" component="h3" color="textPrimary" gutterBottom>
+                <FormattedMessage {...messages.notFoundPictogram} />
+              </Typography>
+            )}
           </div>
         )}
       </View>
@@ -112,18 +166,26 @@ PictogramView.propTypes = {
   idPictogram: PropTypes.string.isRequired,
   requestPictogram: PropTypes.func.isRequired,
   selectedPictogram: PropTypes.object,
-  searchText: PropTypes.string,
   loading: PropTypes.bool.isRequired,
+  error: PropTypes.string,
   locale: PropTypes.string.isRequired,
   requestCategories: PropTypes.func.isRequired,
   lastUpdatedCategories: PropTypes.string,
+  requestPictogramUpdate: PropTypes.func.isRequired,
   categories: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
   tags: PropTypes.array.isRequired,
+  role: PropTypes.string.isRequired,
+  intl: PropTypes.shape({
+    formatMessage: PropTypes.func.isRequired,
+  }).isRequired,
+  token: PropTypes.string.isRequired,
+  targetLanguages: PropTypes.array.isRequired,
 }
 
 const mapStateToProps = (state, ownProps) => ({
   loading: makeLoadingSelector()(state), // for pictos
+  error: makeErrorSelector()(state),
   selectedPictogram: makePictogramByIdSelector()(state, ownProps),
   locale: makeSelectLocale()(state),
   token: makeSelectHasUser()(state),
@@ -132,15 +194,24 @@ const mapStateToProps = (state, ownProps) => ({
   lastUpdatedCategories: makeLastUpdatedSelectorByLocale()(state),
   categories: makeCategoriesSelectorByLocale()(state),
   tags: makeTagsSelectorByLocale()(state),
+  role: makeSelectUserRole()(state),
+  targetLanguages: makeSelectTargetLanguages()(state),
 })
 
 const mapDispatchToProps = dispatch => ({
-  requestPictogram: (locale, searchText) => {
-    dispatch(pictogram.request(locale, searchText))
+  requestPictogram: (idPictogram, locale) => {
+    dispatch(pictogram.request(idPictogram, locale))
   },
   requestCategories: (locale, lastUpdated) => {
     dispatch(categories.request(locale, lastUpdated))
   },
+  requestPictogramUpdate: (token, locale, pictogram) => {
+    dispatch(pictogramUpdate.request(token, locale, pictogram))
+  },
+  requestPictogramDelete: (idPictogram, token) => {
+    dispatch(pictogramDelete.request(idPictogram, token))
+  },
+  requestRemoveError: () => dispatch(removeError()),
 })
 
 const withConnect = connect(

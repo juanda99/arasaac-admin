@@ -29,8 +29,10 @@ export const getFilteredItems = (items, filters) =>
 
 /* inside pictograms, check which keywords meets an specific searchText */
 export const keywordSelector = (searchText, keywords) => {
-  const searchTextArray = searchText.split(' ')
-  if (!searchTextArray.length) return keywords[0] || ''
+  const emptyResponse = { keyword: '' }
+  if (keywords.length === 0) return emptyResponse
+  const searchTextArray = searchText ? searchText.split(' ') : []
+  if (!searchTextArray.length) return keywords[0]
   // if same keyword exists, return it
   const keyword = keywords.find(
     keywordsItem => keywordsItem.keyword && keywordsItem.keyword.toLowerCase() === searchText.toLowerCase(),
@@ -44,7 +46,7 @@ export const keywordSelector = (searchText, keywords) => {
       return searchTextArray.some(word => keywordArray.includes(word.toLowerCase()))
     }) ||
     keywords[0] ||
-    ''
+    emptyResponse
   )
 }
 
@@ -92,20 +94,32 @@ export const removeKeys = (obj, keys) => {
 
 export const languages = [
   {
-    code: 'ca',
-    text: 'Català',
-  },
-  {
-    code: 'de',
-    text: 'Deutsche',
-  },
-  {
     code: 'es',
     text: 'Español',
   },
   {
     code: 'en',
     text: 'English',
+  },
+  {
+    code: 'ar',
+    text: 'عربى',
+  },
+  {
+    code: 'bg',
+    text: 'български',
+  },
+  {
+    code: 'br',
+    text: 'Português do Brasil',
+  },
+  {
+    code: 'ca',
+    text: 'Català',
+  },
+  {
+    code: 'de',
+    text: 'Deutsche',
   },
   {
     code: 'eu',
@@ -120,20 +134,20 @@ export const languages = [
     text: 'Galego',
   },
   {
-    code: 'cr',
-    text: 'Hrvatski',
-  },
-  {
     code: 'he',
     text: 'עברי', // hebreo
+  },
+  {
+    code: 'hr',
+    text: 'Hrvatski',
   },
   {
     code: 'it',
     text: 'Italiano',
   },
   {
-    code: 'bg',
-    text: 'български',
+    code: 'nl',
+    text: 'Nederlands',
   },
   {
     code: 'pl',
@@ -142,10 +156,6 @@ export const languages = [
   {
     code: 'pt',
     text: 'Português',
-  },
-  {
-    code: 'br',
-    text: 'Português do Brasil',
   },
   {
     code: 'ro',
@@ -158,10 +168,6 @@ export const languages = [
   {
     code: 'val',
     text: 'Valencia',
-  },
-  {
-    code: 'ar',
-    text: 'عربى',
   },
   {
     code: 'zh',

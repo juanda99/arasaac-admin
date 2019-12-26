@@ -42,7 +42,7 @@ const WhenFieldChanges = ({ field, set, values, index, locale }) => (
           <OnBlur name={field}>
             {() => {
               const { keyword, type } = values.keywords[index]
-              const { idPictogram } = values
+              const { _id } = values
               if (!keyword) return
               const endPoint = `https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=dict.1.1.20190920T104929Z.2bfd4c00cbc5e87e.d3baecf50951cb94e3834ffee05d92801894da49&lang=${locale}-${locale}&text=${keyword}`
               fetch(endPoint)
@@ -68,7 +68,7 @@ const WhenFieldChanges = ({ field, set, values, index, locale }) => (
                     }
                     if (valueType) onChange(valueType)
                     else if (!type && locale !== 'es') {
-                      api.PICTOGRAM_TYPE_REQUEST(idPictogram).then(data => {
+                      api.PICTOGRAM_TYPE_REQUEST(_id).then(data => {
                         if (data.types && data.types.length === 1) {
                           onChange(data.types[0])
                         }
@@ -125,6 +125,8 @@ export class PictogramForm extends Component {
     categories: PropTypes.object.isRequired,
     locale: PropTypes.string.isRequired,
     tags: PropTypes.array.isRequired,
+    role: PropTypes.string.isRequired,
+    hasEditRole: PropTypes.bool.isRequired,
   }
 
   state = {
@@ -136,7 +138,7 @@ export class PictogramForm extends Component {
   toggleSuggestions = () => this.setState(prevState => ({ showSuggestions: !prevState.showSuggestions }))
 
   render() {
-    const { data, classes, categories, intl, locale, tags } = this.props
+    const { data, classes, categories, intl, locale, tags, role, hasEditRole } = this.props
     const { formatMessage } = intl
     const { showSuggestions, language } = this.state
     return (
@@ -155,13 +157,18 @@ export class PictogramForm extends Component {
             handleSubmit,
             form: {
               mutators: { push, pop },
-            }, // injected from final-form-arrays above
+            },
             pristine,
             form,
             submitting,
             values,
           }) => (
-            <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+            <form
+              onSubmit={
+                handleSubmit // injected from final-form-arrays above
+              }
+              style={{ width: '100%' }}
+            >
               <AutoSave debounce={1000} save={handleSubmit} />
               <div style={{ marginTop: 30 }}>
                 <Typography variant="h4" color="textPrimary" gutterBottom>
@@ -201,6 +208,7 @@ export class PictogramForm extends Component {
                             label={<FormattedMessage {...messages.word} />}
                             component={TextField}
                             type="text"
+                            disabled={!hasEditRole}
                           />
                         </div>
                         <WhenFieldChanges
@@ -217,6 +225,7 @@ export class PictogramForm extends Component {
                             label={<FormattedMessage {...messages.plural} />}
                             component={TextField}
                             type="text"
+                            disabled={!hasEditRole}
                           />
                         </div>
                         <div style={{ width: '200px', marginRight: '10px' }}>
@@ -227,6 +236,7 @@ export class PictogramForm extends Component {
                             label={<FormattedMessage {...messages.type} />}
                             component={Select}
                             type="text"
+                            disabled={!hasEditRole}
                           >
                             <MenuItem value="" />
                             <MenuItem value="1">{<FormattedMessage {...messages.properName} />}</MenuItem>
@@ -244,6 +254,7 @@ export class PictogramForm extends Component {
                             size="small"
                             aria-label="Add keyword"
                             onClick={() => push('keywords', undefined)}
+                            disabled={!hasEditRole}
                           >
                             <AddIcon />
                           </Fab>
@@ -254,6 +265,7 @@ export class PictogramForm extends Component {
                             size="small"
                             aria-label="Remove keyword"
                             onClick={() => fields.remove(index)}
+                            disabled={!hasEditRole}
                           >
                             <DeleteIcon />
                           </Fab>
@@ -272,7 +284,6 @@ export class PictogramForm extends Component {
                         </MenuItem>
                       ))}
                     </Select>
-                    <p>Sugerencias en español:</p>
                   </div>
                 )}
               </div>
@@ -282,95 +293,104 @@ export class PictogramForm extends Component {
                   <FormattedMessage {...messages.pictogramStatus} />
                 </Typography>
                 <div style={{ display: 'flex' }}>
-                  <FormControlLabel
-                    label={<FormattedMessage {...messages.published} />}
-                    control={<Field name="published" component={Checkbox} type="checkbox" />}
-                  />
-                  <FormControlLabel
-                    label={<FormattedMessage {...messages.visible} />}
-                    control={<Field name="available" component={Checkbox} type="checkbox" />}
-                  />
+                  {role === 'admin' && (
+                    <>
+                      <FormControlLabel
+                        label={<FormattedMessage {...messages.published} />}
+                        control={<Field name="published" component={Checkbox} type="checkbox" />}
+                      />
+                      <FormControlLabel
+                        label={<FormattedMessage {...messages.visible} />}
+                        control={<Field name="available" component={Checkbox} type="checkbox" />}
+                      />
+                    </>
+                  )}
                   <FormControlLabel
                     label={<FormattedMessage {...messages.validated} />}
-                    control={<Field name="validated" component={Checkbox} type="checkbox" />}
-                  />
-                </div>
-              </div>
-              <div style={{ display: 'flex' }}>
-                <Field
-                  name="created"
-                  disabled
-                  style={{ marginRight: '15px' }}
-                  component={DatePickerWrapper}
-                  margin="normal"
-                  label={<FormattedMessage {...messages.creationDate} />}
-                />
-
-                <Field
-                  name="lastUpdated"
-                  disabled
-                  component={DatePickerWrapper}
-                  margin="normal"
-                  label={<FormattedMessage {...messages.updateDate} />}
-                />
-              </div>
-
-              <div style={{ marginTop: 30 }}>
-                <Typography variant="h5" color="textPrimary" gutterBottom>
-                  <FormattedMessage {...messages.categories} />
-                </Typography>
-                <Field name="categories" component={CategoriesSelectorWrapper} categories={categories} />
-              </div>
-
-              <OnChange name="categories">
-                {(value, previous) => {
-                  // we only add tags
-                  if (value.length > previous.length) {
-                    const item = value.filter(x => !previous.includes(x))[0]
-                    const path = jp.paths(categories, `$..["${item}"]`)[0]
-                    const selectedTags = jp.value(categories, path).tags
-                    form.mutators.putTags(...selectedTags)
-                  }
-                }}
-              </OnChange>
-
-              <div style={{ marginTop: 30 }}>
-                <Typography variant="h5" color="textPrimary" gutterBottom>
-                  {<FormattedMessage {...messages.filters} />}
-                </Typography>
-                <div style={{ display: 'flex' }}>
-                  <FormControlLabel
-                    label={<FormattedMessage {...messages.schematic} />}
-                    control={<Field name="schematic" component={Checkbox} type="checkbox" />}
-                  />
-                  <FormControlLabel
-                    label={<FormattedMessage {...messages.violence} />}
-                    control={<Field name="violence" component={Checkbox} type="checkbox" />}
-                  />
-                  <FormControlLabel
-                    label={<FormattedMessage {...messages.sex} />}
-                    control={<Field name="sex" component={Checkbox} type="checkbox" />}
+                    control={<Field name="validated" component={Checkbox} type="checkbox" disabled={!hasEditRole} />}
                   />
                 </div>
               </div>
 
-              <div style={{ marginTop: 30 }}>
-                <Typography variant="h5" color="textPrimary" gutterBottom>
-                  <FormattedMessage {...messages.tags} />
-                </Typography>
-                <div>
-                  <Field name="tags" component={TagsInputWrapper} suggestions={tags} style={{ width: '100%' }} />
-                </div>
-              </div>
+              {role === 'admin' && (
+                <>
+                  <div style={{ display: 'flex' }}>
+                    <Field
+                      name="created"
+                      disabled
+                      style={{ marginRight: '15px' }}
+                      component={DatePickerWrapper}
+                      margin="normal"
+                      label={<FormattedMessage {...messages.creationDate} />}
+                    />
 
-              <div style={{ marginTop: 30 }}>
-                <Typography variant="h5" color="textPrimary" gutterBottom>
-                  <FormattedMessage {...messages.synsets} />
-                </Typography>
-                <div>
-                  <Field name="synsets" component={ChipInputWrapper} url="http://wordnet-rdf.princeton.edu/id" />
-                </div>
-              </div>
+                    <Field
+                      name="lastUpdated"
+                      disabled
+                      component={DatePickerWrapper}
+                      margin="normal"
+                      label={<FormattedMessage {...messages.updateDate} />}
+                    />
+                  </div>
+
+                  <div style={{ marginTop: 30 }}>
+                    <Typography variant="h5" color="textPrimary" gutterBottom>
+                      <FormattedMessage {...messages.categories} />
+                    </Typography>
+                    <Field name="categories" component={CategoriesSelectorWrapper} categories={categories} />
+                  </div>
+
+                  <OnChange name="categories">
+                    {(value, previous) => {
+                      // we only add tags
+                      if (value.length > previous.length) {
+                        const item = value.filter(x => !previous.includes(x))[0]
+                        const path = jp.paths(categories, `$..["${item}"]`)[0]
+                        const selectedTags = jp.value(categories, path).tags
+                        form.mutators.putTags(...selectedTags)
+                      }
+                    }}
+                  </OnChange>
+
+                  <div style={{ marginTop: 30 }}>
+                    <Typography variant="h5" color="textPrimary" gutterBottom>
+                      {<FormattedMessage {...messages.filters} />}
+                    </Typography>
+                    <div style={{ display: 'flex' }}>
+                      <FormControlLabel
+                        label={<FormattedMessage {...messages.schematic} />}
+                        control={<Field name="schematic" component={Checkbox} type="checkbox" />}
+                      />
+                      <FormControlLabel
+                        label={<FormattedMessage {...messages.violence} />}
+                        control={<Field name="violence" component={Checkbox} type="checkbox" />}
+                      />
+                      <FormControlLabel
+                        label={<FormattedMessage {...messages.sex} />}
+                        control={<Field name="sex" component={Checkbox} type="checkbox" />}
+                      />
+                    </div>
+                  </div>
+
+                  <div style={{ marginTop: 30 }}>
+                    <Typography variant="h5" color="textPrimary" gutterBottom>
+                      <FormattedMessage {...messages.tags} />
+                    </Typography>
+                    <div>
+                      <Field name="tags" component={TagsInputWrapper} suggestions={tags} style={{ width: '100%' }} />
+                    </div>
+                  </div>
+
+                  <div style={{ marginTop: 30 }}>
+                    <Typography variant="h5" color="textPrimary" gutterBottom>
+                      <FormattedMessage {...messages.synsets} />
+                    </Typography>
+                    <div>
+                      <Field name="synsets" component={ChipInputWrapper} url="http://wordnet-rdf.princeton.edu/id" />
+                    </div>
+                  </div>
+                </>
+              )}
               {/* <pre>{JSON.stringify(values, 0, 2)}</pre> */}
             </form>
           )}

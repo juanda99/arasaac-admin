@@ -5,12 +5,8 @@ import { connect } from 'react-redux'
 import View from 'components/View'
 import injectReducer from 'utils/injectReducer'
 import injectSaga from 'utils/injectSaga'
-import {
-  makeUserByIdSelector,
-  makeLoadingSelector,
-  makeSelectHasUser,
-  makeSelectIdUser,
-} from 'containers/UsersView/selectors'
+import { makeUserByIdSelector, makeLoadingSelector, makeSelectIdUser } from 'containers/UsersView/selectors'
+import { makeSelectHasUser } from 'containers/App/selectors'
 import { makeSelectLocale } from 'containers/LanguageProvider/selectors'
 import UserForm from 'components/UserForm'
 import reducer from 'containers/UsersView/reducer'

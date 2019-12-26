@@ -15,6 +15,7 @@ const styles = theme => ({
     backgroundSize: '10px 10px',
     backgroundPosition: '0 0, 5px 5px',
     backgroundRepeat: 'repeat',
+    position: 'relative',
   },
 })
 
