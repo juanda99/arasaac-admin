@@ -111,8 +111,8 @@ class ListTree extends Component {
         </IconButton>
       </>
     ) : (
-        ''
-      )
+      ''
+    )
 
   renderForm = (item, depth) => {
     const { data, action, role, targetLanguages, locale } = this.props
@@ -126,8 +126,9 @@ class ListTree extends Component {
       subData = jp.value(data, `$..["${item}"]`)
     }
     const disabled = role === 'translator' && !targetLanguages.includes(locale)
+    const formStyle = this.props.direction === 'rtl' ? { paddingRight: depth * 30 } : { paddingLeft: depth * 30 }
     return (
-      <div style={{ paddingLeft: depth * 30 }}>
+      <div style={formStyle}>
         <CategoryForm
           data={subData}
           item={item}

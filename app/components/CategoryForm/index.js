@@ -127,7 +127,7 @@ export class CategoryForm extends Component {
               {action === 'add' && (
                 <div style={{ marginTop: 16, display: 'flex', flexDirection: 'row-reverse' }}>
                   <Button
-                    style={{ marginLeft: '15px' }}
+                    className={classes.saveButton}
                     variant="contained"
                     color="primary"
                     type="submit"
