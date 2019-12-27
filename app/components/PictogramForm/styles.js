@@ -9,6 +9,11 @@ const styles = theme => ({
     border: '1px dashed lightgrey',
     backgroundColor: 'whitesmoke',
   },
+  addButton: {
+    position: 'relative',
+    left: 10,
+    top: -10,
+  },
 })
 
 export default styles
