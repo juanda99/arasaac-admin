@@ -17,10 +17,6 @@ import MenuItem from '@material-ui/core/MenuItem'
 import LocaleSelector from 'containers/LocaleSelector'
 import ThemeSelector from 'containers/ThemeSelector'
 
-/*
-import FormatTextdirectionLToR from '@material-ui/icons/FormatTextdirectionLToR'
-import FormatTextdirectionRToL from '@material-ui/icons/FormatTextdirectionRToL'
-*/
 import messages from './messages'
 import styles from './styles'
 
@@ -116,16 +112,15 @@ class Header extends Component {
                 </IconButton>
               </Tooltip>
               <Menu id="menu-appbar" anchorEl={loginButton} open={Boolean(loginButton)} onClose={this.handleAuthClose}>
-                <MenuItem onClick={this.handleAuthClose}>Profile</MenuItem>
-                <MenuItem onClick={this.handleAuthClose}>My account</MenuItem>
-                <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
+                <MenuItem onClick={this.handleAuthClose}>{<FormattedMessage {...messages.profile} />}</MenuItem>
+                <MenuItem onClick={this.handleLogout}>{<FormattedMessage {...messages.signout} />}</MenuItem>
               </Menu>
             </React.Fragment>
           ) : (
-            <IconButton aria-owns={loginButton ? 'menu-appbar' : null} aria-haspopup="true" onClick={this.handleSignin}>
-              <AccountCircle style={{ color: 'white' }} />
-            </IconButton>
-          )}
+              <IconButton aria-owns={loginButton ? 'menu-appbar' : null} aria-haspopup="true" onClick={this.handleSignin}>
+                <AccountCircle style={{ color: 'white' }} />
+              </IconButton>
+            )}
         </Toolbar>
       </AppBar>
     )
