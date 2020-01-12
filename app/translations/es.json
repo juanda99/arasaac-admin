@@ -115,7 +115,7 @@
   "app.containers.CatalogsView.tableHeader.totalPictograms": "Total de pictogramas",
   "app.containers.CatalogsView.tableHeader.variations": "Variaciones (piel, pelo)",
   "app.containers.Categories.errorTitle": "Error en categoría",
-  "app.containers.HomePage.header": "This is the UsersPage!",
+  "app.containers.HomePage.header": "This is the HomePage container!",
   "app.containers.News.header": "This is the News container!",
   "app.containers.NotFoundPage.header": "This is the NotFoundPage container!",
   "app.containers.Pictogram.errorTitle": "Error de pictograma",
