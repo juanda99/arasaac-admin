@@ -10,7 +10,7 @@ const appStyle = theme => ({
     [theme.breakpoints.up('md')]: {
       width: `calc(100% - ${drawerWidth}px)`,
     },
-    float: 'right',
+    float: theme.direction === 'rtl' ? 'left' : 'right',
     ...transition,
     maxHeight: '100%',
     width: '100%',

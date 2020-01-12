@@ -2,29 +2,19 @@
 /* eslint-disable no-case-declarations */
 import { Map } from 'immutable'
 import jp from 'jsonpath'
+import { languages } from 'utils/index'
 import { CATEGORIES, CATEGORIES_UPDATE, CATEGORIES_DELETE, CATEGORIES_ADD, REMOVE_ERROR } from './actions'
+
+const langReducer = {}
+languages.forEach(language => {
+  langReducer[language.code] = {}
+})
+
 export const initialState = Map({
   loading: false,
   error: '',
   categories: {
-    es: {},
-    en: {},
-    fr: {},
-    ro: {},
-    ru: {},
-    pl: {},
-    zh: {},
-    bg: {},
-    ca: {},
-    ar: {},
-    it: {},
-    hr: {},
-    pt: {},
-    de: {},
-    eu: {},
-    br: {},
-    gl: {},
-    val: {},
+    ...langReducer,
   },
 })
 

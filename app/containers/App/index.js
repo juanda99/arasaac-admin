@@ -10,6 +10,9 @@ import Sidebar from 'components/Sidebar'
 import logo from 'images/arasaac-logo.svg'
 // import injectReducer from 'utils/injectReducer'
 import injectSaga from 'utils/injectSaga'
+import { create } from 'jss'
+import rtl from 'jss-rtl'
+import { StylesProvider, jssPreset } from '@material-ui/core/styles'
 // import reducer from './reducer'
 import saga from './sagas'
 import routes from '../../routes'
@@ -35,11 +38,15 @@ const getRoutes = () =>
     return <Route path={route.path} component={route.component} key={key} />
   })
 
+// Configure JSS
+const jss = create({ plugins: [...jssPreset().plugins, rtl()] })
+
 export class App extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
     doLogout: PropTypes.func.isRequired,
+    direction: PropTypes.string.isRequired,
   }
 
   state = {
@@ -51,62 +58,56 @@ export class App extends Component {
   }
 
   render() {
-    const { classes, isAuthenticated, doLogout } = this.props
+    const { classes, isAuthenticated, doLogout, direction } = this.props
     return (
-      <div className={classes.wrapper}>
-        <Sidebar
-          routes={routes}
-          logoText="ARASAAC"
-          logo={logo}
-          handleSidebarToggle={this.handleSidebarToggle}
-          open={this.state.sidebarOpen}
-          onClose={this.handleSidebarToggle}
-        />
-        <div className={classes.mainPanel}>
-          <Header
+      <StylesProvider jss={jss}>
+        <div className={classes.wrapper} dir={direction}>
+          <Sidebar
             routes={routes}
+            logoText="ARASAAC"
+            logo={logo}
             handleSidebarToggle={this.handleSidebarToggle}
-            isAuthenticated={isAuthenticated}
-            logout={doLogout}
+            open={this.state.sidebarOpen}
+            onClose={this.handleSidebarToggle}
           />
-          <div className={classes.content}>
-            <Switch>{getRoutes()}</Switch>
+          <div className={classes.mainPanel}>
+            <Header
+              routes={routes}
+              handleSidebarToggle={this.handleSidebarToggle}
+              isAuthenticated={isAuthenticated}
+              logout={doLogout}
+            />
+            <div className={classes.content}>
+              <Switch>{getRoutes()}</Switch>
+            </div>
           </div>
+          <LoadingBar
+            style={{
+              height: 2,
+              backgroundColor: '#78909c',
+              zIndex: 100000,
+              position: 'absolute',
+              top: '64px',
+            }}
+            updateTime={100}
+            maxProgress={95}
+            progressIncrease={20}
+            direction={direction}
+          />
         </div>
-        {/* <div
-          style={{
-            backgroundColor: 'black',
-            position: 'absolute',
-            top: '64px',
-            height: 4,
-            width: '100%',
-            zIndex: '10000',
-          }}
-        /> */}
-        <LoadingBar
-          style={{
-            height: 2,
-            // backgroundColor: 'rgb(0, 188, 212)',
-            backgroundColor: '#78909c',
-            zIndex: 100000,
-            position: 'absolute',
-            top: '64px',
-          }}
-          updateTime={100}
-          maxProgress={95}
-          progressIncrease={20}
-        />
-      </div>
+      </StylesProvider>
     )
   }
 }
 
-// export default withStyles(styles, { withTheme: true })(App)
+// export default withStyles(styles, {withTheme: true })(App)
 
 const mapStateToProps = state => {
   const isAuthenticated = (makeSelectHasUser()(state) && true) || false
+  const direction = state.getIn(['language', 'direction'])
   return {
     isAuthenticated,
+    direction,
   }
 }
 

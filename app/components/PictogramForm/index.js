@@ -185,7 +185,7 @@ export class PictogramForm extends Component {
                   {(!values.keywords || !values.keywords.length) && (
                     <>
                       <Fab
-                        style={{ position: 'relative', left: 10, top: -10 }}
+                        className={classes.addButton}
                         color="primary"
                         size="small"
                         aria-label="Add"

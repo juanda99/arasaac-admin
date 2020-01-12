@@ -36,4 +36,12 @@ export default defineMessages({
     id: `${scope}.title.users`,
     defaultMessage: 'Users',
   },
+  profile: {
+    id: `${scope}.menu.profile`,
+    defaultMessage: 'My profile',
+  },
+  signout: {
+    id: `${scope}.menu.signout`,
+    defaultMessage: 'Sign out',
+  },
 })

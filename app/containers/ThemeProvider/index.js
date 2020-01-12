@@ -8,7 +8,7 @@ import getTheme from './themes'
 // eslint-disable-next-line react/prefer-stateless-function
 export class ThemeProvider extends React.Component {
   render() {
-    const theme = getTheme(this.props.theme)
+    const theme = getTheme(this.props.theme, this.props.direction)
     return <MuiThemeProvider theme={theme}>{React.Children.only(this.props.children)}</MuiThemeProvider>
   }
 }
@@ -16,9 +16,10 @@ export class ThemeProvider extends React.Component {
 ThemeProvider.propTypes = {
   theme: PropTypes.string,
   children: PropTypes.element.isRequired,
+  direction: PropTypes.string.isRequired,
 }
 
-const mapStateToProps = state => ({ theme: selectTheme(state) })
+const mapStateToProps = state => ({ theme: selectTheme(state), direction: state.getIn(['language', 'direction']) })
 
 function mapDispatchToProps(dispatch) {
   return {

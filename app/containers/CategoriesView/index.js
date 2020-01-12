@@ -127,7 +127,6 @@ class CategoriesView extends React.Component {
     const { category, searchText, open, openForm, targetItem, confirmationBoxOpen, action, showTags } = this.state
     const { keywords, tags, loading, role, targetLanguages, locale } = this.props
     const { data } = this.props.categories || {}
-    console.log(data, '************')
     return (
       <View>
         {!!this.props.error && (
@@ -178,7 +177,6 @@ class CategoriesView extends React.Component {
               <strong>{tag}</strong>:<br />
               {jp.nodes(data, `$..tags[?(@=="${tag}")]`).map(node =>
                 node.path.map(item => {
-                  console.log(item)
                   if (item === 'children') {
                     return '->'
                   }

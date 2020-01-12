@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import jp from 'jsonpath'
+import { connect } from 'react-redux'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import Badge from '@material-ui/core/Badge'
+import withStyles from '@material-ui/core/styles/withStyles'
 import IconButton from '@material-ui/core/IconButton'
 import CategoryForm from 'components/CategoryForm'
 import DeleteIcon from '@material-ui/icons/Delete'
@@ -15,6 +17,7 @@ import EditIcon from '@material-ui/icons/Edit'
 import ListItemText from '@material-ui/core/ListItemText'
 import ConfirmationDialog from 'components/ConfirmationDialog'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import styles from './styles'
 import messages from './messages'
 
 // From: https://codepen.io/mochiron/pen/jrymLG
@@ -57,6 +60,7 @@ class ListTree extends Component {
     role: PropTypes.string.isRequired,
     targetLanguages: PropTypes.arrayOf(PropTypes.string),
     locale: PropTypes.string.isRequired,
+    classes: PropTypes.object.isRequired,
   }
 
   handleClick = (event, item) => this.props.onClick(item)
@@ -122,8 +126,9 @@ class ListTree extends Component {
       subData = jp.value(data, `$..["${item}"]`)
     }
     const disabled = role === 'translator' && !targetLanguages.includes(locale)
+    const formStyle = this.props.direction === 'rtl' ? { paddingRight: depth * 30 } : { paddingLeft: depth * 30 }
     return (
-      <div style={{ paddingLeft: depth * 30 }}>
+      <div style={formStyle}>
         <CategoryForm
           data={subData}
           item={item}
@@ -142,6 +147,7 @@ class ListTree extends Component {
     Object.keys(data).map(item => {
       // calculate how deep it is
       const depth = jp.paths(this.props.data, `$..["${item}"]`)[0].length / 2 - 1
+      const listItemStyle = this.props.direction === 'rtl' ? { paddingRight: depth * 30 } : { paddingLeft: depth * 30 }
       // add this.props.open[item] to improve performance!!!
       if (data[item].children && this.props.open[item]) {
         return (
@@ -149,7 +155,7 @@ class ListTree extends Component {
             <ListItem
               button
               selected={this.props.category === item}
-              style={{ paddingLeft: depth * 30 }}
+              style={listItemStyle}
               onClick={() => this.handleClick(event, item)}
               onMouseEnter={event => this.handleIconsVisibility(event, item)}
               onMouseLeave={event => this.handleIconsVisibility(event, item)}
@@ -158,7 +164,7 @@ class ListTree extends Component {
                 primary={
                   <Badge
                     color="secondary"
-                    style={{ paddingRight: 10, zIndex: 0 }}
+                    className={this.props.classes.badge}
                     badgeContent={Object.keys(data[item].children).length}
                   >
                     {data[item].text}
@@ -190,7 +196,7 @@ class ListTree extends Component {
             button
             selected={this.props.category === item}
             onClick={() => this.handleClick(event, item)}
-            style={{ paddingLeft: depth * 30 }}
+            style={listItemStyle}
             onMouseEnter={event => this.handleIconsVisibility(event, item)}
             onMouseLeave={event => this.handleIconsVisibility(event, item)}
           >
@@ -199,7 +205,7 @@ class ListTree extends Component {
                 primary={
                   <Badge
                     color="secondary"
-                    style={{ paddingRight: 10, zIndex: 0 }}
+                    className={this.props.classes.badge}
                     badgeContent={Object.keys(data[item].children).length}
                   >
                     {data[item].text}
@@ -237,4 +243,13 @@ class ListTree extends Component {
   }
 }
 
-export default ListTree
+const mapStateToProps = state => {
+  const direction = state.getIn(['language', 'direction'])
+  return {
+    direction,
+  }
+}
+
+const withConnect = connect(mapStateToProps)
+
+export default withConnect(withStyles(styles, { withTheme: true })(ListTree))

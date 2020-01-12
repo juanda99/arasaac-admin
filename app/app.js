@@ -48,16 +48,16 @@ const render = async messages => {
   const MOUNT_NODE = document.getElementById('app')
   ReactDOM.render(
     <Provider store={store}>
-      <ThemeProvider>
-        <LanguageProvider messages={messages}>
+      <LanguageProvider messages={messages}>
+        <ThemeProvider>
           <ConnectedRouter history={history}>
             <React.Fragment>
               <CssBaseline />
               <App />
             </React.Fragment>
           </ConnectedRouter>
-        </LanguageProvider>
-      </ThemeProvider>
+        </ThemeProvider>
+      </LanguageProvider>
     </Provider>,
     MOUNT_NODE,
   )

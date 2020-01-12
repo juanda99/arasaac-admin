@@ -63,9 +63,10 @@ class PictogramView extends React.PureComponent {
     // we get Categories....
     this.props.requestCategories(locale, lastUpdatedCategories)
     if (!keywordsHintLocale) {
-      if (locale === 'en' || locale === 'val' || locale === 'gl' || locale === 'ca') this.getKeywords('es')
+      if (locale === 'en' || locale === 'val' || locale === 'gl' || locale === 'ca' || locale === 'eu')
+        this.getKeywords('es')
       else this.getKeywords('en')
-    }
+    } else this.getKeywords(keywordsHintLocale)
   }
 
   handleErrorDialogClose = () => this.props.requestRemoveError()
@@ -78,7 +79,10 @@ class PictogramView extends React.PureComponent {
 
   handleBeforeDelete = () => this.setState({ confirmationBoxOpen: true })
 
-  handleChangeKeywordsLocale = keywordsHintLocale => this.getKeywords(keywordsHintLocale)
+  handleChangeKeywordsLocale = keywordsHintLocale => {
+    this.getKeywords(keywordsHintLocale)
+    localStorage.setItem('keywordsHintLocale', keywordsHintLocale)
+  }
 
   handleSubmit = pictogram => {
     const { locale, token, requestPictogramUpdate } = this.props
@@ -106,10 +110,10 @@ class PictogramView extends React.PureComponent {
           .toLowerCase()
           .normalize('NFD')
           .replace(/[\u0300-\u036f]/g, '') >
-        b.label
-          .toLowerCase()
-          .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, '')
+          b.label
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
           ? 1
           : -1,
     )
@@ -145,18 +149,18 @@ class PictogramView extends React.PureComponent {
             />
           </div>
         ) : (
-          <div className={classes.wrapper}>
-            {loading ? (
-              <Typography variant="h6" component="h3" color="textPrimary" gutterBottom>
-                <FormattedMessage {...messages.loadingPictogram} />
-              </Typography>
-            ) : (
-              <Typography variant="h6" component="h3" color="textPrimary" gutterBottom>
-                <FormattedMessage {...messages.notFoundPictogram} />
-              </Typography>
-            )}
-          </div>
-        )}
+            <div className={classes.wrapper}>
+              {loading ? (
+                <Typography variant="h6" component="h3" color="textPrimary" gutterBottom>
+                  <FormattedMessage {...messages.loadingPictogram} />
+                </Typography>
+              ) : (
+                  <Typography variant="h6" component="h3" color="textPrimary" gutterBottom>
+                    <FormattedMessage {...messages.notFoundPictogram} />
+                  </Typography>
+                )}
+            </div>
+          )}
       </View>
     )
   }

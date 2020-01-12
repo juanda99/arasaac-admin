@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Paper from '@material-ui/core/Paper'
+import { withStyles } from '@material-ui/core/styles'
 import CloseIcon from '@material-ui/icons/Close'
 import Button from '@material-ui/core/Button'
 import { Form, Field } from 'react-final-form'
@@ -14,6 +15,7 @@ import Autosuggest from 'components/Autosuggest'
 import AutoSave from 'components/AutoSave'
 import messages from './messages'
 import tagLabels from './tagsMessages'
+import styles from './styles'
 
 const KeywordsInputWrapper = props => <ChipInput {...props} />
 const TagsInputWrapper = props => <Autosuggest {...props} suggestions={suggestions} />
@@ -25,6 +27,7 @@ export class CategoryForm extends Component {
     onClose: PropTypes.func.isRequired,
     item: PropTypes.string,
     tags: PropTypes.array.isRequired,
+    classes: PropTypes.object.isRequired,
   }
 
   componentDidMount() {
@@ -63,7 +66,7 @@ export class CategoryForm extends Component {
   }
 
   render() {
-    const { data, item, disabled, role, action } = this.props
+    const { data, item, disabled, role, action, classes } = this.props
     // new category, key empty, edit category, key from item
     const formData = action === 'add' ? { ...data, key: '' } : { ...data, key: item }
     return (
@@ -77,7 +80,7 @@ export class CategoryForm extends Component {
           <form onSubmit={handleSubmit} style={{ width: '100%' }}>
             {action !== 'add' && <AutoSave debounce={1000} save={handleSubmit} />}
             <Paper style={{ padding: 32, margin: 20 }}>
-              <IconButton style={{ position: 'absolute', right: '50px' }} onClick={this.handleClose}>
+              <IconButton className={classes.closeButton} onClick={this.handleClose}>
                 <CloseIcon />
               </IconButton>
               <div style={{ marginTop: 30 }}>
@@ -124,7 +127,7 @@ export class CategoryForm extends Component {
               {action === 'add' && (
                 <div style={{ marginTop: 16, display: 'flex', flexDirection: 'row-reverse' }}>
                   <Button
-                    style={{ marginLeft: '15px' }}
+                    className={classes.saveButton}
                     variant="contained"
                     color="primary"
                     type="submit"
@@ -153,4 +156,4 @@ CategoryForm.defaultProps = {
   action: PropTypes.string.isRequired,
 }
 
-export default injectIntl(CategoryForm)
+export default withStyles(styles, { withTheme: true })(injectIntl(CategoryForm))
