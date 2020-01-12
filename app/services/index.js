@@ -19,6 +19,7 @@ import {
 
 const api = {
   AUTOCOMPLETE_REQUEST: ({ locale }) => callApi(`${API_ROOT}/keywords/${locale}`),
+  KEYWORDS_REQUEST: token => callApi(`${PRIVATE_API_ROOT}/keywords/`, null, token),
   PICTOGRAMS_REQUEST: ({ locale, searchText }) =>
     callApi(`${PRIVATE_API_ROOT}/pictograms/${locale}/search/${searchText}`, {
       schema: searchPictogramSchema,
