@@ -121,7 +121,7 @@
   "app.containers.News.header": "This is the News container!",
   "app.containers.NotFoundPage.header": "This is the NotFoundPage container!",
   "app.containers.Pictogram.errorTitle": "Error de pictograma",
-  "app.containers.Pictogram.loadingPictogram": "Loading pictogram",
+  "app.containers.Pictogram.loadingPictogram": "Cargando pictograma",
   "app.containers.Pictogram.notFoundPictogram": "No se ha encontrado el pictograma",
   "app.containers.Pictograms.TabHeader.notPublished": "Sin publicar",
   "app.containers.Pictograms.TabHeader.notValidated": "Sin validar",
