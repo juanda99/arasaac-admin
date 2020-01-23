@@ -20,31 +20,6 @@ import messages from 'components/Login/messages'
 import langMessages from 'components/LanguageSelector/messages'
 import { email } from 'components/Login/validate'
 
-const styles = {
-  checkbox: {
-    left: 0,
-  },
-  text: {
-    width: '100%',
-    margin: '30px',
-    maxWidth: '400px',
-    marginTop: '10px',
-    marginBottom: '10px',
-  },
-  register: {
-    position: 'absolute',
-    right: 0,
-    bottom: 0,
-  },
-  signinButton: {
-    width: '100%',
-  },
-  forgotPassword: {
-    marginTop: 0,
-    textAlign: 'right',
-  },
-}
-
 const LANGUAGES = languages.map(language => language.code)
 
 const UserForm = class UserForm extends Component {
@@ -62,10 +37,7 @@ const UserForm = class UserForm extends Component {
     return errors
   }
 
-  handleSubmit = values => {
-    window.alert(JSON.stringify(values, 0, 2))
-    this.props.onSubmit(values)
-  }
+  handleSubmit = values => this.props.onSubmit(values)
 
   render() {
     const { intl, initialValues, locale } = this.props
