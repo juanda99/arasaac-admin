@@ -90,14 +90,12 @@ class TranslationStatus extends PureComponent {
           <div>
             <Typography variant="body1" style={{ marginBottom: '15px' }}>
               <em>
-                <FormattedMessage {...messages.updatedInfo} />
-                <strong>
-                  <FormattedDate value={new Date(updated)} /> <FormattedTime value={new Date(updated)} />
-                </strong>
+                <FormattedMessage {...messages.updatedInfo} /> <FormattedDate value={new Date(updated)} />{' '}
+                <FormattedTime value={new Date(updated)} />
               </em>
             </Typography>
 
-            <Typography variant="body1">
+            <Typography variant="caption">
               <FormattedMessage
                 {...messages.webTransStatus}
                 values={{ webTranslatedString, arasaacTranslated, arasaacPhrases }}
@@ -110,7 +108,7 @@ class TranslationStatus extends PureComponent {
               value={webTranslated}
             />
 
-            <Typography variant="body1">
+            <Typography variant="caption">
               <FormattedMessage
                 {...messages.adminWebTransStatus}
                 values={{ adminWebTranslatedString, adminTranslated, adminPhrases }}
@@ -122,7 +120,7 @@ class TranslationStatus extends PureComponent {
               value={webTranslated}
             />
 
-            <Typography variant="body1">
+            <Typography variant="caption">
               <FormattedMessage
                 {...messages.pictosTransStatus}
                 values={{ pictosValidatedString, totalPictograms, pictogramsValidated }}
@@ -134,7 +132,7 @@ class TranslationStatus extends PureComponent {
               variant="determinate"
               value={pictosValidated}
             />
-            <Typography variant="body2">
+            <Typography variant="caption">
               <em>
                 <FormattedMessage {...messages.pictosTransWarning} />
               </em>
