@@ -65,6 +65,7 @@ const api = {
     callApi(categoriesAdd.url, categoriesAdd.options(parentItem, data, locale, lastUpdated), token),
   CATEGORIES_DELETE_REQUEST: ({ token, locale, item, lastUpdated }) =>
     callApi(categoriesRemove.url, categoriesRemove.options(locale, item, lastUpdated), token),
+  TRANSLATIONS_STATUS: locale => callApi(`${PRIVATE_API_ROOT}/translations/status/${locale}`),
 }
 
 export default api

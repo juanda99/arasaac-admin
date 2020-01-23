@@ -94,8 +94,11 @@ function* loginAuth(type, payload) {
 function* socialLoginAuth(type, payload) {
   try {
     const { access_token, refresh_token } = yield call(api[type], payload)
+    console.log('aquí0........')
     yield put(socialLogin.success(access_token, refresh_token))
+    console.log('aquí1........')
     yield call(authenticate)
+    console.log('aquí2........')
     yield put(push('/profile'))
   } catch (err) {
     // const error = yield parseError(err)

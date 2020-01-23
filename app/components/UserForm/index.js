@@ -12,7 +12,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormControl from '@material-ui/core/FormControl'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
-import { LANGUAGES } from 'utils/constants'
+import { languages } from 'utils/index'
 
 import moment from 'moment'
 
@@ -20,30 +20,7 @@ import messages from 'components/Login/messages'
 import langMessages from 'components/LanguageSelector/messages'
 import { email } from 'components/Login/validate'
 
-const styles = {
-  checkbox: {
-    left: 0,
-  },
-  text: {
-    width: '100%',
-    margin: '30px',
-    maxWidth: '400px',
-    marginTop: '10px',
-    marginBottom: '10px',
-  },
-  register: {
-    position: 'absolute',
-    right: 0,
-    bottom: 0,
-  },
-  signinButton: {
-    width: '100%',
-  },
-  forgotPassword: {
-    marginTop: 0,
-    textAlign: 'right',
-  },
-}
+const LANGUAGES = languages.map(language => language.code)
 
 const UserForm = class UserForm extends Component {
   email = value => (email(value) ? undefined : this.props.intl.formatMessage(messages.invalidEmail))
@@ -60,10 +37,7 @@ const UserForm = class UserForm extends Component {
     return errors
   }
 
-  handleSubmit = values => {
-    window.alert(JSON.stringify(values, 0, 2))
-    this.props.onSubmit(values)
-  }
+  handleSubmit = values => this.props.onSubmit(values)
 
   render() {
     const { intl, initialValues, locale } = this.props
@@ -87,20 +61,20 @@ const UserForm = class UserForm extends Component {
             return (
               <form onSubmit={handleSubmit}>
                 <Paper style={{ padding: 32 }}>
-                  <Grid container alignItems="flex-start" spacing={32} style={{ marginTop: 16 }}>
-                    <Grid item xs={12} sm={6} lg={4}>
+                  <Grid container spacing={3}>
+                    <Grid item xs={12} sm={6} lg={4} style={{ maxWidth: '400px', padding: '10px' }}>
                       <Field fullWidth name="name" component={TextField} type="text" label="Nombre" />
                     </Grid>
-                    <Grid item xs={12} sm={6} lg={4}>
+                    <Grid item xs={12} sm={6} lg={4} style={{ maxWidth: '400px', padding: '10px' }}>
                       <Field name="email" fullWidth component={TextField} type="email" label="Email" />
                     </Grid>
-                    <Grid item xs={12} sm={6} lg={4}>
+                    <Grid item xs={12} sm={6} lg={4} style={{ maxWidth: '400px', padding: '10px' }}>
                       <Field name="company" fullWidth component={TextField} type="text" label="Company" />
                     </Grid>
-                    <Grid item xs={12} sm={6} lg={4}>
+                    <Grid item xs={12} sm={6} lg={4} style={{ maxWidth: '400px', padding: '10px' }}>
                       <Field name="url" fullWidth component={TextField} type="url" label="Sitio web" />
                     </Grid>
-                    <Grid item xs={12} sm={6} lg={4}>
+                    <Grid item xs={12} sm={6} lg={4} style={{ maxWidth: '400px', padding: '10px' }}>
                       <Field
                         fullWidth
                         name="locale"
@@ -115,7 +89,7 @@ const UserForm = class UserForm extends Component {
                         ))}
                       </Field>
                     </Grid>
-                    <Grid item xs={12} style={{ marginTop: 16 }}>
+                    <Grid item xs={12} style={{ padding: '10px' }}>
                       <FormControl component="fieldset">
                         <FormLabel component="legend">User role </FormLabel>
                         <RadioGroup row>
@@ -135,7 +109,7 @@ const UserForm = class UserForm extends Component {
                       </FormControl>
                     </Grid>
                     {values.role === 'translator' && (
-                      <Grid item xs={12}>
+                      <Grid item xs={12} style={{ padding: '10px' }}>
                         <FormControl component="fieldset">
                           <FormLabel component="legend">Target languages:</FormLabel>
                           <FormGroup row>
@@ -152,7 +126,7 @@ const UserForm = class UserForm extends Component {
                         </FormControl>
                       </Grid>
                     )}
-                    <Grid item xs={12}>
+                    <Grid item xs={12} style={{ padding: '10px' }}>
                       <FormControl component="fieldset">
                         <FormLabel component="legend">User options</FormLabel>
                         <FormGroup row>
@@ -167,7 +141,7 @@ const UserForm = class UserForm extends Component {
                         </FormGroup>
                       </FormControl>
                     </Grid>
-                    <Grid item style={{ marginTop: 16 }}>
+                    <Grid item xs={12} style={{ padding: '10px' }}>
                       <Button variant="contained" color="primary" type="submit" disabled={submitting}>
                         Submit
                       </Button>

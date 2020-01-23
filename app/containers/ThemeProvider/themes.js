@@ -30,6 +30,7 @@ themes[LIGHT_THEME] = {
   typography: {
     useNextVariants: true,
   },
+  spacing: 0,
 }
 
 themes[DARK_THEME] = {
@@ -40,6 +41,7 @@ themes[DARK_THEME] = {
   typography: {
     useNextVariants: true,
   },
+  spacing: 0,
 }
 
 const getTheme = (theme = DEFAULT_THEME, direction) => {
