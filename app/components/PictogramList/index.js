@@ -17,6 +17,7 @@ const styles = {
   },
   pagination: {
     display: 'flex',
+    width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -35,6 +36,7 @@ export class PictogramList extends PureComponent {
           <Pagination
             limit={itemsPerPage}
             offset={offset}
+            size="large"
             total={numberItems}
             onClick={(e, offsetParam) => this.handleClick(offsetParam)}
             currentPageColor="inherit"

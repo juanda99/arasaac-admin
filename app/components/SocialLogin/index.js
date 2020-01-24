@@ -6,9 +6,9 @@ import Button from '@material-ui/core/Button'
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import { FormattedMessage } from 'react-intl'
 import blue from '@material-ui/core/colors/blue'
+import FacebookIcon from '@material-ui/icons/Facebook'
 import GoogleLogin from './GoogleLogin'
 import messages from './messages'
-import FacebookIcon from './icons/FacebookIcon'
 
 const styles = {
   facebookButton: {

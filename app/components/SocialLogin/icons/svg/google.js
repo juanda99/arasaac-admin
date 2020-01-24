@@ -1,9 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import pure from 'recompose/pure'
 import SvgIcon from '@material-ui/core/SvgIcon'
 /* eslint-disable import/no-mutable-exports */
-let Google = props => (
+const Google = props => (
   <SvgIcon {...props} viewBox="0 0 90 90" style={{ marginRight: '10px' }}>
     <path
       fill="white"
@@ -24,8 +23,5 @@ let Google = props => (
 Google.propTypes = {
   color: PropTypes.string,
 }
-
-Google = pure(Google)
-Google.displayName = 'Google'
 
 export default Google

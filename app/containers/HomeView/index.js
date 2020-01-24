@@ -12,7 +12,18 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import View from 'components/View'
+import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import Table from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
+import TableCell from '@material-ui/core/TableCell'
+import TableContainer from '@material-ui/core/TableContainer'
+import TableHead from '@material-ui/core/TableHead'
+import TableRow from '@material-ui/core/TableRow'
+import Paper from '@material-ui/core/Paper'
+import Button from '@material-ui/core/Button'
+import ButtonGroup from '@material-ui/core/ButtonGroup'
+import IconButton from '@material-ui/core/IconButton'
 import { makeSelectUserRole, makeSelectTargetLanguages } from 'containers/App/selectors'
 import { makeSelectLocale } from 'containers/LanguageProvider/selectors'
 import { Typography } from '@material-ui/core'
@@ -21,6 +32,8 @@ import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import { languages } from 'utils/index'
 import langMessages from 'components/LanguageSelector/messages'
+import { DOCS_URL } from 'services/config'
+import ArchiveIcon from '@material-ui/icons/CloudDownload'
 import messages from './messages'
 
 /* eslint-disable react/prefer-stateless-function */
@@ -36,7 +49,33 @@ class HomeView extends React.PureComponent {
     const languageItems = languages.filter(language => language.code !== 'en')
     return (
       <View>
-        <Typography color="primary" variant="h3">
+        <div style={{ marginBottom: '30px' }}>
+          <ButtonGroup color="primary" aria-label="outlined primary button group">
+            <Button
+              onClick={() => {
+                this.props.history.push('pictograms/?tab=2')
+              }}
+            >
+              <FormattedMessage {...messages.validate} />
+            </Button>
+            <Button
+              onClick={() => {
+                window.location = 'https://translate.arasaac.org'
+              }}
+            >
+              <FormattedMessage {...messages.translateArasaac} />
+            </Button>
+            <Button
+              onClick={() => {
+                window.location = 'https://translate.admin.arasaac.org'
+              }}
+            >
+              <FormattedMessage {...messages.translateAdmin} />
+            </Button>
+          </ButtonGroup>
+        </div>
+
+        <Typography color="primary" variant="h5">
           <FormattedMessage {...messages.translationStatus} />
         </Typography>
         <Select
@@ -51,6 +90,66 @@ class HomeView extends React.PureComponent {
           ))}
         </Select>
         <TranslationStatus language={locale} />
+        <div style={{ marginTop: '30px' }}>
+          <Typography color="primary" variant="h5">
+            <FormattedMessage {...messages.translatorDocs} />
+          </Typography>
+
+          <TableContainer component={Paper} style={{ maxWidth: '950px', marginTop: '20px' }}>
+            <Table aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Documentation</TableCell>
+                  <TableCell align="right">English</TableCell>
+                  <TableCell align="right">Spanish</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow key="pictosRow">
+                  <TableCell component="th" scope="row">
+                    Pictograms translation and validation
+                  </TableCell>
+                  <TableCell align="right">
+                    <a href={`${DOCS_URL}/PICTOGRAMS_TRANSLATOR_MANUAL_EN.pdf`} target="_blank">
+                      <IconButton aria-label="download" color="secondary">
+                        <ArchiveIcon />
+                      </IconButton>
+                    </a>
+                  </TableCell>
+                  <TableCell align="right">
+                    <a href={`${DOCS_URL}/MANUAL_TRADUCTOR_PICTOGRAMAS_ES.pdf`} target="_blank">
+                      <IconButton aria-label="download" color="secondary">
+                        <ArchiveIcon />
+                      </IconButton>
+                    </a>
+                  </TableCell>
+                </TableRow>
+                <TableRow key="webRow">
+                  <TableCell component="th" scope="row">
+                    Web translation
+                  </TableCell>
+                  <TableCell align="right">
+                    <ArchiveIcon />
+                  </TableCell>
+                  <TableCell align="right">
+                    <ArchiveIcon />
+                  </TableCell>
+                </TableRow>
+                <TableRow key="adminWebRow">
+                  <TableCell component="th" scope="row">
+                    Administration web translation
+                  </TableCell>
+                  <TableCell align="right">
+                    <ArchiveIcon />
+                  </TableCell>
+                  <TableCell align="right">
+                    <ArchiveIcon />
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
       </View>
     )
   }
@@ -64,4 +163,4 @@ const mapStateToProps = state => ({
 
 const withConnect = connect(mapStateToProps)
 
-export default withConnect(HomeView)
+export default withConnect(withRouter(HomeView))

@@ -4,6 +4,7 @@ const CLIENT_ID = '12345'
 export const WEB_URL = 'https://beta.arasaac.org'
 const STATIC_SERVER = 'https://static.arasaac.org'
 export const IMAGES_URL = `${STATIC_SERVER}/images`
+export const DOCS_URL = `${STATIC_SERVER}/docs`
 export const PICTOGRAMS_URL = `${STATIC_SERVER}/pictograms`
 export const LOCUTIONS_URL = `${STATIC_SERVER}/locutions`
 export const MATERIALS_URL = `${STATIC_SERVER}/materials`
