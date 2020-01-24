@@ -60,14 +60,14 @@ class HomeView extends React.PureComponent {
             </Button>
             <Button
               onClick={() => {
-                window.location = 'https://translate.arasaac.org'
+                window.open('https://translate.arasaac.org', '_blank')
               }}
             >
               <FormattedMessage {...messages.translateArasaac} />
             </Button>
             <Button
               onClick={() => {
-                window.location = 'https://translate.admin.arasaac.org'
+                window.open('https://translate.admin.arasaac.org', '_blank')
               }}
             >
               <FormattedMessage {...messages.translateAdmin} />
