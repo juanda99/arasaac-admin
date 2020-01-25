@@ -69,6 +69,8 @@ export class App extends Component {
             handleSidebarToggle={this.handleSidebarToggle}
             open={this.state.sidebarOpen}
             onClose={this.handleSidebarToggle}
+            isAuthenticated={isAuthenticated}
+            logout={doLogout}
           />
           <div className={classes.mainPanel}>
             <Header

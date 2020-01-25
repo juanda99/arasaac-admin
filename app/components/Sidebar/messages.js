@@ -34,4 +34,8 @@ export default defineMessages({
     id: 'arasaacadmin.components.Sidebar.menu.searchNews',
     defaultMessage: 'Search news',
   },
+  signout: {
+    id: 'arasaacadmin.components.Sidebar.menu.signout',
+    defaultMessage: 'Sign out',
+  },
 })

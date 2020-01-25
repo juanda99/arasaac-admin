@@ -1,5 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
+import { withRouter } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
 import Drawer from '@material-ui/core/Drawer'
 import List from '@material-ui/core/List'
@@ -8,8 +10,8 @@ import Divider from '@material-ui/core/Divider'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
-import InboxIcon from '@material-ui/icons/MoveToInbox'
-import MailIcon from '@material-ui/icons/Mail'
+import SignoutIcon from '@material-ui/icons/Block'
+import messages from './messages'
 import MenuItem from './MenuItem'
 import styles from './styles'
 
@@ -30,6 +32,8 @@ class SideBar extends React.Component {
     this.props.handleSidebarToggle()
   }
 
+  handleLogoClick = () => this.props.history.push('/')
+
   render() {
     const { classes, theme, logo, routes, open } = this.props
     const links = (
@@ -46,28 +50,30 @@ class SideBar extends React.Component {
                 open={this.state.isOpen[key]}
               />
             ) : (
-              /* eslint-disable-next-line react/no-array-index-key */
-              <MenuItem {...route} key={key} item={key} />
-            ),
+                /* eslint-disable-next-line react/no-array-index-key */
+                <MenuItem {...route} key={key} item={key} />
+              ),
         )}
       </List>
     )
 
     const drawer = (
       <div>
-        <div className={classes.toolbar} role="button">
+        <div className={classes.toolbar} role="button" onClick={this.handleLogoClick}>
           ARASAAC
         </div>
         {links}
         <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
+        {this.props.isAuthenticated && (
+          <List>
+            <ListItem button key="logOutOption">
+              <ListItemIcon>
+                <SignoutIcon />
+              </ListItemIcon>
+              <ListItemText primary={<FormattedMessage {...messages.signout} />} onClick={() => this.props.logout()} />
             </ListItem>
-          ))}
-        </List>
+          </List>
+        )}
       </div>
     )
 
@@ -114,6 +120,8 @@ SideBar.propTypes = {
   logoText: PropTypes.string.isRequired,
   logo: PropTypes.string.isRequired,
   handleSidebarToggle: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  logout: PropTypes.func.isRequired,
 }
 
-export default withStyles(styles, { withTheme: true })(SideBar)
+export default withStyles(styles, { withTheme: true })(withRouter(SideBar))
