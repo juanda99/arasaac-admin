@@ -53,6 +53,7 @@ const sidebarStyle = theme => ({
     fontSize: 24,
     paddingLeft: 85,
     paddingTop: 20,
+    cursor: 'pointer',
   },
 })
 

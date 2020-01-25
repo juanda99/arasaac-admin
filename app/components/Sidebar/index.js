@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
+import { withRouter } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
 import Drawer from '@material-ui/core/Drawer'
 import List from '@material-ui/core/List'
@@ -31,6 +32,8 @@ class SideBar extends React.Component {
     this.props.handleSidebarToggle()
   }
 
+  handleLogoClick = () => this.props.history.push('/')
+
   render() {
     const { classes, theme, logo, routes, open } = this.props
     const links = (
@@ -56,14 +59,14 @@ class SideBar extends React.Component {
 
     const drawer = (
       <div>
-        <div className={classes.toolbar} role="button">
+        <div className={classes.toolbar} role="button" onClick={this.handleLogoClick}>
           ARASAAC
         </div>
         {links}
         <Divider />
         {this.props.isAuthenticated && (
           <List>
-            <ListItem button key="kkkkkkkk">
+            <ListItem button key="logOutOption">
               <ListItemIcon>
                 <SignoutIcon />
               </ListItemIcon>
@@ -121,4 +124,4 @@ SideBar.propTypes = {
   logout: PropTypes.func.isRequired,
 }
 
-export default withStyles(styles, { withTheme: true })(SideBar)
+export default withStyles(styles, { withTheme: true })(withRouter(SideBar))
