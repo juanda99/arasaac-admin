@@ -32,4 +32,16 @@ export default defineMessages({
     id: `${scope}.translatorDocs`,
     defaultMessage: 'Documentation for translators',
   },
+  documentation: {
+    id: `${scope}.documentation`,
+    defaultMessage: 'Documentation',
+  },
+  pictosTranslation: {
+    id: `${scope}.pictosTranslation`,
+    defaultMessage: 'Pictograms translation and validation',
+  },
+  webTranslation: {
+    id: `${scope}.webTranslation`,
+    defaultMessage: 'Web translation',
+  },
 })

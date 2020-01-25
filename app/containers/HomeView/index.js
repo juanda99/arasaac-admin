@@ -99,15 +99,21 @@ class HomeView extends React.PureComponent {
             <Table aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell>Documentation</TableCell>
-                  <TableCell align="right">English</TableCell>
-                  <TableCell align="right">Spanish</TableCell>
+                  <TableCell>
+                    <FormattedMessage {...messages.documentation} />
+                  </TableCell>
+                  <TableCell align="right">
+                    <FormattedMessage {...langMessages.en} />
+                  </TableCell>
+                  <TableCell align="right">
+                    <FormattedMessage {...langMessages.es} />
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 <TableRow key="pictosRow">
                   <TableCell component="th" scope="row">
-                    Pictograms translation and validation
+                    <FormattedMessage {...messages.pictosTranslation} />
                   </TableCell>
                   <TableCell align="right">
                     <a href={`${DOCS_URL}/PICTOGRAMS_TRANSLATOR_MANUAL_EN.pdf`} target="_blank">
@@ -126,24 +132,21 @@ class HomeView extends React.PureComponent {
                 </TableRow>
                 <TableRow key="webRow">
                   <TableCell component="th" scope="row">
-                    Web translation
+                    <FormattedMessage {...messages.webTranslation} />
                   </TableCell>
                   <TableCell align="right">
-                    <ArchiveIcon />
+                    <a href={`${DOCS_URL}/WEB_TRANSLATOR_MANUAL_EN.pdf`} target="_blank">
+                      <IconButton aria-label="download" color="secondary">
+                        <ArchiveIcon />
+                      </IconButton>
+                    </a>
                   </TableCell>
                   <TableCell align="right">
-                    <ArchiveIcon />
-                  </TableCell>
-                </TableRow>
-                <TableRow key="adminWebRow">
-                  <TableCell component="th" scope="row">
-                    Administration web translation
-                  </TableCell>
-                  <TableCell align="right">
-                    <ArchiveIcon />
-                  </TableCell>
-                  <TableCell align="right">
-                    <ArchiveIcon />
+                    <a href={`${DOCS_URL}/MANUAL_TRADUCTOR_WEB_ES.pdf`} target="_blank">
+                      <IconButton aria-label="download" color="secondary">
+                        <ArchiveIcon />
+                      </IconButton>
+                    </a>
                   </TableCell>
                 </TableRow>
               </TableBody>
