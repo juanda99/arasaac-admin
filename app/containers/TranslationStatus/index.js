@@ -105,7 +105,7 @@ class TranslationStatus extends PureComponent {
             <LinearProgress
               style={{ height: '7px', maxWidth: '700px', marginBottom: '20px' }}
               variant="determinate"
-              value={webTranslated}
+              value={parseFloat(webTranslated)}
             />
 
             <Typography variant="caption">
@@ -117,7 +117,7 @@ class TranslationStatus extends PureComponent {
             <LinearProgress
               style={{ height: '7px', maxWidth: '700px', marginBottom: '20px' }}
               variant="determinate"
-              value={webTranslated}
+              value={parseFloat(adminWebTranslated)}
             />
 
             <Typography variant="caption">
@@ -130,7 +130,7 @@ class TranslationStatus extends PureComponent {
             <LinearProgress
               style={{ height: '7px', maxWidth: '700px' }}
               variant="determinate"
-              value={pictosValidated}
+              value={parseFloat(pictosValidated)}
             />
             <Typography variant="caption">
               <em>
