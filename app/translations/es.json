@@ -52,6 +52,8 @@
   "app.components.Pictogram.confirmationInfoText": "¿Seguro que quieres borrar el pictograma?",
   "app.components.Pictogram.confirmationTitle": "Borrar pictograma",
   "app.components.Pictogram.deletePictogram": "Borrar pictograma",
+  "app.components.Pictogram.noKeywords": "No keywords found!",
+  "app.components.Pictogram.pictogramPosition": "Pictogram {currentItem} of {totalItems}",
   "app.components.PictogramForm.button.cancel": "Cancelar",
   "app.components.PictogramForm.button.save": "Guardar",
   "app.components.PictogramForm.categories": "Categorías",
