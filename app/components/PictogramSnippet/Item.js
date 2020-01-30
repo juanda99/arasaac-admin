@@ -1,6 +1,6 @@
 /**
  *
- * Item
+ * Item: we used it also inside buttons from components/pictogram to navigate inside lists
  *
  */
 
@@ -13,12 +13,22 @@ class Item extends React.PureComponent {
 
   static propTypes = {
     url: PropTypes.string.isRequired,
+    pictograms: PropTypes.array.isRequired,
     children: PropTypes.node,
   }
 
   render() {
-    const { children } = this.props
-    return <Link to={this.props.url}>{children}</Link>
+    const { children, pictograms } = this.props
+    return (
+      <Link
+        to={{
+          pathname: this.props.url,
+          state: { pictograms },
+        }}
+      >
+        {children}
+      </Link>
+    )
   }
 }
 

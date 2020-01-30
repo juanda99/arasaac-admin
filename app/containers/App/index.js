@@ -34,8 +34,11 @@ const getRoutes = () =>
         />
       ))
     }
-    /* eslint-disable-next-line react/no-array-index-key */
-    return <Route path={route.path} component={route.component} key={key} />
+    // if (route.path === '/pictograms/:idPictogram/:searchText?') {
+    //   // see https://github.com/ReactTraining/react-router/issues/4105
+    //   return <Route path={route.path} render={PictogramViewWrapper} key={route.path} />
+    // }
+    return <Route path={route.path} component={route.component} key={route.path} />
   })
 
 // Configure JSS

@@ -28,6 +28,7 @@ export class PictogramList extends PureComponent {
 
   render() {
     const { pictograms, searchText, offset } = this.props
+    const pictos = pictograms.map(pictogram => pictogram._id)
     const numberItems = pictograms.length
     const visiblePictograms = pictograms.slice(offset, offset + itemsPerPage)
     const pagination =
@@ -45,7 +46,7 @@ export class PictogramList extends PureComponent {
       ) : null
 
     const renderPictograms = visiblePictograms.map(pictogram => (
-      <PictogramSnippet pictogram={pictogram} searchText={searchText} key={pictogram._id} />
+      <PictogramSnippet pictogram={pictogram} pictograms={pictos} searchText={searchText} key={pictogram._id} />
     ))
 
     return (

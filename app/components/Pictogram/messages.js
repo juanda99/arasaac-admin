@@ -15,4 +15,12 @@ export default defineMessages({
     id: `${scope}.confirmationInfoText`,
     defaultMessage: 'Are you sure you want to delete the pictogram?',
   },
+  pictogramPosition: {
+    id: `${scope}.pictogramPosition`,
+    defaultMessage: 'Pictogram {currentItem} of {totalItems}',
+  },
+  noKeywords: {
+    id: `${scope}.noKeywords`,
+    defaultMessage: 'No keywords found!',
+  },
 })

@@ -69,6 +69,22 @@ class PictogramView extends React.PureComponent {
     } else this.getKeywords(keywordsHintLocale)
   }
 
+  async componentDidUpdate(prevProps) {
+    if (prevProps.idPictogram !== this.props.idPictogram) {
+      const { requestPictogram, idPictogram, locale, lastUpdatedCategories } = this.props
+      const { keywordsHintLocale } = this.state
+      /* we always request pictogram, can have changes */
+      await requestPictogram(idPictogram, locale)
+      // we get Categories....
+      this.props.requestCategories(locale, lastUpdatedCategories)
+      if (!keywordsHintLocale) {
+        if (locale === 'en' || locale === 'val' || locale === 'gl' || locale === 'ca' || locale === 'eu')
+          this.getKeywords('es')
+        else this.getKeywords('en')
+      } else this.getKeywords(keywordsHintLocale)
+    }
+  }
+
   handleErrorDialogClose = () => this.props.requestRemoveError()
 
   handleDelete = accept => {
@@ -97,9 +113,10 @@ class PictogramView extends React.PureComponent {
   }
 
   render() {
-    const { selectedPictogram, locale, classes, tags, intl, role, loading } = this.props
+    const { selectedPictogram, locale, classes, tags, intl, role, loading, location } = this.props
     const { keywordsHintLocale, keywords, confirmationBoxOpen } = this.state
     const { formatMessage } = intl
+    const pictograms = location && location.state && location.state.pictograms ? location.state.pictograms : null
 
     const hasEditRole = this.hasEditRole()
 
@@ -130,6 +147,7 @@ class PictogramView extends React.PureComponent {
           <div className={classes.wrapper}>
             <Pictogram
               pictogram={selectedPictogram}
+              pictograms={pictograms}
               language={keywordsHintLocale}
               keywords={keywords}
               onChangeKeywordsLocale={this.handleChangeKeywordsLocale}
