@@ -1,11 +1,14 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import { withRouter } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
 import { PICTOGRAMS_URL } from 'services/config'
 import Tooltip from '@material-ui/core/Tooltip'
 import IconButton from '@material-ui/core/IconButton'
+import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore'
+import NavigateNextIcon from '@material-ui/icons/NavigateNext'
 import DeleteIcon from '@material-ui/icons/Delete'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import LanguageIcon from '@material-ui/icons/Language'
 import LanguageSelector from 'components/LanguageSelector'
 import messages from 'containers/LocaleSelector/messages'
@@ -37,6 +40,7 @@ class Pictogram extends PureComponent {
     onBeforeDelete: PropTypes.func.isRequired,
     confirmationBoxOpen: PropTypes.bool.isRequired,
     canDelete: PropTypes.bool.isRequired,
+    pictograms: PropTypes.array,
   }
 
   state = {
@@ -60,11 +64,18 @@ class Pictogram extends PureComponent {
     this.setState({ languageButton: null })
   }
 
+  handleClick = idPictogram => {
+    const { pictograms, history } = this.props
+    history.push(`/pictograms/${idPictogram}`, { pictograms })
+  }
+
   render() {
-    const { pictogram, classes, keywords, canDelete, confirmationBoxOpen, theme } = this.props
+    const { pictogram, classes, keywords, canDelete, confirmationBoxOpen, theme, pictograms } = this.props
     const { _id } = pictogram
     const { languageButton } = this.state
     const idSelector = 'keywords-language'
+    const currentItem = pictograms ? pictograms.indexOf(_id) + 1 : null
+    const totalItems = pictograms ? pictograms.length : 0
 
     return (
       <div className={classes.pictoWrapper}>
@@ -75,10 +86,39 @@ class Pictogram extends PureComponent {
           confirmationInfoText={<FormattedMessage {...ownMessages.confirmationInfoText} />}
         />
         <ConditionalPaper style={{ position: 'relative' }}>
+          {pictograms && (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                backgroundColor: theme.palette.accent1Color,
+              }}
+            >
+              <IconButton
+                disabled={currentItem === 1}
+                aria-label="previous"
+                onClick={() => this.handleClick(pictograms[currentItem - 2])}
+              >
+                <NavigateBeforeIcon />
+              </IconButton>
+              <div>
+                {' '}
+                <FormattedMessage {...ownMessages.pictogramPosition} values={{ currentItem, totalItems }} />
+              </div>
+              <IconButton
+                disabled={currentItem === totalItems}
+                aria-label="next"
+                onClick={() => this.handleClick(pictograms[currentItem])}
+              >
+                <NavigateNextIcon />
+              </IconButton>
+            </div>
+          )}
           <img className={classes.pictogram} src={`${PICTOGRAMS_URL}/${_id}/${_id}_300.png`} alt="Pictograms" />
           {canDelete && (
             <Tooltip title={<FormattedMessage {...ownMessages.deletePictogram} />} enterDelay={300}>
-              <IconButton onClick={this.handleClickDelete} style={{ position: 'absolute', top: 10, left: 230 }}>
+              <IconButton onClick={this.handleClickDelete} style={{ position: 'absolute', bottom: 10, left: 230 }}>
                 <DeleteIcon color="primary" style={{ fontSize: 40 }} />
               </IconButton>
             </Tooltip>
@@ -104,7 +144,7 @@ class Pictogram extends PureComponent {
           {keywords.length ? (
             <>
               {keywords.map(keyword => {
-                const color = getColor(keyword.type, theme)
+                const color = getColor(keyword.type)
                 const style = { backgroundColor: color, color: 'white', marginRight: '2px' }
                 if (color === white || color === yellow) style.color = 'black'
                 return (
@@ -115,7 +155,7 @@ class Pictogram extends PureComponent {
               })}
             </>
           ) : (
-              <span>No keywords found!</span>
+              <span>{<FormattedMessage {...ownMessages.noKeywords} />}</span>
             )}
         </div>
       </div>
@@ -123,4 +163,4 @@ class Pictogram extends PureComponent {
   }
 }
 
-export default withStyles(styles, { withTheme: true })(Pictogram)
+export default withStyles(styles, { withTheme: true })(withRouter(Pictogram))

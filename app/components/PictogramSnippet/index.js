@@ -29,6 +29,7 @@ class PictogramSnippet extends PureComponent {
       pictogram: { _id, keywords },
       searchText,
       classes,
+      pictograms,
     } = this.props
     const { keyword } = keywordSelector(searchText, keywords)
     return (
@@ -40,7 +41,7 @@ class PictogramSnippet extends PureComponent {
         onMouseLeave={this.handleMouseLeave}
       >
         <Paper className={classes.paper} elevation={this.state.zDepth}>
-          <Item url={`/pictograms/${_id}/${keyword}`}>
+          <Item url={`/pictograms/${_id}/${keyword}`} pictograms={pictograms}>
             <div style={{ position: 'relative' }}>
               <img className={classes.image} src={`${PICTOGRAMS_URL}/${_id}/${_id}_300.png`} alt={keyword} />
               <div className={classes.cardActions}>
@@ -56,6 +57,7 @@ class PictogramSnippet extends PureComponent {
 
 PictogramSnippet.propTypes = {
   pictogram: PropTypes.object.isRequired,
+  pictograms: PropTypes.array.isRequired,
   searchText: PropTypes.string,
   classes: PropTypes.object.isRequired,
 }
