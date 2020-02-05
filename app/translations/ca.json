@@ -97,7 +97,7 @@
   "app.components.dialog.ok": "D'acord",
   "app.containers.AddNews.header": "Aquest és el contenidor AddNews!",
   "app.containers.AddPictograms.errorUploading": "Uppps, els pictogrames no s'han pujat!",
-  "app.containers.AddPictograms.successUploading": "Pictograms have been uploaded",
+  "app.containers.AddPictograms.successUploading": "S'han penjat pictogrames",
   "app.containers.AddPictograms.uploadMoreFiles": "Upload more pictograms",
   "app.containers.CatalogsView.h1": "Catalogs management",
   "app.containers.CatalogsView.lastBuild.never": "Never",
