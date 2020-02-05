@@ -10,14 +10,14 @@ export const scope = 'app.containers.AddPictograms'
 export default defineMessages({
   errorUploading: {
     id: `${scope}.errorUploading`,
-    defaultMessage: 'Uppps, files were not uploaded!',
+    defaultMessage: 'Uppps, pictograms were not uploaded!',
   },
   successUploading: {
     id: `${scope}.successUploading`,
-    defaultMessage: 'Files has been uploaded',
+    defaultMessage: 'Pictograms have been uploaded',
   },
   uploadMoreFiles: {
     id: `${scope}.uploadMoreFiles`,
-    defaultMessage: 'Upload more files',
+    defaultMessage: 'Upload more pictograms',
   },
 })
