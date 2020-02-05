@@ -26,7 +26,7 @@ export default defineMessages({
   },
   catalogs: {
     id: `${scope}.title.catalogs`,
-    defaultMessage: 'Catalos',
+    defaultMessage: 'Catalogs',
   },
   management: {
     id: `${scope}.title.management`,
