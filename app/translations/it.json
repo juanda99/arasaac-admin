@@ -70,7 +70,7 @@
   "app.components.PictogramForm.pictogramStatus": "Stato",
   "app.components.PictogramForm.plural": "Parola plurale",
   "app.components.PictogramForm.synsets": "Synsets",
-  "app.components.PictogramForm.tags": "Tags",
+  "app.components.PictogramForm.tags": "Tag",
   "app.components.PictogramForm.type": "Type of word",
   "app.components.PictogramForm.updateDate": "Update date",
   "app.components.PictogramForm.word": "Word",
