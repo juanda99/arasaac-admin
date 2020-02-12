@@ -142,7 +142,7 @@
   "app.containers.Users.filterRowMessages.filterPlaceholder": "סנן...",
   "app.containers.Users.gridCaption.company": "חברה",
   "app.containers.Users.gridCaption.email": "אימייל",
-  "app.containers.Users.gridCaption.locale": "מיקום",
+  "app.containers.Users.gridCaption.locale": "שפת משתמש",
   "app.containers.Users.gridCaption.name": "שם",
   "app.containers.Users.gridCaption.role": "תפקיד",
   "app.containers.Users.gridCaption.url": "כתובת אינטרנט",
