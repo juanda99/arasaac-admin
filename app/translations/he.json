@@ -93,7 +93,7 @@
   "app.components.PictogramsGrid.pagingPanelMessages.showAll": "הכל",
   "app.components.PictogramsGrid.tableMessages.noData": "נתונים לא נמצאו",
   "app.components.SearchBox.searchField": "הזן טקסט לחיפוש",
-  "app.components.ThemeSelector.button.darkTheme": "עכעע",
+  "app.components.ThemeSelector.button.darkTheme": "ניגודיות מסך",
   "app.components.dialog.ok": "בסדר",
   "app.containers.AddNews.header": "זה דף החדשות!",
   "app.containers.AddPictograms.errorUploading": "אופס, לא הועלו סמלים!",
