@@ -8,7 +8,6 @@ import React from 'react'
 import View from 'components/View'
 import { FormattedMessage } from 'react-intl'
 import { PICTOGRAMS_URL } from 'services/config'
-import P from 'components/P'
 import messages from './messages'
 
 const PermissionsErrorView = () => (
