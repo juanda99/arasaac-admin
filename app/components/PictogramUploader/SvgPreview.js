@@ -31,7 +31,7 @@ const SvgPreview = ({ file, onDelete }) => {
       }}
       onClick={handleDelete}
     >
-      <img src={file.preview} style={img} />
+      <img src={file.preview} style={img} alt={file.name} />
       {elevation === 3 && (
         <IconButton
           aria-label="delete"
