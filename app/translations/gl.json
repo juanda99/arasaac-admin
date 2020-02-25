@@ -98,7 +98,7 @@
   "app.containers.AddNews.header": "Este é o contedor de novas!",
   "app.containers.AddPictograms.errorUploading": "Upps, os pictogramas non se subiron!",
   "app.containers.AddPictograms.successUploading": "Pictogramas subidos",
-  "app.containers.AddPictograms.uploadMoreFiles": "Subir mais pictogramas",
+  "app.containers.AddPictograms.uploadMoreFiles": "Subir máis pictogramas",
   "app.containers.CatalogsView.h1": "Xestión de catálogos",
   "app.containers.CatalogsView.lastBuild.never": "Nunca",
   "app.containers.CatalogsView.progressBuild.calculatingSize": "Calculando o tamaño ...",
