@@ -35,7 +35,7 @@ const categoriesViewReducer = (state = initialState, action) => {
       const { locale } = action.payload.data
       categories = state.get('categories')
       categories[locale] = action.payload.data
-      const tmpKeywords = categories ? jp.query(categories, '$..keywords') : []
+      const tmpKeywords = categories ? jp.query(categories[locale], '$..keywords') : []
       const keywords = [].concat(...tmpKeywords)
       categories[locale].keywords = [...new Set(keywords)]
       // get tags
