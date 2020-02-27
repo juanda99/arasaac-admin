@@ -17,19 +17,31 @@
 const DEFAULT_LOCALE = 'en'
 // import { DEFAULT_LOCALE } from './containers/App/constants'
 // const { DEFAULT_LOCALE } = require('./containers/App/constants')
+const caTranslationMessages = require('./translations/ca.json')
 const enTranslationMessages = require('./translations/en.json')
 const esTranslationMessages = require('./translations/es.json')
 const frTranslationMessages = require('./translations/fr.json')
+const glTranslationMessages = require('./translations/gl.json')
 const heTranslationMessages = require('./translations/he.json')
+const hrTranslationMessages = require('./translations/hr.json')
+const itTranslationMessages = require('./translations/it.json')
 const ptTranslationMessages = require('./translations/pt.json')
+const ruTranslationMessages = require('./translations/ru.json')
+const valTranslationMessages = require('./translations/val.json')
 
 // prettier-ignore
 const appLocales = [
+  'ca',
   'en',
   'es',
   'fr',
+  'gl',
   'he',
+  'hr',
+  'it',
   'pt',
+  'ru',
+  'val',
 ];
 
 const formatTranslationMessages = (locale, messages) => {
@@ -43,14 +55,18 @@ const formatTranslationMessages = (locale, messages) => {
 }
 
 const translationMessages = {
+  ca: formatTranslationMessages('ca', caTranslationMessages),
   en: formatTranslationMessages('en', enTranslationMessages),
   es: formatTranslationMessages('es', esTranslationMessages),
   fr: formatTranslationMessages('fr', frTranslationMessages),
+  gl: formatTranslationMessages('gl', glTranslationMessages),
   he: formatTranslationMessages('he', heTranslationMessages),
+  hr: formatTranslationMessages('hr', hrTranslationMessages),
+  it: formatTranslationMessages('it', itTranslationMessages),
   pt: formatTranslationMessages('pt', ptTranslationMessages),
-  // it: formatTranslationMessages('it', itTranslationMessages),
-  // de: formatTranslationMessages('de', deTranslationMessages),
-  // val: formatTranslationMessages('val', valTranslationMessages),
+  ru: formatTranslationMessages('ru', ruTranslationMessages),
+  val: formatTranslationMessages('val', valTranslationMessages),
+  // de: formatTranslationMessages('de', deTranslationMessages),s
   // af: formatTranslationMessages('af', afTranslationMessages),
 }
 
