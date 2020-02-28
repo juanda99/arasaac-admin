@@ -77,7 +77,7 @@
   "app.components.PictogramForm.wordType.commonName": "Zajednički naziv",
   "app.components.PictogramForm.wordType.descriptive": "Opisni (pridjev ili prilog)",
   "app.components.PictogramForm.wordType.miscelleneous": "Razno",
-  "app.components.PictogramForm.wordType.properName": "Ispravno ime",
+  "app.components.PictogramForm.wordType.properName": "Vlastito ime",
   "app.components.PictogramForm.wordType.socialContent": "Društveni sadržaj",
   "app.components.PictogramForm.wordType.verb": "Glagol",
   "app.components.PictogramUploader.addFiles": "Dodaj datoteke piktograma",
