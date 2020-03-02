@@ -98,7 +98,7 @@
   "app.containers.AddNews.header": "Este é o recipiente do AddNews!",
   "app.containers.AddPictograms.errorUploading": "Uppps, os pictogramas não foram carregados!",
   "app.containers.AddPictograms.successUploading": "Os pictogramas foram carregados",
-  "app.containers.AddPictograms.uploadMoreFiles": "Upload more pictograms",
+  "app.containers.AddPictograms.uploadMoreFiles": "Carregar mais pictogramas",
   "app.containers.CatalogsView.h1": "Gestão de catálogos",
   "app.containers.CatalogsView.lastBuild.never": "Nunca",
   "app.containers.CatalogsView.progressBuild.calculatingSize": "A calcular tamanho...",
