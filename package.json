@@ -101,7 +101,7 @@
     "material-ui-chip-input": "^1.0.0",
     "material-ui-flat-pagination": "^4.1.0",
     "material-ui-pickers": "^2.2.4",
-    "minimist": "1.2.0",
+    "minimist": "1.2.2",
     "moment": "^2.24.0",
     "normalizr": "^3.4.1",
     "object-diff": "0.0.4",
