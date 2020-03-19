@@ -31,6 +31,10 @@ export default defineMessages({
     id: `${scope}.hebrew`,
     defaultMessage: 'Hebrew',
   },
+  hu: {
+    id: `${scope}.hungarian`,
+    defaultMessage: 'Hungarian',
+  },
   nl: {
     id: `${scope}.dutch`,
     defaultMessage: 'Dutch',

@@ -142,6 +142,10 @@ export const languages = [
     text: 'Hrvatski',
   },
   {
+    code: 'hu',
+    text: 'Magyar',
+  },
+  {
     code: 'it',
     text: 'Italiano',
   },
