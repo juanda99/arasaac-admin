@@ -1,6 +1,6 @@
 {
-  "Login.invalidEmail": "Invalid email",
-  "Login.required": "Required",
+  "Login.invalidEmail": "Érvénytelen E-mail cím",
+  "Login.required": "Kötelező",
   "app.components.Autosuggest.selectTagsHint": "Select multiple tags",
   "app.components.Catalog.h1": "Catalog Generation for {language} language",
   "app.components.CategoryForm.button.cancel": "Cancel",
