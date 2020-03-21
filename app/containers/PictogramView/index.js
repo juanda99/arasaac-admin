@@ -46,13 +46,16 @@ class PictogramView extends React.PureComponent {
 
   getKeywords = keywordsHintLocale => {
     const { idPictogram } = this.props
-    api.PICTOGRAM_KEYWORDS_REQUEST({ keywordsHintLocale, idPictogram }).then(data => {
-      if (data.keywords && data.keywords.length) {
-        this.setState({ keywords: data.keywords, keywordsHintLocale })
-      } else if (!data.keywords || data.keywords.length === 0) {
-        this.setState({ keywords: [], keywordsHintLocale })
-      }
-    })
+    api
+      .PICTOGRAM_KEYWORDS_REQUEST({ keywordsHintLocale, idPictogram })
+      .then(data => {
+        if (data.keywords && data.keywords.length) {
+          this.setState({ keywords: data.keywords, keywordsHintLocale })
+        } else if (!data.keywords || data.keywords.length === 0) {
+          this.setState({ keywords: [], keywordsHintLocale })
+        }
+      })
+      .catch(() => this.setState({ keywords: [], keywordsHintLocale }))
   }
 
   async componentDidMount() {
@@ -127,10 +130,10 @@ class PictogramView extends React.PureComponent {
           .toLowerCase()
           .normalize('NFD')
           .replace(/[\u0300-\u036f]/g, '') >
-          b.label
-            .toLowerCase()
-            .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '')
+        b.label
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
           ? 1
           : -1,
     )
@@ -167,18 +170,18 @@ class PictogramView extends React.PureComponent {
             />
           </div>
         ) : (
-            <div className={classes.wrapper}>
-              {loading ? (
-                <Typography variant="h6" component="h3" color="textPrimary" gutterBottom>
-                  <FormattedMessage {...messages.loadingPictogram} />
-                </Typography>
-              ) : (
-                  <Typography variant="h6" component="h3" color="textPrimary" gutterBottom>
-                    <FormattedMessage {...messages.notFoundPictogram} />
-                  </Typography>
-                )}
-            </div>
-          )}
+          <div className={classes.wrapper}>
+            {loading ? (
+              <Typography variant="h6" component="h3" color="textPrimary" gutterBottom>
+                <FormattedMessage {...messages.loadingPictogram} />
+              </Typography>
+            ) : (
+              <Typography variant="h6" component="h3" color="textPrimary" gutterBottom>
+                <FormattedMessage {...messages.notFoundPictogram} />
+              </Typography>
+            )}
+          </div>
+        )}
       </View>
     )
   }
