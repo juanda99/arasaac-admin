@@ -28,6 +28,7 @@ const huTranslationMessages = require('./translations/hu.json')
 const itTranslationMessages = require('./translations/it.json')
 const ptTranslationMessages = require('./translations/pt.json')
 const ruTranslationMessages = require('./translations/ru.json')
+const skTranslationMessages = require('./translations/sk.json')
 const valTranslationMessages = require('./translations/val.json')
 
 // prettier-ignore
@@ -43,6 +44,7 @@ const appLocales = [
   'it',
   'pt',
   'ru',
+  'sk',
   'val',
 ];
 
@@ -68,6 +70,7 @@ const translationMessages = {
   it: formatTranslationMessages('it', itTranslationMessages),
   pt: formatTranslationMessages('pt', ptTranslationMessages),
   ru: formatTranslationMessages('ru', ruTranslationMessages),
+  sk: formatTranslationMessages('sk', skTranslationMessages),
   val: formatTranslationMessages('val', valTranslationMessages),
   // de: formatTranslationMessages('de', deTranslationMessages),s
   // af: formatTranslationMessages('af', afTranslationMessages),

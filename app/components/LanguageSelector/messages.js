@@ -79,6 +79,11 @@ export default defineMessages({
     id: `${scope}.russian`,
     defaultMessage: 'Russian',
   },
+  sk: {
+    id: 'app.components.LanguageSelector.sk',
+    description: 'Select language',
+    defaultMessage: 'Slovak',
+  },
   ar: {
     id: `${scope}.arabic`,
     defaultMessage: 'Arabic',
