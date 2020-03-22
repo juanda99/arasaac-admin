@@ -35,7 +35,7 @@ class Pictogram extends PureComponent {
     pictogram: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired,
     onChangeKeywordsLocale: PropTypes.func.isRequired,
-    keywords: PropTypes.arrayOf(PropTypes.object.isRequireds),
+    keywords: PropTypes.arrayOf(PropTypes.object.isRequired),
     onDelete: PropTypes.func.isRequired,
     onBeforeDelete: PropTypes.func.isRequired,
     confirmationBoxOpen: PropTypes.bool.isRequired,
@@ -155,8 +155,8 @@ class Pictogram extends PureComponent {
               })}
             </>
           ) : (
-              <span>{<FormattedMessage {...ownMessages.noKeywords} />}</span>
-            )}
+            <span>{<FormattedMessage {...ownMessages.noKeywords} />}</span>
+          )}
         </div>
       </div>
     )
