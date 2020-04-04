@@ -55,7 +55,7 @@
   "app.components.Pictogram.deletePictogram": "Delete pictogram",
   "app.components.Pictogram.noKeywords": "No keywords found!",
   "app.components.Pictogram.pictogramPosition": "Pictogram {currentItem} of {totalItems}",
-  "app.components.PictogramForm.button.cancel": "Cancel",
+  "app.components.PictogramForm.button.cancel": "Mégsem",
   "app.components.PictogramForm.button.save": "Save",
   "app.components.PictogramForm.categories": "Categories",
   "app.components.PictogramForm.checkbox.published": "Published",
