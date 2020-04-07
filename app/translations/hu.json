@@ -103,7 +103,7 @@
   "app.containers.CatalogsView.h1": "Katalógus kezelő",
   "app.containers.CatalogsView.lastBuild.never": "Soha",
   "app.containers.CatalogsView.progressBuild.calculatingSize": "Méret számítása...",
-  "app.containers.CatalogsView.progressBuild.compressingFiles": "Tömörített ábrák {kiemelt információ}",
+  "app.containers.CatalogsView.progressBuild.compressingFiles": "Tömörített ábrák {kiemelt információ}{extraInfo}",
   "app.containers.CatalogsView.progressBuild.connectingServer": "Kapcsolódás a nyilvános kiszolgáló központhoz",
   "app.containers.CatalogsView.progressBuild.createdCatalog": "Létrehozott jegyzék {info} másodperc alatt",
   "app.containers.CatalogsView.progressBuild.files": "Dokumentum",
