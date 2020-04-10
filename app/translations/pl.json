@@ -1,6 +1,6 @@
 {
   "Login.invalidEmail": "Nieprawidłowy adres e-mail",
-  "Login.required": "Required",
+  "Login.required": "Wymagane",
   "app.components.Autosuggest.selectTagsHint": "Select multiple tags",
   "app.components.Catalog.h1": "Catalog Generation for {language} language",
   "app.components.CategoryForm.button.cancel": "Cancel",
