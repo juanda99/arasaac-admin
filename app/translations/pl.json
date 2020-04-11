@@ -129,7 +129,7 @@
   "app.containers.HomePage.translatorDocs": "Dokumentacja dla tłumaczy",
   "app.containers.HomePage.validate": "Sprawdź poprawność piktogramów",
   "app.containers.HomePage.webTranslation": "Tłumaczenie strony internetowej",
-  "app.containers.News.header": "To jest pojemnik na Wiadomości!",
+  "app.containers.News.header": "To jest pojemnik na AddNewsi!",
   "app.containers.NotFoundPage.header": "To jest pojemnik NotFoundPage!",
   "app.containers.Pictogram.errorTitle": "Błąd piktogramu",
   "app.containers.Pictogram.loadingPictogram": "Wczytywanie piktogramu",
