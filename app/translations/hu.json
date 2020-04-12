@@ -76,7 +76,7 @@
   "app.components.PictogramForm.updateDate": "Dátum frissítése",
   "app.components.PictogramForm.word": "Szó",
   "app.components.PictogramForm.wordType.commonName": "Köznév (narancs)",
-  "app.components.PictogramForm.wordType.descriptive": "Leíró(melléknév vagy határozó) (kék)",
+  "app.components.PictogramForm.wordType.descriptive": "Leíró (melléknév vagy határozó) (kék)",
   "app.components.PictogramForm.wordType.miscelleneous": "Vegyes (fehér)",
   "app.components.PictogramForm.wordType.properName": "Tulajdonnév (sárga)",
   "app.components.PictogramForm.wordType.socialContent": "Szociális tartalom (rózsaszín)",
