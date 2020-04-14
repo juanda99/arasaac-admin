@@ -78,7 +78,7 @@
   "app.components.PictogramForm.wordType.commonName": "Köznév (narancs)",
   "app.components.PictogramForm.wordType.descriptive": "Leíró (mn. vagy hat.) (kék)",
   "app.components.PictogramForm.wordType.miscelleneous": "Vegyes (fehér)",
-  "app.components.PictogramForm.wordType.properName": "Tulajdonnév (sárga)",
+  "app.components.PictogramForm.wordType.properName": "Tulajdonnév, szem.névmás (sárga)",
   "app.components.PictogramForm.wordType.socialContent": "Szociális tartalom (rózsaszín)",
   "app.components.PictogramForm.wordType.verb": "Ige (zöld)",
   "app.components.PictogramUploader.addFiles": "Piktogram hozzáadása",
