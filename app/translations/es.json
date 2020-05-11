@@ -402,7 +402,7 @@
   "tags.human value": "valor humano",
   "tags.hygiene": "higiene",
   "tags.hygiene product": "producto de higiene",
-  "tags.immune system": "sistema inmunnitario",
+  "tags.immune system": "sistema inmunitario",
   "tags.indefinite adjective": "adjetivo indefinido",
   "tags.indefinite pronoun": "pronombre indefinido",
   "tags.industry": "industria",
@@ -415,7 +415,7 @@
   "tags.interrogative pronoun": "pronombre interrogativo",
   "tags.invertebrate": "invertebrado",
   "tags.islamism": "islamismo",
-  "tags.it": "it",
+  "tags.it": "ti",
   "tags.jewelry": "joya",
   "tags.joint system": "sistema articular",
   "tags.judaism": "judaísmo",
@@ -625,7 +625,7 @@
   "tags.wind instrument": "instrumento de viento",
   "tags.winter": "invierno",
   "tags.work": "trabajo",
-  "tags.workwear": "workwear",
+  "tags.workwear": "ropa de trabajo",
   "tags.zarzuela": "zarzuela",
   "user.signin": "Usuario"
 }
