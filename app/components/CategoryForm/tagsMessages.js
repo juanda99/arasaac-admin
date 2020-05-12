@@ -9,9 +9,9 @@ export default defineMessages(
       "id": "tags.adapted sport",
       "defaultMessage": "adapted sport"
     },
-    "adjetive": {
-      "id": "tags.adjetive",
-      "defaultMessage": "adjetive"
+    "adjective": {
+      "id": "tags.adjective",
+      "defaultMessage": "adjective"
     },
     "adult": {
       "id": "tags.adult",
@@ -81,10 +81,6 @@ export default defineMessages(
       "id": "tags.amphibian",
       "defaultMessage": "amphibian"
     },
-    "ananimal anatomy": {
-      "id": "tags.ananimal anatomy",
-      "defaultMessage": "ananimal anatomy"
-    },
     "anatomy": {
       "id": "tags.anatomy",
       "defaultMessage": "anatomy"
@@ -96,6 +92,10 @@ export default defineMessages(
     "animal": {
       "id": "tags.animal",
       "defaultMessage": "animal"
+    },
+    "animal anatomy": {
+      "id": "tags.animal anatomy",
+      "defaultMessage": "animal anatomy"
     },
     "animal material": {
       "id": "tags.animal material",
@@ -213,6 +213,10 @@ export default defineMessages(
       "id": "tags.board game",
       "defaultMessage": "board game"
     },
+    "body hygiene": {
+      "id": "tags.body hygiene",
+      "defaultMessage": "body hygiene"
+    },
     "book character": {
       "id": "tags.book character",
       "defaultMessage": "book character"
@@ -261,9 +265,9 @@ export default defineMessages(
       "id": "tags.carnivorous",
       "defaultMessage": "carnivorous"
     },
-    "catering stablishment": {
-      "id": "tags.catering stablishment",
-      "defaultMessage": "catering stablishment"
+    "catering establishment": {
+      "id": "tags.catering establishment",
+      "defaultMessage": "catering establishment"
     },
     "cattle raising": {
       "id": "tags.cattle raising",
@@ -321,9 +325,9 @@ export default defineMessages(
       "id": "tags.clothing",
       "defaultMessage": "clothing"
     },
-    "coelenterate": {
-      "id": "tags.coelenterate",
-      "defaultMessage": "coelenterate"
+    "coelenterata": {
+      "id": "tags.coelenterata",
+      "defaultMessage": "coelenterata"
     },
     "coin": {
       "id": "tags.coin",
@@ -357,9 +361,9 @@ export default defineMessages(
       "id": "tags.communication system",
       "defaultMessage": "communication system"
     },
-    "comparative adjetive": {
-      "id": "tags.comparative adjetive",
-      "defaultMessage": "comparative adjetive"
+    "comparative adjective": {
+      "id": "tags.comparative adjective",
+      "defaultMessage": "comparative adjective"
     },
     "comparative conjunction": {
       "id": "tags.comparative conjunction",
@@ -369,9 +373,9 @@ export default defineMessages(
       "id": "tags.computing",
       "defaultMessage": "computing"
     },
-    "concesive conjunction": {
-      "id": "tags.concesive conjunction",
-      "defaultMessage": "concesive conjunction"
+    "concessive conjunction": {
+      "id": "tags.concessive conjunction",
+      "defaultMessage": "concessive conjunction"
     },
     "conditional conjunction": {
       "id": "tags.conditional conjunction",
@@ -629,10 +633,6 @@ export default defineMessages(
       "id": "tags.feeding",
       "defaultMessage": "feeding"
     },
-    "feefding": {
-      "id": "tags.feefding",
-      "defaultMessage": "feefding"
-    },
     "feeling": {
       "id": "tags.feeling",
       "defaultMessage": "feeling"
@@ -837,10 +837,6 @@ export default defineMessages(
       "id": "tags.insect",
       "defaultMessage": "insect"
     },
-    "institución jurídica": {
-      "id": "tags.institución jurídica",
-      "defaultMessage": "institución jurídica"
-    },
     "insurance": {
       "id": "tags.insurance",
       "defaultMessage": "insurance"
@@ -881,10 +877,6 @@ export default defineMessages(
       "id": "tags.justice",
       "defaultMessage": "justice"
     },
-    "justicia": {
-      "id": "tags.justicia",
-      "defaultMessage": "justicia"
-    },
     "keyboard instrument": {
       "id": "tags.keyboard instrument",
       "defaultMessage": "keyboard instrument"
@@ -916,6 +908,10 @@ export default defineMessages(
     "leader": {
       "id": "tags.leader",
       "defaultMessage": "leader"
+    },
+    "legal institution": {
+      "id": "tags.legal institution",
+      "defaultMessage": "legal institution"
     },
     "legislation": {
       "id": "tags.legislation",
@@ -984,6 +980,10 @@ export default defineMessages(
     "meat": {
       "id": "tags.meat",
       "defaultMessage": "meat"
+    },
+    "medical center": {
+      "id": "tags.medical center",
+      "defaultMessage": "medical center"
     },
     "medical equipment": {
       "id": "tags.medical equipment",
@@ -1085,10 +1085,6 @@ export default defineMessages(
       "id": "tags.mythology",
       "defaultMessage": "mythology"
     },
-    "máquina de trabajo": {
-      "id": "tags.máquina de trabajo",
-      "defaultMessage": "máquina de trabajo"
-    },
     "natural disaster": {
       "id": "tags.natural disaster",
       "defaultMessage": "natural disaster"
@@ -1109,9 +1105,9 @@ export default defineMessages(
       "id": "tags.number",
       "defaultMessage": "number"
     },
-    "numeral adjetive": {
-      "id": "tags.numeral adjetive",
-      "defaultMessage": "numeral adjetive"
+    "numeral adjective": {
+      "id": "tags.numeral adjective",
+      "defaultMessage": "numeral adjective"
     },
     "nursing equipment": {
       "id": "tags.nursing equipment",
@@ -1153,9 +1149,9 @@ export default defineMessages(
       "id": "tags.opera",
       "defaultMessage": "opera"
     },
-    "ordinal adjetive": {
-      "id": "tags.ordinal adjetive",
-      "defaultMessage": "ordinal adjetive"
+    "ordinal adjective": {
+      "id": "tags.ordinal adjective",
+      "defaultMessage": "ordinal adjective"
     },
     "orthopedic product": {
       "id": "tags.orthopedic product",
@@ -1204,10 +1200,6 @@ export default defineMessages(
     "photography": {
       "id": "tags.photography",
       "defaultMessage": "photography"
-    },
-    "physical geografy": {
-      "id": "tags.physical geografy",
-      "defaultMessage": "physical geografy"
     },
     "physical geography": {
       "id": "tags.physical geography",
@@ -1261,9 +1253,9 @@ export default defineMessages(
       "id": "tags.popular event",
       "defaultMessage": "popular event"
     },
-    "possesive adjetive": {
-      "id": "tags.possesive adjetive",
-      "defaultMessage": "possesive adjetive"
+    "possesive adjective": {
+      "id": "tags.possesive adjective",
+      "defaultMessage": "possesive adjective"
     },
     "possessive pronoun": {
       "id": "tags.possessive pronoun",
@@ -1397,10 +1389,6 @@ export default defineMessages(
       "id": "tags.secondary sector",
       "defaultMessage": "secondary sector"
     },
-    "sector terciario": {
-      "id": "tags.sector terciario",
-      "defaultMessage": "sector terciario"
-    },
     "security": {
       "id": "tags.security",
       "defaultMessage": "security"
@@ -1469,6 +1457,10 @@ export default defineMessages(
       "id": "tags.sport",
       "defaultMessage": "sport"
     },
+    "sport event": {
+      "id": "tags.sport event",
+      "defaultMessage": "sport event"
+    },
     "sport material": {
       "id": "tags.sport material",
       "defaultMessage": "sport material"
@@ -1513,9 +1505,9 @@ export default defineMessages(
       "id": "tags.summer",
       "defaultMessage": "summer"
     },
-    "superlative adjetive": {
-      "id": "tags.superlative adjetive",
-      "defaultMessage": "superlative adjetive"
+    "superlative adjective": {
+      "id": "tags.superlative adjective",
+      "defaultMessage": "superlative adjective"
     },
     "supporting document": {
       "id": "tags.supporting document",
@@ -1592,10 +1584,6 @@ export default defineMessages(
     "toy": {
       "id": "tags.toy",
       "defaultMessage": "toy"
-    },
-    "trabajo": {
-      "id": "tags.trabajo",
-      "defaultMessage": "trabajo"
     },
     "trade": {
       "id": "tags.trade",
@@ -1701,6 +1689,10 @@ export default defineMessages(
       "id": "tags.work",
       "defaultMessage": "work"
     },
+    "work machine": {
+      "id": "tags.work machine",
+      "defaultMessage": "work machine"
+    },
     "workwear": {
       "id": "tags.workwear",
       "defaultMessage": "workwear"
@@ -1710,4 +1702,7 @@ export default defineMessages(
       "defaultMessage": "zarzuela"
     }
   }
+
+
+
 )
