@@ -1,9 +1,10 @@
 import { defineMessages } from 'react-intl'
 export default defineMessages(
+
   {
-    "accesories": {
-      "id": "tags.accesories",
-      "defaultMessage": "accesories"
+    "accessories": {
+      "id": "tags.accessories",
+      "defaultMessage": "accessories"
     },
     "adapted sport": {
       "id": "tags.adapted sport",
@@ -109,6 +110,10 @@ export default defineMessages(
       "id": "tags.animal phisiology",
       "defaultMessage": "animal phisiology"
     },
+    "animal physiology": {
+      "id": "tags.animal physiology",
+      "defaultMessage": "animal physiology"
+    },
     "animal reproduction": {
       "id": "tags.animal reproduction",
       "defaultMessage": "animal reproduction"
@@ -141,9 +146,9 @@ export default defineMessages(
       "id": "tags.arachnid",
       "defaultMessage": "arachnid"
     },
-    "archaelogy": {
-      "id": "tags.archaelogy",
-      "defaultMessage": "archaelogy"
+    "archaeology": {
+      "id": "tags.archaeology",
+      "defaultMessage": "archaeology"
     },
     "architectural element": {
       "id": "tags.architectural element",
@@ -269,9 +274,9 @@ export default defineMessages(
       "id": "tags.catering establishment",
       "defaultMessage": "catering establishment"
     },
-    "cattle raising": {
-      "id": "tags.cattle raising",
-      "defaultMessage": "cattle raising"
+    "cattle farming": {
+      "id": "tags.cattle farming",
+      "defaultMessage": "cattle farming"
     },
     "causal conjunction": {
       "id": "tags.causal conjunction",
@@ -284,6 +289,10 @@ export default defineMessages(
     "character": {
       "id": "tags.character",
       "defaultMessage": "character"
+    },
+    "child": {
+      "id": "tags.child",
+      "defaultMessage": "child"
     },
     "christianity": {
       "id": "tags.christianity",
@@ -461,13 +470,13 @@ export default defineMessages(
       "id": "tags.defense",
       "defaultMessage": "defense"
     },
-    "demostrative pronoun": {
-      "id": "tags.demostrative pronoun",
-      "defaultMessage": "demostrative pronoun"
+    "demonstrative pronoun": {
+      "id": "tags.demonstrative pronoun",
+      "defaultMessage": "demonstrative pronoun"
     },
-    "denonym": {
-      "id": "tags.denonym",
-      "defaultMessage": "denonym"
+    "demonym": {
+      "id": "tags.demonym",
+      "defaultMessage": "demonym"
     },
     "derived material": {
       "id": "tags.derived material",
@@ -497,13 +506,13 @@ export default defineMessages(
       "id": "tags.disease",
       "defaultMessage": "disease"
     },
+    "disjunctive conjunction": {
+      "id": "tags.disjunctive conjunction",
+      "defaultMessage": "disjunctive conjunction"
+    },
     "disruptive behavior": {
       "id": "tags.disruptive behavior",
       "defaultMessage": "disruptive behavior"
-    },
-    "disyuntive conjunction": {
-      "id": "tags.disyuntive conjunction",
-      "defaultMessage": "disyuntive conjunction"
     },
     "document": {
       "id": "tags.document",
@@ -593,17 +602,17 @@ export default defineMessages(
       "id": "tags.engineering",
       "defaultMessage": "engineering"
     },
-    "enviromental science": {
-      "id": "tags.enviromental science",
-      "defaultMessage": "enviromental science"
+    "environmental science": {
+      "id": "tags.environmental science",
+      "defaultMessage": "environmental science"
     },
     "event": {
       "id": "tags.event",
       "defaultMessage": "event"
     },
-    "exclamative pronoun": {
-      "id": "tags.exclamative pronoun",
-      "defaultMessage": "exclamative pronoun"
+    "exclamatory pronoun": {
+      "id": "tags.exclamatory pronoun",
+      "defaultMessage": "exclamatory pronoun"
     },
     "excretory system": {
       "id": "tags.excretory system",
@@ -660,6 +669,10 @@ export default defineMessages(
     "flag": {
       "id": "tags.flag",
       "defaultMessage": "flag"
+    },
+    "flower": {
+      "id": "tags.flower",
+      "defaultMessage": "flower"
     },
     "flying animal": {
       "id": "tags.flying animal",
@@ -841,6 +854,10 @@ export default defineMessages(
       "id": "tags.insurance",
       "defaultMessage": "insurance"
     },
+    "integumentary system": {
+      "id": "tags.integumentary system",
+      "defaultMessage": "integumentary system"
+    },
     "interjection": {
       "id": "tags.interjection",
       "defaultMessage": "interjection"
@@ -880,10 +897,6 @@ export default defineMessages(
     "keyboard instrument": {
       "id": "tags.keyboard instrument",
       "defaultMessage": "keyboard instrument"
-    },
-    "kid": {
-      "id": "tags.kid",
-      "defaultMessage": "kid"
     },
     "land transport": {
       "id": "tags.land transport",
@@ -1117,6 +1130,10 @@ export default defineMessages(
       "id": "tags.object",
       "defaultMessage": "object"
     },
+    "occupational therapy": {
+      "id": "tags.occupational therapy",
+      "defaultMessage": "occupational therapy"
+    },
     "ocean": {
       "id": "tags.ocean",
       "defaultMessage": "ocean"
@@ -1125,17 +1142,13 @@ export default defineMessages(
       "id": "tags.oceanography",
       "defaultMessage": "oceanography"
     },
-    "ocupational therapy": {
-      "id": "tags.ocupational therapy",
-      "defaultMessage": "ocupational therapy"
-    },
     "odontology": {
       "id": "tags.odontology",
       "defaultMessage": "odontology"
     },
-    "olimpic games": {
-      "id": "tags.olimpic games",
-      "defaultMessage": "olimpic games"
+    "olympic games": {
+      "id": "tags.olympic games",
+      "defaultMessage": "olympic games"
     },
     "omnivorous": {
       "id": "tags.omnivorous",
@@ -1153,13 +1166,13 @@ export default defineMessages(
       "id": "tags.ordinal adjective",
       "defaultMessage": "ordinal adjective"
     },
+    "orthographic sign": {
+      "id": "tags.orthographic sign",
+      "defaultMessage": "orthographic sign"
+    },
     "orthopedic product": {
       "id": "tags.orthopedic product",
       "defaultMessage": "orthopedic product"
-    },
-    "ortographic sign": {
-      "id": "tags.ortographic sign",
-      "defaultMessage": "ortographic sign"
     },
     "osseous system": {
       "id": "tags.osseous system",
@@ -1209,13 +1222,13 @@ export default defineMessages(
       "id": "tags.physiology",
       "defaultMessage": "physiology"
     },
-    "physioterapy equipment": {
-      "id": "tags.physioterapy equipment",
-      "defaultMessage": "physioterapy equipment"
-    },
     "physiotherapy": {
       "id": "tags.physiotherapy",
       "defaultMessage": "physiotherapy"
+    },
+    "physiotherapy equipment": {
+      "id": "tags.physiotherapy equipment",
+      "defaultMessage": "physiotherapy equipment"
     },
     "place": {
       "id": "tags.place",
@@ -1253,9 +1266,9 @@ export default defineMessages(
       "id": "tags.popular event",
       "defaultMessage": "popular event"
     },
-    "possesive adjective": {
-      "id": "tags.possesive adjective",
-      "defaultMessage": "possesive adjective"
+    "possessive adjective": {
+      "id": "tags.possessive adjective",
+      "defaultMessage": "possessive adjective"
     },
     "possessive pronoun": {
       "id": "tags.possessive pronoun",
@@ -1288,6 +1301,10 @@ export default defineMessages(
     "pronoun": {
       "id": "tags.pronoun",
       "defaultMessage": "pronoun"
+    },
+    "protective equipment": {
+      "id": "tags.protective equipment",
+      "defaultMessage": "protective equipment"
     },
     "province": {
       "id": "tags.province",
@@ -1541,10 +1558,6 @@ export default defineMessages(
       "id": "tags.teenager",
       "defaultMessage": "teenager"
     },
-    "tegumentary system": {
-      "id": "tags.tegumentary system",
-      "defaultMessage": "tegumentary system"
-    },
     "telecommunication": {
       "id": "tags.telecommunication",
       "defaultMessage": "telecommunication"
@@ -1616,6 +1629,10 @@ export default defineMessages(
     "treatment": {
       "id": "tags.treatment",
       "defaultMessage": "treatment"
+    },
+    "tree": {
+      "id": "tags.tree",
+      "defaultMessage": "tree"
     },
     "trousseau": {
       "id": "tags.trousseau",
@@ -1702,7 +1719,6 @@ export default defineMessages(
       "defaultMessage": "zarzuela"
     }
   }
-
 
 
 )
