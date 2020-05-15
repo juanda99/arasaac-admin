@@ -160,7 +160,6 @@ class CategoriesView extends React.Component {
             action={action}
             targetItem={targetItem}
             confirmationBoxOpen={confirmationBoxOpen}
-            tags={tags}
             role={role}
             targetLanguages={targetLanguages}
             locale={locale}

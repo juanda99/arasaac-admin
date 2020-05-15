@@ -26,12 +26,16 @@ export class CategoryForm extends Component {
     onSubmit: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
     item: PropTypes.string,
-    tags: PropTypes.array.isRequired,
     classes: PropTypes.object.isRequired,
   }
 
+  state = {
+    tags: Object.keys(tagLabels)
+  }
+
   componentDidMount() {
-    const { tags, intl } = this.props
+    const { intl } = this.props
+    const { tags } = this.state
     const { formatMessage } = intl
     suggestions = tags.map(tag => ({ label: formatMessage(tagLabels[tag]), value: tag })).sort(
       (a, b) =>
@@ -39,10 +43,10 @@ export class CategoryForm extends Component {
           .toLowerCase()
           .normalize('NFD')
           .replace(/[\u0300-\u036f]/g, '') >
-        b.label
-          .toLowerCase()
-          .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, '')
+          b.label
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
           ? 1
           : -1,
     )

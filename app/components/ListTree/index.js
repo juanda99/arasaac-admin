@@ -56,7 +56,6 @@ class ListTree extends Component {
     action: PropTypes.string.isRequired,
     targetItem: PropTypes.string.isRequired,
     confirmationBoxOpen: PropTypes.bool.isRequired,
-    tags: PropTypes.array,
     role: PropTypes.string.isRequired,
     targetLanguages: PropTypes.arrayOf(PropTypes.string),
     locale: PropTypes.string.isRequired,
@@ -111,8 +110,8 @@ class ListTree extends Component {
         </IconButton>
       </>
     ) : (
-      ''
-    )
+        ''
+      )
 
   renderForm = (item, depth) => {
     const { data, action, role, targetLanguages, locale } = this.props
@@ -134,7 +133,6 @@ class ListTree extends Component {
           item={item}
           onSubmit={action === 'edit' ? this.handleUpdate : this.handleAdd}
           onClose={this.handleClose}
-          tags={this.props.tags}
           disabled={disabled}
           role={role}
           action={action}
