@@ -1,6 +1,5 @@
 import { defineMessages } from 'react-intl'
 export default defineMessages(
-
   {
     "accessories": {
       "id": "tags.accessories",
@@ -105,10 +104,6 @@ export default defineMessages(
     "animal nutrition": {
       "id": "tags.animal nutrition",
       "defaultMessage": "animal nutrition"
-    },
-    "animal phisiology": {
-      "id": "tags.animal phisiology",
-      "defaultMessage": "animal phisiology"
     },
     "animal physiology": {
       "id": "tags.animal physiology",
@@ -217,10 +212,6 @@ export default defineMessages(
     "board game": {
       "id": "tags.board game",
       "defaultMessage": "board game"
-    },
-    "body hygiene": {
-      "id": "tags.body hygiene",
-      "defaultMessage": "body hygiene"
     },
     "book character": {
       "id": "tags.book character",
@@ -517,10 +508,6 @@ export default defineMessages(
     "document": {
       "id": "tags.document",
       "defaultMessage": "document"
-    },
-    "drawing": {
-      "id": "tags.drawing",
-      "defaultMessage": "drawing"
     },
     "dried fruit": {
       "id": "tags.dried fruit",
@@ -954,9 +941,9 @@ export default defineMessages(
       "id": "tags.literature",
       "defaultMessage": "literature"
     },
-    "locomotive system": {
-      "id": "tags.locomotive system",
-      "defaultMessage": "locomotive system"
+    "locomotor system": {
+      "id": "tags.locomotor system",
+      "defaultMessage": "locomotor system"
     },
     "lymphatic system": {
       "id": "tags.lymphatic system",
