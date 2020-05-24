@@ -449,6 +449,10 @@ export default defineMessages(
       "id": "tags.cutlery",
       "defaultMessage": "cutlery"
     },
+    "dairy product": {
+      "id": "tags.dairy product",
+      "defaultMessage": "dairy product"
+    },
     "dance": {
       "id": "tags.dance",
       "defaultMessage": "dance"
@@ -1012,10 +1016,6 @@ export default defineMessages(
     "middle ages": {
       "id": "tags.middle ages",
       "defaultMessage": "middle ages"
-    },
-    "milk product": {
-      "id": "tags.milk product",
-      "defaultMessage": "milk product"
     },
     "mineral origin material": {
       "id": "tags.mineral origin material",
