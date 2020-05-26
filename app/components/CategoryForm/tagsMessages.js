@@ -1485,9 +1485,9 @@ export default defineMessages(
       "id": "tags.sports facility",
       "defaultMessage": "sports facility"
     },
-    "sportwear": {
-      "id": "tags.sportwear",
-      "defaultMessage": "sportwear"
+    "sportswear": {
+      "id": "tags.sportswear",
+      "defaultMessage": "sportswear"
     },
     "spring": {
       "id": "tags.spring",
