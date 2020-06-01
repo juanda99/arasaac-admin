@@ -42,6 +42,11 @@ class CategoriesSelector extends PureComponent {
     // this.setState({ value: key })
   }
 
+  filter = (input, treeNode) => {
+    const { props } = treeNode
+    return (props.text.indexOf(input) !== -1 || props.keywords.some(keyword => keyword.indexOf(input) !== -1))
+  }
+
   render() {
     const { treeData } = this.state
     const { value } = this.props.input
@@ -54,6 +59,7 @@ class CategoriesSelector extends PureComponent {
         placeholder="Please select"
         onChange={this.onChange}
         onSelect={this.onSelect}
+        filterTreeNode={this.filter}
         multiple
       />
     )
