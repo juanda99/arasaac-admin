@@ -1704,8 +1704,26 @@ export default defineMessages(
     "zarzuela": {
       "id": "tags.zarzuela",
       "defaultMessage": "zarzuela"
+    },
+    "aromatic plant": {
+      "id": "tags.aromatic plant",
+      "defaultMessage": "aromatic plant"
+    },
+    "condiment": {
+      "id": "tags.condiment",
+      "defaultMessage": "condiment"
+    },
+    "spices": {
+      "id": "tags.spices",
+      "defaultMessage": "spices"
+    },
+    "medical device": {
+      "id": "tags.medical device",
+      "defaultMessage": "medical device"
+    },
+    "infrastructure": {
+      "id": "tags.infrastructure",
+      "defaultMessage": "infrastructure"
     }
   }
-
-
 )
