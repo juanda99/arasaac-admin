@@ -1724,6 +1724,34 @@ export default defineMessages(
     "infrastructure": {
       "id": "tags.infrastructure",
       "defaultMessage": "infrastructure"
-    }
+    },
+    "prevention measure": {
+      "id": "tags.prevention measure",
+      "defaultMessage": "prevention measure"
+    },
+    "social movement": {
+      "id": "tags.social movement",
+      "defaultMessage": "social movement"
+    },
+    "psychomotor equipment": {
+      "id": "tags.psychomotor equipment",
+      "defaultMessage": "psychomotor equipment"
+    },
+    "special education": {
+      "id": "tags.special education",
+      "defaultMessage": "special education"
+    },
+    "vehicle component": {
+      "id": "tags.vehicle component",
+      "defaultMessage": "vehicle component"
+    },
+    "geometry": {
+      "id": "tags.geometry",
+      "defaultMessage": "geometry"
+    },
+    "demonstrative adjective": {
+      "id": "tags.demonstrative adjective",
+      "defaultMessage": "demonstrative adjective"
+    },
   }
 )
