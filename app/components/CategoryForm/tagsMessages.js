@@ -1753,5 +1753,17 @@ export default defineMessages(
       "id": "tags.demonstrative adjective",
       "defaultMessage": "demonstrative adjective"
     },
+    "hardware": {
+      "id": "tags.hardware",
+      "defaultMessage": "hardware"
+    },
+    "marital status": {
+      "id": "tags.marital status",
+      "defaultMessage": "marital status"
+    },
+    "animal housing": {
+      "id": "tags.animal housing",
+      "defaultMessage": "animal housing"
+    }
   }
 )
