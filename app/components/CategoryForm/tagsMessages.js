@@ -1764,6 +1764,30 @@ export default defineMessages(
     "animal housing": {
       "id": "tags.animal housing",
       "defaultMessage": "animal housing"
-    }
+    },
+    "weapon": {
+      "id": "tags.weapon",
+      "defaultMessage": "weapon"
+    },
+    "building facility": {
+      "id": "tags.building facility",
+      "defaultMessage": "building facility"
+    },
+    "decorative item": {
+      "id": "tags.decorative item",
+      "defaultMessage": "decorative item"
+    },
+    "hobby": {
+      "id": "tags.hobby",
+      "defaultMessage": "hobby"
+    },
+    "physics": {
+      "id": "tags.physics",
+      "defaultMessage": "physics"
+    },
+    "chemistry": {
+      "id": "tags.chemistry",
+      "defaultMessage": "chemistry"
+    },
   }
 )
