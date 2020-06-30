@@ -1789,5 +1789,9 @@ export default defineMessages(
       "id": "tags.chemistry",
       "defaultMessage": "chemistry"
     },
+    "texture": {
+      "id": "tags.texture",
+      "defaultMessage": "texture"
+    },
   }
 )
