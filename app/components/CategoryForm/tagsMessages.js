@@ -1793,5 +1793,77 @@ export default defineMessages(
       "id": "tags.texture",
       "defaultMessage": "texture"
     },
+    "covid-19": {
+      "id": "tags.covid-19",
+      "defaultMessage": "covid-19"
+    },
+    "outdoor activity": {
+      "id": "tags.outdoor activity",
+      "defaultMessage": "outdoor activity"
+    },
+    "day time": {
+      "id": "tags.day time",
+      "defaultMessage": "day time"
+    },
+    "social event": {
+      "id": "tags.social event",
+      "defaultMessage": "social event"
+    },
+    "birthday": {
+      "id": "tags.birthday",
+      "defaultMessage": "birthday"
+    },
+    "wedding": {
+      "id": "tags.wedding",
+      "defaultMessage": "wedding"
+    },
+    "intimate hygiene": {
+      "id": "tags.intimate hygiene",
+      "defaultMessage": "intimate hygiene"
+    },
+    "ecology": {
+      "id": "tags.ecology",
+      "defaultMessage": "ecology"
+    },
+    "geology": {
+      "id": "tags.geology",
+      "defaultMessage": "geology"
+    },
+    "recycling": {
+      "id": "tags.recycling",
+      "defaultMessage": "recycling"
+    },
+    "lifestyle": {
+      "id": "tags.lifestyle",
+      "defaultMessage": "lifestyle"
+    },
+    "healthy habit": {
+      "id": "tags.healthy habit",
+      "defaultMessage": "healthy habit"
+    },
+    "unhealthy habit": {
+      "id": "tags.unhealthy habit",
+      "defaultMessage": "unhealthy habit"
+    },
+    "library science": {
+      "id": "tags.library science",
+      "defaultMessage": "library science"
+    },
+    "civilization": {
+      "id": "tags.civilization",
+      "defaultMessage": "civilization"
+    },
+    "Rome": {
+      "id": "tags.Rome",
+      "defaultMessage": "Rome"
+    },
+    "Egypt": {
+      "id": "tags.Egypt",
+      "defaultMessage": "Egypt"
+    },
+    "Greece": {
+      "id": "tags.Greece",
+      "defaultMessage": "Greece"
+    },
   }
 )
