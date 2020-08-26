@@ -18,6 +18,7 @@ const DEFAULT_LOCALE = 'en'
 // import { DEFAULT_LOCALE } from './containers/App/constants'
 // const { DEFAULT_LOCALE } = require('./containers/App/constants')
 const caTranslationMessages = require('./translations/ca.json')
+const deTranslationMessages = require('./translations/de.json')
 const enTranslationMessages = require('./translations/en.json')
 const esTranslationMessages = require('./translations/es.json')
 const frTranslationMessages = require('./translations/fr.json')
@@ -30,6 +31,8 @@ const ptTranslationMessages = require('./translations/pt.json')
 const ruTranslationMessages = require('./translations/ru.json')
 const skTranslationMessages = require('./translations/sk.json')
 const valTranslationMessages = require('./translations/val.json')
+const plTranslationMessages = require('./translations/pl.json')
+const mkTranslationMessages = require('./translations/mk.json')
 
 // prettier-ignore
 const appLocales = [
@@ -46,6 +49,9 @@ const appLocales = [
   'ru',
   'sk',
   'val',
+  'pl',
+  'mk',
+  'de',
 ];
 
 const formatTranslationMessages = (locale, messages) => {
@@ -72,7 +78,9 @@ const translationMessages = {
   ru: formatTranslationMessages('ru', ruTranslationMessages),
   sk: formatTranslationMessages('sk', skTranslationMessages),
   val: formatTranslationMessages('val', valTranslationMessages),
-  // de: formatTranslationMessages('de', deTranslationMessages),s
+  pl: formatTranslationMessages('pl', plTranslationMessages),
+  mk: formatTranslationMessages('mk', mkTranslationMessages),
+  de: formatTranslationMessages('de', deTranslationMessages),
   // af: formatTranslationMessages('af', afTranslationMessages),
 }
 
