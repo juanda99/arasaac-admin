@@ -178,6 +178,10 @@ export const languages = [
     text: 'Valencia',
   },
   {
+    code: 'mk',
+    text: 'Македонски',
+  },
+  {
     code: 'zh',
     text: '简体中文）',
   },

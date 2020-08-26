@@ -92,6 +92,10 @@ export default defineMessages({
     id: `${scope}.chineseSimplified`,
     defaultMessage: 'Chinese (Simplified)',
   },
+  mk: {
+    id: `${scope}.macedonian`,
+    defaultMessage: 'Macedonian',
+  },
   translateOnline: {
     id: `${scope}.translateOnline`,
     defaultMessage: 'Traslate online',
