@@ -60,6 +60,7 @@
   "app.components.PictogramForm.button.cancel": "Anuluj",
   "app.components.PictogramForm.button.save": "Zapisz",
   "app.components.PictogramForm.categories": "Kategorie",
+  "app.components.PictogramForm.checkbox.aac": "AAC",
   "app.components.PictogramForm.checkbox.published": "Opublikowane",
   "app.components.PictogramForm.checkbox.schematic": "Schematyczny",
   "app.components.PictogramForm.checkbox.sex": "Płeć",
