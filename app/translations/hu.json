@@ -60,6 +60,7 @@
   "app.components.PictogramForm.button.cancel": "Mégsem",
   "app.components.PictogramForm.button.save": "Mentés",
   "app.components.PictogramForm.categories": "Témakörök",
+  "app.components.PictogramForm.checkbox.aac": "AAC",
   "app.components.PictogramForm.checkbox.published": "Nyilvánossá tett",
   "app.components.PictogramForm.checkbox.schematic": "Egy mintát követő",
   "app.components.PictogramForm.checkbox.sex": "Nem",
