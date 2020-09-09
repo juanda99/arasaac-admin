@@ -79,6 +79,10 @@ export default defineMessages({
     id: `${scope}.checkbox.schematic`,
     defaultMessage: 'Schematic',
   },
+  aac: {
+    id: `${scope}.checkbox.aac`,
+    defaultMessage: 'AAC',
+  },
   tags: {
     id: `${scope}.tags`,
     defaultMessage: 'Tags',
