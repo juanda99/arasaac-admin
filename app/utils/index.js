@@ -182,6 +182,10 @@ export const languages = [
     text: 'Македонски',
   },
   {
+    code: 'el',
+    text: 'Ελληνικά',
+  },
+  {
     code: 'zh',
     text: '简体中文）',
   },

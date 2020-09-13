@@ -96,6 +96,10 @@ export default defineMessages({
     id: `${scope}.macedonian`,
     defaultMessage: 'Macedonian',
   },
+  el: {
+    id: `${scope}.greek`,
+    defaultMessage: 'Greek',
+  },
   translateOnline: {
     id: `${scope}.translateOnline`,
     defaultMessage: 'Traslate online',
