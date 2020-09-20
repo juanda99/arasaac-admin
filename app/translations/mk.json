@@ -604,7 +604,7 @@
   "tags.sponge": "сунѓер",
   "tags.sport": "спорт",
   "tags.sport event": "спортски настан",
-  "tags.sport material": "sport material",
+  "tags.sport material": "спортски материјал",
   "tags.sport modality": "sport modality",
   "tags.sport rules": "sport rules",
   "tags.sports": "спорт",
@@ -667,7 +667,7 @@
   "tags.winter": "зима",
   "tags.work": "работа",
   "tags.work machine": "work machine",
-  "tags.workwear": "workwear",
+  "tags.workwear": "работна облека",
   "tags.zarzuela": "zarzuela",
   "user.signin": "Корисник"
 }
