@@ -22,12 +22,12 @@ export default defineMessages({
   },
   rowsPerPage: {
     id: `${scope}.pagingPanelMessages.rowsPerPage`,
-    defaultMessage: 'Rows per page',
+    defaultMessage: 'Rows per pages',
   },
   info: {
     id: `${scope}.pagingPanelMessages.info`,
     // eslint-disable-next-line
-    defaultMessage: '\\{from\\}-\\{to\\} de \\{count\\}',
+    defaultMessage: '{from}-{to} of {count}',
   },
   name: {
     id: `${scope}.gridCaption.name`,

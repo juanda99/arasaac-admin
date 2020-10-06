@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
+import View from 'components/View'
 import Paper from '@material-ui/core/Paper'
 import {
   PagingState,
@@ -40,8 +41,8 @@ class UsersView extends React.PureComponent {
       { name: 'company', title: this.props.intl.formatMessage(messages.company) },
       { name: 'url', title: this.props.intl.formatMessage(messages.url) },
     ],
-    pageSizes: [10, 20, 100],
-    pageSize: parseInt(sessionStorage.getItem('usersPageSize'), 10) || 10,
+    pageSizes: [50, 100, 200, 500],
+    pageSize: parseInt(sessionStorage.getItem('usersPageSize'), 10) || 100,
     currentPage: parseInt(sessionStorage.getItem('usersCurrentPage'), 10) || 0,
     sorting: JSON.parse(sessionStorage.getItem('usersSorting')) || [{ columnName: 'name', direction: 'asc' }],
     filters: JSON.parse(sessionStorage.getItem('usersFilters')) || [],
@@ -56,11 +57,7 @@ class UsersView extends React.PureComponent {
     filterPlaceholder: this.props.intl.formatMessage(messages.filterPlaceholder),
   }
 
-  pagingPanelMessages = {
-    showAll: this.props.intl.formatMessage(messages.showAll),
-    rowsPerPage: this.props.intl.formatMessage(messages.rowsPerPage),
-    info: this.props.intl.formatMessage(messages.info),
-  }
+
 
   componentDidMount = () => {
     const { requestUsers, token, updated, loading } = this.props
@@ -93,10 +90,20 @@ class UsersView extends React.PureComponent {
 
   render() {
     const { loading } = this.props
+    // const pagingPanelMessages = {
+    //   showAll: this.props.intl.formatMessage(messages.showAll),
+    //   rowsPerPage: this.props.intl.formatMessage(messages.rowsPerPage),
+    //   info2: this.props.intl.formatMessage(messages.info, { from: this.state.pageSize * this.state.currentPage, to: this.state.pageSize * this.state.currentPage + this.state.pageSize, count: this.props.users.length }),
+    //   info: (data) => {
+    //     const { from, to, count } = data
+    //     console.log(from, to, count)
+    //     return this.props.intl.formatMessage(messages.info, { from, to, count })
+    //   },
+    // }
     // const users = this.props.users.slice(0, 100)
     const { columns, pageSizes, currentPage, pageSize, sorting, filters, tableColumnExtensions } = this.state
     return (
-      <div>
+      <View>
         <Paper style={{ position: 'relative' }}>
           {loading ? (
             <div style={{ position: 'relative' }}>
@@ -104,26 +111,29 @@ class UsersView extends React.PureComponent {
               <p>Getting data...</p>
             </div>
           ) : (
-            <Grid rows={this.props.users} columns={columns} style={{ padding: '10px' }}>
-              <FilteringState filters={filters} onFiltersChange={this.changeFilters} />
-              <IntegratedFiltering />
-              <SortingState sorting={sorting} onSortingChange={this.changeSorting} />
-              <IntegratedSorting />
-              <PagingState
-                currentPage={currentPage}
-                onCurrentPageChange={this.changeCurrentPage}
-                pageSize={pageSize}
-                onPageSizeChange={this.changePageSize}
-              />
-              <IntegratedPaging />
-              <Table rowComponent={TableRow} columnExtensions={tableColumnExtensions} messages={this.tableMessages} />
-              <TableHeaderRow showSortingControls />
-              <TableFilterRow messages={this.filterRowMessages} />
-              <PagingPanel pageSizes={pageSizes} messages={this.pagingPanelMessages} />
-            </Grid>
-          )}
+              <Grid rows={this.props.users} columns={columns} style={{ padding: '10px' }}>
+                <FilteringState filters={filters} onFiltersChange={this.changeFilters} />
+                <IntegratedFiltering />
+                <SortingState sorting={sorting} onSortingChange={this.changeSorting} />
+                <IntegratedSorting />
+                <PagingState
+                  currentPage={currentPage}
+                  onCurrentPageChange={this.changeCurrentPage}
+                  pageSize={pageSize}
+                  onPageSizeChange={this.changePageSize}
+                  defaultCurrentPage={0}
+                  defaultPageSize={100}
+                />
+                <IntegratedPaging />
+                <Table rowComponent={TableRow} columnExtensions={tableColumnExtensions} messages={this.tableMessages} />
+                <TableHeaderRow showSortingControls />
+                <TableFilterRow messages={this.filterRowMessages} />
+                {/* <PagingPanel pageSizes={pageSizes} messages={pagingPanelMessages} /> */}
+                <PagingPanel pageSizes={pageSizes} />
+              </Grid>
+            )}
         </Paper>
-      </div>
+      </View>
     )
   }
 }
