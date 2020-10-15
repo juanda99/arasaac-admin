@@ -31,21 +31,21 @@ export default defineMessages({
     id: `${scope}.hebrew`,
     defaultMessage: 'Hebrew',
   },
-  hu: {
-    id: `${scope}.hungarian`,
-    defaultMessage: 'Hungarian',
-  },
-  nl: {
-    id: `${scope}.dutch`,
-    defaultMessage: 'Dutch',
-  },
   hr: {
     id: `${scope}.croatian`,
     defaultMessage: 'Croatian',
   },
+  hu: {
+    id: `${scope}.hungarian`,
+    defaultMessage: 'Hungarian',
+  },
   it: {
     id: `${scope}.italian`,
     defaultMessage: 'Italian',
+  },
+  nl: {
+    id: `${scope}.dutch`,
+    defaultMessage: 'Dutch',
   },
   bg: {
     id: `${scope}.bulgarian`,
@@ -99,6 +99,14 @@ export default defineMessages({
   el: {
     id: `${scope}.greek`,
     defaultMessage: 'Greek',
+  },
+  an: {
+    id: `${scope}.an`,
+    defaultMessage: 'Aragonese',
+  },
+  sq: {
+    id: `${scope}.sq`,
+    defaultMessage: 'Albanian',
   },
   translateOnline: {
     id: `${scope}.translateOnline`,
