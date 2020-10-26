@@ -54,7 +54,7 @@
   "app.components.ListTree.categoryDetele.confirmationTitle": "מחק קטגוריה",
   "app.components.LocaleSelector.button.changeLanguage": "שנה שפה",
   "app.components.Pictogram.confirmationInfoText": "האם אתה בטוח שברצונך למחוק את הסמל?",
-  "app.components.Pictogram.confirmationTitle": "מחק סימבול",
+  "app.components.Pictogram.confirmationTitle": "מחק סמל",
   "app.components.Pictogram.deletePictogram": "מחק סימבול",
   "app.components.Pictogram.noKeywords": "לא נמצאה מילת מפתח!",
   "app.components.Pictogram.pictogramPosition": "סמל {currentItem} מ {totalItems}",
