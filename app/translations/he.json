@@ -54,7 +54,7 @@
   "app.components.ListTree.categoryDetele.confirmationTitle": "מחק קטגוריה",
   "app.components.LocaleSelector.button.changeLanguage": "שנה שפה",
   "app.components.Pictogram.confirmationInfoText": "האם אתה בטוח שברצונך למחוק את הסמל?",
-  "app.components.Pictogram.confirmationTitle": "מחק סימבול",
+  "app.components.Pictogram.confirmationTitle": "מחק סמל",
   "app.components.Pictogram.deletePictogram": "מחק סימבול",
   "app.components.Pictogram.noKeywords": "לא נמצאה מילת מפתח!",
   "app.components.Pictogram.pictogramPosition": "סמל {currentItem} מ {totalItems}",
@@ -74,7 +74,7 @@
   "app.components.PictogramForm.pictogramData": "נתוני סמלים",
   "app.components.PictogramForm.pictogramStatus": "סטטוס",
   "app.components.PictogramForm.plural": "מילה ברבים",
-  "app.components.PictogramForm.synsets": "ררר",
+  "app.components.PictogramForm.synsets": "מילים נרדפות",
   "app.components.PictogramForm.tags": "תוויות",
   "app.components.PictogramForm.type": "סוג מילה",
   "app.components.PictogramForm.updateDate": "תאריך עידכון",
@@ -668,6 +668,6 @@
   "tags.work": "עבודה",
   "tags.work machine": "מכונה",
   "tags.workwear": "בגדי עבודה",
-  "tags.zarzuela": "כככ",
+  "tags.zarzuela": "zarzuela",
   "user.signin": "משתמש"
 }
