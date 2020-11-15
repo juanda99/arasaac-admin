@@ -57,7 +57,7 @@
   "app.components.Pictogram.confirmationTitle": "Piktograma ezabatu",
   "app.components.Pictogram.deletePictogram": "Piktograma ezabatu",
   "app.components.Pictogram.noKeywords": "Ez da gako-hitzik aurkitu!",
-  "app.components.Pictogram.pictogramPosition": "Pictogram {currentItem} of {totalItems}",
+  "app.components.Pictogram.pictogramPosition": "Piktogramak {currentItem} of {totalItems}",
   "app.components.PictogramForm.button.cancel": "Ezeztatu",
   "app.components.PictogramForm.button.save": "Gorde",
   "app.components.PictogramForm.categories": "Kategoriak",
