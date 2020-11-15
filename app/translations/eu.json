@@ -159,7 +159,7 @@
   "app.containersTranslationStatus.adminWebTransStatus": "Administrizazio webgunea: {adminWebTranslatedString}% ({adminTranslated} of {adminPhrases})",
   "app.containersTranslationStatus.noDataAvailable": "Ez dago daturik erabilgarri",
   "app.containersTranslationStatus.pictosTransStatus": "Pictogramak: {pictosValidatedString}% ({pictogramsValidated} of {totalPictograms})",
-  "app.containersTranslationStatus.pictosTransWarning": "Pictograms may already be translated but not validated",
+  "app.containersTranslationStatus.pictosTransWarning": "Piktogramak dagoeneko itzul daitezke baina ez dira balioztatu",
   "app.containersTranslationStatus.updatedInfo": "Estatistikak orduro eguneratzen dira. Azken eguneratzea:",
   "app.containersTranslationStatus.webTransStatus": "Web: {webTranslatedString}% ({arasaacTranslated} of {arasaacPhrases})",
   "arasaacadmin.components.Sidebar.menu.catalogs": "Katalogoak",
