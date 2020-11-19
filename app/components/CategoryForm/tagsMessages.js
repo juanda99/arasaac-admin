@@ -1865,5 +1865,53 @@ export default defineMessages(
       "id": "tags.Greece",
       "defaultMessage": "Greece"
     },
+    "workplace": {
+      "id": "tags.workplace",
+      "defaultMessage": "workplace"
+    },
+    "artist": {
+      "id": "tags.artist",
+      "defaultMessage": "artist"
+    },
+    "hervaceouos plant": {
+      "id": "tags.hervaceouos plant",
+      "defaultMessage": "hervaceouos plant"
+    },
+    "death": {
+      "id": "tags.death",
+      "defaultMessage": "death"
+    },
+    "gardening": {
+      "id": "tags.gardening",
+      "defaultMessage": "gardening"
+    },
+    "basketball": {
+      "id": "tags.basketball",
+      "defaultMessage": "basketball"
+    },
+    "diving": {
+      "id": "tags.diving",
+      "defaultMessage": "diving"
+    },
+    "karate": {
+      "id": "tags.karate",
+      "defaultMessage": "karate"
+    },
+    "cycling": {
+      "id": "tags.cycling",
+      "defaultMessage": "cycling"
+    },
+    "skating": {
+      "id": "tags.skating",
+      "defaultMessage": "skating"
+    },
+    "surf": {
+      "id": "tags.surf",
+      "defaultMessage": "surf"
+    },
+    "football": {
+      "id": "tags.football",
+      "defaultMessage": "football"
+    },
   }
 )
