@@ -1869,10 +1869,6 @@ export default defineMessages(
       "id": "tags.workplace",
       "defaultMessage": "workplace"
     },
-    "artist": {
-      "id": "tags.artist",
-      "defaultMessage": "artist"
-    },
     "hervaceouos plant": {
       "id": "tags.hervaceouos plant",
       "defaultMessage": "hervaceouos plant"
