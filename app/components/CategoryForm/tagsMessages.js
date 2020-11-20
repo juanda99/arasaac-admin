@@ -1909,5 +1909,21 @@ export default defineMessages(
       "id": "tags.football",
       "defaultMessage": "football"
     },
+    "swimming": {
+      "id": "tags.swimming",
+      "defaultMessage": "swimming"
+    },
+    "drawing": {
+      "id": "tags.drawing",
+      "defaultMessage": "drawing"
+    },
+    "birth": {
+      "id": "tags.birth",
+      "defaultMessage": "birth"
+    },
+    "gynecology": {
+      "id": "tags.gynecology",
+      "defaultMessage": "gynecology"
+    },
   }
 )
