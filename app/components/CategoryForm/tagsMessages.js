@@ -1917,13 +1917,41 @@ export default defineMessages(
       "id": "tags.drawing",
       "defaultMessage": "drawing"
     },
-    "birth": {
-      "id": "tags.birth",
-      "defaultMessage": "birth"
-    },
     "gynecology": {
       "id": "tags.gynecology",
       "defaultMessage": "gynecology"
+    },
+    "chess": {
+      "id": "tags.chess",
+      "defaultMessage": "chess"
+    },
+    "obstetrics": {
+      "id": "tags.obstetrics",
+      "defaultMessage": "obstetrics"
+    },
+    "artist": {
+      "id": "tags.artist",
+      "defaultMessage": "artist"
+    },
+    "equine-assisted therapy": {
+      "id": "tags.equine-assisted therapy",
+      "defaultMessage": "equine-assisted therapy"
+    },
+    "horse riding": {
+      "id": "tags.horse riding",
+      "defaultMessage": "horse riding"
+    },
+    "praxis": {
+      "id": "tags.praxis",
+      "defaultMessage": "praxis"
+    },
+    "Iberians": {
+      "id": "tags.Iberians",
+      "defaultMessage": "Iberians"
+    },
+    "decimal classification": {
+      "id": "tags.decimal classification",
+      "defaultMessage": "decimal classification"
     },
   }
 )
