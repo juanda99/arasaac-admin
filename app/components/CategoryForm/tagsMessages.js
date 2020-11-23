@@ -1941,10 +1941,6 @@ export default defineMessages(
       "id": "tags.horse riding",
       "defaultMessage": "horse riding"
     },
-    "praxis": {
-      "id": "tags.praxis",
-      "defaultMessage": "praxis"
-    },
     "Iberians": {
       "id": "tags.Iberians",
       "defaultMessage": "Iberians"
@@ -1952,6 +1948,46 @@ export default defineMessages(
     "decimal classification": {
       "id": "tags.decimal classification",
       "defaultMessage": "decimal classification"
+    },
+    "cookery": {
+      "id": "tags.cookery",
+      "defaultMessage": "cookery"
+    },
+    "animal-assisted therapy": {
+      "id": "tags.animal-assisted therapy",
+      "defaultMessage": "animal-assisted therapy"
+    },
+    "dog-assisted therapy": {
+      "id": "tags.dog-assisted therapy",
+      "defaultMessage": "dog-assisted therapy"
+    },
+    "athletics": {
+      "id": "tags.athletics",
+      "defaultMessage": "athletics"
+    },
+    "day hours": {
+      "id": "tags.day hours",
+      "defaultMessage": "day hours"
+    },
+    "pet": {
+      "id": "tags.pet",
+      "defaultMessage": "pet"
+    },
+    "categorization": {
+      "id": "tags.categorization",
+      "defaultMessage": "categorization"
+    },
+    "physical exercise": {
+      "id": "tags.physical exercise",
+      "defaultMessage": "physical exercise"
+    },
+    "recycling center": {
+      "id": "tags.recycling center",
+      "defaultMessage": "recycling center"
+    },
+    "psychomotricity": {
+      "id": "tags.psychomotricity",
+      "defaultMessage": "psychomotricity"
     },
   }
 )
