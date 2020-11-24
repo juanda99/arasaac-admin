@@ -1989,5 +1989,37 @@ export default defineMessages(
       "id": "tags.psychomotricity",
       "defaultMessage": "psychomotricity"
     },
+    "babycare": {
+      "id": "tags.babycare",
+      "defaultMessage": "babycare"
+    },
+    "students": {
+      "id": "tags.students",
+      "defaultMessage": "students"
+    },
+    "patient": {
+      "id": "tags.patient",
+      "defaultMessage": "patient"
+    },
+    "election": {
+      "id": "tags.election",
+      "defaultMessage": "election"
+    },
+    "music device": {
+      "id": "tags.music device",
+      "defaultMessage": "music device"
+    },
+    "playground": {
+      "id": "tags.playground",
+      "defaultMessage": "playground"
+    },
+    "physical features": {
+      "id": "tags.physical features",
+      "defaultMessage": "physical features"
+    },
+    "hairdresser": {
+      "id": "tags.hairdresser",
+      "defaultMessage": "hairdresser"
+    },
   }
 )
