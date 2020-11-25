@@ -2021,5 +2021,13 @@ export default defineMessages(
       "id": "tags.hairdresser",
       "defaultMessage": "hairdresser"
     },
+    "service building": {
+      "id": "tags.service building",
+      "defaultMessage": "service building"
+    },
+    "international organization": {
+      "id": "tags.international organization",
+      "defaultMessage": "international organization"
+    },
   }
 )
