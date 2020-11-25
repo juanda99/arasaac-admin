@@ -97,7 +97,7 @@
     "jss-rtl": "^0.3.0",
     "loadable-components": "2.2.3",
     "localforage": "^1.9.0",
-    "lodash": "4.17.13",
+    "lodash": "4.17.19",
     "material-ui-chip-input": "^1.1.0",
     "material-ui-flat-pagination": "^4.1.1",
     "material-ui-pickers": "^2.2.4",
