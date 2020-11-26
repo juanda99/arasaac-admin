@@ -2029,5 +2029,9 @@ export default defineMessages(
       "id": "tags.international organization",
       "defaultMessage": "international organization"
     },
+    "basic needs": {
+      "id": "tags.basic needs",
+      "defaultMessage": "basic needs"
+    },
   }
 )
