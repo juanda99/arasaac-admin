@@ -2033,5 +2033,13 @@ export default defineMessages(
       "id": "tags.basic needs",
       "defaultMessage": "basic needs"
     },
+    "feelings": {
+      "id": "tags.feelings",
+      "defaultMessage": "feelings"
+    },
+    "basic concepts": {
+      "id": "tags.basic concepts",
+      "defaultMessage": "basic concepts"
+    },
   }
 )
