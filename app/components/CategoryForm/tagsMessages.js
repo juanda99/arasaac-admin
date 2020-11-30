@@ -2057,5 +2057,17 @@ export default defineMessages(
       "id": "tags.smoking",
       "defaultMessage": "smoking"
     },
+    "alcohol": {
+      "id": "tags.alcohol",
+      "defaultMessage": "alcohol"
+    },
+    "drugs": {
+      "id": "tags.drugs",
+      "defaultMessage": "drugs"
+    },
+    "addiction": {
+      "id": "tags.addiction",
+      "defaultMessage": "addiction"
+    },
   }
 )
