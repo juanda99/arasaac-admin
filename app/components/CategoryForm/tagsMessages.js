@@ -2041,5 +2041,21 @@ export default defineMessages(
       "id": "tags.basic concepts",
       "defaultMessage": "basic concepts"
     },
+    "clothing industry": {
+      "id": "tags.clothing industry",
+      "defaultMessage": "clothing industry"
+    },
+    "carpentry": {
+      "id": "tags.carpentry",
+      "defaultMessage": "carpentry"
+    },
+    "hunting": {
+      "id": "tags.hunting",
+      "defaultMessage": "hunting"
+    },
+    "smoking": {
+      "id": "tags.smoking",
+      "defaultMessage": "smoking"
+    },
   }
 )
