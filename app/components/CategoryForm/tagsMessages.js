@@ -2069,5 +2069,9 @@ export default defineMessages(
       "id": "tags.addiction",
       "defaultMessage": "addiction"
     },
+    "usual verbs": {
+      "id": "tags.usual verbs",
+      "defaultMessage": "usual verbs"
+    },
   }
 )
