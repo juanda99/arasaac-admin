@@ -1,6 +1,6 @@
 {
-  "Login.invalidEmail": "Invalid email",
-  "Login.required": "Required",
+  "Login.invalidEmail": "البَريد الإليكترُوني غير صحيح",
+  "Login.required": "إِجْبَارِي",
   "app.components.Autosuggest.selectTagsHint": "Select multiple tags",
   "app.components.Catalog.h1": "Catalog Generation for {language} language",
   "app.components.CategoryForm.button.cancel": "إِلْغَاء",
@@ -25,7 +25,7 @@
   "app.components.Header.title.pictograms": "الصُّوَر التَّوْضِيحِيَة \\ بيكتوغرام",
   "app.components.Header.title.users": "المُسْتَخْدِمُون \\ ا لَمُسْتَخْدِميِن",
   "app.components.LanguageSelector.an": "اللغة الأرجوانية",
-  "app.components.LanguageSelector.arabic": "Arabic",
+  "app.components.LanguageSelector.arabic": "العَرَبِيَّة",
   "app.components.LanguageSelector.basque": "Basque",
   "app.components.LanguageSelector.brazilian": "Brazil Portuguese",
   "app.components.LanguageSelector.bulgarian": "Bulgarian",
