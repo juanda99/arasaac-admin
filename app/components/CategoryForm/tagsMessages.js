@@ -2073,5 +2073,9 @@ export default defineMessages(
       "id": "tags.usual verbs",
       "defaultMessage": "usual verbs"
     },
+    "body sensation": {
+      "id": "tags.body sensation",
+      "defaultMessage": "body sensation"
+    },
   }
 )
