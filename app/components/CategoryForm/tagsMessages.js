@@ -2077,5 +2077,9 @@ export default defineMessages(
       "id": "tags.body sensation",
       "defaultMessage": "body sensation"
     },
+    "work accident": {
+      "id": "tags.work accident",
+      "defaultMessage": "work accident"
+    },
   }
 )
