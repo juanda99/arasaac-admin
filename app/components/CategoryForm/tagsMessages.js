@@ -2081,5 +2081,9 @@ export default defineMessages(
       "id": "tags.work accident",
       "defaultMessage": "work accident"
     },
+    "routine": {
+      "id": "tags.routine",
+      "defaultMessage": "routine"
+    },
   }
 )
