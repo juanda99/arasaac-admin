@@ -2085,5 +2085,9 @@ export default defineMessages(
       "id": "tags.routine",
       "defaultMessage": "routine"
     },
+    "pollution": {
+      "id": "tags.pollution",
+      "defaultMessage": "pollution"
+    },
   }
 )
