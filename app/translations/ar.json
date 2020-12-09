@@ -8,7 +8,7 @@
   "app.components.CategoryForm.category": "الفِئَة",
   "app.components.CategoryForm.key": "مِفْتَاح الفِئَة",
   "app.components.CategoryForm.keywordsList": "قَائِمَة الكَلِمَات المِفْتَاحِية",
-  "app.components.CategoryForm.tagsList": "List of tags",
+  "app.components.CategoryForm.tagsList": "قَائِمَة العَلَامات",
   "app.components.ConfirmationDialog.categoryDelete.cancelButton": "إِلْغَاء",
   "app.components.ConfirmationDialog.categoryDelete.confirmationInfoText": "Are you sure you want to delete <strong>{category}</strong>?",
   "app.components.ConfirmationDialog.categoryDelete.okButton": "الحَذف",
