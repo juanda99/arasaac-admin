@@ -2089,7 +2089,7 @@ export default defineMessages(
       "id": "tags.pollution",
       "defaultMessage": "pollution"
     },
-    "visual system": {
+    "rural area": {
       "id": "tags.rural area",
       "defaultMessage": "rural area"
     },
