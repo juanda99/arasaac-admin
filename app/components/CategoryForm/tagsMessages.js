@@ -2117,5 +2117,9 @@ export default defineMessages(
       "id": "tags.auditory system",
       "defaultMessage": "auditory system"
     },
+    "rural area": {
+      "id": "tags.rural area",
+      "defaultMessage": "rural area"
+    },
   }
 )
