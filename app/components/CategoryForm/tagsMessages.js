@@ -2089,10 +2089,6 @@ export default defineMessages(
       "id": "tags.pollution",
       "defaultMessage": "pollution"
     },
-    "rural area": {
-      "id": "tags.rural area",
-      "defaultMessage": "rural area"
-    },
     "measurement unit": {
       "id": "tags.measurement unit",
       "defaultMessage": "measurement unit"
