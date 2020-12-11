@@ -100,7 +100,7 @@
   "app.components.PictogramsGrid.pagingPanelMessages.showAll": "الكُّلْ",
   "app.components.PictogramsGrid.tableMessages.noData": "لَمْ يَتِم العُثُور عَلى البيانات",
   "app.components.SearchBox.searchField": "أَدْخِلْ نَصَ البَحْث",
-  "app.components.ThemeSelector.button.darkTheme": "Toggle light/dark theme",
+  "app.components.ThemeSelector.button.darkTheme": "تَبْدِيل \\ تَغْييِر سِمَة مُضِيئَة\\مُظْلِمَة",
   "app.components.dialog.ok": "مُوَافِقْ",
   "app.containers.AddNews.header": "This is the AddNews container!",
   "app.containers.AddPictograms.errorUploading": "Uppps, pictograms were not uploaded!",
