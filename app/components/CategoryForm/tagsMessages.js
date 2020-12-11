@@ -2121,5 +2121,49 @@ export default defineMessages(
       "id": "tags.rural area",
       "defaultMessage": "rural area"
     },
+    "beach": {
+      "id": "tags.beach",
+      "defaultMessage": "beach"
+    },
+    "swimming pool": {
+      "id": "tags.swimming pool",
+      "defaultMessage": "swimming pool"
+    },
+    "mountain": {
+      "id": "tags.mountain",
+      "defaultMessage": "mountain"
+    },
+    "methodology": {
+      "id": "tags.methodology",
+      "defaultMessage": "methodology"
+    },
+    "seller": {
+      "id": "tags.seller",
+      "defaultMessage": "seller"
+    },
+    "organization": {
+      "id": "tags.organization",
+      "defaultMessage": "organization"
+    },
+    "planet": {
+      "id": "tags.planet",
+      "defaultMessage": "planet"
+    },
+    "Aragon": {
+      "id": "tags.Aragon",
+      "defaultMessage": "Aragon"
+    },
+    "Saragossa": {
+      "id": "tags.Saragossa",
+      "defaultMessage": "Saragossa"
+    },
+    "Huesca": {
+      "id": "tags.Huesca",
+      "defaultMessage": "Huesca"
+    },
+    "Teruel": {
+      "id": "tags.Teruel",
+      "defaultMessage": "Teruel"
+    },
   }
 )
