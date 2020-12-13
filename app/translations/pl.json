@@ -84,7 +84,7 @@
   "app.components.PictogramForm.wordType.commonName": "Nazwa zwyczajowa",
   "app.components.PictogramForm.wordType.descriptive": "Opis (przymiotnik lub przysłówek)",
   "app.components.PictogramForm.wordType.miscelleneous": "Różne",
-  "app.components.PictogramForm.wordType.properName": "Właściwa nazwa",
+  "app.components.PictogramForm.wordType.properName": "Nazwa własna",
   "app.components.PictogramForm.wordType.socialContent": "Treści społeczne",
   "app.components.PictogramForm.wordType.verb": "Czasownik",
   "app.components.PictogramUploader.addFiles": "Dodaj pliki piktogramu",
