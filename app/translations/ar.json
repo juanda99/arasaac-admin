@@ -1,5 +1,5 @@
 {
-  "Login.invalidEmail": "البَريد الإليكترُوني غير صحيح",
+  "Login.invalidEmail": "البَريد الإليكترُوني غَيْرُ صَحِيِحٍ",
   "Login.required": "إِجْبَارِي",
   "app.components.Autosuggest.selectTagsHint": "Select multiple tags",
   "app.components.Catalog.h1": "إِنْشَاء دلِيل لِلُّغَات\n",
@@ -699,11 +699,11 @@
   "tags.tax": "tax",
   "tags.teaching activity": "teaching activity",
   "tags.teenager": "teenager",
-  "tags.telecommunication": "telecommunication",
-  "tags.temporal conjunction": "temporal conjunction",
-  "tags.terrestrial animal": "terrestrial animal",
-  "tags.tertiary sector": "tertiary sector",
-  "tags.texture": "texture",
+  "tags.telecommunication": "الاِتِّصَالَاتْ",
+  "tags.temporal conjunction": "التّزَامُن الزَّمَنِي",
+  "tags.terrestrial animal": "حَيَوَانٌ بَرِّيٌ",
+  "tags.tertiary sector": "القِطَاعُ الثَّالِثُ",
+  "tags.texture": "نَسِيجٌ",
   "tags.the falles": "the falles",
   "tags.theater": "theater",
   "tags.time": "time",
@@ -749,5 +749,5 @@
   "tags.workplace": "مَكَان الَمَعَلْ",
   "tags.workwear": "workwear",
   "tags.zarzuela": "zarzuela",
-  "user.signin": "User"
+  "user.signin": "المُسْتَخْدِمْ"
 }
