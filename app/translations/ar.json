@@ -64,7 +64,7 @@
   "app.components.PictogramForm.button.save": "حِفْظ",
   "app.components.PictogramForm.categories": "الفِئَات \\ الأَقْسَام",
   "app.components.PictogramForm.checkbox.aac": "AAC",
-  "app.components.PictogramForm.checkbox.aacColor": "AAC Color",
+  "app.components.PictogramForm.checkbox.aacColor": "لَوْنُ AAC",
   "app.components.PictogramForm.checkbox.hasHair": "Hair enabled",
   "app.components.PictogramForm.checkbox.hasSkin": "Skin enabled",
   "app.components.PictogramForm.checkbox.published": "نُشِرَ",
