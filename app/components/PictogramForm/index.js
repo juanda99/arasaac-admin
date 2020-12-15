@@ -373,6 +373,18 @@ export class PictogramForm extends Component {
                           label={<FormattedMessage {...messages.aac} />}
                           control={<Field name="aac" component={Checkbox} type="checkbox" />}
                         />
+                        <FormControlLabel
+                          label={<FormattedMessage {...messages.aacColor} />}
+                          control={<Field name="aacColor" component={Checkbox} type="checkbox" />}
+                        />
+                        <FormControlLabel
+                          label={<FormattedMessage {...messages.hasSkin} />}
+                          control={<Field name="skin" component={Checkbox} type="checkbox" />}
+                        />
+                        <FormControlLabel
+                          label={<FormattedMessage {...messages.hasHair} />}
+                          control={<Field name="hair" component={Checkbox} type="checkbox" />}
+                        />
                       </div>
                     </div>
 

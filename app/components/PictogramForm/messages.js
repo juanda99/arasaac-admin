@@ -83,6 +83,18 @@ export default defineMessages({
     id: `${scope}.checkbox.aac`,
     defaultMessage: 'AAC',
   },
+  aacColor: {
+    id: `${scope}.checkbox.aacColor`,
+    defaultMessage: 'AAC Color',
+  },
+  hasSkin: {
+    id: `${scope}.checkbox.hasSkin`,
+    defaultMessage: 'Skin enabled',
+  },
+  hasHair: {
+    id: `${scope}.checkbox.hasHair`,
+    defaultMessage: 'Hair enabled',
+  },
   tags: {
     id: `${scope}.tags`,
     defaultMessage: 'Tags',
