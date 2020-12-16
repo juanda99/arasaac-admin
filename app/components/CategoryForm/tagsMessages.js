@@ -2165,5 +2165,13 @@ export default defineMessages(
       "id": "tags.Teruel",
       "defaultMessage": "Teruel"
     },
+    "pattern": {
+      id: "tags.pattern",
+      defaultMessage: "pattern"
+    },
+    "animal behavior": {
+      id: "tags.animal behavior",
+      defaultMessage: "animal behaviour"
+    }
   }
 )

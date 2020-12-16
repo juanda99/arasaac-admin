@@ -120,7 +120,7 @@ export default defineMessages({
     defaultMessage: 'Social content',
   },
   miscellaneous: {
-    id: `${scope}.wordType.miscelleneous`,
+    id: `${scope}.wordType.miscellaneous`,
     defaultMessage: 'Miscellaneous',
   },
 })
