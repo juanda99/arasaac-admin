@@ -1,5 +1,5 @@
 {
-  "Login.invalidEmail": "البَريد الاِلِكْتْرُونِي غير صحيح",
+  "Login.invalidEmail": "البَريد الإِلِكْتْرُونِي غير صحيح",
   "Login.required": "إِجْبَارِي",
   "app.components.Autosuggest.selectTagsHint": "حَدِدْ مُخْتَلِفَ \\ عِدَّةَ صُّوَرٍ",
   "app.components.Catalog.h1": "إِنْشَاء دلِيل لِلُّغَات\n",
@@ -78,7 +78,7 @@
   "app.components.PictogramForm.keywordsList": "التَّرْجَمَة",
   "app.components.PictogramForm.pictogramData": "بَيَانَات البِيكْتُوغرام",
   "app.components.PictogramForm.pictogramStatus": "الحَالَة",
-  "app.components.PictogramForm.plural": "Plural word",
+  "app.components.PictogramForm.plural": "كَلِمَةُ الجَمْعِ",
   "app.components.PictogramForm.synsets": "Synsets",
   "app.components.PictogramForm.tags": "العَلاَمَات",
   "app.components.PictogramForm.type": "نَوْع الكَلِمَة",
