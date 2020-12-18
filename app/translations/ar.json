@@ -1,7 +1,7 @@
 {
-  "Login.invalidEmail": "البَريد الإليكترُوني غَيْرُ صَحِيِحٍ",
+  "Login.invalidEmail": "البَريد الاِلِكْتْرُونِي غير صحيح",
   "Login.required": "إِجْبَارِي",
-  "app.components.Autosuggest.selectTagsHint": "Select multiple tags",
+  "app.components.Autosuggest.selectTagsHint": "حَدِدْ مُخْتَلِفَ \\ عِدَّةَ صُّوَرٍ",
   "app.components.Catalog.h1": "إِنْشَاء دلِيل لِلُّغَات\n",
   "app.components.CategoryForm.button.cancel": "إِلْغَاء",
   "app.components.CategoryForm.button.save": "حِفْظ",
