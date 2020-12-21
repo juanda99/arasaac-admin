@@ -2140,6 +2140,22 @@ export default defineMessages(
     "zarzuela": {
       "id": "tags.zarzuela",
       "defaultMessage": "zarzuela"
+    },
+    "domestic": {
+      "id": "tags.domestic",
+      "defaultMessage": "domestic"
+    },
+    "wild": {
+      "id": "tags.wild",
+      "defaultMessage": "wild"
+    },
+    "orofacial praxis": {
+      "id": "tags.orofacial praxis",
+      "defaultMessage": "orofacial praxis"
+    },
+    "position": {
+      "id": "tags.position",
+      "defaultMessage": "position"
     }
   }
 )
