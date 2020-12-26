@@ -1,6 +1,6 @@
 {
   "Login.invalidEmail": "Invalid email",
-  "Login.required": "Required",
+  "Login.required": "باید پر شود",
   "app.components.Autosuggest.selectTagsHint": "Select multiple tags",
   "app.components.Catalog.h1": "Catalog Generation for {language} language",
   "app.components.CategoryForm.button.cancel": "Cancel",
