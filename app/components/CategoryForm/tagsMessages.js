@@ -2156,6 +2156,10 @@ export default defineMessages(
     "position": {
       "id": "tags.position",
       "defaultMessage": "position"
+    },
+    "therapy": {
+      "id": "tags.therapy",
+      "defaultMessage": "therapy"
     }
   }
 )
