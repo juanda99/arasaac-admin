@@ -98,7 +98,7 @@
   "app.components.PictogramsGrid.gridCaption.identifier": "Identifikatzailea",
   "app.components.PictogramsGrid.gridCaption.lastUpdated": "Eguneratua",
   "app.components.PictogramsGrid.gridCaption.published": "Argitaratua",
-  "app.components.PictogramsGrid.pagingPanelMessages.info": "\\{from\\}-\\{to\\} de \\{count\\}",
+  "app.components.PictogramsGrid.pagingPanelMessages.info": "\\{from\\}-\\{to\\} \\{count\\}-eko",
   "app.components.PictogramsGrid.pagingPanelMessages.rowsPerPage": "Orrialde bakoitzeko errenkadak",
   "app.components.PictogramsGrid.pagingPanelMessages.showAll": "Dena",
   "app.components.PictogramsGrid.tableMessages.noData": "Datuak ez dira aurkitu",
