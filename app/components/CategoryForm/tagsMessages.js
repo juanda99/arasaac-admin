@@ -2160,6 +2160,10 @@ export default defineMessages(
     "therapy": {
       "id": "tags.therapy",
       "defaultMessage": "therapy"
+    },
+    "speech therapy": {
+      "id": "tags.speech therapy",
+      "defaultMessage": "speech therapy"
     }
   }
 )
