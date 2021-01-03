@@ -205,7 +205,7 @@ export const languages = [
     text: 'Shqip'
   },
   {
-    code: 'su',
+    code: 'sv',
     text: 'Svenska'
   },
   {

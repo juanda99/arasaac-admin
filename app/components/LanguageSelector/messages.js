@@ -116,7 +116,7 @@ export default defineMessages({
     id: `${scope}.serbian`,
     defaultMessage: 'Serbian',
   },
-  su: {
+  sv: {
     id: `${scope}.swedish`,
     defaultMessage: 'Swedish',
   },

@@ -40,7 +40,7 @@ const ptTranslationMessages = require('./translations/pt.json')
 const roTranslationMessages = require('./translations/ro.json')
 const ruTranslationMessages = require('./translations/ru.json')
 const skTranslationMessages = require('./translations/sk.json')
-const suTranslationMessages = require('./translations/su.json')
+const svTranslationMessages = require('./translations/sv.json')
 const srTranslationMessages = require('./translations/sr.json')
 const sqTranslationMessages = require('./translations/sq.json')
 const valTranslationMessages = require('./translations/val.json')
@@ -71,7 +71,7 @@ const appLocales = [
   'ro',
   'ru',
   'sk',
-  'su',
+  'sv',
   'sr',
   'sq',
   'val',
@@ -113,8 +113,8 @@ const translationMessages = {
   ru: formatTranslationMessages('ru', ruTranslationMessages),
   sk: formatTranslationMessages('sk', skTranslationMessages),
   sq: formatTranslationMessages('sq', sqTranslationMessages),
-  su: formatTranslationMessages('su', suTranslationMessages),
-  sr: formatTranslationMessages('sr', suTranslationMessages),
+  sv: formatTranslationMessages('sv', svTranslationMessages),
+  sr: formatTranslationMessages('sr', srTranslationMessages),
   val: formatTranslationMessages('val', valTranslationMessages),
   zh: formatTranslationMessages('zh', zhTranslationMessages),
   // af: formatTranslationMessages('af', afTranslationMessages),
