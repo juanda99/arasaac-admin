@@ -133,8 +133,16 @@ export const languages = [
     text: 'Deutsche'
   },
   {
+    code: 'et',
+    text: 'Eestlane'
+  },
+  {
     code: 'eu',
     text: 'Euskal'
+  },
+  {
+    code: 'fa',
+    text: 'فارسی'
   },
   {
     code: 'fr',
@@ -195,6 +203,14 @@ export const languages = [
   {
     code: 'sq',
     text: 'Shqip'
+  },
+  {
+    code: 'su',
+    text: 'Svenska'
+  },
+  {
+    code: 'sr',
+    text: 'Српски'
   },
   {
     code: 'val',

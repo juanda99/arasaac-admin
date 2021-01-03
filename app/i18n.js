@@ -26,6 +26,7 @@ const elTranslationMessages = require('./translations/el.json')
 const enTranslationMessages = require('./translations/en.json')
 const esTranslationMessages = require('./translations/es.json')
 const euTranslationMessages = require('./translations/eu.json')
+const faTranslationMessages = require('./translations/fa.json')
 const frTranslationMessages = require('./translations/fr.json')
 const glTranslationMessages = require('./translations/gl.json')
 const heTranslationMessages = require('./translations/he.json')
@@ -39,6 +40,8 @@ const ptTranslationMessages = require('./translations/pt.json')
 const roTranslationMessages = require('./translations/ro.json')
 const ruTranslationMessages = require('./translations/ru.json')
 const skTranslationMessages = require('./translations/sk.json')
+const suTranslationMessages = require('./translations/su.json')
+const srTranslationMessages = require('./translations/sr.json')
 const sqTranslationMessages = require('./translations/sq.json')
 const valTranslationMessages = require('./translations/val.json')
 const zhTranslationMessages = require('./translations/zh.json')
@@ -54,6 +57,7 @@ const appLocales = [
   'en',
   'es',
   'eu',
+  'fa',
   'fr',
   'gl',
   'he',
@@ -67,6 +71,8 @@ const appLocales = [
   'ro',
   'ru',
   'sk',
+  'su',
+  'sr',
   'sq',
   'val',
   'zh',
@@ -92,6 +98,7 @@ const translationMessages = {
   en: formatTranslationMessages('en', enTranslationMessages),
   es: formatTranslationMessages('es', esTranslationMessages),
   eu: formatTranslationMessages('eu', euTranslationMessages),
+  fa: formatTranslationMessages('fa', faTranslationMessages),
   fr: formatTranslationMessages('fr', frTranslationMessages),
   gl: formatTranslationMessages('gl', glTranslationMessages),
   he: formatTranslationMessages('he', heTranslationMessages),
@@ -106,6 +113,8 @@ const translationMessages = {
   ru: formatTranslationMessages('ru', ruTranslationMessages),
   sk: formatTranslationMessages('sk', skTranslationMessages),
   sq: formatTranslationMessages('sq', sqTranslationMessages),
+  su: formatTranslationMessages('su', suTranslationMessages),
+  sr: formatTranslationMessages('sr', suTranslationMessages),
   val: formatTranslationMessages('val', valTranslationMessages),
   zh: formatTranslationMessages('zh', zhTranslationMessages),
   // af: formatTranslationMessages('af', afTranslationMessages),

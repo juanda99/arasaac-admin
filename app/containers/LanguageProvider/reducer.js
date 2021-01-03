@@ -9,7 +9,7 @@ import { fromJS } from 'immutable'
 import { CHANGE_LOCALE } from './constants'
 import { DEFAULT_LOCALE } from '../../i18n' // eslint-disable-line
 
-const getDirection = locale => (locale === 'ar' || locale === 'he' ? 'rtl' : 'ltr')
+const getDirection = locale => (locale === 'ar' || locale === 'he' || locale === 'fa' ? 'rtl' : 'ltr')
 
 export const initialState = fromJS({
   locale: DEFAULT_LOCALE,

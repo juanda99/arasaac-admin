@@ -19,6 +19,10 @@ export default defineMessages({
     id: `${scope}.basque`,
     defaultMessage: 'Basque',
   },
+  fa: {
+    id: `${scope}.persian`,
+    defaultMessage: 'Persian',
+  },
   fr: {
     id: `${scope}.french`,
     defaultMessage: 'French',
@@ -107,6 +111,14 @@ export default defineMessages({
   sq: {
     id: `${scope}.sq`,
     defaultMessage: 'Albanian',
+  },
+  sr: {
+    id: `${scope}.serbian`,
+    defaultMessage: 'Serbian',
+  },
+  su: {
+    id: `${scope}.swedish`,
+    defaultMessage: 'Swedish',
   },
   translateOnline: {
     id: `${scope}.translateOnline`,
