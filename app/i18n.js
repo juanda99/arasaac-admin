@@ -25,6 +25,7 @@ const deTranslationMessages = require('./translations/de.json')
 const elTranslationMessages = require('./translations/el.json')
 const enTranslationMessages = require('./translations/en.json')
 const esTranslationMessages = require('./translations/es.json')
+const etTranslationMessages = require('./translations/et.json')
 const euTranslationMessages = require('./translations/eu.json')
 const faTranslationMessages = require('./translations/fa.json')
 const frTranslationMessages = require('./translations/fr.json')
@@ -56,6 +57,7 @@ const appLocales = [
   'el',
   'en',
   'es',
+  'et',
   'eu',
   'fa',
   'fr',
@@ -97,6 +99,7 @@ const translationMessages = {
   el: formatTranslationMessages('el', elTranslationMessages),
   en: formatTranslationMessages('en', enTranslationMessages),
   es: formatTranslationMessages('es', esTranslationMessages),
+  et: formatTranslationMessages('et', etTranslationMessages),
   eu: formatTranslationMessages('eu', euTranslationMessages),
   fa: formatTranslationMessages('fa', faTranslationMessages),
   fr: formatTranslationMessages('fr', frTranslationMessages),

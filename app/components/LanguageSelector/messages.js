@@ -15,6 +15,10 @@ export default defineMessages({
     id: `${scope}.english`,
     defaultMessage: 'English',
   },
+  et: {
+    id: `${scope}.estonian`,
+    defaultMessage: 'Estonian',
+  },
   eu: {
     id: `${scope}.basque`,
     defaultMessage: 'Basque',
@@ -117,7 +121,7 @@ export default defineMessages({
     defaultMessage: 'Serbian',
   },
   sv: {
-    id: `${scope}.swedish`,
+    id: `${scope}.sv`,
     defaultMessage: 'Swedish',
   },
   translateOnline: {

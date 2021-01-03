@@ -16,11 +16,14 @@ const LanguageSelector = ({ id, anchorEl, intl, value, onClick, onClose }) => {
   const { formatMessage } = intl
   return (
     <Menu id={id} anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={onClose}>
-      {languages.map(language => (
+      {languages.map(language => {
+        console.log(language.text,  language.code, '*************************')
+        return (
         <MenuItem key={language.code} selected={value === language.code} onClick={() => onClick(language.code)}>
           {`${language.text} - ${formatMessage(messages[language.code])}`}
         </MenuItem>
-      ))}
+      )
+      })}
     </Menu>
   )
 }
