@@ -90,7 +90,7 @@
   "app.components.PictogramForm.word": "Λέξη",
   "app.components.PictogramForm.wordType.commonName": "Συνηθισμένο όνομα",
   "app.components.PictogramForm.wordType.descriptive": "Descriptive (adj or adv)",
-  "app.components.PictogramForm.wordType.miscellaneous": "Miscellaneous",
+  "app.components.PictogramForm.wordType.miscellaneous": "Διάφορα",
   "app.components.PictogramForm.wordType.properName": "Proper name",
   "app.components.PictogramForm.wordType.socialContent": "Social content",
   "app.components.PictogramForm.wordType.verb": "Verb",
