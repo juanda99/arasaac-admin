@@ -133,6 +133,7 @@
   "app.containers.CatalogsView.tableHeader.totalPictograms": "Все пиктограммы",
   "app.containers.CatalogsView.tableHeader.variations": "Варианты (кожа, волосы)",
   "app.containers.Categories.errorTitle": "Ошибка категории",
+  "app.containers.HomePage.categoryTreeTranslation": "Category tree translation",
   "app.containers.HomePage.documentation": "Документация",
   "app.containers.HomePage.download": "Скачать",
   "app.containers.HomePage.pictosTranslation": "Перевод и проверка пиктограмм",
