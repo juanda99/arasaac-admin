@@ -133,6 +133,7 @@
   "app.containers.CatalogsView.tableHeader.totalPictograms": "Piktogramat me ngjyra",
   "app.containers.CatalogsView.tableHeader.variations": "Variacionet (lëkura, flokët)",
   "app.containers.Categories.errorTitle": "Gabim në kategori",
+  "app.containers.HomePage.categoryTreeTranslation": "Category tree translation",
   "app.containers.HomePage.documentation": "Dokumentim",
   "app.containers.HomePage.download": "Shkarko",
   "app.containers.HomePage.pictosTranslation": "Përkthimi dhe validimi i piktogramave",
