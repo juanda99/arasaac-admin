@@ -133,6 +133,7 @@
   "app.containers.CatalogsView.tableHeader.totalPictograms": "Piktogramak guztira",
   "app.containers.CatalogsView.tableHeader.variations": "Aldaerak (azala, ilea)",
   "app.containers.Categories.errorTitle": "Kategoria errorea",
+  "app.containers.HomePage.categoryTreeTranslation": "Category tree translation",
   "app.containers.HomePage.documentation": "Dokumentazioa",
   "app.containers.HomePage.download": "Deskargatu",
   "app.containers.HomePage.pictosTranslation": "Piktogramen itzulpena eta balioztatzea",
