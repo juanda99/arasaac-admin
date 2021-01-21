@@ -133,6 +133,7 @@
   "app.containers.CatalogsView.tableHeader.totalPictograms": "Σύνολο εικονιδίων",
   "app.containers.CatalogsView.tableHeader.variations": "Παραλλαγές (δέρμα, μαλλιά)",
   "app.containers.Categories.errorTitle": "Σφάλμα κατηγορίας",
+  "app.containers.HomePage.categoryTreeTranslation": "Category tree translation",
   "app.containers.HomePage.documentation": "Τεκμηρίωση",
   "app.containers.HomePage.download": "Λήψη",
   "app.containers.HomePage.pictosTranslation": "Μετάφραση και επικύρωση εικονιδίων",
