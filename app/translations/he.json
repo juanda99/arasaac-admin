@@ -133,6 +133,7 @@
   "app.containers.CatalogsView.tableHeader.totalPictograms": "סך הסמלים",
   "app.containers.CatalogsView.tableHeader.variations": "אפשרויות שונות (צבע עור, שיער)",
   "app.containers.Categories.errorTitle": "טעות בקטגוריה",
+  "app.containers.HomePage.categoryTreeTranslation": "Category tree translation",
   "app.containers.HomePage.documentation": "תיעוד",
   "app.containers.HomePage.download": "הורדה",
   "app.containers.HomePage.pictosTranslation": "תרגום סמלים ואישורם",
