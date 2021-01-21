@@ -1,7 +1,7 @@
 // import queryString from 'query-string'
 
 const CLIENT_ID = '12345'
-export const WEB_URL = 'https://beta.arasaac.org'
+export const WEB_URL = 'https://arasaac.org'
 const STATIC_SERVER = 'https://static.arasaac.org'
 export const IMAGES_URL = `${STATIC_SERVER}/images`
 export const DOCS_URL = `${STATIC_SERVER}/docs`

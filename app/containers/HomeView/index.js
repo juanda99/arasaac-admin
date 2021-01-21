@@ -149,6 +149,25 @@ class HomeView extends React.PureComponent {
                     </a>
                   </TableCell>
                 </TableRow>
+                <TableRow key="webRow">
+                  <TableCell component="th" scope="row">
+                    <FormattedMessage {...messages.categoryTreeTranslation} />
+                  </TableCell>
+                  <TableCell align="right">
+                    <a href={`${DOCS_URL}/CATEGORY_TREE_TRANSLATOR_MANUAL_EN.pdf`} target="_blank">
+                      <IconButton aria-label="download" color="secondary">
+                        <ArchiveIcon />
+                      </IconButton>
+                    </a>
+                  </TableCell>
+                  <TableCell align="right">
+                    <a href={`${DOCS_URL}/MANUAL_TRADUCTOR_ARBOL_CATEGORIAS_ES.pdf`} target="_blank">
+                      <IconButton aria-label="download" color="secondary">
+                        <ArchiveIcon />
+                      </IconButton>
+                    </a>
+                  </TableCell>
+                </TableRow>
               </TableBody>
             </Table>
           </TableContainer>

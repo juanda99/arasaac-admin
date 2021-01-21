@@ -44,4 +44,8 @@ export default defineMessages({
     id: `${scope}.webTranslation`,
     defaultMessage: 'Web translation',
   },
+  categoryTreeTranslation: {
+    id: `${scope}.categoryTreeTranslation`,
+    defaultMessage: 'Category tree translation',
+  },
 })
