@@ -133,6 +133,7 @@
   "app.containers.CatalogsView.tableHeader.totalPictograms": "Összes piktogram",
   "app.containers.CatalogsView.tableHeader.variations": "Módosítási lehetőségek (bőr, haj)",
   "app.containers.Categories.errorTitle": "Hibás tétel",
+  "app.containers.HomePage.categoryTreeTranslation": "Category tree translation",
   "app.containers.HomePage.documentation": "Rögzített adatgyűjtemény",
   "app.containers.HomePage.download": "Letöltés",
   "app.containers.HomePage.pictosTranslation": "Piktogramok jelentéstartalmának megadása és módosítása",
