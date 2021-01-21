@@ -133,6 +133,7 @@
   "app.containers.CatalogsView.tableHeader.totalPictograms": "Nombre total de pictogrammes",
   "app.containers.CatalogsView.tableHeader.variations": "Variations (couleur de la peau, cheveux)",
   "app.containers.Categories.errorTitle": "Erreur de catégorie",
+  "app.containers.HomePage.categoryTreeTranslation": "Category tree translation",
   "app.containers.HomePage.documentation": "Documentation",
   "app.containers.HomePage.download": "Télécharger",
   "app.containers.HomePage.pictosTranslation": "Traduction et validation des pictogrammes",
