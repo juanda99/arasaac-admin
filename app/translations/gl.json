@@ -133,6 +133,7 @@
   "app.containers.CatalogsView.tableHeader.totalPictograms": "Total de pictogramas",
   "app.containers.CatalogsView.tableHeader.variations": "Variacións (pel, pelo)",
   "app.containers.Categories.errorTitle": "Erro de categoría",
+  "app.containers.HomePage.categoryTreeTranslation": "Category tree translation",
   "app.containers.HomePage.documentation": "Documentación",
   "app.containers.HomePage.download": "Descargar",
   "app.containers.HomePage.pictosTranslation": "Tradución e validación de pictogramas",
