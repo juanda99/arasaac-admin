@@ -133,7 +133,6 @@
   "app.containers.CatalogsView.tableHeader.totalPictograms": "Kõik piktogrammid",
   "app.containers.CatalogsView.tableHeader.variations": "Variatsioonid (nahk, juuksed)",
   "app.containers.Categories.errorTitle": "Viga kategoorias",
-  "app.containers.HomePage.categoryTreeTranslation": "Category tree translation",
   "app.containers.HomePage.documentation": "Dokumentatsioon",
   "app.containers.HomePage.download": "Allalaadimine",
   "app.containers.HomePage.pictosTranslation": "Piktogrammide tõlge ja valideerimine",
