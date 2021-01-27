@@ -133,6 +133,7 @@
   "app.containers.CatalogsView.tableHeader.totalPictograms": "Всички пиктограми",
   "app.containers.CatalogsView.tableHeader.variations": "Вариации (кожа, коса)",
   "app.containers.Categories.errorTitle": "Грешка в категорията",
+  "app.containers.HomePage.categoryTreeTranslation": "Превод на дървото на категориите",
   "app.containers.HomePage.documentation": "Документация",
   "app.containers.HomePage.download": "Изтегляне",
   "app.containers.HomePage.pictosTranslation": "Превод и валидиране на пиктограми",
