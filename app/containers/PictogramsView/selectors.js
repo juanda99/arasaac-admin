@@ -90,7 +90,7 @@ export const makeVisiblePictogramsSelector = () =>
     // makeFiltersSelector(),
     (searchData, entities, role /* , filters */) => {
       /* searchData could be undefined */
-      if (searchData == null) return []
+      if (searchData == null) return Object.values(entities.pictograms)
       const pictogramList = denormalize(searchData, searchPictogramSchema, entities)
       return role === 'admin' ? pictogramList : pictogramList.filter(pictogram => pictogram.available === true)
 

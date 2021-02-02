@@ -9,12 +9,15 @@ import SearchIcon from '@material-ui/icons/Search'
 import VisibilityIcon from '@material-ui/icons/VisibilityOff'
 import ValidateIcon from '@material-ui/icons/ThumbDown'
 import Tabs from '@material-ui/core/Tabs'
+import Checkbox from '@material-ui/core/Checkbox'
 import Tab from '@material-ui/core/Tab'
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { FormattedMessage } from 'react-intl'
 import { compose } from 'redux'
 import View from 'components/View'
 import SearchField from 'components/SearchField'
 import { makeSelectLocale } from 'containers/LanguageProvider/selectors'
+import { makeSelectUserRole } from 'containers/App/selectors'
 import injectReducer from 'utils/injectReducer'
 import PictogramList from 'components/PictogramList'
 import { DAEMON } from 'utils/constants'
@@ -42,6 +45,11 @@ class PictogramsView extends React.PureComponent {
     this.state = {
       tab: 0,
       offset: 0,
+      filters: {
+        aac: false,
+        violence: false,
+        sex: false
+      }
     }
   }
 
@@ -90,6 +98,7 @@ class PictogramsView extends React.PureComponent {
     // sessionStorage.setItem('pictoSlideIndex', slideIndex)
   }
 
+
   handlePageClick = offset => {
     // fix bug if offset is not number, click comes from picto link, should not be processed here
     if (typeof offset === 'number') {
@@ -113,8 +122,12 @@ class PictogramsView extends React.PureComponent {
       visiblePictograms,
       pictogramCollection,
       locale,
+      role
     } = this.props
-    const { offset, tab } = this.state
+    const { offset, tab,  sex, violence, aac } = this.state
+    const filters = { sex,  violence, aac}
+    const filterKeys = Object.keys(filters).filter(key=>filters[key])
+    const filterPictograms = visiblePictograms.filter(item => filterKeys.every(key => item[key]))
 
     const searchBox = (
       <View>
@@ -125,18 +138,49 @@ class PictogramsView extends React.PureComponent {
           dataSource={keywords}
           onDelete={this.handleDelete}
         />
+        {role === 'admin' && (
+          <div>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={sex}
+                  onChange={()=> this.setState({sex: !sex})}
+                />
+              }
+              label="Mostrar sólo pictogramas de sexo"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={violence}
+                  onChange={()=> this.setState({violence: !violence})}
+                />
+              }
+              label="Mostrar sólo pictogramas de violencia"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={aac}
+                  onChange={()=> this.setState({aac: !aac})}
+                />
+              }
+              label="Mostrar sólo pictogramas AAC"
+            />
+          </div>
+        )}
       </View>
     )
 
     let renderComponent
     switch (tab) {
       case 0:
-        if (searchText && loading === false) {
+        if (loading === false) {
           renderComponent = (
             <>
-              {visiblePictograms.length ? (
+              {filterPictograms.length ? (
                 <PictogramList
-                  pictograms={visiblePictograms}
+                  pictograms={filterPictograms}
                   searchText={searchText}
                   offset={offset}
                   onPageClick={this.handlePageClick}
@@ -244,11 +288,13 @@ PictogramsView.propTypes = {
   locale: PropTypes.string.isRequired,
   searchResults: PropTypes.arrayOf(PropTypes.number),
   updated: PropTypes.string,
+  role: PropTypes.string.isRequired,
 }
 
 const mapStateToProps = (state, ownProps) => ({
   locale: makeSelectLocale()(state),
   loading: makeLoadingSelector()(state),
+  role: makeSelectUserRole()(state),
   updated: makeLastUpdatedSelector()(state),
   searchResults: makeSearchResultsSelector()(state, ownProps),
   pictogramCollection: makePictogramsListSelector()(state),
