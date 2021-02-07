@@ -653,7 +653,7 @@
   "tags.season": "stagione",
   "tags.secondary sector": "settore secondario",
   "tags.security": "sicurezza",
-  "tags.seller": "venditore",
+  "tags.seller": "vendita",
   "tags.senses": "sensi",
   "tags.sensory stimulation": "stimolazione sensoriale",
   "tags.service building": "edificio di servizi",
@@ -751,7 +751,7 @@
   "tags.work": "lavoro",
   "tags.work accident": "infortunio di lavoro",
   "tags.work machine": "macchina da lavoro",
-  "tags.workplace": "posto di lavoro",
+  "tags.workplace": "luogo di lavoro",
   "tags.workwear": "indumenti da lavoro",
   "tags.zarzuela": "zarzuela",
   "user.signin": "Utente"
