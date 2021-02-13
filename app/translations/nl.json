@@ -17,6 +17,7 @@
   "app.components.LanguageSelector.arabic": "Arabisch",
   "app.components.LanguageSelector.bulgarian": "Bulgaars",
   "app.components.LanguageSelector.choose": "Kies uw taal",
+  "app.components.LanguageSelector.croatian": "Kroatisch",
   "app.components.LanguageSelector.dutch": "Nederlands",
   "app.components.LanguageSelector.english": "Engels",
   "app.components.LanguageSelector.french": "Frans",
@@ -28,5 +29,16 @@
   "app.components.LanguageSelector.polish": "Pools",
   "app.components.LanguageSelector.portuguese": "Portugees",
   "app.components.LanguageSelector.romanian": "Roemeens",
-  "app.components.LanguageSelector.russian": "Russisch"
+  "app.components.LanguageSelector.russian": "Russisch",
+  "app.components.LanguageSelector.spanish": "Spaans",
+  "app.components.LanguageSelector.sq": "Albanees",
+  "app.components.LanguageSelector.sv": "Zweeds",
+  "app.components.ListTree.categoryDetele.confirmationTitle": "Categorie verwijderen",
+  "app.components.LocaleSelector.button.changeLanguage": "Taal wijzigen",
+  "app.components.Pictogram.confirmationInfoText": "Weet je zeker dat je de pictogram wilt verwijderen?",
+  "app.components.Pictogram.confirmationTitle": "Verwijder pictogram",
+  "app.components.Pictogram.deletePictogram": "Verwijder pictogram",
+  "app.components.PictogramForm.button.cancel": "Annuleren",
+  "app.components.PictogramForm.button.save": "Opslaan",
+  "app.components.PictogramForm.checkbox.sex": "Geslacht"
 }
