@@ -14,6 +14,8 @@
   "app.components.Header.menu.signout": "Uitloggen",
   "app.components.Header.title.addPictograms": "Pictogram toevoegen",
   "app.components.Header.title.pictograms": "Pictogrammen",
+  "app.components.Header.title.users": "Gebruikers",
+  "app.components.LanguageSelector.an": "Aragonees",
   "app.components.LanguageSelector.arabic": "Arabisch",
   "app.components.LanguageSelector.basque": "Baskisch",
   "app.components.LanguageSelector.brazilian": "Braziliaans Portugees",
@@ -51,5 +53,6 @@
   "app.components.Pictogram.deletePictogram": "Verwijder pictogram",
   "app.components.PictogramForm.button.cancel": "Annuleren",
   "app.components.PictogramForm.button.save": "Opslaan",
-  "app.components.PictogramForm.checkbox.sex": "Geslacht"
+  "app.components.PictogramForm.checkbox.sex": "Geslacht",
+  "app.containers.Pictograms.pictogramsNotFound": "Geen pictogrammen gevonden"
 }
