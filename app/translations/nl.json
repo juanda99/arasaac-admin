@@ -54,5 +54,6 @@
   "app.components.PictogramForm.button.cancel": "Annuleren",
   "app.components.PictogramForm.button.save": "Opslaan",
   "app.components.PictogramForm.checkbox.sex": "Geslacht",
+  "app.components.PictogramForm.wordType.verb": "Werkwoord",
   "app.containers.Pictograms.pictogramsNotFound": "Geen pictogrammen gevonden"
 }
