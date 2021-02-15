@@ -6,6 +6,7 @@
   "app.components.CategoryForm.category": "Categorie",
   "app.components.CategoryForm.keywordsList": "Lijst met trefwoorden",
   "app.components.ConfirmationDialog.categoryDelete.cancelButton": "Annuleren",
+  "app.components.ConfirmationDialog.categoryDelete.confirmationInfoText": "Ben je zeker dat je <strong>{category}</strong> wilt verwijderen?",
   "app.components.ConfirmationDialog.categoryDelete.okButton": "Verwijderen",
   "app.components.ConfirmationDialog.categoryDetele.confirmationTitle": "Categorie verwijderen",
   "app.components.ErrorDialog.accept": "Accepteren",
@@ -14,6 +15,8 @@
   "app.components.Header.menu.signin": "Inloggen",
   "app.components.Header.menu.signout": "Uitloggen",
   "app.components.Header.title.addPictograms": "Pictogram toevoegen",
+  "app.components.Header.title.categories": "Categorieën",
+  "app.components.Header.title.management": "Management",
   "app.components.Header.title.pictograms": "Pictogrammen",
   "app.components.Header.title.users": "Gebruikers",
   "app.components.LanguageSelector.an": "Aragonees",
@@ -55,6 +58,7 @@
   "app.components.PictogramForm.button.cancel": "Annuleren",
   "app.components.PictogramForm.button.save": "Opslaan",
   "app.components.PictogramForm.checkbox.sex": "Geslacht",
+  "app.components.PictogramForm.word": "Woord",
   "app.components.PictogramForm.wordType.verb": "Werkwoord",
   "app.containers.Pictograms.pictogramsNotFound": "Geen pictogrammen gevonden"
 }
