@@ -112,5 +112,22 @@
   "app.containers.AddNews.header": "Das ist der AddNews-Container!",
   "app.containers.AddPictograms.errorUploading": "Uppps, Piktogramme wurden nicht hochgeladen!\n",
   "app.containers.AddPictograms.successUploading": "Piktogramme wurden hochgeladen",
-  "app.containers.AddPictograms.uploadMoreFiles": "Mehr Piktogramme hochladen"
+  "app.containers.AddPictograms.uploadMoreFiles": "Mehr Piktogramme hochladen",
+  "app.containers.Users.pagingPanelMessages.rowsPerPage": "Zeilen pro Seite\n",
+  "app.containers.Users.pagingPanelMessages.showAll": "alle",
+  "app.containers.Users.tableMessages.noData": "Daten wurden nicht gefunden",
+  "app.containersTranslationStatus.adminWebTransStatus": "Verwaltung Web: {adminWebTranslatedString}% ({adminTranslated} von {adminPhrases})",
+  "app.containersTranslationStatus.noDataAvailable": "Keine Daten vorhanden",
+  "app.containersTranslationStatus.pictosTransStatus": "Piktogramme: {pictosValidatedString}% ({pictogramsValidated} of {totalPictograms})",
+  "app.containersTranslationStatus.pictosTransWarning": "Piktogramme können bereits übersetzt werden, aber sind nicht validiert.",
+  "app.containersTranslationStatus.updatedInfo": "Die Statistik wird jede Stunde aktualisiert. Letzte Aktualisierung:",
+  "app.containersTranslationStatus.webTransStatus": "Web: {webTranslatedString}% ({arasaacTranslated} von {arasaacPhrases})",
+  "arasaacadmin.components.Sidebar.menu.catalogs": "Kataloge",
+  "arasaacadmin.components.Sidebar.menu.categories": "Begriffe",
+  "arasaacadmin.components.Sidebar.menu.createNew": "Neues hinzufügen",
+  "arasaacadmin.components.Sidebar.menu.keywords": "Schlüsselwörter suchen",
+  "arasaacadmin.components.Sidebar.menu.news": "Neuigkeiten",
+  "arasaacadmin.components.Sidebar.menu.pictograms": "Piktogramme",
+  "arasaacadmin.components.Sidebar.menu.searchNews": "Neuigkeiten suchen",
+  "arasaacadmin.components.Sidebar.menu.signout": "ausloggen"
 }
