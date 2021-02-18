@@ -17,5 +17,18 @@
   "app.components.Header.button.userMenu": "Benutzer-Menü",
   "app.components.Header.menu.profile": "Mein Steckbrief",
   "app.components.Header.menu.signin": "anmelden",
-  "app.components.Header.menu.signout": "ausloggen"
+  "app.components.Header.menu.signout": "ausloggen",
+  "app.components.Header.title.addPictograms": "Piktogramm hinzufügen",
+  "app.components.Header.title.catalogs": "Kataloge",
+  "app.components.Header.title.categories": "Begriffe",
+  "app.components.Header.title.management": "Verwaltung",
+  "app.components.Header.title.pictograms": "Piktogramme",
+  "app.components.Header.title.users": "Benutzer",
+  "app.components.LanguageSelector.an": "aragonisch",
+  "app.components.LanguageSelector.arabic": "arabisch",
+  "app.components.LanguageSelector.basque": "baskisch",
+  "app.components.LanguageSelector.brazilian": "brasilianisches Portugiesisch",
+  "app.components.LanguageSelector.bulgarian": "bulgarisch",
+  "app.components.LanguageSelector.catalan": "katalanisch",
+  "app.components.LanguageSelector.chineseSimplified": "chinesisch (vereinfacht)"
 }
