@@ -7,6 +7,8 @@
   "app.components.CategoryForm.button.save": "speichern",
   "app.components.CategoryForm.category": "Kategorie",
   "app.components.CategoryForm.key": "Schlüsselbegriff",
-  "app.components.CategoryForm.keywordsList": "Schlagwörterliste",
-  "app.components.CategoryForm.tagsList": "Schlagwortliste"
+  "app.components.CategoryForm.keywordsList": "Verzeichnis der Schlüsselwörter",
+  "app.components.CategoryForm.tagsList": "Verzeichnis der Schlagwörter",
+  "app.components.ConfirmationDialog.categoryDelete.cancelButton": "abbrechen",
+  "app.components.ConfirmationDialog.categoryDelete.confirmationInfoText": "Bist (Sind) Du (Sie) sicher, dass Du (Sie) </ stark> löschen möchtest (möchten)?"
 }
