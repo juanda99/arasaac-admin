@@ -1,1 +1,4 @@
-{}
+{
+  "Login.invalidEmail": "Ungültige E-Mailadresse",
+  "Login.required": "Pflichtfeld"
+}
