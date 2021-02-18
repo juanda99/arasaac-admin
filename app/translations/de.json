@@ -95,5 +95,16 @@
   "app.components.PictogramForm.wordType.socialContent": "sozialer Gehalt",
   "app.components.PictogramForm.wordType.verb": "Verb",
   "app.components.PictogramUploader.addFiles": "Piktogrammdateien hinzufügen",
-  "app.components.PictogramUploader.uploadPictograms": "Piktogramme hochladen"
+  "app.components.PictogramUploader.uploadPictograms": "Piktogramme hochladen",
+  "app.components.PictogramsGrid.filterRowMessages.filterPlaceholder": "filtern",
+  "app.components.PictogramsGrid.gridCaption.Validated": "bestätigt",
+  "app.components.PictogramsGrid.gridCaption.created": "Erstelldatum",
+  "app.components.PictogramsGrid.gridCaption.identifier": "ID (Identifizierungszeichen)",
+  "app.components.PictogramsGrid.gridCaption.lastUpdated": "aktualisiert",
+  "app.components.PictogramsGrid.gridCaption.published": "veröffentlicht",
+  "app.components.PictogramsGrid.pagingPanelMessages.info": "\\{von\\}-\\{bis\\} de \\{zählen\\}",
+  "app.components.PictogramsGrid.pagingPanelMessages.rowsPerPage": "Zeilen pro Seite",
+  "app.components.PictogramsGrid.pagingPanelMessages.showAll": "alles",
+  "app.components.PictogramsGrid.tableMessages.noData": "Daten wurden nicht gefunden",
+  "app.components.SearchBox.searchField": "Suchtext eingeben"
 }
