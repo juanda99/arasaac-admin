@@ -10,5 +10,12 @@
   "app.components.CategoryForm.keywordsList": "Verzeichnis der Schlüsselwörter",
   "app.components.CategoryForm.tagsList": "Verzeichnis der Schlagwörter",
   "app.components.ConfirmationDialog.categoryDelete.cancelButton": "abbrechen",
-  "app.components.ConfirmationDialog.categoryDelete.confirmationInfoText": "Bist (Sind) Du (Sie) sicher, dass Du (Sie) </ stark> löschen möchtest (möchten)?"
+  "app.components.ConfirmationDialog.categoryDelete.confirmationInfoText": "Bist (Sind) Du (Sie) sicher, dass Du (Sie) </ stark> löschen möchtest (möchten)?",
+  "app.components.ConfirmationDialog.categoryDelete.okButton": "entfernen",
+  "app.components.ConfirmationDialog.categoryDetele.confirmationTitle": "Kategorie entfernen",
+  "app.components.ErrorDialog.accept": "zustimmen",
+  "app.components.Header.button.userMenu": "Benutzer-Menü",
+  "app.components.Header.menu.profile": "Mein Steckbrief",
+  "app.components.Header.menu.signin": "anmelden",
+  "app.components.Header.menu.signout": "ausloggen"
 }
