@@ -106,5 +106,11 @@
   "app.components.PictogramsGrid.pagingPanelMessages.rowsPerPage": "Zeilen pro Seite",
   "app.components.PictogramsGrid.pagingPanelMessages.showAll": "alles",
   "app.components.PictogramsGrid.tableMessages.noData": "Daten wurden nicht gefunden",
-  "app.components.SearchBox.searchField": "Suchtext eingeben"
+  "app.components.SearchBox.searchField": "Suchtext eingeben",
+  "app.components.ThemeSelector.button.darkTheme": "Thema hell/dunkel umschalten",
+  "app.components.dialog.ok": "Okay",
+  "app.containers.AddNews.header": "Das ist der AddNews-Container!",
+  "app.containers.AddPictograms.errorUploading": "Uppps, Piktogramme wurden nicht hochgeladen!\n",
+  "app.containers.AddPictograms.successUploading": "Piktogramme wurden hochgeladen",
+  "app.containers.AddPictograms.uploadMoreFiles": "Mehr Piktogramme hochladen"
 }
