@@ -1,9 +1,12 @@
 {
   "Login.invalidEmail": "Falsche E-Mail",
-  "Login.required": "Pflichtfeld",
-  "app.components.Autosuggest.selectTagsHint": "Mehrere Begriffe auswählen",
-  "app.components.Catalog.h1": "Fertigstellung des (Sprach-)Katalogs",
-  "app.components.CategoryForm.button.cancel": "beenden",
+  "Login.required": "gefordert",
+  "app.components.Autosuggest.selectTagsHint": "mehrere Begriffe auswählen",
+  "app.components.Catalog.h1": "{Sprach} - Katalogerstellung",
+  "app.components.CategoryForm.button.cancel": "abbrechen",
   "app.components.CategoryForm.button.save": "speichern",
-  "app.components.CategoryForm.category": "Begriff"
+  "app.components.CategoryForm.category": "Kategorie",
+  "app.components.CategoryForm.key": "Schlüsselbegriff",
+  "app.components.CategoryForm.keywordsList": "Schlagwörterliste",
+  "app.components.CategoryForm.tagsList": "Schlagwortliste"
 }
