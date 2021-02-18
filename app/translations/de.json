@@ -1,4 +1,7 @@
 {
-  "Login.invalidEmail": "Ungültige E-Mailadresse",
-  "Login.required": "Pflichtfeld"
+  "Login.invalidEmail": "Falsche E-Mail",
+  "Login.required": "Pflichtfeld",
+  "app.components.Autosuggest.selectTagsHint": "Mehrere Begriffe auswählen",
+  "app.components.Catalog.h1": "Fertigstellung des (Sprach-)Katalogs",
+  "app.components.CategoryForm.button.cancel": "widerrufen"
 }
