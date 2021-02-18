@@ -87,5 +87,13 @@
   "app.components.PictogramForm.tags": "Schlagwörter",
   "app.components.PictogramForm.type": "Wortart",
   "app.components.PictogramForm.updateDate": "Aktualisierungsdatum",
-  "app.components.PictogramForm.word": "Wort"
+  "app.components.PictogramForm.word": "Wort",
+  "app.components.PictogramForm.wordType.commonName": "Substantiv",
+  "app.components.PictogramForm.wordType.descriptive": "beschreibend (adjektiv oder adverb)",
+  "app.components.PictogramForm.wordType.miscellaneous": "sonstiges",
+  "app.components.PictogramForm.wordType.properName": "Eigenname",
+  "app.components.PictogramForm.wordType.socialContent": "sozialer Gehalt",
+  "app.components.PictogramForm.wordType.verb": "Verb",
+  "app.components.PictogramUploader.addFiles": "Piktogrammdateien hinzufügen",
+  "app.components.PictogramUploader.uploadPictograms": "Piktogramme hochladen"
 }
