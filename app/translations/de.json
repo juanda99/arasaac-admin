@@ -129,5 +129,17 @@
   "arasaacadmin.components.Sidebar.menu.news": "Neuigkeiten",
   "arasaacadmin.components.Sidebar.menu.pictograms": "Piktogramme",
   "arasaacadmin.components.Sidebar.menu.searchNews": "Neuigkeiten suchen",
-  "arasaacadmin.components.Sidebar.menu.signout": "ausloggen"
+  "arasaacadmin.components.Sidebar.menu.signout": "ausloggen",
+  "arasaacadmin.components.Sidebar.menu.tagPictograms": "Bezeichnungspiktogramme",
+  "arasaacadmin.components.Sidebar.menu.uploadPictograms": "Piktogramme hochladen",
+  "arasaacadmin.components.Sidebar.menu.users": "Benutzer",
+  "email.signin": "E-Mail",
+  "loginView.authentication": "Authentisierungsfehler",
+  "loginView.communicationError": "Zugriff auf Authentifizierungsserver nicht möglich",
+  "loginView.invalidUser": "Benutzername oder Passwort ungültig",
+  "password.signin": "Passwort",
+  "permissionsErrorView.forbidden": "Ihre Benutzerkategorie kann nicht auf diesen Bestand zugreifen.",
+  "signin.facebook": "Mit Facebook einloggen",
+  "signin.forgotPassword": "Passwort vergessen?",
+  "signin.google": "Mit Google einloggen"
 }
