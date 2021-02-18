@@ -3,5 +3,7 @@
   "Login.required": "Pflichtfeld",
   "app.components.Autosuggest.selectTagsHint": "Mehrere Begriffe auswählen",
   "app.components.Catalog.h1": "Fertigstellung des (Sprach-)Katalogs",
-  "app.components.CategoryForm.button.cancel": "widerrufen"
+  "app.components.CategoryForm.button.cancel": "beenden",
+  "app.components.CategoryForm.button.save": "speichern",
+  "app.components.CategoryForm.category": "Begriff"
 }
