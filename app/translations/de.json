@@ -141,5 +141,8 @@
   "permissionsErrorView.forbidden": "Ihre Benutzerkategorie kann nicht auf diesen Bestand zugreifen.",
   "signin.facebook": "Mit Facebook einloggen",
   "signin.forgotPassword": "Passwort vergessen?",
-  "signin.google": "Mit Google einloggen"
+  "signin.google": "Mit Google einloggen",
+  "signin.offerAccount": "Hast Du (Haben Sie) kein Benutzerkonto?",
+  "signin.offerUseAccount": "Bist Du (Sind Sie) bereits ein Arasaac-Benutzer?",
+  "signin.or": "oder"
 }
