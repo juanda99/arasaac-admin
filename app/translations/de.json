@@ -1,8 +1,8 @@
 {
-  "Login.invalidEmail": "Falsche E-Mail",
-  "Login.required": "gefordert",
-  "app.components.Autosuggest.selectTagsHint": "mehrere Begriffe auswählen",
-  "app.components.Catalog.h1": "{Sprach} - Katalogerstellung",
+  "Login.invalidEmail": "Falsche E-Mailadresse",
+  "Login.required": "erforderlich",
+  "app.components.Autosuggest.selectTagsHint": "mehrere Schlagwörter auswählen",
+  "app.components.Catalog.h1": "Katalogerstellung für {Sprache} Sprache",
   "app.components.CategoryForm.button.cancel": "abbrechen",
   "app.components.CategoryForm.button.save": "speichern",
   "app.components.CategoryForm.category": "Kategorie",
@@ -453,5 +453,6 @@
   "tags.work machine": "Arbeitsmaschine",
   "tags.workplace": "Arbeitsplatz",
   "tags.workwear": "Berufskleidung",
-  "tags.zarzuela": "Zarzuela"
+  "tags.zarzuela": "Zarzuela",
+  "user.signin": "Benutzer(in)"
 }
