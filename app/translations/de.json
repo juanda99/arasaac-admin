@@ -113,6 +113,8 @@
   "app.containers.AddPictograms.errorUploading": "Uppps, Piktogramme wurden nicht hochgeladen!\n",
   "app.containers.AddPictograms.successUploading": "Piktogramme wurden hochgeladen",
   "app.containers.AddPictograms.uploadMoreFiles": "Mehr Piktogramme hochladen",
+  "app.containers.CatalogsView.h1": "Kataloge verwalten",
+  "app.containers.CatalogsView.lastBuild.never": "niemals",
   "app.containers.Users.pagingPanelMessages.rowsPerPage": "Zeilen pro Seite\n",
   "app.containers.Users.pagingPanelMessages.showAll": "alle",
   "app.containers.Users.tableMessages.noData": "Daten wurden nicht gefunden",
