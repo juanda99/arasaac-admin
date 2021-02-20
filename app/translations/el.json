@@ -317,5 +317,12 @@
   "tags.day hours": "ώρες ημέρας",
   "tags.death": "Θάνατος",
   "tags.decimal classification": "δεκαδική ταξινόμηση",
-  "tags.decorative item": "διακοσμητικό αντικείμενο"
+  "tags.decorative item": "διακοσμητικό αντικείμενο",
+  "tags.demonym": "ονομασία",
+  "tags.dessert": "επιδόρπιο",
+  "tags.dietetics": "διαιτολογία",
+  "tags.digestive system": "πεπτικό σύστημα",
+  "tags.dinosaur": "δεινόσαυρος",
+  "tags.dinosaur anatomy": "ανατομία δεινοσαύρων",
+  "tags.disease": "ασθένεια"
 }
