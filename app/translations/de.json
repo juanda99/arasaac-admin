@@ -132,6 +132,7 @@
   "app.containers.CatalogsView.tableHeader.size": "Größe",
   "app.containers.CatalogsView.tableHeader.totalPictograms": "Gesamt-Piktogramme",
   "app.containers.CatalogsView.tableHeader.variations": "Variationen (Haut, Haare)",
+  "app.containers.Categories.errorTitle": "Kategorie-Fehler",
   "app.containers.Users.pagingPanelMessages.rowsPerPage": "Zeilen pro Seite\n",
   "app.containers.Users.pagingPanelMessages.showAll": "alle",
   "app.containers.Users.tableMessages.noData": "Daten wurden nicht gefunden",
