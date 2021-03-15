@@ -136,7 +136,6 @@
   "app.containers.Pictograms.TabHeader.notValidated": "Nije validirano",
   "app.containers.Pictograms.TabHeader.pictograms": "Piktogrami",
   "app.containers.Pictograms.TabHeader.search": "Pretraga",
-  "app.containers.Pictograms.header": "Ovo je kontejner za Piktograme!",
   "app.containers.Pictograms.pictogramsNotFound": "Nije pronađen niti jedan piktogram",
   "app.containers.Users.filterRowMessages.filterPlaceholder": "Filtar...",
   "app.containers.Users.gridCaption.company": "Tvrtka",
