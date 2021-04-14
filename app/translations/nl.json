@@ -101,6 +101,7 @@
   "app.components.PictogramsGrid.gridCaption.identifier": "Identificator",
   "app.components.PictogramsGrid.gridCaption.lastUpdated": "Bijgewerkt",
   "app.components.PictogramsGrid.gridCaption.published": "Gepubliceerd",
+  "app.components.PictogramsGrid.pagingPanelMessages.info": "\\{van\\}-\\{tot\\} van \\{count\\}",
   "app.components.PictogramsGrid.pagingPanelMessages.rowsPerPage": "Rijen per pagina",
   "app.components.PictogramsGrid.pagingPanelMessages.showAll": "Alles",
   "app.components.PictogramsGrid.tableMessages.noData": "Gegevens niet gevonden",
