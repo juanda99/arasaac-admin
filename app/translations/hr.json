@@ -69,6 +69,8 @@
   "app.components.PictogramForm.categories": "Kategorije",
   "app.components.PictogramForm.checkbox.aac": "AAK - alternativna i augmentativna komunikacija",
   "app.components.PictogramForm.checkbox.aacColor": "AAK boja",
+  "app.components.PictogramForm.checkbox.hasHair": "mogućnost promjene boje kose",
+  "app.components.PictogramForm.checkbox.hasSkin": "mogućnost promjene boje kože",
   "app.components.PictogramForm.checkbox.published": "Objavljeno",
   "app.components.PictogramForm.checkbox.schematic": "Shematski",
   "app.components.PictogramForm.checkbox.sex": "Spol",
