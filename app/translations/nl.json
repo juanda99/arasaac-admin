@@ -6,6 +6,7 @@
   "app.components.CategoryForm.button.cancel": "Annuleren",
   "app.components.CategoryForm.button.save": "Opslaan",
   "app.components.CategoryForm.category": "Categorie",
+  "app.components.CategoryForm.key": "Categoriesleutel",
   "app.components.CategoryForm.keywordsList": "Lijst met trefwoorden",
   "app.components.CategoryForm.tagsList": "Lijst met tags",
   "app.components.ConfirmationDialog.categoryDelete.cancelButton": "Annuleren",
