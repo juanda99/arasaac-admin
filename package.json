@@ -73,7 +73,7 @@
     "@material-ui/lab": "^3.0.0-alpha.30",
     "antd": "^3.26.20",
     "autosuggest-highlight": "^3.1.1",
-    "browserslist": "^4.14.7",
+    "browserslist": "^4.16.5",
     "caniuse-lite": "^1.0.30001161",
     "chalk": "^2.4.2",
     "compression": "1.7.3",
