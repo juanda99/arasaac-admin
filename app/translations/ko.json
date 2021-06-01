@@ -1,1 +1,6 @@
-{}
+{
+  "Login.invalidEmail": "잘못된 이메일",
+  "Login.required": "필수사항",
+  "app.components.Autosuggest.selectTagsHint": "여러  태크를 선택하다",
+  "app.components.ConfirmationDialog.categoryDelete.okButton": "삭제하기"
+}
