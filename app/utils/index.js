@@ -35,26 +35,26 @@ export const keywordSelector = (searchText, keywords) => {
   if (!searchTextArray.length) return keywords[0]
   // if same keyword exists, return it
   let keyword = keywords.find(
-    (keywordsItem) => keywordsItem.keyword && keywordsItem.keyword.toLowerCase() === searchText.toLowerCase(),
+    keywordsItem => keywordsItem.keyword && keywordsItem.keyword.toLowerCase() === searchText.toLowerCase(),
   )
   if (keyword) return keyword
 
   // otherwise, return first partial match or fist keyword if no matches
-  keyword =  keywords.find((keywordsItem) => {
+  keyword = keywords.find(keywordsItem => {
     if (!keywordsItem.keyword) return false
-    const keywordArray = keywordsItem.keyword.split(' ').map((keyword) => keyword.toLowerCase())
-    return searchTextArray.some((word) => keywordArray.includes(word.toLowerCase()))
-  }) 
-  if  (keyword) return keyword
+    const keywordArray = keywordsItem.keyword.split(' ').map(keyword => keyword.toLowerCase())
+    return searchTextArray.some(word => keywordArray.includes(word.toLowerCase()))
+  })
+  if (keyword) return keyword
 
-  const regexp = new RegExp(searchText, "i")
-  keyword = keywords.find((keywordsItem) => {
+  const regexp = new RegExp(searchText, 'i')
+  keyword = keywords.find(keywordsItem => {
     if (!keywordsItem.keyword) return false
     //  use regex for phonemen
     return regexp.test(keywordsItem.keyword)
   })
   if (keyword) return keyword
-  return keywords[0] ||emptyResponse
+  return keywords[0] || emptyResponse
 }
 
 export const getQueryStringValue = key =>
@@ -102,122 +102,127 @@ export const removeKeys = (obj, keys) => {
 export const languages = [
   {
     code: 'es',
-    text: 'Español'
+    text: 'Español',
   },
   {
     code: 'en',
-    text: 'English'
+    text: 'English',
   },
   {
     code: 'ar',
-    text: 'عربى'
+    text: 'عربى',
   },
   {
     code: 'an',
-    text: 'Aragonés'
+    text: 'Aragonés',
   },
   {
     code: 'bg',
-    text: 'български'
+    text: 'български',
   },
   {
     code: 'br',
-    text: 'Português do Brasil'
+    text: 'Português do Brasil',
   },
   {
     code: 'ca',
-    text: 'Català'
+    text: 'Català',
   },
   {
     code: 'de',
-    text: 'Deutsche'
+    text: 'Deutsche',
   },
   {
     code: 'et',
-    text: 'Eestlane'
+    text: 'Eestlane',
   },
   {
     code: 'eu',
-    text: 'Euskal'
+    text: 'Euskal',
   },
   {
     code: 'fa',
-    text: 'فارسی'
+    text: 'فارسی',
   },
   {
     code: 'fr',
-    text: 'Français'
+    text: 'Français',
   },
   {
     code: 'gl',
-    text: 'Galego'
+    text: 'Galego',
   },
   {
     code: 'he',
-    text: 'עברי' // hebreo
+    text: 'עברי', // hebreo
   },
   {
     code: 'hr',
-    text: 'Hrvatski'
+    text: 'Hrvatski',
   },
   {
     code: 'hu',
-    text: 'Magyar'
+    text: 'Magyar',
   },
   {
     code: 'it',
-    text: 'Italiano'
+    text: 'Italiano',
+  },
+  {
+    code: 'ko',
+    text: '한국어',
   },
   {
     code: 'mk',
-    text: 'Македонски'
+    text: 'Македонски',
   },
   {
     code: 'el',
-    text: 'Ελληνικά'
+    text: 'Ελληνικά',
   },
   {
     code: 'nl',
-    text: 'Nederlands'
+    text: 'Nederlands',
   },
   {
     code: 'pl',
-    text: 'Polski'
+    text: 'Polski',
   },
   {
     code: 'pt',
-    text: 'Português'
+    text: 'Português',
   },
   {
     code: 'ro',
-    text: 'Română'
+    text: 'Română',
   },
   {
     code: 'ru',
-    text: 'Pусский'
+    text: 'Pусский',
   },
   {
     code: 'sk',
-    text: 'Slovenský'
+    text: 'Slovenský',
   },
   {
     code: 'sq',
-    text: 'Shqip'
+    text: 'Shqip',
   },
   {
     code: 'sv',
-    text: 'Svenska'
+    text: 'Svenska',
   },
   {
     code: 'sr',
-    text: 'Српски'
+    text: 'Српски',
   },
   {
     code: 'val',
-    text: 'Valencia'
+    text: 'Valencia',
   },
   {
     code: 'zh',
-    text: '简体中文）'
-  }
+    text: '简体中文）',
+  },
+  ,
 ]
