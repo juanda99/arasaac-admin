@@ -1,6 +1,6 @@
 {
   "name": "arasaac-admin",
-  "version": "1.0",
+  "version": "1.0.0",
   "description": "Admin  panel for ARASAAC website",
   "repository": {
     "type": "git",
