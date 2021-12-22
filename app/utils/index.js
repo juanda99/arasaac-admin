@@ -175,7 +175,7 @@ export const languages = [
   {
     code: 'lt',
     text: 'Lietuvių',
-  }
+  },
   {
     code: 'mk',
     text: 'Македонски',
