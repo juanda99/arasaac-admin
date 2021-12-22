@@ -173,6 +173,10 @@ export const languages = [
     text: '한국어',
   },
   {
+    code: 'lt',
+    text: 'Lietuvių',
+  }
+  {
     code: 'mk',
     text: 'Македонски',
   },
