@@ -132,6 +132,10 @@ export default defineMessages({
     id: `${scope}.lt`,
     defaultMessage: 'Lithuanian',
   },
+  lv: {
+    id: `${scope}.lv`,
+    defaultMessage: 'Latvian',
+  },
   translateOnline: {
     id: `${scope}.translateOnline`,
     defaultMessage: 'Traslate online',

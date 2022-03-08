@@ -177,6 +177,10 @@ export const languages = [
     text: 'Lietuvių',
   },
   {
+    code: 'lv',
+    text: 'Latviski',
+  },
+  {
     code: 'mk',
     text: 'Македонски',
   },
@@ -228,5 +232,4 @@ export const languages = [
     code: 'zh',
     text: '简体中文）',
   },
-  ,
 ]
