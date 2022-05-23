@@ -58,6 +58,7 @@
   "app.components.LanguageSelector.sq": "אלבנית",
   "app.components.LanguageSelector.sv": "שוודי",
   "app.components.LanguageSelector.translateOnline": "תרגם באמצעות האינטרנט",
+  "app.components.LanguageSelector.uk": "אוקראיני",
   "app.components.LanguageSelector.valencian": "ולנסית",
   "app.components.ListTree.categoryDelete.confirmationInfoText": "האם אתה בטוח שברצונך למחוק <strong>{category}</strong>?",
   "app.components.ListTree.categoryDetele.confirmationTitle": "מחק קטגוריה",
