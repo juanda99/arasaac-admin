@@ -225,6 +225,10 @@ export const languages = [
     text: 'Српски',
   },
   {
+    code: 'uk',
+    text: 'Yкраїнська',
+  },
+  {
     code: 'val',
     text: 'Valencia',
   },

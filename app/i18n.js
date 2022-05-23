@@ -48,6 +48,7 @@ const svTranslationMessages = require('./translations/sv.json')
 const srTranslationMessages = require('./translations/sr.json')
 const sqTranslationMessages = require('./translations/sq.json')
 const valTranslationMessages = require('./translations/val.json')
+const ukTranslationMessages = require('./translations/uk.json')
 const zhTranslationMessages = require('./translations/zh.json')
 
 // prettier-ignore
@@ -83,6 +84,7 @@ const appLocales = [
   'sv',
   'sr',
   'sq',
+  'uk',
   'val',
   'zh',
 ];
@@ -129,6 +131,7 @@ const translationMessages = {
   sq: formatTranslationMessages('sq', sqTranslationMessages),
   sv: formatTranslationMessages('sv', svTranslationMessages),
   sr: formatTranslationMessages('sr', srTranslationMessages),
+  uk: formatTranslationMessages('uk', ukTranslationMessages),
   val: formatTranslationMessages('val', valTranslationMessages),
   zh: formatTranslationMessages('zh', zhTranslationMessages),
   // af: formatTranslationMessages('af', afTranslationMessages),
