@@ -58,6 +58,7 @@
   "app.components.LanguageSelector.sq": "Albanian",
   "app.components.LanguageSelector.sv": "Swedish",
   "app.components.LanguageSelector.translateOnline": "Traslate online",
+  "app.components.LanguageSelector.uk": "Ukranian",
   "app.components.LanguageSelector.valencian": "Valencian",
   "app.components.ListTree.categoryDelete.confirmationInfoText": "Are you sure you want to delete <strong>{category}</strong>?",
   "app.components.ListTree.categoryDetele.confirmationTitle": "Delete category",
