@@ -57,6 +57,7 @@
   "app.components.LanguageSelector.sq": "Albanees",
   "app.components.LanguageSelector.sv": "Zweeds",
   "app.components.LanguageSelector.translateOnline": "Vertaal online",
+  "app.components.LanguageSelector.uk": "Oekraïens",
   "app.components.LanguageSelector.valencian": "Valenciaans",
   "app.components.ListTree.categoryDelete.confirmationInfoText": "Ben je zeker dat je <strong>{category}</strong> wilt verwijderen?",
   "app.components.ListTree.categoryDetele.confirmationTitle": "Categorie verwijderen",
