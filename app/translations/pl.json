@@ -58,6 +58,7 @@
   "app.components.LanguageSelector.sq": "albański",
   "app.components.LanguageSelector.sv": "szwedzki",
   "app.components.LanguageSelector.translateOnline": "Tłumacz online",
+  "app.components.LanguageSelector.uk": "ukraiński",
   "app.components.LanguageSelector.valencian": "Walencki",
   "app.components.ListTree.categoryDelete.confirmationInfoText": "Czy na pewno chcesz usunąć <strong> {category} </strong>?",
   "app.components.ListTree.categoryDetele.confirmationTitle": "Usuń kategorię",

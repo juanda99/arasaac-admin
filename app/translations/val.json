@@ -58,6 +58,7 @@
   "app.components.LanguageSelector.sq": "Albanès",
   "app.components.LanguageSelector.sv": "Sueca",
   "app.components.LanguageSelector.translateOnline": "Tradueix en línia",
+  "app.components.LanguageSelector.uk": "ucraïnès",
   "app.components.LanguageSelector.valencian": "Valencià",
   "app.components.ListTree.categoryDelete.confirmationInfoText": "Segur que voleu suprimir <strong>{category}</strong>?",
   "app.components.ListTree.categoryDetele.confirmationTitle": "Suprimir categoria",

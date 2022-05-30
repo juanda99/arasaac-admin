@@ -58,6 +58,7 @@
   "app.components.LanguageSelector.sq": "Албански",
   "app.components.LanguageSelector.sv": "Шведски",
   "app.components.LanguageSelector.translateOnline": "Преведи он-лајн",
+  "app.components.LanguageSelector.uk": "Украински",
   "app.components.LanguageSelector.valencian": "Валенсија",
   "app.components.ListTree.categoryDelete.confirmationInfoText": "Дали сте сигурни дека сакате да избришете <strong>{category}</strong>?",
   "app.components.ListTree.categoryDetele.confirmationTitle": "Избриши ја категоријата",
