@@ -58,6 +58,7 @@
   "app.components.LanguageSelector.sq": "Albán",
   "app.components.LanguageSelector.sv": "Svéd",
   "app.components.LanguageSelector.translateOnline": "Online fordítás",
+  "app.components.LanguageSelector.uk": "Ukrán",
   "app.components.LanguageSelector.valencian": "Valenciai",
   "app.components.ListTree.categoryDelete.confirmationInfoText": "Biztosan töröljük  <strong>{category}</strong>?",
   "app.components.ListTree.categoryDetele.confirmationTitle": "Kategória törlése",
