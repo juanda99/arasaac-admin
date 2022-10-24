@@ -1,4 +1,13 @@
 {
+  "Login.invalidEmail": "Nederīga e-pasta adrese",
+  "Login.required": "Obligāts",
+  "app.components.Autosuggest.selectTagsHint": "Izvēlieties vairākas birkas",
+  "app.components.Catalog.h1": "Kataloga ģenerēšana {language} valodai",
+  "app.components.CategoryForm.button.cancel": "Atcelt",
+  "app.components.CategoryForm.button.save": "Saglabāt",
+  "app.components.CategoryForm.category": "Kategorija",
+  "app.components.CategoryForm.key": "Kategorijas atslēga",
+  "app.components.CategoryForm.keywordsList": "Atslēgas vārdu saraksts",
   "app.components.LanguageSelector.nb": "Norvēģu",
   "app.components.LanguageSelector.uk": "Ukraiņu",
   "tags.AAC implementation": "AAC pielietojums",
