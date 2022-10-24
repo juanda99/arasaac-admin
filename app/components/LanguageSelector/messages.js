@@ -140,6 +140,10 @@ export default defineMessages({
     id: `${scope}.uk`,
     defaultMessage: 'Ukranian',
   },
+  nb: {
+    id: `${scope}.nb`,
+    defaultMessage: 'Norwegian',
+  },
   translateOnline: {
     id: `${scope}.translateOnline`,
     defaultMessage: 'Traslate online',

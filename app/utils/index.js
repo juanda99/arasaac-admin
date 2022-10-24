@@ -189,6 +189,10 @@ export const languages = [
     text: 'Ελληνικά',
   },
   {
+    code: 'nb',
+    text: 'Norsk',
+  },
+  {
     code: 'nl',
     text: 'Nederlands',
   },
