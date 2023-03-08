@@ -44,6 +44,7 @@ const plTranslationMessages = require('./translations/pl.json')
 const ptTranslationMessages = require('./translations/pt.json')
 const roTranslationMessages = require('./translations/ro.json')
 const ruTranslationMessages = require('./translations/ru.json')
+const slTranslationMessages = require('./translations/sl.json')
 const skTranslationMessages = require('./translations/sk.json')
 const svTranslationMessages = require('./translations/sv.json')
 const srTranslationMessages = require('./translations/sr.json')
@@ -83,6 +84,7 @@ const appLocales = [
   'ro',
   'ru',
   'sk',
+  'sl',
   'sv',
   'sr',
   'sq',
@@ -130,6 +132,7 @@ const translationMessages = {
   pt: formatTranslationMessages('pt', ptTranslationMessages),
   ro: formatTranslationMessages('ro', roTranslationMessages),
   ru: formatTranslationMessages('ru', ruTranslationMessages),
+  sl: formatTranslationMessages('sl', slTranslationMessages),
   sk: formatTranslationMessages('sk', skTranslationMessages),
   sq: formatTranslationMessages('sq', sqTranslationMessages),
   sv: formatTranslationMessages('sv', svTranslationMessages),

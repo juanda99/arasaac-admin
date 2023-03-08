@@ -217,6 +217,10 @@ export const languages = [
     text: 'Slovenský',
   },
   {
+    code: 'sl',
+    text: 'Slovenščina',
+  },
+  {
     code: 'sq',
     text: 'Shqip',
   },
