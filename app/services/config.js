@@ -2,16 +2,16 @@
 
 const CLIENT_ID = '12345'
 export const WEB_URL = 'https://beta-arasaac.org'
-const STATIC_SERVER = 'https://beta.static.arasaac.org'
+const STATIC_SERVER = 'https://static.arasaac.org'
 export const IMAGES_URL = `${STATIC_SERVER}/images`
 export const DOCS_URL = `${STATIC_SERVER}/docs`
 export const PICTOGRAMS_URL = `${STATIC_SERVER}/pictograms`
 export const LOCUTIONS_URL = `${STATIC_SERVER}/locutions`
 export const MATERIALS_URL = `${STATIC_SERVER}/materials`
-export const API_SERVER = 'https://beta.api.arasaac.org'
+export const API_SERVER = 'https://api.arasaac.org'
 export const API_ROOT = `${API_SERVER}/api`
-export const AUTH_ROOT = 'https://beta.auth.arasaac.org'
-export const PRIVATE_API_ROOT = 'https://beta.privateapi.arasaac.org/api'
+export const AUTH_ROOT = 'https://auth.arasaac.org'
+export const PRIVATE_API_ROOT = 'https://privateapi.arasaac.org/api'
 
 export const login = {
   url: `${AUTH_ROOT}/oauth/token`,
