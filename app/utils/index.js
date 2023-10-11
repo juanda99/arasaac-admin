@@ -100,148 +100,41 @@ export const removeKeys = (obj, keys) => {
 }
 
 export const languages = [
-  {
-    code: 'es',
-    text: 'Español',
-  },
-  {
-    code: 'en',
-    text: 'English',
-  },
-  {
-    code: 'ar',
-    text: 'عربى',
-  },
-  {
-    code: 'an',
-    text: 'Aragonés',
-  },
-  {
-    code: 'bg',
-    text: 'български',
-  },
-  {
-    code: 'br',
-    text: 'Português do Brasil',
-  },
-  {
-    code: 'ca',
-    text: 'Català',
-  },
-  {
-    code: 'de',
-    text: 'Deutsche',
-  },
-  {
-    code: 'et',
-    text: 'Eestlane',
-  },
-  {
-    code: 'eu',
-    text: 'Euskal',
-  },
-  {
-    code: 'fa',
-    text: 'فارسی',
-  },
-  {
-    code: 'fr',
-    text: 'Français',
-  },
-  {
-    code: 'gl',
-    text: 'Galego',
-  },
-  {
-    code: 'he',
-    text: 'עברי', // hebreo
-  },
-  {
-    code: 'hr',
-    text: 'Hrvatski',
-  },
-  {
-    code: 'hu',
-    text: 'Magyar',
-  },
-  {
-    code: 'it',
-    text: 'Italiano',
-  },
-  {
-    code: 'ko',
-    text: '한국어',
-  },
-  {
-    code: 'lt',
-    text: 'Lietuvių',
-  },
-  {
-    code: 'lv',
-    text: 'Latviski',
-  },
-  {
-    code: 'mk',
-    text: 'Македонски',
-  },
-  {
-    code: 'el',
-    text: 'Ελληνικά',
-  },
-  {
-    code: 'nb',
-    text: 'Norsk',
-  },
-  {
-    code: 'nl',
-    text: 'Nederlands',
-  },
-  {
-    code: 'pl',
-    text: 'Polski',
-  },
-  {
-    code: 'pt',
-    text: 'Português',
-  },
-  {
-    code: 'ro',
-    text: 'Română',
-  },
-  {
-    code: 'ru',
-    text: 'Pусский',
-  },
-  {
-    code: 'sk',
-    text: 'Slovenský',
-  },
-  {
-    code: 'sl',
-    text: 'Slovenščina',
-  },
-  {
-    code: 'sq',
-    text: 'Shqip',
-  },
-  {
-    code: 'sv',
-    text: 'Svenska',
-  },
-  {
-    code: 'sr',
-    text: 'Српски',
-  },
-  {
-    code: 'uk',
-    text: 'Yкраїнська',
-  },
-  {
-    code: 'val',
-    text: 'Valencia',
-  },
-  {
-    code: 'zh',
-    text: '简体中文）',
-  },
-]
+  { code: 'es', text: 'Español' },
+  { code: 'en', text: 'English' },
+  { code: 'ar', text: 'عربى' },
+  { code: 'an', text: 'Aragonés' },
+  { code: 'bg', text: 'български' },
+  { code: 'br', text: 'Português do Brasil' },
+  { code: 'ca', text: 'Català' },
+  { code: 'cs', text: 'Čeština' },
+  { code: 'de', text: 'Deutsche' },
+  { code: 'et', text: 'Eestlane' },
+  { code: 'eu', text: 'Euskal' },
+  { code: 'fa', text: 'فارسی' },
+  { code: 'fr', text: 'Français' },
+  { code: 'gl', text: 'Galego' },
+  { code: 'he', text: 'עברי' },
+  { code: 'hr', text: 'Hrvatski' },
+  { code: 'hu', text: 'Magyar' },
+  { code: 'it', text: 'Italiano' },
+  { code: 'ko', text: '한국어' },
+  { code: 'lt', text: 'Lietuvių' },
+  { code: 'lv', text: 'Latviski' },
+  { code: 'mk', text: 'Македонски' },
+  { code: 'el', text: 'Ελληνικά' },
+  { code: 'nb', text: 'Norsk' },
+  { code: 'nl', text: 'Nederlands' },
+  { code: 'pl', text: 'Polski' },
+  { code: 'pt', text: 'Português' },
+  { code: 'ro', text: 'Română' },
+  { code: 'ru', text: 'Pусский' },
+  { code: 'sk', text: 'Slovenský' },
+  { code: 'sl', text: 'Slovenščina' },
+  { code: 'sq', text: 'Shqip' },
+  { code: 'sv', text: 'Svenska' },
+  { code: 'sr', text: 'Српски' },
+  { code: 'uk', text: 'Yкраїнська' },
+  { code: 'val', text: 'Valencia' },
+  { code: 'zh', text: '简体中文）' },
+] // hebreo

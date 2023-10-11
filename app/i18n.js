@@ -21,6 +21,7 @@ const anTranslationMessages = require('./translations/an.json')
 const arTranslationMessages = require('./translations/ar.json')
 const bgTranslationMessages = require('./translations/bg.json')
 const caTranslationMessages = require('./translations/ca.json')
+const csTranslationMessages = require('./translations/cs.json')
 const deTranslationMessages = require('./translations/de.json')
 const elTranslationMessages = require('./translations/el.json')
 const enTranslationMessages = require('./translations/en.json')
@@ -60,6 +61,7 @@ const appLocales = [
   'bg',
   'br',
   'ca',
+  'cs',
   'de',
   'el',
   'en',
@@ -109,6 +111,7 @@ const translationMessages = {
   bg: formatTranslationMessages('bg', bgTranslationMessages),
   br: formatTranslationMessages('br', ptTranslationMessages),
   ca: formatTranslationMessages('ca', caTranslationMessages),
+  cs: formatTranslationMessages('cs', csTranslationMessages),
   de: formatTranslationMessages('de', deTranslationMessages),
   el: formatTranslationMessages('el', elTranslationMessages),
   en: formatTranslationMessages('en', enTranslationMessages),
