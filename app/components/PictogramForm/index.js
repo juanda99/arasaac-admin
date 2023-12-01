@@ -169,7 +169,7 @@ export class PictogramForm extends Component {
               }
               style={{ width: '100%' }}
             >
-              <AutoSave debounce={500} save={handleSubmit} />
+              <AutoSave debounce={1000} save={handleSubmit} />
               <div style={{ marginTop: 30 }}>
                 <Typography variant="h4" color="textPrimary" gutterBottom>
                   <FormattedMessage {...messages.pictogramData} />
