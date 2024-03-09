@@ -81,6 +81,7 @@
   "app.components.PictogramForm.checkbox.published": "Δημοσιευμένο",
   "app.components.PictogramForm.checkbox.sex": "Φύλο",
   "app.components.PictogramForm.checkbox.validated": "Επιβεβαιωμένο",
+  "app.components.PictogramForm.checkbox.violence": "Βία",
   "app.components.PictogramForm.checkbox.visible": "Ορατό για τους μεταφραστές",
   "app.components.PictogramForm.creationDate": "Ημερομηνία δημιουργίας",
   "app.components.PictogramForm.filters": "Φίλτρα",
