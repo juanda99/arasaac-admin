@@ -108,6 +108,7 @@ export const languages = [
   { code: 'br', text: 'Português do Brasil' },
   { code: 'ca', text: 'Català' },
   { code: 'cs', text: 'Čeština' },
+  { code: 'da', text: 'Dansk' },
   { code: 'de', text: 'Deutsche' },
   { code: 'et', text: 'Eestlane' },
   { code: 'eu', text: 'Euskal' },
