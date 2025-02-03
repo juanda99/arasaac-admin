@@ -135,6 +135,7 @@ export const languages = [
   { code: 'sq', text: 'Shqip' },
   { code: 'sv', text: 'Svenska' },
   { code: 'sr', text: 'Српски' },
+  { code: 'tr', text: 'Türkçe' },
   { code: 'uk', text: 'Yкраїнська' },
   { code: 'val', text: 'Valencia' },
   { code: 'zh', text: '简体中文）' },

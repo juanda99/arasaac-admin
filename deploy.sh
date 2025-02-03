@@ -14,7 +14,8 @@ fi
 npm run build
 
 # Build the Docker image
-docker build -t cateduac/arasaac-admin:$VERSION .
+
+docker build --platform linux/amd64  -t cateduac/arasaac-admin:$VERSION .
 
 # Push the Docker image to Docker Hub
 docker push cateduac/arasaac-admin:$VERSION
