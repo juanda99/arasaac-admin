@@ -51,7 +51,7 @@ export default defineMessages({
     id: `${scope}.italian`,
     defaultMessage: 'Italian',
   },
-  it: {
+  is: {
     id: `${scope}.icelandic`,
     defaultMessage: 'Icelandic',
   },
