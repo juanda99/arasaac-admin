@@ -5,12 +5,12 @@ function isArray(obj) {
 const checkLanguage = (item, language) =>
   language.size === 0 ||
   language.includes(item.language) ||
-  (item.translations && item.translations.some(translation => language.includes(translation.language)))
+  (item.translations && item.translations.some((translation) => language.includes(translation.language)))
 
 export const getFilteredItems = (items, filters) =>
-  items.filter(item => {
+  items.filter((item) => {
     const [...filterNames] = filters.keys()
-    return filterNames.every(filterName => {
+    return filterNames.every((filterName) => {
       if (filterName === 'language') {
         return checkLanguage(item, filters.get('language'))
       }
@@ -21,7 +21,7 @@ export const getFilteredItems = (items, filters) =>
         return item[filterName] === filters.get(filterName) || filters.get(filterName).includes(item[filterName])
       }
       if (isArray(item[filterName]) && item[filterName].length) {
-        return item[filterName].some(keyItems => filters.get(filterName).includes(keyItems))
+        return item[filterName].some((keyItems) => filters.get(filterName).includes(keyItems))
       }
       return false
     })
@@ -35,20 +35,20 @@ export const keywordSelector = (searchText, keywords) => {
   if (!searchTextArray.length) return keywords[0]
   // if same keyword exists, return it
   let keyword = keywords.find(
-    keywordsItem => keywordsItem.keyword && keywordsItem.keyword.toLowerCase() === searchText.toLowerCase(),
+    (keywordsItem) => keywordsItem.keyword && keywordsItem.keyword.toLowerCase() === searchText.toLowerCase(),
   )
   if (keyword) return keyword
 
   // otherwise, return first partial match or fist keyword if no matches
-  keyword = keywords.find(keywordsItem => {
+  keyword = keywords.find((keywordsItem) => {
     if (!keywordsItem.keyword) return false
-    const keywordArray = keywordsItem.keyword.split(' ').map(keyword => keyword.toLowerCase())
-    return searchTextArray.some(word => keywordArray.includes(word.toLowerCase()))
+    const keywordArray = keywordsItem.keyword.split(' ').map((keyword) => keyword.toLowerCase())
+    return searchTextArray.some((word) => keywordArray.includes(word.toLowerCase()))
   })
   if (keyword) return keyword
 
   const regexp = new RegExp(searchText, 'i')
-  keyword = keywords.find(keywordsItem => {
+  keyword = keywords.find((keywordsItem) => {
     if (!keywordsItem.keyword) return false
     //  use regex for phonemen
     return regexp.test(keywordsItem.keyword)
@@ -57,7 +57,7 @@ export const keywordSelector = (searchText, keywords) => {
   return keywords[0] || emptyResponse
 }
 
-export const getQueryStringValue = key =>
+export const getQueryStringValue = (key) =>
   decodeURIComponent(
     window.location.search.replace(
       new RegExp(`^(?:.*[&\\?]${encodeURIComponent(key).replace(/[\.\+\*]/g, '\\$&')}(?:\\=([^&]*))?)?.*$`, 'i'),
@@ -119,6 +119,7 @@ export const languages = [
   { code: 'hr', text: 'Hrvatski' },
   { code: 'hu', text: 'Magyar' },
   { code: 'it', text: 'Italiano' },
+  { code: 'is', text: 'Íslenskur' },
   { code: 'ko', text: '한국어' },
   { code: 'lt', text: 'Lietuvių' },
   { code: 'lv', text: 'Latviski' },
