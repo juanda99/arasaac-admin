@@ -44,7 +44,7 @@ export default defineMessages({
     defaultMessage: 'Croatian',
   },
   hi: {
-    id: `${scope}.croatian`,
+    id: `${scope}.hindi`,
     defaultMessage: 'Hindi',
   },
   hu: {
