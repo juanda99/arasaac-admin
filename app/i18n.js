@@ -33,6 +33,7 @@ const faTranslationMessages = require('./translations/fa.json')
 const frTranslationMessages = require('./translations/fr.json')
 const glTranslationMessages = require('./translations/gl.json')
 const heTranslationMessages = require('./translations/he.json')
+const hiTranslationMessages = require('./translations/hi.json')
 const hrTranslationMessages = require('./translations/hr.json')
 const huTranslationMessages = require('./translations/hu.json')
 const koTranslationMessages = require('./translations/ko.json')
@@ -76,6 +77,7 @@ const appLocales = [
   'fr',
   'gl',
   'he',
+  'hi',
   'hr',
   'hu',
   'it',
@@ -129,6 +131,7 @@ const translationMessages = {
   fr: formatTranslationMessages('fr', frTranslationMessages),
   gl: formatTranslationMessages('gl', glTranslationMessages),
   he: formatTranslationMessages('he', heTranslationMessages),
+  hi: formatTranslationMessages('hi', hiTranslationMessages),
   hr: formatTranslationMessages('hr', hrTranslationMessages),
   hu: formatTranslationMessages('hu', huTranslationMessages),
   it: formatTranslationMessages('it', itTranslationMessages),
