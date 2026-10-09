@@ -46,4 +46,8 @@ export default defineMessages({
     id: 'arasaacadmin.components.Sidebar.menu.categories',
     defaultMessage: 'Categories',
   },
+  worldLocations: {
+    id: 'arasaacadmin.components.Sidebar.menu.worldLocations',
+    defaultMessage: 'ARASAAC in the World',
+  },
 })

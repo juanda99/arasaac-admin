@@ -16,6 +16,10 @@ export default defineMessages({
     id: `${scope}.filterRowMessages.filterPlaceholder`,
     defaultMessage: 'Filter...',
   },
+  searchPlaceholder: {
+    id: `${scope}.searchPlaceholder`,
+    defaultMessage: 'Search users...',
+  },
   showAll: {
     id: `${scope}.pagingPanelMessages.showAll`,
     defaultMessage: 'All',

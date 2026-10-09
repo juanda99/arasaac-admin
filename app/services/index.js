@@ -1,3 +1,4 @@
+import qs from 'qs'
 import { searchMaterialSchema, searchPictogramSchema } from './schemas'
 import callApi from './callApi'
 import {
@@ -50,7 +51,17 @@ const api = {
   SOCIAL_LOGIN_REQUEST: ({ socialToken, provider, locale }) =>
     callApi(socialLogin.url, socialLogin.options(socialToken, provider, locale)),
   SIGNUP_REQUEST: userData => callApi(signup.url, signup.options(userData)),
-  USERS_REQUEST: ({ updated, token }) => callApi(`${PRIVATE_API_ROOT}/users/date/${updated}`, null, token),
+  USERS_REQUEST: ({ token, page = 1, pageSize = 50, search = '', role = '', sort = 'name', direction = 'asc' }) => {
+    const query = qs.stringify({
+      page,
+      limit: pageSize,
+      search: search || undefined,
+      role: role || undefined,
+      sort: sort || undefined,
+      direction: direction || undefined,
+    })
+    return callApi(`${PRIVATE_API_ROOT}/users${query ? `?${query}` : ''}`, null, token)
+  },
   USER_REQUEST: ({ token, id }) => callApi(`${PRIVATE_API_ROOT}/users/${id}`, null, token),
   USER_UPDATE_REQUEST: ({ token, userData }) => callApi(userUpdate.url(userData), userUpdate.options(userData), token),
   CATALOGS_REQUEST: () => callApi(`${PRIVATE_API_ROOT}/catalogs`),
@@ -66,6 +77,37 @@ const api = {
   CATEGORIES_DELETE_REQUEST: ({ token, locale, item, lastUpdated }) =>
     callApi(categoriesRemove.url, categoriesRemove.options(locale, item, lastUpdated), token),
   TRANSLATIONS_STATUS: locale => callApi(`${PRIVATE_API_ROOT}/translations/status/${locale}`),
+  WORLD_LOCATIONS_REQUEST: ({ token, status, tipo, search } = {}) => {
+    const query = qs.stringify({
+      status: status !== undefined ? status : undefined,
+      tipo: tipo || undefined,
+      search: search || undefined,
+    })
+    return callApi(`${PRIVATE_API_ROOT}/world${query ? `?${query}` : ''}`, null, token)
+  },
+  WORLD_LOCATION_REQUEST: ({ id, token }) => callApi(`${PRIVATE_API_ROOT}/world/${id}`, null, token),
+  WORLD_LOCATION_UPDATE_REQUEST: ({ id, data, token }) =>
+    callApi(
+      `${PRIVATE_API_ROOT}/world/${id}`,
+      {
+        config: {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        },
+      },
+      token,
+    ),
+  WORLD_LOCATION_DELETE_REQUEST: ({ id, token }) =>
+    callApi(
+      `${PRIVATE_API_ROOT}/world/${id}`,
+      {
+        config: {
+          method: 'DELETE',
+        },
+      },
+      token,
+    ),
 }
 
 export default api

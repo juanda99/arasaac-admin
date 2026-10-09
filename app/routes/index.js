@@ -25,6 +25,8 @@ import PermissionsErrorView from 'containers/PermissionsErrorView/Loadable'
 import CatalogsView from 'containers/CatalogsView/Loadable'
 import AddPictograms from 'containers/AddPictograms/Loadable'
 import PictogramView from 'containers/PictogramView'
+import WorldLocationsView from 'containers/WorldLocationsView/Loadable'
+import PublicIcon from '@material-ui/icons/Public'
 
 import { userIsAuthenticatedRedir, userIsAdminRedir, userIsTranslatorRedir } from 'utils/auth'
 
@@ -44,6 +46,7 @@ const AuthAddPictograms = userIsAuthenticatedRedir(userIsAdminRedir(AddPictogram
 const AuthCategoriesView = userIsAuthenticatedRedir(userIsTranslatorRedir(CategoriesView))
 const AuthPictogramsView = userIsAuthenticatedRedir(userIsTranslatorRedir(PictogramsView))
 const AuthPictogramView = userIsAuthenticatedRedir(userIsTranslatorRedir(PictogramView))
+const AuthWorldLocationsView = userIsAuthenticatedRedir(userIsAdminRedir(WorldLocationsView))
 // const AuthUsersView = userIsAuthenticatedRedir(UsersView)
 // using sagas instead of redux-auth:
 // const AuthSigninView = userIsNotAuthenticatedRedir(SigninView)
@@ -117,6 +120,13 @@ const sidebarRoutes = [
     isSidebar: true,
     component: AuthUsersView,
     // component: ErrorBoundary,
+  },
+  {
+    path: '/world',
+    title: <FormattedMessage {...messages.worldLocations} />,
+    icon: PublicIcon,
+    isSidebar: true,
+    component: AuthWorldLocationsView,
   },
   {
     path: '/pictograms/search/:searchText',

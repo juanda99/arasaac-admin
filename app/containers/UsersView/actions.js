@@ -4,7 +4,7 @@ import { createRequestTypes, action } from 'utils/actions'
 export const USERS = createRequestTypes('USERS')
 
 export const users = {
-  request: (updated, token) => action(USERS.REQUEST, { updated, token }),
+  request: (params, token) => action(USERS.REQUEST, { ...params, token }),
   success: data => action(USERS.SUCCESS, { data }),
   failure: error => action(USERS.FAILURE, { error }),
 }

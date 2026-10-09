@@ -175,6 +175,7 @@
   "app.containers.Users.pagingPanelMessages.info": "\\{from\\}-\\{to\\} de \\{count\\}",
   "app.containers.Users.pagingPanelMessages.rowsPerPage": "Filas por página",
   "app.containers.Users.pagingPanelMessages.showAll": "Todos",
+  "app.containers.Users.searchPlaceholder": "Buscar usuarios...",
   "app.containers.Users.tableMessages.noData": "No se han encontrado datos",
   "app.containersTranslationStatus.adminWebTransStatus": "Web de administración: {adminWebTranslatedString}% ({adminTranslated} de {adminPhrases})",
   "app.containersTranslationStatus.noDataAvailable": "No hay datos disponibles",
