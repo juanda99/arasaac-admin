@@ -34,6 +34,7 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import EditIcon from '@material-ui/icons/Edit'
 import VisibilityIcon from '@material-ui/icons/Visibility'
 import OpenInNewIcon from '@material-ui/icons/OpenInNew'
+import AddIcon from '@material-ui/icons/Add'
 
 import View from 'components/View'
 import api from 'services'
@@ -42,16 +43,29 @@ import messages from './messages'
 
 const CATEGORY_OPTIONS = [
   'Educación',
-  'Salud',
   'Localidades',
+  'Salud',
+  'Asociaciones y fundaciones',
   'Cultura',
-  'Asociaciones',
-  'Organismos',
-  'Software',
-  'Residencias',
+  'Ocio y Turismo',
+  'Comercios',
+  'Web y software',
   'Deporte',
-  'Empresas',
+  'Transportes',
+  'Administración pública',
+  'Accesibilidad vial y espacio urbano',
+  'Residencias y centros atención',
+  'Seguridad y emergencias',
+  'Justicia',
   'Otro',
+]
+
+const LINK_TYPES = [
+  { value: 'web', messageKey: 'mainWeb' },
+  { value: 'project', messageKey: 'proyectWeb' },
+  { value: 'news', messageKey: 'urlNews' },
+  { value: 'award', messageKey: 'award' },
+  { value: 'other', messageKey: 'other' },
 ]
 
 const styles = {
@@ -154,10 +168,7 @@ export class WorldLocationsView extends PureComponent {
         api.WORLD_LOCATIONS_REQUEST({ token, status: 1 }),
         api.WORLD_LOCATIONS_REQUEST({ token, status: 2 }),
       ])
-      const combined = [
-        ...(Array.isArray(pending) ? pending : []),
-        ...(Array.isArray(published) ? published : []),
-      ]
+      const combined = [...(Array.isArray(pending) ? pending : []), ...(Array.isArray(published) ? published : [])]
       this.setState({ locations: combined, loading: false })
     } catch (err) {
       this.setState({ loading: false })
@@ -165,7 +176,7 @@ export class WorldLocationsView extends PureComponent {
     }
   }
 
-  showSnackbar = (message) => {
+  showSnackbar = message => {
     this.setState({ snackbarOpen: true, snackbarMessage: message })
   }
 
@@ -177,7 +188,7 @@ export class WorldLocationsView extends PureComponent {
     this.setState({ tabValue, page: 0 })
   }
 
-  handleSearchChange = (event) => {
+  handleSearchChange = event => {
     this.setState({ searchQuery: event.target.value, page: 0 })
   }
 
@@ -185,11 +196,11 @@ export class WorldLocationsView extends PureComponent {
     this.setState({ page })
   }
 
-  handleChangeRowsPerPage = (event) => {
+  handleChangeRowsPerPage = event => {
     this.setState({ rowsPerPage: parseInt(event.target.value, 10), page: 0 })
   }
 
-  handleOpenDetail = (location) => {
+  handleOpenDetail = location => {
     this.setState({ selectedLocation: location, detailDialogOpen: true })
   }
 
@@ -197,7 +208,120 @@ export class WorldLocationsView extends PureComponent {
     this.setState({ detailDialogOpen: false })
   }
 
-  handleOpenEdit = (location) => {
+  renderDetailLinks = () => {
+    const { selectedLocation } = this.state
+    if (!selectedLocation) return null
+
+    const buttons = []
+    if (Array.isArray(selectedLocation.links)) {
+      selectedLocation.links.forEach((link, idx) => {
+        const typeObj = LINK_TYPES.find(t => t.value === link.type) || { messageKey: 'mainWeb' }
+        buttons.push(
+          <Button
+            key={link.url || `detail-link-${link.type || 'web'}-${idx}`}
+            size="small"
+            variant="outlined"
+            href={link.url || link.enlace}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={styles.linkBtn}
+            endIcon={<OpenInNewIcon />}
+          >
+            <FormattedMessage {...messages[typeObj.messageKey] || messages.mainWeb} />
+          </Button>,
+        )
+      })
+    } else if (selectedLocation.links) {
+      if (selectedLocation.links.mainWeb) {
+        buttons.push(
+          <Button
+            key="legacy-mainWeb"
+            size="small"
+            variant="outlined"
+            href={selectedLocation.links.mainWeb}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={styles.linkBtn}
+            endIcon={<OpenInNewIcon />}
+          >
+            <FormattedMessage {...messages.mainWeb} />
+          </Button>,
+        )
+      }
+      if (selectedLocation.links.proyectWeb) {
+        buttons.push(
+          <Button
+            key="legacy-proyectWeb"
+            size="small"
+            variant="outlined"
+            href={selectedLocation.links.proyectWeb}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={styles.linkBtn}
+            endIcon={<OpenInNewIcon />}
+          >
+            <FormattedMessage {...messages.proyectWeb} />
+          </Button>,
+        )
+      }
+      if (selectedLocation.links.urlNews) {
+        buttons.push(
+          <Button
+            key="legacy-urlNews"
+            size="small"
+            variant="outlined"
+            href={selectedLocation.links.urlNews}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={styles.linkBtn}
+            endIcon={<OpenInNewIcon />}
+          >
+            <FormattedMessage {...messages.urlNews} />
+          </Button>,
+        )
+      }
+    }
+
+    if (selectedLocation.video) {
+      buttons.push(
+        <Button
+          key="detail-video"
+          size="small"
+          variant="outlined"
+          href={selectedLocation.video}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={styles.linkBtn}
+          endIcon={<OpenInNewIcon />}
+        >
+          <FormattedMessage {...messages.video} />
+        </Button>,
+      )
+    }
+
+    return buttons
+  }
+
+  handleOpenEdit = location => {
+    let initialLinks = []
+    if (Array.isArray(location.links)) {
+      initialLinks = location.links.map((l, idx) => ({
+        id: `link-${idx}-${Date.now()}`,
+        url: l.url || l.enlace || '',
+        type: l.type || l.tipo || 'web',
+      }))
+    } else if (location.links && typeof location.links === 'object') {
+      if (location.links.mainWeb) {
+        initialLinks.push({ id: `link-main-${Date.now()}`, url: location.links.mainWeb, type: 'web' })
+      }
+      if (location.links.proyectWeb) {
+        initialLinks.push({ id: `link-project-${Date.now()}`, url: location.links.proyectWeb, type: 'project' })
+      }
+      if (location.links.urlNews) {
+        initialLinks.push({ id: `link-news-${Date.now()}`, url: location.links.urlNews, type: 'news' })
+      }
+    }
+
     this.setState({
       selectedLocation: location,
       editFormData: {
@@ -211,9 +335,7 @@ export class WorldLocationsView extends PureComponent {
         postalCode: (location.address && location.address.postalCode) || '',
         province: (location.address && location.address.province) || '',
         country: (location.address && location.address.country) || '',
-        mainWeb: (location.links && location.links.mainWeb) || '',
-        proyectWeb: (location.links && location.links.proyectWeb) || '',
-        urlNews: (location.links && location.links.urlNews) || '',
+        links: initialLinks,
         video: location.video || '',
         email: location.email || '',
       },
@@ -225,14 +347,49 @@ export class WorldLocationsView extends PureComponent {
     this.setState({ editDialogOpen: false })
   }
 
-  handleEditInputChange = (field) => (event) => {
-    const value = event.target.value
-    this.setState((prevState) => ({
+  handleEditInputChange = field => event => {
+    const { value } = event.target
+    this.setState(prevState => ({
       editFormData: {
         ...prevState.editFormData,
         [field]: value,
       },
     }))
+  }
+
+  handleAddLink = () => {
+    this.setState(prevState => ({
+      editFormData: {
+        ...prevState.editFormData,
+        links: [
+          ...(prevState.editFormData.links || []),
+          { id: `link-new-${Date.now()}-${Math.random()}`, url: '', type: 'web' },
+        ],
+      },
+    }))
+  }
+
+  handleRemoveLink = index => () => {
+    this.setState(prevState => ({
+      editFormData: {
+        ...prevState.editFormData,
+        links: (prevState.editFormData.links || []).filter((_, i) => i !== index),
+      },
+    }))
+  }
+
+  handleLinkChange = (index, field) => event => {
+    const { value } = event.target
+    this.setState(prevState => {
+      const links = [...(prevState.editFormData.links || [])]
+      links[index] = { ...links[index], [field]: value }
+      return {
+        editFormData: {
+          ...prevState.editFormData,
+          links,
+        },
+      }
+    })
   }
 
   handleSaveEdit = async () => {
@@ -255,11 +412,9 @@ export class WorldLocationsView extends PureComponent {
           province: editFormData.province,
           country: editFormData.country,
         },
-        links: {
-          mainWeb: editFormData.mainWeb,
-          proyectWeb: editFormData.proyectWeb,
-          urlNews: editFormData.urlNews,
-        },
+        links: (editFormData.links || [])
+          .map(l => ({ url: (l.url || '').trim(), type: l.type || 'web' }))
+          .filter(l => l.url.length > 0),
         video: editFormData.video,
         email: editFormData.email,
       }
@@ -279,7 +434,7 @@ export class WorldLocationsView extends PureComponent {
     }
   }
 
-  handleApprove = async (location) => {
+  handleApprove = async location => {
     const { token, intl } = this.props
     const { formatMessage } = intl
     this.setState({ actionLoading: true })
@@ -303,7 +458,7 @@ export class WorldLocationsView extends PureComponent {
     }
   }
 
-  handleOpenDelete = (location) => {
+  handleOpenDelete = location => {
     this.setState({ selectedLocation: location, deleteDialogOpen: true })
   }
 
@@ -337,7 +492,7 @@ export class WorldLocationsView extends PureComponent {
 
   getFilteredLocations = () => {
     const { locations, tabValue, searchQuery } = this.state
-    return locations.filter((loc) => {
+    return locations.filter(loc => {
       // Tab filter: 0 -> status === 2 (pending), 1 -> status === 1 (published), 2 -> all
       if (tabValue === 0 && loc.status !== 2) return false
       if (tabValue === 1 && loc.status !== 1) return false
@@ -347,12 +502,8 @@ export class WorldLocationsView extends PureComponent {
         const q = searchQuery.toLowerCase()
         const nameMatch = loc.name && loc.name.toLowerCase().includes(q)
         const tipoMatch = loc.tipo && loc.tipo.toLowerCase().includes(q)
-        const cityMatch =
-          loc.address && loc.address.city && loc.address.city.toLowerCase().includes(q)
-        const countryMatch =
-          loc.address &&
-          loc.address.country &&
-          loc.address.country.toLowerCase().includes(q)
+        const cityMatch = loc.address && loc.address.city && loc.address.city.toLowerCase().includes(q)
+        const countryMatch = loc.address && loc.address.country && loc.address.country.toLowerCase().includes(q)
         return nameMatch || tipoMatch || cityMatch || countryMatch
       }
       return true
@@ -379,16 +530,13 @@ export class WorldLocationsView extends PureComponent {
       actionLoading,
     } = this.state
 
-    const pendingCount = locations.filter((l) => l.status === 2).length
-    const publishedCount = locations.filter((l) => l.status === 1).length
+    const pendingCount = locations.filter(l => l.status === 2).length
+    const publishedCount = locations.filter(l => l.status === 1).length
     const filteredLocations = this.getFilteredLocations()
-    const pagedLocations = filteredLocations.slice(
-      page * rowsPerPage,
-      page * rowsPerPage + rowsPerPage,
-    )
+    const pagedLocations = filteredLocations.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 
     return (
-      <View left={true} right={true}>
+      <View left right>
         <div style={styles.headerWrapper}>
           <Typography variant="h5" component="h1">
             <FormattedMessage {...messages.header} />
@@ -412,12 +560,7 @@ export class WorldLocationsView extends PureComponent {
         </div>
 
         <Paper elevation={1}>
-          <Tabs
-            value={tabValue}
-            onChange={this.handleTabChange}
-            indicatorColor="primary"
-            textColor="primary"
-          >
+          <Tabs value={tabValue} onChange={this.handleTabChange} indicatorColor="primary" textColor="primary">
             <Tab
               label={
                 <Badge
@@ -432,11 +575,7 @@ export class WorldLocationsView extends PureComponent {
             />
             <Tab
               label={
-                <Badge
-                  color="default"
-                  badgeContent={publishedCount}
-                  style={{ paddingRight: '12px' }}
-                >
+                <Badge color="default" badgeContent={publishedCount} style={{ paddingRight: '12px' }}>
                   <FormattedMessage {...messages.publishedTab} />
                 </Badge>
               }
@@ -453,12 +592,24 @@ export class WorldLocationsView extends PureComponent {
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell><FormattedMessage {...messages.name} /></TableCell>
-                    <TableCell><FormattedMessage {...messages.tipo} /></TableCell>
-                    <TableCell><FormattedMessage {...messages.location} /></TableCell>
-                    <TableCell><FormattedMessage {...messages.author} /></TableCell>
-                    <TableCell><FormattedMessage {...messages.status} /></TableCell>
-                    <TableCell align="right"><FormattedMessage {...messages.actions} /></TableCell>
+                    <TableCell>
+                      <FormattedMessage {...messages.name} />
+                    </TableCell>
+                    <TableCell>
+                      <FormattedMessage {...messages.tipo} />
+                    </TableCell>
+                    <TableCell>
+                      <FormattedMessage {...messages.location} />
+                    </TableCell>
+                    <TableCell>
+                      <FormattedMessage {...messages.author} />
+                    </TableCell>
+                    <TableCell>
+                      <FormattedMessage {...messages.status} />
+                    </TableCell>
+                    <TableCell align="right">
+                      <FormattedMessage {...messages.actions} />
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -469,28 +620,21 @@ export class WorldLocationsView extends PureComponent {
                       </TableCell>
                     </TableRow>
                   ) : (
-                    pagedLocations.map((loc) => {
+                    pagedLocations.map(loc => {
                       const isPending = loc.status === 2
                       return (
                         <TableRow key={loc.id || loc._id} hover>
                           <TableCell style={{ fontWeight: 'bold' }}>{loc.name}</TableCell>
                           <TableCell>{loc.tipo}</TableCell>
                           <TableCell>
-                            {[
-                              loc.address && loc.address.city,
-                              loc.address && loc.address.country,
-                            ]
+                            {[loc.address && loc.address.city, loc.address && loc.address.country]
                               .filter(Boolean)
                               .join(', ') || '-'}
                           </TableCell>
                           <TableCell>{loc.email || '-'}</TableCell>
                           <TableCell>
                             <Chip
-                              label={
-                                isPending
-                                  ? formatMessage(messages.pending)
-                                  : formatMessage(messages.published)
-                              }
+                              label={isPending ? formatMessage(messages.pending) : formatMessage(messages.published)}
                               size="small"
                               style={isPending ? styles.chipPending : styles.chipPublished}
                             />
@@ -498,10 +642,7 @@ export class WorldLocationsView extends PureComponent {
                           <TableCell align="right">
                             <div style={styles.actionBtns}>
                               <Tooltip title={formatMessage(messages.viewDetails)}>
-                                <IconButton
-                                  size="small"
-                                  onClick={() => this.handleOpenDetail(loc)}
-                                >
+                                <IconButton size="small" onClick={() => this.handleOpenDetail(loc)}>
                                   <VisibilityIcon fontSize="small" />
                                 </IconButton>
                               </Tooltip>
@@ -520,11 +661,7 @@ export class WorldLocationsView extends PureComponent {
                               )}
 
                               <Tooltip title={formatMessage(messages.edit)}>
-                                <IconButton
-                                  size="small"
-                                  color="primary"
-                                  onClick={() => this.handleOpenEdit(loc)}
-                                >
+                                <IconButton size="small" color="primary" onClick={() => this.handleOpenEdit(loc)}>
                                   <EditIcon fontSize="small" />
                                 </IconButton>
                               </Tooltip>
@@ -562,44 +699,41 @@ export class WorldLocationsView extends PureComponent {
 
         {/* Dialog: Detail Review */}
         {selectedLocation && (
-          <Dialog
-            open={detailDialogOpen}
-            onClose={this.handleCloseDetail}
-            maxWidth="md"
-            fullWidth
-          >
+          <Dialog open={detailDialogOpen} onClose={this.handleCloseDetail} maxWidth="md" fullWidth>
             <DialogTitle>
               {selectedLocation.name}
               <Chip
                 label={
-                  selectedLocation.status === 2
-                    ? formatMessage(messages.pending)
-                    : formatMessage(messages.published)
+                  selectedLocation.status === 2 ? formatMessage(messages.pending) : formatMessage(messages.published)
                 }
                 size="small"
                 style={{
                   marginLeft: '12px',
-                  ...(selectedLocation.status === 2
-                    ? styles.chipPending
-                    : styles.chipPublished),
+                  ...(selectedLocation.status === 2 ? styles.chipPending : styles.chipPublished),
                 }}
               />
             </DialogTitle>
             <DialogContent dividers>
               <div style={styles.detailSection}>
-                <Typography style={styles.detailLabel}><FormattedMessage {...messages.tipo} /></Typography>
+                <Typography style={styles.detailLabel}>
+                  <FormattedMessage {...messages.tipo} />
+                </Typography>
                 <Typography style={styles.detailText}>{selectedLocation.tipo}</Typography>
               </div>
 
               {selectedLocation.description && (
                 <div style={styles.detailSection}>
-                  <Typography style={styles.detailLabel}><FormattedMessage {...messages.description} /></Typography>
+                  <Typography style={styles.detailLabel}>
+                    <FormattedMessage {...messages.description} />
+                  </Typography>
                   <Typography style={styles.detailText}>{selectedLocation.description}</Typography>
                 </div>
               )}
 
               <div style={styles.detailSection}>
-                <Typography style={styles.detailLabel}><FormattedMessage {...messages.address} /></Typography>
+                <Typography style={styles.detailLabel}>
+                  <FormattedMessage {...messages.address} />
+                </Typography>
                 <Typography style={styles.detailText}>
                   {[
                     selectedLocation.address && selectedLocation.address.address,
@@ -614,7 +748,9 @@ export class WorldLocationsView extends PureComponent {
               </div>
 
               <div style={styles.detailSection}>
-                <Typography style={styles.detailLabel}><FormattedMessage {...messages.coordinates} /></Typography>
+                <Typography style={styles.detailLabel}>
+                  <FormattedMessage {...messages.coordinates} />
+                </Typography>
                 <Typography style={styles.detailText}>
                   {selectedLocation.latitude !== undefined && selectedLocation.longitude !== undefined
                     ? `${selectedLocation.latitude}, ${selectedLocation.longitude}`
@@ -624,82 +760,35 @@ export class WorldLocationsView extends PureComponent {
 
               {/* Links */}
               <div style={styles.detailSection}>
-                <Typography style={styles.detailLabel}><FormattedMessage {...messages.links} /></Typography>
-                <div style={{ marginTop: '4px' }}>
-                  {selectedLocation.links && selectedLocation.links.mainWeb && (
-                    <Button
-                      size="small"
-                      variant="outlined"
-                      href={selectedLocation.links.mainWeb}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={styles.linkBtn}
-                      endIcon={<OpenInNewIcon />}
-                    >
-                      <FormattedMessage {...messages.mainWeb} />
-                    </Button>
-                  )}
-                  {selectedLocation.links && selectedLocation.links.proyectWeb && (
-                    <Button
-                      size="small"
-                      variant="outlined"
-                      href={selectedLocation.links.proyectWeb}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={styles.linkBtn}
-                      endIcon={<OpenInNewIcon />}
-                    >
-                      <FormattedMessage {...messages.proyectWeb} />
-                    </Button>
-                  )}
-                  {selectedLocation.links && selectedLocation.links.urlNews && (
-                    <Button
-                      size="small"
-                      variant="outlined"
-                      href={selectedLocation.links.urlNews}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={styles.linkBtn}
-                      endIcon={<OpenInNewIcon />}
-                    >
-                      <FormattedMessage {...messages.urlNews} />
-                    </Button>
-                  )}
-                  {selectedLocation.video && (
-                    <Button
-                      size="small"
-                      variant="outlined"
-                      href={selectedLocation.video}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={styles.linkBtn}
-                      endIcon={<OpenInNewIcon />}
-                    >
-                      <FormattedMessage {...messages.video} />
-                    </Button>
-                  )}
+                <Typography style={styles.detailLabel}>
+                  <FormattedMessage {...messages.links} />
+                </Typography>
+                <div style={{ marginTop: '4px', display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                  {this.renderDetailLinks()}
                 </div>
               </div>
 
               {/* Photos */}
-              {selectedLocation.pictures && selectedLocation.pictures.length > 0 && (
+              {selectedLocation.pictures && selectedLocation.pictures.length > 0 ? (
                 <div style={styles.detailSection}>
                   <Typography style={styles.detailLabel}>
                     <FormattedMessage {...messages.photos} /> ({selectedLocation.pictures.length})
                   </Typography>
                   <div style={styles.thumbnailsGrid}>
-                    {selectedLocation.pictures.map((pic, idx) => (
-                      <a key={idx} href={pic} target="_blank" rel="noopener noreferrer">
+                    {selectedLocation.pictures.map(pic => (
+                      <a key={pic} href={pic} target="_blank" rel="noopener noreferrer">
                         <img src={pic} alt="" style={styles.thumbnail} />
                       </a>
                     ))}
                   </div>
                 </div>
-              )}
+              ) : null}
 
               {selectedLocation.email && (
                 <div style={styles.detailSection}>
-                  <Typography style={styles.detailLabel}><FormattedMessage {...messages.author} /></Typography>
+                  <Typography style={styles.detailLabel}>
+                    <FormattedMessage {...messages.author} />
+                  </Typography>
                   <Typography style={styles.detailText}>{selectedLocation.email}</Typography>
                 </div>
               )}
@@ -734,13 +823,10 @@ export class WorldLocationsView extends PureComponent {
         )}
 
         {/* Dialog: Edit Form */}
-        <Dialog
-          open={editDialogOpen}
-          onClose={this.handleCloseEdit}
-          maxWidth="md"
-          fullWidth
-        >
-          <DialogTitle><FormattedMessage {...messages.edit} /></DialogTitle>
+        <Dialog open={editDialogOpen} onClose={this.handleCloseEdit} maxWidth="md" fullWidth>
+          <DialogTitle>
+            <FormattedMessage {...messages.edit} />
+          </DialogTitle>
           <DialogContent dividers>
             <TextField
               label={formatMessage(messages.name)}
@@ -757,7 +843,7 @@ export class WorldLocationsView extends PureComponent {
               fullWidth
               margin="normal"
             >
-              {CATEGORY_OPTIONS.map((cat) => (
+              {CATEGORY_OPTIONS.map(cat => (
                 <MenuItem key={cat} value={cat}>
                   {cat}
                 </MenuItem>
@@ -818,27 +904,65 @@ export class WorldLocationsView extends PureComponent {
                 margin="normal"
               />
             </div>
-            <TextField
-              label={formatMessage(messages.mainWeb)}
-              value={editFormData.mainWeb || ''}
-              onChange={this.handleEditInputChange('mainWeb')}
-              fullWidth
-              margin="normal"
-            />
-            <TextField
-              label={formatMessage(messages.proyectWeb)}
-              value={editFormData.proyectWeb || ''}
-              onChange={this.handleEditInputChange('proyectWeb')}
-              fullWidth
-              margin="normal"
-            />
-            <TextField
-              label={formatMessage(messages.urlNews)}
-              value={editFormData.urlNews || ''}
-              onChange={this.handleEditInputChange('urlNews')}
-              fullWidth
-              margin="normal"
-            />
+            {/* Dynamic Links Editor */}
+            <div style={{ marginTop: '16px', marginBottom: '8px' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginBottom: '8px',
+                }}
+              >
+                <Typography style={styles.detailLabel}>
+                  <FormattedMessage {...messages.links} />
+                </Typography>
+                <Button
+                  size="small"
+                  variant="outlined"
+                  color="primary"
+                  onClick={this.handleAddLink}
+                  startIcon={<AddIcon />}
+                >
+                  <FormattedMessage {...messages.addLink} />
+                </Button>
+              </div>
+              {(editFormData.links || []).map((link, index) => (
+                <div
+                  key={link.id || `edit-link-${index}`}
+                  style={{
+                    display: 'flex',
+                    gap: '12px',
+                    alignItems: 'center',
+                    marginBottom: '8px',
+                  }}
+                >
+                  <TextField
+                    select
+                    label={formatMessage(messages.linkType)}
+                    value={link.type || 'web'}
+                    onChange={this.handleLinkChange(index, 'type')}
+                    style={{ minWidth: '140px' }}
+                  >
+                    {LINK_TYPES.map(lt => (
+                      <MenuItem key={lt.value} value={lt.value}>
+                        {formatMessage(messages[lt.messageKey] || messages.mainWeb)}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                  <TextField
+                    label={formatMessage(messages.url)}
+                    value={link.url || ''}
+                    onChange={this.handleLinkChange(index, 'url')}
+                    fullWidth
+                    placeholder="https://..."
+                  />
+                  <IconButton size="small" onClick={this.handleRemoveLink(index)} color="secondary">
+                    <DeleteIcon fontSize="small" />
+                  </IconButton>
+                </div>
+              ))}
+            </div>
             <TextField
               label={formatMessage(messages.video)}
               value={editFormData.video || ''}
@@ -855,12 +979,7 @@ export class WorldLocationsView extends PureComponent {
             />
           </DialogContent>
           <DialogActions>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={this.handleSaveEdit}
-              disabled={actionLoading}
-            >
+            <Button variant="contained" color="primary" onClick={this.handleSaveEdit} disabled={actionLoading}>
               <FormattedMessage {...messages.save} />
             </Button>
             <Button onClick={this.handleCloseEdit}>
@@ -871,9 +990,13 @@ export class WorldLocationsView extends PureComponent {
 
         {/* Dialog: Confirm Delete */}
         <Dialog open={deleteDialogOpen} onClose={this.handleCloseDelete}>
-          <DialogTitle><FormattedMessage {...messages.delete} /></DialogTitle>
+          <DialogTitle>
+            <FormattedMessage {...messages.delete} />
+          </DialogTitle>
           <DialogContent>
-            <Typography><FormattedMessage {...messages.confirmDelete} /></Typography>
+            <Typography>
+              <FormattedMessage {...messages.confirmDelete} />
+            </Typography>
           </DialogContent>
           <DialogActions>
             <Button
@@ -902,7 +1025,7 @@ export class WorldLocationsView extends PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   token: makeSelectHasUser()(state),
 })
 

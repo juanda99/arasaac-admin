@@ -88,8 +88,7 @@ export default defineMessages({
   },
   approvedSuccess: {
     id: 'arasaacadmin.containers.WorldLocationsView.approvedSuccess',
-    defaultMessage:
-      'Initiative approved and published! Author has been notified via email.',
+    defaultMessage: 'Initiative approved and published! Author has been notified via email.',
   },
   deletedSuccess: {
     id: 'arasaacadmin.containers.WorldLocationsView.deletedSuccess',
@@ -146,5 +145,29 @@ export default defineMessages({
   description: {
     id: 'arasaacadmin.containers.WorldLocationsView.description',
     defaultMessage: 'Description',
+  },
+  addLink: {
+    id: 'arasaacadmin.containers.WorldLocationsView.addLink',
+    defaultMessage: 'Add link',
+  },
+  removeLink: {
+    id: 'arasaacadmin.containers.WorldLocationsView.removeLink',
+    defaultMessage: 'Remove',
+  },
+  linkType: {
+    id: 'arasaacadmin.containers.WorldLocationsView.linkType',
+    defaultMessage: 'Type',
+  },
+  url: {
+    id: 'arasaacadmin.containers.WorldLocationsView.url',
+    defaultMessage: 'URL',
+  },
+  award: {
+    id: 'arasaacadmin.containers.WorldLocationsView.award',
+    defaultMessage: 'Award',
+  },
+  other: {
+    id: 'arasaacadmin.containers.WorldLocationsView.other',
+    defaultMessage: 'Other',
   },
 })

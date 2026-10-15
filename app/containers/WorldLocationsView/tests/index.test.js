@@ -1,7 +1,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import { WorldLocationsView } from '../index'
 import api from 'services'
+import { WorldLocationsView } from '../index'
 
 jest.mock('services', () => ({
   WORLD_LOCATIONS_REQUEST: jest.fn(),
@@ -67,7 +67,7 @@ describe('<WorldLocationsView />', () => {
 
   const mockProps = {
     token: 'test_token',
-    intl: { formatMessage: (msg) => (msg && msg.defaultMessage) || '' },
+    intl: { formatMessage: msg => (msg && msg.defaultMessage) || '' },
   }
 
   beforeEach(() => {
@@ -193,7 +193,7 @@ describe('<WorldLocationsView />', () => {
           name: 'Colegio Esperanza Renovado',
           description: 'Nueva descripción',
         }),
-      })
+      }),
     )
     expect(wrapper.state('editDialogOpen')).toBe(false)
   })
