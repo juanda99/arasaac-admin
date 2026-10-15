@@ -170,4 +170,68 @@ export default defineMessages({
     id: 'arasaacadmin.containers.WorldLocationsView.other',
     defaultMessage: 'Other',
   },
+  categoryEducacion: {
+    id: 'arasaacadmin.containers.WorldLocationsView.categoryEducacion',
+    defaultMessage: 'Education',
+  },
+  categoryLocalidades: {
+    id: 'arasaacadmin.containers.WorldLocationsView.categoryLocalidades',
+    defaultMessage: 'Towns & Localities',
+  },
+  categorySalud: {
+    id: 'arasaacadmin.containers.WorldLocationsView.categorySalud',
+    defaultMessage: 'Health',
+  },
+  categoryAsociaciones: {
+    id: 'arasaacadmin.containers.WorldLocationsView.categoryAsociaciones',
+    defaultMessage: 'Institutions & Associations',
+  },
+  categoryCultura: {
+    id: 'arasaacadmin.containers.WorldLocationsView.categoryCultura',
+    defaultMessage: 'Arts & Culture',
+  },
+  categoryOcioTurismo: {
+    id: 'arasaacadmin.containers.WorldLocationsView.categoryOcioTurismo',
+    defaultMessage: 'Leisure & Tourism',
+  },
+  categoryComercios: {
+    id: 'arasaacadmin.containers.WorldLocationsView.categoryComercios',
+    defaultMessage: 'Companies & Shops',
+  },
+  categorySoftware: {
+    id: 'arasaacadmin.containers.WorldLocationsView.categorySoftware',
+    defaultMessage: 'Software - Apps - Web',
+  },
+  categoryDeporte: {
+    id: 'arasaacadmin.containers.WorldLocationsView.categoryDeporte',
+    defaultMessage: 'Sports & Leisure',
+  },
+  categoryTransportes: {
+    id: 'arasaacadmin.containers.WorldLocationsView.categoryTransportes',
+    defaultMessage: 'Transport',
+  },
+  categoryOrganismos: {
+    id: 'arasaacadmin.containers.WorldLocationsView.categoryOrganismos',
+    defaultMessage: 'Public Administration',
+  },
+  categoryAccesibilidadVial: {
+    id: 'arasaacadmin.containers.WorldLocationsView.categoryAccesibilidadVial',
+    defaultMessage: 'Road accessibility & urban space',
+  },
+  categoryResidencias: {
+    id: 'arasaacadmin.containers.WorldLocationsView.categoryResidencias',
+    defaultMessage: 'Residences & Care Centers',
+  },
+  categorySeguridad: {
+    id: 'arasaacadmin.containers.WorldLocationsView.categorySeguridad',
+    defaultMessage: 'Safety & Emergencies',
+  },
+  categoryJusticia: {
+    id: 'arasaacadmin.containers.WorldLocationsView.categoryJusticia',
+    defaultMessage: 'Justice',
+  },
+  categoryOtro: {
+    id: 'arasaacadmin.containers.WorldLocationsView.categoryOtro',
+    defaultMessage: 'Other initiatives',
+  },
 })

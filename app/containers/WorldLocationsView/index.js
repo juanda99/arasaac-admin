@@ -41,24 +41,33 @@ import api from 'services'
 import { makeSelectHasUser } from 'containers/App/selectors'
 import messages from './messages'
 
-const CATEGORY_OPTIONS = [
-  'Educación',
-  'Localidades',
-  'Salud',
-  'Asociaciones y fundaciones',
-  'Cultura',
-  'Ocio y Turismo',
-  'Comercios',
-  'Web y software',
-  'Deporte',
-  'Transportes',
-  'Administración pública',
-  'Accesibilidad vial y espacio urbano',
-  'Residencias y centros atención',
-  'Seguridad y emergencias',
-  'Justicia',
-  'Otro',
+export const CATEGORY_OPTIONS = [
+  { value: 'Educación', messageKey: 'categoryEducacion' },
+  { value: 'Localidades', messageKey: 'categoryLocalidades' },
+  { value: 'Salud', messageKey: 'categorySalud' },
+  { value: 'Asociaciones y fundaciones', messageKey: 'categoryAsociaciones' },
+  { value: 'Cultura', messageKey: 'categoryCultura' },
+  { value: 'Ocio y Turismo', messageKey: 'categoryOcioTurismo' },
+  { value: 'Comercios', messageKey: 'categoryComercios' },
+  { value: 'Web y software', messageKey: 'categorySoftware' },
+  { value: 'Deporte', messageKey: 'categoryDeporte' },
+  { value: 'Transportes', messageKey: 'categoryTransportes' },
+  { value: 'Administración pública', messageKey: 'categoryOrganismos' },
+  { value: 'Accesibilidad vial y espacio urbano', messageKey: 'categoryAccesibilidadVial' },
+  { value: 'Residencias y centros atención', messageKey: 'categoryResidencias' },
+  { value: 'Seguridad y emergencias', messageKey: 'categorySeguridad' },
+  { value: 'Justicia', messageKey: 'categoryJusticia' },
+  { value: 'Otro', messageKey: 'categoryOtro' },
 ]
+
+export const getCategoryLabel = (tipo, formatMessage) => {
+  if (!tipo) return ''
+  const cat = CATEGORY_OPTIONS.find(c => c.value.toLowerCase() === tipo.toLowerCase())
+  if (cat && messages[cat.messageKey]) {
+    return formatMessage(messages[cat.messageKey])
+  }
+  return tipo
+}
 
 const LINK_TYPES = [
   { value: 'web', messageKey: 'mainWeb' },
@@ -625,7 +634,7 @@ export class WorldLocationsView extends PureComponent {
                       return (
                         <TableRow key={loc.id || loc._id} hover>
                           <TableCell style={{ fontWeight: 'bold' }}>{loc.name}</TableCell>
-                          <TableCell>{loc.tipo}</TableCell>
+                          <TableCell>{getCategoryLabel(loc.tipo, formatMessage)}</TableCell>
                           <TableCell>
                             {[loc.address && loc.address.city, loc.address && loc.address.country]
                               .filter(Boolean)
@@ -718,7 +727,9 @@ export class WorldLocationsView extends PureComponent {
                 <Typography style={styles.detailLabel}>
                   <FormattedMessage {...messages.tipo} />
                 </Typography>
-                <Typography style={styles.detailText}>{selectedLocation.tipo}</Typography>
+                <Typography style={styles.detailText}>
+                  {getCategoryLabel(selectedLocation.tipo, formatMessage)}
+                </Typography>
               </div>
 
               {selectedLocation.description && (
@@ -844,8 +855,8 @@ export class WorldLocationsView extends PureComponent {
               margin="normal"
             >
               {CATEGORY_OPTIONS.map(cat => (
-                <MenuItem key={cat} value={cat}>
-                  {cat}
+                <MenuItem key={cat.value} value={cat.value}>
+                  {formatMessage(messages[cat.messageKey] || messages.other)}
                 </MenuItem>
               ))}
             </TextField>

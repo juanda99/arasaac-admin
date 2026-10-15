@@ -1,7 +1,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import api from 'services'
-import { WorldLocationsView } from '../index'
+import { WorldLocationsView, getCategoryLabel } from '../index'
 
 jest.mock('services', () => ({
   WORLD_LOCATIONS_REQUEST: jest.fn(),
@@ -229,5 +229,14 @@ describe('<WorldLocationsView />', () => {
     expect(wrapper.state('loading')).toBe(false)
     expect(wrapper.state('snackbarOpen')).toBe(true)
     expect(wrapper.state('snackbarMessage')).toBe('Network failure')
+  })
+
+  it('correctly translates category labels with getCategoryLabel', () => {
+    const formatMessage = msg => msg.defaultMessage || msg.id
+    expect(getCategoryLabel('Educación', formatMessage)).toBe('Education')
+    expect(getCategoryLabel('Salud', formatMessage)).toBe('Health')
+    expect(getCategoryLabel('Ocio y Turismo', formatMessage)).toBe('Leisure & Tourism')
+    expect(getCategoryLabel('Unknown', formatMessage)).toBe('Unknown')
+    expect(getCategoryLabel('', formatMessage)).toBe('')
   })
 })
