@@ -1,7 +1,14 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import api from 'services'
-import { WorldLocationsView, getCategoryLabel } from '../index'
+import {
+  WorldLocationsView,
+  getCategoryLabel,
+  MAX_IMAGES,
+  MAX_DESCRIPTION_LENGTH,
+  MAX_DESCRIPTION_WORDS,
+  countWords,
+} from '../index'
 
 jest.mock('services', () => ({
   WORLD_LOCATIONS_REQUEST: jest.fn(),
@@ -196,6 +203,106 @@ describe('<WorldLocationsView />', () => {
       }),
     )
     expect(wrapper.state('editDialogOpen')).toBe(false)
+  })
+
+  it('validates required fields (name, tipo, description) when saving edit', async () => {
+    const wrapper = shallow(<WorldLocationsView {...mockProps} />)
+    await wrapper.instance().fetchLocations()
+    wrapper.update()
+
+    wrapper.instance().handleOpenEdit(mockLocationsPending[0])
+
+    // Empty name
+    wrapper.setState({
+      editFormData: {
+        ...wrapper.state('editFormData'),
+        name: '   ',
+      },
+    })
+    await wrapper.instance().handleSaveEdit()
+    expect(wrapper.state('snackbarOpen')).toBe(true)
+    expect(api.WORLD_LOCATION_UPDATE_REQUEST).not.toHaveBeenCalled()
+
+    // Empty tipo
+    wrapper.setState({
+      editFormData: {
+        ...wrapper.state('editFormData'),
+        name: 'Nombre Válido',
+        tipo: '',
+      },
+    })
+    await wrapper.instance().handleSaveEdit()
+    expect(api.WORLD_LOCATION_UPDATE_REQUEST).not.toHaveBeenCalled()
+
+    // Empty description
+    wrapper.setState({
+      editFormData: {
+        ...wrapper.state('editFormData'),
+        tipo: 'Educación',
+        description: '   ',
+      },
+    })
+    await wrapper.instance().handleSaveEdit()
+    expect(api.WORLD_LOCATION_UPDATE_REQUEST).not.toHaveBeenCalled()
+  })
+
+  it('validates description limit (1800 characters or 300 words) when saving edit', async () => {
+    const wrapper = shallow(<WorldLocationsView {...mockProps} />)
+    await wrapper.instance().fetchLocations()
+    wrapper.update()
+
+    wrapper.instance().handleOpenEdit(mockLocationsPending[0])
+
+    // Exceeding 1800 characters
+    wrapper.setState({
+      editFormData: {
+        ...wrapper.state('editFormData'),
+        description: 'a'.repeat(MAX_DESCRIPTION_LENGTH + 1),
+      },
+    })
+    await wrapper.instance().handleSaveEdit()
+    expect(api.WORLD_LOCATION_UPDATE_REQUEST).not.toHaveBeenCalled()
+
+    // Exceeding 300 words
+    wrapper.setState({
+      editFormData: {
+        ...wrapper.state('editFormData'),
+        description: Array(MAX_DESCRIPTION_WORDS + 1).fill('palabra').join(' '),
+      },
+    })
+    await wrapper.instance().handleSaveEdit()
+    expect(api.WORLD_LOCATION_UPDATE_REQUEST).not.toHaveBeenCalled()
+  })
+
+  it('validates photo limit of 15 maximum and removes photos with handleRemovePhoto', async () => {
+    const wrapper = shallow(<WorldLocationsView {...mockProps} />)
+    await wrapper.instance().fetchLocations()
+    wrapper.update()
+
+    wrapper.instance().handleOpenEdit(mockLocationsPending[0])
+
+    // Set 16 pictures
+    wrapper.setState({
+      editFormData: {
+        ...wrapper.state('editFormData'),
+        pictures: Array(16).fill('http://example.com/pic.jpg'),
+      },
+    })
+    await wrapper.instance().handleSaveEdit()
+    expect(api.WORLD_LOCATION_UPDATE_REQUEST).not.toHaveBeenCalled()
+
+    // Removing a photo via handleRemovePhoto
+    wrapper.instance().handleRemovePhoto(0)()
+    expect(wrapper.state('editFormData').pictures.length).toBe(15)
+  })
+
+  it('counts words correctly with countWords helper', () => {
+    expect(countWords('')).toBe(0)
+    expect(countWords('   ')).toBe(0)
+    expect(countWords(null)).toBe(0)
+    expect(countWords('hola')).toBe(1)
+    expect(countWords('hola mundo desde ARASAAC')).toBe(4)
+    expect(countWords('  palabra1   palabra2\npalabra3\tpalabra4  ')).toBe(4)
   })
 
   it('opens delete dialog, confirms delete, and removes the location', async () => {

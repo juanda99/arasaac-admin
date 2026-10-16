@@ -41,6 +41,16 @@ import api from 'services'
 import { makeSelectHasUser } from 'containers/App/selectors'
 import messages from './messages'
 
+export const MAX_IMAGES = 15
+export const MAX_DESCRIPTION_LENGTH = 1800
+export const MAX_DESCRIPTION_WORDS = 300
+
+export const countWords = text => {
+  if (!text || typeof text !== 'string') return 0
+  const trimmed = text.trim()
+  return trimmed ? trimmed.split(/\s+/).length : 0
+}
+
 export const CATEGORY_OPTIONS = [
   { value: 'Educación', messageKey: 'categoryEducacion' },
   { value: 'Localidades', messageKey: 'categoryLocalidades' },
@@ -345,6 +355,7 @@ export class WorldLocationsView extends PureComponent {
         province: (location.address && location.address.province) || '',
         country: (location.address && location.address.country) || '',
         links: initialLinks,
+        pictures: Array.isArray(location.pictures) ? [...location.pictures] : [],
         video: location.video || '',
         email: location.email || '',
       },
@@ -362,6 +373,15 @@ export class WorldLocationsView extends PureComponent {
       editFormData: {
         ...prevState.editFormData,
         [field]: value,
+      },
+    }))
+  }
+
+  handleRemovePhoto = index => () => {
+    this.setState(prevState => ({
+      editFormData: {
+        ...prevState.editFormData,
+        pictures: (prevState.editFormData.pictures || []).filter((_, i) => i !== index),
       },
     }))
   }
@@ -405,13 +425,42 @@ export class WorldLocationsView extends PureComponent {
     const { token, intl } = this.props
     const { formatMessage } = intl
     const { selectedLocation, editFormData } = this.state
+
+    if (!editFormData.name || !editFormData.name.trim()) {
+      this.showSnackbar(formatMessage(messages.nameRequired))
+      return
+    }
+
+    if (!editFormData.tipo || !editFormData.tipo.trim()) {
+      this.showSnackbar(formatMessage(messages.categoryRequired))
+      return
+    }
+
+    if (!editFormData.description || !editFormData.description.trim()) {
+      this.showSnackbar(formatMessage(messages.descriptionRequired))
+      return
+    }
+
+    if (
+      editFormData.description.length > MAX_DESCRIPTION_LENGTH ||
+      countWords(editFormData.description) > MAX_DESCRIPTION_WORDS
+    ) {
+      this.showSnackbar(formatMessage(messages.descriptionTooLong))
+      return
+    }
+
+    if (editFormData.pictures && editFormData.pictures.length > MAX_IMAGES) {
+      this.showSnackbar(formatMessage(messages.maxPhotosReached))
+      return
+    }
+
     this.setState({ actionLoading: true })
 
     try {
       const payload = {
-        name: editFormData.name,
-        tipo: editFormData.tipo,
-        description: editFormData.description,
+        name: editFormData.name.trim(),
+        tipo: editFormData.tipo.trim(),
+        description: editFormData.description.trim(),
         latitude: parseFloat(editFormData.latitude),
         longitude: parseFloat(editFormData.longitude),
         address: {
@@ -424,6 +473,8 @@ export class WorldLocationsView extends PureComponent {
         links: (editFormData.links || [])
           .map(l => ({ url: (l.url || '').trim(), type: l.type || 'web' }))
           .filter(l => l.url.length > 0),
+        pictures: editFormData.pictures || [],
+        picture: (editFormData.pictures && editFormData.pictures[0]) || '',
         video: editFormData.video,
         email: editFormData.email,
       }
@@ -840,7 +891,7 @@ export class WorldLocationsView extends PureComponent {
           </DialogTitle>
           <DialogContent dividers>
             <TextField
-              label={formatMessage(messages.name)}
+              label={`${formatMessage(messages.name)} *`}
               value={editFormData.name || ''}
               onChange={this.handleEditInputChange('name')}
               fullWidth
@@ -848,7 +899,7 @@ export class WorldLocationsView extends PureComponent {
             />
             <TextField
               select
-              label={formatMessage(messages.tipo)}
+              label={`${formatMessage(messages.tipo)} *`}
               value={editFormData.tipo || 'Educación'}
               onChange={this.handleEditInputChange('tipo')}
               fullWidth
@@ -861,13 +912,40 @@ export class WorldLocationsView extends PureComponent {
               ))}
             </TextField>
             <TextField
-              label={formatMessage(messages.description)}
+              label={`${formatMessage(messages.description)} *`}
               value={editFormData.description || ''}
               onChange={this.handleEditInputChange('description')}
               fullWidth
               multiline
               rows={3}
               margin="normal"
+              inputProps={{ maxLength: MAX_DESCRIPTION_LENGTH }}
+              error={
+                Boolean(
+                  editFormData.description &&
+                    (editFormData.description.length > MAX_DESCRIPTION_LENGTH ||
+                      countWords(editFormData.description) > MAX_DESCRIPTION_WORDS),
+                )
+              }
+              helperText={
+                <span
+                  style={{
+                    color:
+                      editFormData.description &&
+                      (editFormData.description.length > MAX_DESCRIPTION_LENGTH ||
+                        countWords(editFormData.description) > MAX_DESCRIPTION_WORDS)
+                        ? '#d32f2f'
+                        : '#757575',
+                  }}
+                >
+                  {formatMessage(messages.descriptionCounter, {
+                    currentChars: (editFormData.description || '').length,
+                    maxChars: MAX_DESCRIPTION_LENGTH,
+                    currentWords: countWords(editFormData.description || ''),
+                    maxWords: MAX_DESCRIPTION_WORDS,
+                  })}
+                </span>
+              }
             />
             <div style={{ display: 'flex', gap: '16px' }}>
               <TextField
@@ -974,6 +1052,52 @@ export class WorldLocationsView extends PureComponent {
                 </div>
               ))}
             </div>
+            {/* Photos Editor */}
+            {editFormData.pictures && editFormData.pictures.length > 0 && (
+              <div style={{ marginTop: '16px', marginBottom: '8px' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: '8px',
+                  }}
+                >
+                  <Typography style={styles.detailLabel}>
+                    <FormattedMessage {...messages.photos} /> ({editFormData.pictures.length} / {MAX_IMAGES})
+                  </Typography>
+                </div>
+                <div style={styles.thumbnailsGrid}>
+                  {editFormData.pictures.map((pic, idx) => (
+                    <div
+                      key={`edit-pic-${idx}`}
+                      style={{
+                        position: 'relative',
+                        display: 'inline-block',
+                      }}
+                    >
+                      <img src={pic} alt="" style={styles.thumbnail} />
+                      <IconButton
+                        size="small"
+                        onClick={this.handleRemovePhoto(idx)}
+                        style={{
+                          position: 'absolute',
+                          top: -6,
+                          right: -6,
+                          backgroundColor: '#d32f2f',
+                          color: '#fff',
+                          padding: 2,
+                          boxShadow: '0 2px 4px rgba(0,0,0,0.3)',
+                        }}
+                        title={formatMessage(messages.deletePhoto)}
+                      >
+                        <DeleteIcon style={{ fontSize: '14px' }} />
+                      </IconButton>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
             <TextField
               label={formatMessage(messages.video)}
               value={editFormData.video || ''}

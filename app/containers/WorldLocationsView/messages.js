@@ -146,6 +146,36 @@ export default defineMessages({
     id: 'arasaacadmin.containers.WorldLocationsView.description',
     defaultMessage: 'Description',
   },
+  nameRequired: {
+    id: 'arasaacadmin.containers.WorldLocationsView.nameRequired',
+    defaultMessage: 'Name is required',
+  },
+  categoryRequired: {
+    id: 'arasaacadmin.containers.WorldLocationsView.categoryRequired',
+    defaultMessage: 'Category is required',
+  },
+  descriptionRequired: {
+    id: 'arasaacadmin.containers.WorldLocationsView.descriptionRequired',
+    defaultMessage: 'Description is required',
+  },
+  descriptionTooLong: {
+    id: 'arasaacadmin.containers.WorldLocationsView.descriptionTooLong',
+    defaultMessage:
+      'Description cannot exceed 1800 characters (approx. 300 words)',
+  },
+  descriptionCounter: {
+    id: 'arasaacadmin.containers.WorldLocationsView.descriptionCounter',
+    defaultMessage:
+      '{currentChars} / {maxChars} characters (~{currentWords} / {maxWords} words)',
+  },
+  maxPhotosReached: {
+    id: 'arasaacadmin.containers.WorldLocationsView.maxPhotosReached',
+    defaultMessage: 'Maximum of 15 photos allowed',
+  },
+  deletePhoto: {
+    id: 'arasaacadmin.containers.WorldLocationsView.deletePhoto',
+    defaultMessage: 'Delete photo',
+  },
   addLink: {
     id: 'arasaacadmin.containers.WorldLocationsView.addLink',
     defaultMessage: 'Add link',
