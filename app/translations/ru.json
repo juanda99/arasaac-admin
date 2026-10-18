@@ -175,6 +175,7 @@
   "app.containers.Users.pagingPanelMessages.info": "\\{from\\}-\\{to\\} de \\{count\\}",
   "app.containers.Users.pagingPanelMessages.rowsPerPage": "Строк на странице",
   "app.containers.Users.pagingPanelMessages.showAll": "Все",
+  "app.containers.Users.searchPlaceholder": "Поиск пользователей...",
   "app.containers.Users.tableMessages.noData": "Данные не найдены",
   "app.containersTranslationStatus.adminWebTransStatus": "Управление web: {adminWebTranslatedString}% ({adminTranslated} из {adminPhrases})",
   "app.containersTranslationStatus.noDataAvailable": "Данные отсутствуют",
