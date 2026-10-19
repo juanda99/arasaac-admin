@@ -14,8 +14,18 @@ const callApi = async (endpoint, options, token) => {
   // if token we add it as header
   // add Content-Type as spread operator does not deep merging
   if (token) {
-    const authHeader = { headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' } }
-    config = { ...config, ...authHeader }
+    const isFormData = typeof FormData !== 'undefined' && config.body instanceof FormData
+    const authHeaders = {
+      Authorization: `Bearer ${token}`,
+      ...(!isFormData ? { 'Content-Type': 'application/json' } : {}),
+    }
+    config = {
+      ...config,
+      headers: {
+        ...(config.headers || {}),
+        ...authHeaders,
+      },
+    }
   }
 
   // const fullUrl = (endpoint.indexOf(AUTH_ROOT) === -1) ? API_ROOT + endpoint : endpoint

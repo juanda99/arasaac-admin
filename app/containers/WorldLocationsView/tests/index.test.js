@@ -4,6 +4,7 @@ import api from 'services'
 import {
   WorldLocationsView,
   getCategoryLabel,
+  formatDate,
   MAX_IMAGES,
   MAX_DESCRIPTION_LENGTH,
   MAX_DESCRIPTION_WORDS,
@@ -13,6 +14,7 @@ import {
 jest.mock('services', () => ({
   WORLD_LOCATIONS_REQUEST: jest.fn(),
   WORLD_LOCATION_REQUEST: jest.fn(),
+  WORLD_LOCATION_CREATE_REQUEST: jest.fn(),
   WORLD_LOCATION_UPDATE_REQUEST: jest.fn(),
   WORLD_LOCATION_DELETE_REQUEST: jest.fn(),
 }))
@@ -345,5 +347,108 @@ describe('<WorldLocationsView />', () => {
     expect(getCategoryLabel('Ocio y Turismo', formatMessage)).toBe('Leisure & Tourism')
     expect(getCategoryLabel('Unknown', formatMessage)).toBe('Unknown')
     expect(getCategoryLabel('', formatMessage)).toBe('')
+  })
+
+  it('formats dates safely with formatDate', () => {
+    expect(formatDate(null)).toBe('-')
+    expect(formatDate('invalid-date')).toBe('-')
+    const date = new Date('2026-10-15T12:00:00Z')
+    const formatted = formatDate(date, { formatDate: d => d.toISOString().slice(0, 10) })
+    expect(formatted).toBe('2026-10-15')
+  })
+
+  it('defaults to reverse order (orderBy: date, order: desc) on tab 2 (all initiatives)', () => {
+    const wrapper = shallow(<WorldLocationsView {...mockProps} />)
+    wrapper.instance().handleTabChange(null, 2)
+    expect(wrapper.state('tabValue')).toBe(2)
+    expect(wrapper.state('orderBy')).toBe('date')
+    expect(wrapper.state('order')).toBe('desc')
+  })
+
+  it('handles request sort to toggle order and change columns', () => {
+    const wrapper = shallow(<WorldLocationsView {...mockProps} />)
+    expect(wrapper.state('orderBy')).toBe('date')
+    expect(wrapper.state('order')).toBe('desc')
+
+    // Clicking 'date' again toggles to asc
+    wrapper.instance().handleRequestSort('date')
+    expect(wrapper.state('order')).toBe('asc')
+
+    // Clicking 'name' changes orderBy to name and order to asc
+    wrapper.instance().handleRequestSort('name')
+    expect(wrapper.state('orderBy')).toBe('name')
+    expect(wrapper.state('order')).toBe('asc')
+  })
+
+  it('filters locations by category dropdown', async () => {
+    const wrapper = shallow(<WorldLocationsView {...mockProps} />)
+    await wrapper.instance().fetchLocations()
+    wrapper.update()
+
+    // View all tab
+    wrapper.setState({ tabValue: 2 })
+    expect(wrapper.instance().getFilteredLocations().length).toBe(2)
+
+    // Filter by Educación
+    wrapper.instance().handleCategoryFilterChange({ target: { value: 'Educación' } })
+    expect(wrapper.state('selectedCategory')).toBe('Educación')
+    const filtered = wrapper.instance().getFilteredLocations()
+    expect(filtered.length).toBe(1)
+    expect(filtered[0].tipo).toBe('Educación')
+  })
+
+  it('unpublishes a published initiative (setting status to 2)', async () => {
+    const api = require('services').default || require('services')
+    api.WORLD_LOCATION_UPDATE_REQUEST.mockResolvedValue({ success: true })
+
+    const wrapper = shallow(<WorldLocationsView {...mockProps} />)
+    await wrapper.instance().fetchLocations()
+    wrapper.update()
+
+    await wrapper.instance().handleUnpublish(mockLocationsPublished[0])
+
+    expect(api.WORLD_LOCATION_UPDATE_REQUEST).toHaveBeenCalledWith({
+      id: 'loc2',
+      data: { status: 2 },
+      token: 'test_token',
+    })
+    expect(wrapper.state('snackbarOpen')).toBe(true)
+  })
+
+  it('handles adding and removing new photo files in edit form', () => {
+    const wrapper = shallow(<WorldLocationsView {...mockProps} />)
+    wrapper.instance().handleOpenEdit(mockLocationsPublished[0])
+
+    const fakeFile1 = new File([''], 'new1.jpg', { type: 'image/jpeg' })
+    const fakeFile2 = new File([''], 'new2.jpg', { type: 'image/jpeg' })
+
+    wrapper.instance().handleEditFilesChange({ target: { files: [fakeFile1, fakeFile2] } })
+    expect(wrapper.state('editFormData').newFiles.length).toBe(2)
+
+    // Remove first new file
+    wrapper.instance().handleRemoveNewFile(0)()
+    expect(wrapper.state('editFormData').newFiles.length).toBe(1)
+    expect(wrapper.state('editFormData').newFiles[0].name).toBe('new2.jpg')
+  })
+
+  it('opens and closes new initiative dialog and creates a new initiative', async () => {
+    const api = require('services').default || require('services')
+    api.WORLD_LOCATION_CREATE_REQUEST.mockResolvedValue({ id: 539, name: 'Nueva Iniciativa' })
+
+    const wrapper = shallow(<WorldLocationsView {...mockProps} />)
+    wrapper.instance().handleOpenNewDialog()
+    expect(wrapper.state('newDialogOpen')).toBe(true)
+
+    wrapper.instance().handleNewInputChange('name')({ target: { value: 'Nueva Iniciativa' } })
+    wrapper.instance().handleNewInputChange('tipo')({ target: { value: 'Salud' } })
+    wrapper.instance().handleNewInputChange('description')({ target: { value: 'Descripción del proyecto' } })
+    wrapper.instance().handleNewInputChange('latitude')({ target: { value: '41.65' } })
+    wrapper.instance().handleNewInputChange('longitude')({ target: { value: '-0.88' } })
+
+    await wrapper.instance().handleSaveNew()
+
+    expect(api.WORLD_LOCATION_CREATE_REQUEST).toHaveBeenCalled()
+    expect(wrapper.state('newDialogOpen')).toBe(false)
+    expect(wrapper.state('snackbarOpen')).toBe(true)
   })
 })

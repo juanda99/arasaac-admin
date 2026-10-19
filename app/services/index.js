@@ -86,18 +86,34 @@ const api = {
     return callApi(`${PRIVATE_API_ROOT}/world${query ? `?${query}` : ''}`, null, token)
   },
   WORLD_LOCATION_REQUEST: ({ id, token }) => callApi(`${PRIVATE_API_ROOT}/world/${id}`, null, token),
-  WORLD_LOCATION_UPDATE_REQUEST: ({ id, data, token }) =>
-    callApi(
+  WORLD_LOCATION_CREATE_REQUEST: ({ data, token }) => {
+    const isFormData = typeof FormData !== 'undefined' && data instanceof FormData
+    return callApi(
+      `${PRIVATE_API_ROOT}/world`,
+      {
+        config: {
+          method: 'POST',
+          body: isFormData ? data : JSON.stringify(data),
+          ...(!isFormData ? { headers: { 'Content-Type': 'application/json' } } : {}),
+        },
+      },
+      token,
+    )
+  },
+  WORLD_LOCATION_UPDATE_REQUEST: ({ id, data, token }) => {
+    const isFormData = typeof FormData !== 'undefined' && data instanceof FormData
+    return callApi(
       `${PRIVATE_API_ROOT}/world/${id}`,
       {
         config: {
           method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
+          body: isFormData ? data : JSON.stringify(data),
+          ...(!isFormData ? { headers: { 'Content-Type': 'application/json' } } : {}),
         },
       },
       token,
-    ),
+    )
+  },
   WORLD_LOCATION_DELETE_REQUEST: ({ id, token }) =>
     callApi(
       `${PRIVATE_API_ROOT}/world/${id}`,

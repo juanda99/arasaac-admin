@@ -264,4 +264,41 @@ export default defineMessages({
     id: 'arasaacadmin.containers.WorldLocationsView.categoryOtro',
     defaultMessage: 'Other initiatives',
   },
+  unpublish: {
+    id: 'arasaacadmin.containers.WorldLocationsView.unpublish',
+    defaultMessage: 'Leave non-visible / Back to pending',
+  },
+  confirmUnpublish: {
+    id: 'arasaacadmin.containers.WorldLocationsView.confirmUnpublish',
+    defaultMessage:
+      'Set this initiative back to pending review? It will no longer be visible on the public map.',
+  },
+  unpublishedSuccess: {
+    id: 'arasaacadmin.containers.WorldLocationsView.unpublishedSuccess',
+    defaultMessage: 'Initiative moved back to pending review.',
+  },
+  addPhotos: {
+    id: 'arasaacadmin.containers.WorldLocationsView.addPhotos',
+    defaultMessage: 'Add photos',
+  },
+  newInitiative: {
+    id: 'arasaacadmin.containers.WorldLocationsView.newInitiative',
+    defaultMessage: 'New Initiative',
+  },
+  createInitiativeTitle: {
+    id: 'arasaacadmin.containers.WorldLocationsView.createInitiativeTitle',
+    defaultMessage: 'Add New Initiative',
+  },
+  createdSuccess: {
+    id: 'arasaacadmin.containers.WorldLocationsView.createdSuccess',
+    defaultMessage: 'Initiative created successfully!',
+  },
+  allCategories: {
+    id: 'arasaacadmin.containers.WorldLocationsView.allCategories',
+    defaultMessage: 'All Categories',
+  },
+  coordsRequired: {
+    id: 'arasaacadmin.containers.WorldLocationsView.coordsRequired',
+    defaultMessage: 'Valid latitude and longitude are required',
+  },
 })

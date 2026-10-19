@@ -12,6 +12,7 @@ import TableBody from '@material-ui/core/TableBody'
 import TableRow from '@material-ui/core/TableRow'
 import TableCell from '@material-ui/core/TableCell'
 import TablePagination from '@material-ui/core/TablePagination'
+import TableSortLabel from '@material-ui/core/TableSortLabel'
 import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
 import Dialog from '@material-ui/core/Dialog'
@@ -33,8 +34,10 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import DeleteIcon from '@material-ui/icons/Delete'
 import EditIcon from '@material-ui/icons/Edit'
 import VisibilityIcon from '@material-ui/icons/Visibility'
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
 import OpenInNewIcon from '@material-ui/icons/OpenInNew'
 import AddIcon from '@material-ui/icons/Add'
+import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate'
 
 import View from 'components/View'
 import api from 'services'
@@ -44,6 +47,68 @@ import messages from './messages'
 export const MAX_IMAGES = 15
 export const MAX_DESCRIPTION_LENGTH = 1800
 export const MAX_DESCRIPTION_WORDS = 300
+
+export const formatDate = (val, intl) => {
+  if (!val) return '-'
+  try {
+    const d = new Date(val)
+    if (isNaN(d.getTime())) return '-'
+    if (intl && typeof intl.formatDate === 'function') {
+      return intl.formatDate(d, { year: 'numeric', month: '2-digit', day: '2-digit' })
+    }
+    return d.toISOString().slice(0, 10)
+  } catch (e) {
+    return '-'
+  }
+}
+
+export const getFilePreviewUrl = file => {
+  if (!file) return ''
+  if (typeof URL !== 'undefined' && typeof URL.createObjectURL === 'function') {
+    try {
+      return URL.createObjectURL(file)
+    } catch (e) {
+      return ''
+    }
+  }
+  return ''
+}
+
+export const getComparator = (order, orderBy) => (a, b) => {
+  let aVal
+  let bVal
+
+  if (orderBy === 'date') {
+    aVal = a.created ? new Date(a.created).getTime() : (a.id || 0)
+    bVal = b.created ? new Date(b.created).getTime() : (b.id || 0)
+  } else if (orderBy === 'name') {
+    aVal = (a.name || '').toLowerCase()
+    bVal = (b.name || '').toLowerCase()
+  } else if (orderBy === 'tipo') {
+    aVal = (a.tipo || '').toLowerCase()
+    bVal = (b.tipo || '').toLowerCase()
+  } else if (orderBy === 'location') {
+    aVal = [a.address && a.address.city, a.address && a.address.country].filter(Boolean).join(', ').toLowerCase()
+    bVal = [b.address && b.address.city, b.address && b.address.country].filter(Boolean).join(', ').toLowerCase()
+  } else if (orderBy === 'author') {
+    aVal = (a.email || '').toLowerCase()
+    bVal = (b.email || '').toLowerCase()
+  } else if (orderBy === 'status') {
+    aVal = a.status || 0
+    bVal = b.status || 0
+  } else {
+    aVal = a[orderBy] || ''
+    bVal = b[orderBy] || ''
+  }
+
+  if (bVal < aVal) {
+    return order === 'desc' ? -1 : 1
+  }
+  if (bVal > aVal) {
+    return order === 'desc' ? 1 : -1
+  }
+  return 0
+}
 
 export const countWords = text => {
   if (!text || typeof text !== 'string') return 0
@@ -161,13 +226,18 @@ export class WorldLocationsView extends PureComponent {
     loading: true,
     tabValue: 0, // 0: Pending, 1: Published, 2: All
     searchQuery: '',
+    selectedCategory: '',
+    orderBy: 'date',
+    order: 'desc',
     page: 0,
     rowsPerPage: 25,
     selectedLocation: null,
     detailDialogOpen: false,
     editDialogOpen: false,
     deleteDialogOpen: false,
+    newDialogOpen: false,
     editFormData: {},
+    newFormData: {},
     snackbarOpen: false,
     snackbarMessage: '',
     actionLoading: false,
@@ -204,7 +274,24 @@ export class WorldLocationsView extends PureComponent {
   }
 
   handleTabChange = (event, tabValue) => {
-    this.setState({ tabValue, page: 0 })
+    if (tabValue === 2) {
+      this.setState({ tabValue, page: 0, orderBy: 'date', order: 'desc' })
+    } else {
+      this.setState({ tabValue, page: 0 })
+    }
+  }
+
+  handleCategoryFilterChange = event => {
+    this.setState({ selectedCategory: event.target.value, page: 0 })
+  }
+
+  handleRequestSort = property => {
+    const isAsc = this.state.orderBy === property && this.state.order === 'asc'
+    this.setState({
+      order: isAsc ? 'desc' : 'asc',
+      orderBy: property,
+      page: 0,
+    })
   }
 
   handleSearchChange = event => {
@@ -346,6 +433,7 @@ export class WorldLocationsView extends PureComponent {
       editFormData: {
         name: location.name || '',
         tipo: location.tipo || 'Educación',
+        status: location.status !== undefined ? location.status : 1,
         description: location.description || '',
         latitude: location.latitude !== undefined ? String(location.latitude) : '',
         longitude: location.longitude !== undefined ? String(location.longitude) : '',
@@ -356,6 +444,7 @@ export class WorldLocationsView extends PureComponent {
         country: (location.address && location.address.country) || '',
         links: initialLinks,
         pictures: Array.isArray(location.pictures) ? [...location.pictures] : [],
+        newFiles: [],
         video: location.video || '',
         email: location.email || '',
       },
@@ -382,6 +471,33 @@ export class WorldLocationsView extends PureComponent {
       editFormData: {
         ...prevState.editFormData,
         pictures: (prevState.editFormData.pictures || []).filter((_, i) => i !== index),
+      },
+    }))
+  }
+
+  handleEditFilesChange = event => {
+    const { formatMessage } = this.props.intl
+    const selectedFiles = Array.from(event.target.files || [])
+    const { editFormData } = this.state
+    const currentCount = (editFormData.pictures || []).length + (editFormData.newFiles || []).length
+    if (currentCount + selectedFiles.length > MAX_IMAGES) {
+      this.showSnackbar(formatMessage(messages.maxPhotosReached))
+      return
+    }
+    this.setState(prevState => ({
+      editFormData: {
+        ...prevState.editFormData,
+        newFiles: [...(prevState.editFormData.newFiles || []), ...selectedFiles],
+      },
+    }))
+    event.target.value = ''
+  }
+
+  handleRemoveNewFile = index => () => {
+    this.setState(prevState => ({
+      editFormData: {
+        ...prevState.editFormData,
+        newFiles: (prevState.editFormData.newFiles || []).filter((_, i) => i !== index),
       },
     }))
   }
@@ -449,7 +565,8 @@ export class WorldLocationsView extends PureComponent {
       return
     }
 
-    if (editFormData.pictures && editFormData.pictures.length > MAX_IMAGES) {
+    const totalPics = (editFormData.pictures || []).length + (editFormData.newFiles || []).length
+    if (totalPics > MAX_IMAGES) {
       this.showSnackbar(formatMessage(messages.maxPhotosReached))
       return
     }
@@ -460,6 +577,7 @@ export class WorldLocationsView extends PureComponent {
       const payload = {
         name: editFormData.name.trim(),
         tipo: editFormData.tipo.trim(),
+        status: parseInt(editFormData.status !== undefined ? editFormData.status : 1, 10),
         description: editFormData.description.trim(),
         latitude: parseFloat(editFormData.latitude),
         longitude: parseFloat(editFormData.longitude),
@@ -479,9 +597,19 @@ export class WorldLocationsView extends PureComponent {
         email: editFormData.email,
       }
 
+      let requestData = payload
+      if (editFormData.newFiles && editFormData.newFiles.length > 0) {
+        const formData = new FormData()
+        formData.append('formData', JSON.stringify(payload))
+        editFormData.newFiles.forEach(file => {
+          formData.append('images', file)
+        })
+        requestData = formData
+      }
+
       await api.WORLD_LOCATION_UPDATE_REQUEST({
         id: selectedLocation.id || selectedLocation._id,
-        data: payload,
+        data: requestData,
         token,
       })
 
@@ -518,6 +646,213 @@ export class WorldLocationsView extends PureComponent {
     }
   }
 
+  handleUnpublish = async location => {
+    const { token, intl } = this.props
+    const { formatMessage } = intl
+    this.setState({ actionLoading: true })
+
+    try {
+      await api.WORLD_LOCATION_UPDATE_REQUEST({
+        id: location.id || location._id,
+        data: { status: 2 },
+        token,
+      })
+
+      this.setState({
+        detailDialogOpen: false,
+        actionLoading: false,
+      })
+      this.showSnackbar(formatMessage(messages.unpublishedSuccess))
+      this.fetchLocations()
+    } catch (err) {
+      this.setState({ actionLoading: false })
+      this.showSnackbar(err.message || 'Error unpublishing location')
+    }
+  }
+
+  handleOpenNewDialog = () => {
+    this.setState({
+      newDialogOpen: true,
+      newFormData: {
+        name: '',
+        tipo: 'Educación',
+        status: 1,
+        description: '',
+        latitude: '',
+        longitude: '',
+        address: '',
+        city: '',
+        postalCode: '',
+        province: '',
+        country: '',
+        links: [],
+        files: [],
+        video: '',
+        email: '',
+      },
+    })
+  }
+
+  handleCloseNewDialog = () => {
+    this.setState({ newDialogOpen: false })
+  }
+
+  handleNewInputChange = field => event => {
+    const { value } = event.target
+    this.setState(prevState => ({
+      newFormData: {
+        ...prevState.newFormData,
+        [field]: value,
+      },
+    }))
+  }
+
+  handleAddNewLink = () => {
+    this.setState(prevState => ({
+      newFormData: {
+        ...prevState.newFormData,
+        links: [
+          ...(prevState.newFormData.links || []),
+          { id: `link-new-${Date.now()}-${Math.random()}`, url: '', type: 'web' },
+        ],
+      },
+    }))
+  }
+
+  handleRemoveNewLink = index => () => {
+    this.setState(prevState => ({
+      newFormData: {
+        ...prevState.newFormData,
+        links: (prevState.newFormData.links || []).filter((_, i) => i !== index),
+      },
+    }))
+  }
+
+  handleNewLinkChange = (index, field) => event => {
+    const { value } = event.target
+    this.setState(prevState => {
+      const links = [...(prevState.newFormData.links || [])]
+      links[index] = { ...links[index], [field]: value }
+      return {
+        newFormData: {
+          ...prevState.newFormData,
+          links,
+        },
+      }
+    })
+  }
+
+  handleNewFilesChange = event => {
+    const { formatMessage } = this.props.intl
+    const selectedFiles = Array.from(event.target.files || [])
+    const { newFormData } = this.state
+    const currentCount = (newFormData.files || []).length
+    if (currentCount + selectedFiles.length > MAX_IMAGES) {
+      this.showSnackbar(formatMessage(messages.maxPhotosReached))
+      return
+    }
+    this.setState(prevState => ({
+      newFormData: {
+        ...prevState.newFormData,
+        files: [...(prevState.newFormData.files || []), ...selectedFiles],
+      },
+    }))
+    event.target.value = ''
+  }
+
+  handleRemoveNewUploadFile = index => () => {
+    this.setState(prevState => ({
+      newFormData: {
+        ...prevState.newFormData,
+        files: (prevState.newFormData.files || []).filter((_, i) => i !== index),
+      },
+    }))
+  }
+
+  handleSaveNew = async () => {
+    const { token, intl } = this.props
+    const { formatMessage } = intl
+    const { newFormData } = this.state
+
+    if (!newFormData.name || !newFormData.name.trim()) {
+      this.showSnackbar(formatMessage(messages.nameRequired))
+      return
+    }
+
+    if (!newFormData.tipo || !newFormData.tipo.trim()) {
+      this.showSnackbar(formatMessage(messages.categoryRequired))
+      return
+    }
+
+    if (!newFormData.description || !newFormData.description.trim()) {
+      this.showSnackbar(formatMessage(messages.descriptionRequired))
+      return
+    }
+
+    if (
+      newFormData.description.length > MAX_DESCRIPTION_LENGTH ||
+      countWords(newFormData.description) > MAX_DESCRIPTION_WORDS
+    ) {
+      this.showSnackbar(formatMessage(messages.descriptionTooLong))
+      return
+    }
+
+    const lat = parseFloat(newFormData.latitude)
+    const lng = parseFloat(newFormData.longitude)
+    if (isNaN(lat) || isNaN(lng)) {
+      this.showSnackbar(formatMessage(messages.coordsRequired))
+      return
+    }
+
+    if (newFormData.files && newFormData.files.length > MAX_IMAGES) {
+      this.showSnackbar(formatMessage(messages.maxPhotosReached))
+      return
+    }
+
+    this.setState({ actionLoading: true })
+
+    try {
+      const payload = {
+        name: newFormData.name.trim(),
+        tipo: newFormData.tipo.trim(),
+        status: parseInt(newFormData.status !== undefined ? newFormData.status : 1, 10),
+        description: newFormData.description.trim(),
+        latitude: lat,
+        longitude: lng,
+        address: {
+          address: (newFormData.address || '').trim(),
+          city: (newFormData.city || '').trim(),
+          postalCode: (newFormData.postalCode || '').trim(),
+          province: (newFormData.province || '').trim(),
+          country: (newFormData.country || '').trim(),
+        },
+        links: (newFormData.links || [])
+          .map(l => ({ url: (l.url || '').trim(), type: l.type || 'web' }))
+          .filter(l => l.url.length > 0),
+        video: (newFormData.video || '').trim(),
+        email: (newFormData.email || '').trim(),
+      }
+
+      const formData = new FormData()
+      formData.append('formData', JSON.stringify(payload))
+      ;(newFormData.files || []).forEach(f => {
+        formData.append('images', f)
+      })
+
+      await api.WORLD_LOCATION_CREATE_REQUEST({
+        data: formData,
+        token,
+      })
+
+      this.setState({ newDialogOpen: false, actionLoading: false })
+      this.showSnackbar(formatMessage(messages.createdSuccess))
+      this.fetchLocations()
+    } catch (err) {
+      this.setState({ actionLoading: false })
+      this.showSnackbar(err.message || 'Error creating location')
+    }
+  }
+
   handleOpenDelete = location => {
     this.setState({ selectedLocation: location, deleteDialogOpen: true })
   }
@@ -551,11 +886,16 @@ export class WorldLocationsView extends PureComponent {
   }
 
   getFilteredLocations = () => {
-    const { locations, tabValue, searchQuery } = this.state
-    return locations.filter(loc => {
+    const { locations, tabValue, searchQuery, selectedCategory, order, orderBy } = this.state
+    const filtered = locations.filter(loc => {
       // Tab filter: 0 -> status === 2 (pending), 1 -> status === 1 (published), 2 -> all
       if (tabValue === 0 && loc.status !== 2) return false
       if (tabValue === 1 && loc.status !== 1) return false
+
+      // Category filter
+      if (selectedCategory && loc.tipo && loc.tipo.toLowerCase() !== selectedCategory.toLowerCase()) {
+        return false
+      }
 
       // Search filter
       if (searchQuery.trim()) {
@@ -568,6 +908,8 @@ export class WorldLocationsView extends PureComponent {
       }
       return true
     })
+
+    return filtered.sort(getComparator(order, orderBy))
   }
 
   render() {
@@ -578,13 +920,18 @@ export class WorldLocationsView extends PureComponent {
       loading,
       tabValue,
       searchQuery,
+      selectedCategory,
+      orderBy,
+      order,
       page,
       rowsPerPage,
       selectedLocation,
       detailDialogOpen,
       editDialogOpen,
       deleteDialogOpen,
+      newDialogOpen,
       editFormData,
+      newFormData,
       snackbarOpen,
       snackbarMessage,
       actionLoading,
@@ -602,21 +949,50 @@ export class WorldLocationsView extends PureComponent {
             <FormattedMessage {...messages.header} />
           </Typography>
 
-          <TextField
-            placeholder={formatMessage(messages.searchPlaceholder)}
-            value={searchQuery}
-            onChange={this.handleSearchChange}
-            variant="outlined"
-            size="small"
-            style={styles.searchField}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon color="action" />
-                </InputAdornment>
-              ),
-            }}
-          />
+          <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<AddIcon />}
+              onClick={this.handleOpenNewDialog}
+            >
+              <FormattedMessage {...messages.newInitiative} />
+            </Button>
+
+            <TextField
+              select
+              value={selectedCategory}
+              onChange={this.handleCategoryFilterChange}
+              variant="outlined"
+              size="small"
+              style={{ minWidth: '190px' }}
+            >
+              <MenuItem value="">
+                <em>{formatMessage(messages.allCategories)}</em>
+              </MenuItem>
+              {CATEGORY_OPTIONS.map(cat => (
+                <MenuItem key={cat.value} value={cat.value}>
+                  {formatMessage(messages[cat.messageKey] || messages.other)}
+                </MenuItem>
+              ))}
+            </TextField>
+
+            <TextField
+              placeholder={formatMessage(messages.searchPlaceholder)}
+              value={searchQuery}
+              onChange={this.handleSearchChange}
+              variant="outlined"
+              size="small"
+              style={styles.searchField}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon color="action" />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </div>
         </div>
 
         <Paper elevation={1}>
@@ -653,19 +1029,58 @@ export class WorldLocationsView extends PureComponent {
                 <TableHead>
                   <TableRow>
                     <TableCell>
-                      <FormattedMessage {...messages.name} />
+                      <TableSortLabel
+                        active={orderBy === 'name'}
+                        direction={orderBy === 'name' ? order : 'asc'}
+                        onClick={() => this.handleRequestSort('name')}
+                      >
+                        <FormattedMessage {...messages.name} />
+                      </TableSortLabel>
                     </TableCell>
                     <TableCell>
-                      <FormattedMessage {...messages.tipo} />
+                      <TableSortLabel
+                        active={orderBy === 'tipo'}
+                        direction={orderBy === 'tipo' ? order : 'asc'}
+                        onClick={() => this.handleRequestSort('tipo')}
+                      >
+                        <FormattedMessage {...messages.tipo} />
+                      </TableSortLabel>
                     </TableCell>
                     <TableCell>
-                      <FormattedMessage {...messages.location} />
+                      <TableSortLabel
+                        active={orderBy === 'location'}
+                        direction={orderBy === 'location' ? order : 'asc'}
+                        onClick={() => this.handleRequestSort('location')}
+                      >
+                        <FormattedMessage {...messages.location} />
+                      </TableSortLabel>
                     </TableCell>
                     <TableCell>
-                      <FormattedMessage {...messages.author} />
+                      <TableSortLabel
+                        active={orderBy === 'author'}
+                        direction={orderBy === 'author' ? order : 'asc'}
+                        onClick={() => this.handleRequestSort('author')}
+                      >
+                        <FormattedMessage {...messages.author} />
+                      </TableSortLabel>
                     </TableCell>
                     <TableCell>
-                      <FormattedMessage {...messages.status} />
+                      <TableSortLabel
+                        active={orderBy === 'date'}
+                        direction={orderBy === 'date' ? order : 'desc'}
+                        onClick={() => this.handleRequestSort('date')}
+                      >
+                        <FormattedMessage {...messages.date} />
+                      </TableSortLabel>
+                    </TableCell>
+                    <TableCell>
+                      <TableSortLabel
+                        active={orderBy === 'status'}
+                        direction={orderBy === 'status' ? order : 'asc'}
+                        onClick={() => this.handleRequestSort('status')}
+                      >
+                        <FormattedMessage {...messages.status} />
+                      </TableSortLabel>
                     </TableCell>
                     <TableCell align="right">
                       <FormattedMessage {...messages.actions} />
@@ -675,7 +1090,7 @@ export class WorldLocationsView extends PureComponent {
                 <TableBody>
                   {pagedLocations.length === 0 ? (
                     <TableRow>
-                      <TableCell colSpan={6} align="center" style={{ padding: '24px' }}>
+                      <TableCell colSpan={7} align="center" style={{ padding: '24px' }}>
                         <FormattedMessage {...messages.noData} />
                       </TableCell>
                     </TableRow>
@@ -692,6 +1107,7 @@ export class WorldLocationsView extends PureComponent {
                               .join(', ') || '-'}
                           </TableCell>
                           <TableCell>{loc.email || '-'}</TableCell>
+                          <TableCell>{formatDate(loc.created || loc.lastUpdated, intl)}</TableCell>
                           <TableCell>
                             <Chip
                               label={isPending ? formatMessage(messages.pending) : formatMessage(messages.published)}
@@ -707,7 +1123,7 @@ export class WorldLocationsView extends PureComponent {
                                 </IconButton>
                               </Tooltip>
 
-                              {isPending && (
+                              {isPending ? (
                                 <Tooltip title={formatMessage(messages.approve)}>
                                   <IconButton
                                     size="small"
@@ -716,6 +1132,17 @@ export class WorldLocationsView extends PureComponent {
                                     disabled={actionLoading}
                                   >
                                     <CheckCircleIcon fontSize="small" />
+                                  </IconButton>
+                                </Tooltip>
+                              ) : (
+                                <Tooltip title={formatMessage(messages.unpublish)}>
+                                  <IconButton
+                                    size="small"
+                                    style={{ color: '#e65100' }}
+                                    onClick={() => this.handleUnpublish(loc)}
+                                    disabled={actionLoading}
+                                  >
+                                    <VisibilityOffIcon fontSize="small" />
                                   </IconButton>
                                 </Tooltip>
                               )}
@@ -867,6 +1294,17 @@ export class WorldLocationsView extends PureComponent {
                   <FormattedMessage {...messages.approve} />
                 </Button>
               )}
+              {selectedLocation.status === 1 && (
+                <Button
+                  variant="contained"
+                  style={{ backgroundColor: '#e65100', color: '#fff' }}
+                  onClick={() => this.handleUnpublish(selectedLocation)}
+                  disabled={actionLoading}
+                  startIcon={<VisibilityOffIcon />}
+                >
+                  <FormattedMessage {...messages.unpublish} />
+                </Button>
+              )}
               <Button
                 variant="outlined"
                 color="primary"
@@ -897,20 +1335,33 @@ export class WorldLocationsView extends PureComponent {
               fullWidth
               margin="normal"
             />
-            <TextField
-              select
-              label={`${formatMessage(messages.tipo)} *`}
-              value={editFormData.tipo || 'Educación'}
-              onChange={this.handleEditInputChange('tipo')}
-              fullWidth
-              margin="normal"
-            >
-              {CATEGORY_OPTIONS.map(cat => (
-                <MenuItem key={cat.value} value={cat.value}>
-                  {formatMessage(messages[cat.messageKey] || messages.other)}
-                </MenuItem>
-              ))}
-            </TextField>
+            <div style={{ display: 'flex', gap: '16px' }}>
+              <TextField
+                select
+                label={`${formatMessage(messages.tipo)} *`}
+                value={editFormData.tipo || 'Educación'}
+                onChange={this.handleEditInputChange('tipo')}
+                fullWidth
+                margin="normal"
+              >
+                {CATEGORY_OPTIONS.map(cat => (
+                  <MenuItem key={cat.value} value={cat.value}>
+                    {formatMessage(messages[cat.messageKey] || messages.other)}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <TextField
+                select
+                label={formatMessage(messages.status)}
+                value={editFormData.status !== undefined ? editFormData.status : 1}
+                onChange={this.handleEditInputChange('status')}
+                fullWidth
+                margin="normal"
+              >
+                <MenuItem value={1}>{formatMessage(messages.published)}</MenuItem>
+                <MenuItem value={2}>{formatMessage(messages.pending)}</MenuItem>
+              </TextField>
+            </div>
             <TextField
               label={`${formatMessage(messages.description)} *`}
               value={editFormData.description || ''}
@@ -1053,51 +1504,101 @@ export class WorldLocationsView extends PureComponent {
               ))}
             </div>
             {/* Photos Editor */}
-            {editFormData.pictures && editFormData.pictures.length > 0 && (
-              <div style={{ marginTop: '16px', marginBottom: '8px' }}>
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    marginBottom: '8px',
-                  }}
-                >
-                  <Typography style={styles.detailLabel}>
-                    <FormattedMessage {...messages.photos} /> ({editFormData.pictures.length} / {MAX_IMAGES})
-                  </Typography>
-                </div>
-                <div style={styles.thumbnailsGrid}>
-                  {editFormData.pictures.map((pic, idx) => (
-                    <div
-                      key={`edit-pic-${idx}`}
-                      style={{
-                        position: 'relative',
-                        display: 'inline-block',
-                      }}
+            <div style={{ marginTop: '16px', marginBottom: '8px' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginBottom: '8px',
+                }}
+              >
+                <Typography style={styles.detailLabel}>
+                  <FormattedMessage {...messages.photos} /> (
+                  {(editFormData.pictures || []).length + (editFormData.newFiles || []).length} / {MAX_IMAGES})
+                </Typography>
+                <div>
+                  <input
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    style={{ display: 'none' }}
+                    id="edit-photos-upload"
+                    onChange={this.handleEditFilesChange}
+                  />
+                  <label htmlFor="edit-photos-upload">
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      color="primary"
+                      component="span"
+                      startIcon={<AddPhotoAlternateIcon />}
+                      disabled={
+                        (editFormData.pictures || []).length + (editFormData.newFiles || []).length >= MAX_IMAGES
+                      }
                     >
-                      <img src={pic} alt="" style={styles.thumbnail} />
-                      <IconButton
-                        size="small"
-                        onClick={this.handleRemovePhoto(idx)}
-                        style={{
-                          position: 'absolute',
-                          top: -6,
-                          right: -6,
-                          backgroundColor: '#d32f2f',
-                          color: '#fff',
-                          padding: 2,
-                          boxShadow: '0 2px 4px rgba(0,0,0,0.3)',
-                        }}
-                        title={formatMessage(messages.deletePhoto)}
-                      >
-                        <DeleteIcon style={{ fontSize: '14px' }} />
-                      </IconButton>
-                    </div>
-                  ))}
+                      <FormattedMessage {...messages.addPhotos} />
+                    </Button>
+                  </label>
                 </div>
               </div>
-            )}
+              <div style={styles.thumbnailsGrid}>
+                {(editFormData.pictures || []).map((pic, idx) => (
+                  <div
+                    key={`edit-pic-${idx}`}
+                    style={{
+                      position: 'relative',
+                      display: 'inline-block',
+                    }}
+                  >
+                    <img src={pic} alt="" style={styles.thumbnail} />
+                    <IconButton
+                      size="small"
+                      onClick={this.handleRemovePhoto(idx)}
+                      style={{
+                        position: 'absolute',
+                        top: -6,
+                        right: -6,
+                        backgroundColor: '#d32f2f',
+                        color: '#fff',
+                        padding: 2,
+                        boxShadow: '0 2px 4px rgba(0,0,0,0.3)',
+                      }}
+                      title={formatMessage(messages.deletePhoto)}
+                    >
+                      <DeleteIcon style={{ fontSize: '14px' }} />
+                    </IconButton>
+                  </div>
+                ))}
+                {(editFormData.newFiles || []).map((file, idx) => (
+                  <div
+                    key={`edit-newfile-${idx}`}
+                    style={{
+                      position: 'relative',
+                      display: 'inline-block',
+                    }}
+                  >
+                    <img src={getFilePreviewUrl(file)} alt="" style={styles.thumbnail} />
+                    <IconButton
+                      size="small"
+                      onClick={this.handleRemoveNewFile(idx)}
+                      style={{
+                        position: 'absolute',
+                        top: -6,
+                        right: -6,
+                        backgroundColor: '#d32f2f',
+                        color: '#fff',
+                        padding: 2,
+                        boxShadow: '0 2px 4px rgba(0,0,0,0.3)',
+                      }}
+                      title={formatMessage(messages.deletePhoto)}
+                    >
+                      <DeleteIcon style={{ fontSize: '14px' }} />
+                    </IconButton>
+                  </div>
+                ))}
+              </div>
+            </div>
             <TextField
               label={formatMessage(messages.video)}
               value={editFormData.video || ''}
@@ -1118,6 +1619,287 @@ export class WorldLocationsView extends PureComponent {
               <FormattedMessage {...messages.save} />
             </Button>
             <Button onClick={this.handleCloseEdit}>
+              <FormattedMessage {...messages.close} />
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        {/* Dialog: Create New Initiative */}
+        <Dialog open={newDialogOpen} onClose={this.handleCloseNewDialog} maxWidth="md" fullWidth>
+          <DialogTitle>
+            <FormattedMessage {...messages.createInitiativeTitle} />
+          </DialogTitle>
+          <DialogContent dividers>
+            <TextField
+              label={`${formatMessage(messages.name)} *`}
+              value={newFormData.name || ''}
+              onChange={this.handleNewInputChange('name')}
+              fullWidth
+              margin="normal"
+            />
+            <div style={{ display: 'flex', gap: '16px' }}>
+              <TextField
+                select
+                label={`${formatMessage(messages.tipo)} *`}
+                value={newFormData.tipo || 'Educación'}
+                onChange={this.handleNewInputChange('tipo')}
+                fullWidth
+                margin="normal"
+              >
+                {CATEGORY_OPTIONS.map(cat => (
+                  <MenuItem key={cat.value} value={cat.value}>
+                    {formatMessage(messages[cat.messageKey] || messages.other)}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <TextField
+                select
+                label={`${formatMessage(messages.status)} *`}
+                value={newFormData.status !== undefined ? newFormData.status : 1}
+                onChange={this.handleNewInputChange('status')}
+                fullWidth
+                margin="normal"
+              >
+                <MenuItem value={1}>{formatMessage(messages.published)}</MenuItem>
+                <MenuItem value={2}>{formatMessage(messages.pending)}</MenuItem>
+              </TextField>
+            </div>
+            <TextField
+              label={`${formatMessage(messages.description)} *`}
+              value={newFormData.description || ''}
+              onChange={this.handleNewInputChange('description')}
+              fullWidth
+              multiline
+              rows={3}
+              margin="normal"
+              inputProps={{ maxLength: MAX_DESCRIPTION_LENGTH }}
+              error={
+                Boolean(
+                  newFormData.description &&
+                    (newFormData.description.length > MAX_DESCRIPTION_LENGTH ||
+                      countWords(newFormData.description) > MAX_DESCRIPTION_WORDS),
+                )
+              }
+              helperText={
+                <span
+                  style={{
+                    color:
+                      newFormData.description &&
+                      (newFormData.description.length > MAX_DESCRIPTION_LENGTH ||
+                        countWords(newFormData.description) > MAX_DESCRIPTION_WORDS)
+                        ? '#d32f2f'
+                        : '#757575',
+                  }}
+                >
+                  {formatMessage(messages.descriptionCounter, {
+                    currentChars: (newFormData.description || '').length,
+                    maxChars: MAX_DESCRIPTION_LENGTH,
+                    currentWords: countWords(newFormData.description || ''),
+                    maxWords: MAX_DESCRIPTION_WORDS,
+                  })}
+                </span>
+              }
+            />
+            <div style={{ display: 'flex', gap: '16px' }}>
+              <TextField
+                label="Latitud *"
+                value={newFormData.latitude || ''}
+                onChange={this.handleNewInputChange('latitude')}
+                fullWidth
+                margin="normal"
+                placeholder="ej. 41.3851"
+              />
+              <TextField
+                label="Longitud *"
+                value={newFormData.longitude || ''}
+                onChange={this.handleNewInputChange('longitude')}
+                fullWidth
+                margin="normal"
+                placeholder="ej. 2.1734"
+              />
+            </div>
+            <TextField
+              label="Dirección"
+              value={newFormData.address || ''}
+              onChange={this.handleNewInputChange('address')}
+              fullWidth
+              margin="normal"
+            />
+            <div style={{ display: 'flex', gap: '16px' }}>
+              <TextField
+                label="Ciudad"
+                value={newFormData.city || ''}
+                onChange={this.handleNewInputChange('city')}
+                fullWidth
+                margin="normal"
+              />
+              <TextField
+                label="Provincia"
+                value={newFormData.province || ''}
+                onChange={this.handleNewInputChange('province')}
+                fullWidth
+                margin="normal"
+              />
+              <TextField
+                label="Código Postal"
+                value={newFormData.postalCode || ''}
+                onChange={this.handleNewInputChange('postalCode')}
+                fullWidth
+                margin="normal"
+              />
+              <TextField
+                label="País"
+                value={newFormData.country || ''}
+                onChange={this.handleNewInputChange('country')}
+                fullWidth
+                margin="normal"
+              />
+            </div>
+            {/* Dynamic Links Editor */}
+            <div style={{ marginTop: '16px', marginBottom: '8px' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginBottom: '8px',
+                }}
+              >
+                <Typography style={styles.detailLabel}>
+                  <FormattedMessage {...messages.links} />
+                </Typography>
+                <Button
+                  size="small"
+                  variant="outlined"
+                  color="primary"
+                  onClick={this.handleAddNewLink}
+                  startIcon={<AddIcon />}
+                >
+                  <FormattedMessage {...messages.addLink} />
+                </Button>
+              </div>
+              {(newFormData.links || []).map((link, index) => (
+                <div
+                  key={link.id || `new-link-${index}`}
+                  style={{
+                    display: 'flex',
+                    gap: '12px',
+                    alignItems: 'center',
+                    marginBottom: '8px',
+                  }}
+                >
+                  <TextField
+                    select
+                    label={formatMessage(messages.linkType)}
+                    value={link.type || 'web'}
+                    onChange={this.handleNewLinkChange(index, 'type')}
+                    style={{ minWidth: '140px' }}
+                  >
+                    {LINK_TYPES.map(lt => (
+                      <MenuItem key={lt.value} value={lt.value}>
+                        {formatMessage(messages[lt.messageKey] || messages.mainWeb)}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                  <TextField
+                    label={formatMessage(messages.url)}
+                    value={link.url || ''}
+                    onChange={this.handleNewLinkChange(index, 'url')}
+                    fullWidth
+                    placeholder="https://..."
+                  />
+                  <IconButton size="small" onClick={this.handleRemoveNewLink(index)} color="secondary">
+                    <DeleteIcon fontSize="small" />
+                  </IconButton>
+                </div>
+              ))}
+            </div>
+            {/* Photos Upload */}
+            <div style={{ marginTop: '16px', marginBottom: '8px' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginBottom: '8px',
+                }}
+              >
+                <Typography style={styles.detailLabel}>
+                  <FormattedMessage {...messages.photos} /> ({(newFormData.files || []).length} / {MAX_IMAGES})
+                </Typography>
+                <div>
+                  <input
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    style={{ display: 'none' }}
+                    id="new-photos-upload"
+                    onChange={this.handleNewFilesChange}
+                  />
+                  <label htmlFor="new-photos-upload">
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      color="primary"
+                      component="span"
+                      startIcon={<AddPhotoAlternateIcon />}
+                      disabled={(newFormData.files || []).length >= MAX_IMAGES}
+                    >
+                      <FormattedMessage {...messages.addPhotos} />
+                    </Button>
+                  </label>
+                </div>
+              </div>
+              <div style={styles.thumbnailsGrid}>
+                {(newFormData.files || []).map((file, idx) => (
+                  <div
+                    key={`new-upload-pic-${idx}`}
+                    style={{
+                      position: 'relative',
+                      display: 'inline-block',
+                    }}
+                  >
+                    <img src={getFilePreviewUrl(file)} alt="" style={styles.thumbnail} />
+                    <IconButton
+                      size="small"
+                      onClick={this.handleRemoveNewUploadFile(idx)}
+                      style={{
+                        position: 'absolute',
+                        top: -6,
+                        right: -6,
+                        backgroundColor: '#d32f2f',
+                        color: '#fff',
+                        padding: 2,
+                        boxShadow: '0 2px 4px rgba(0,0,0,0.3)',
+                      }}
+                      title={formatMessage(messages.deletePhoto)}
+                    >
+                      <DeleteIcon style={{ fontSize: '14px' }} />
+                    </IconButton>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <TextField
+              label={formatMessage(messages.video)}
+              value={newFormData.video || ''}
+              onChange={this.handleNewInputChange('video')}
+              fullWidth
+              margin="normal"
+            />
+            <TextField
+              label={formatMessage(messages.author)}
+              value={newFormData.email || ''}
+              onChange={this.handleNewInputChange('email')}
+              fullWidth
+              margin="normal"
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button variant="contained" color="primary" onClick={this.handleSaveNew} disabled={actionLoading}>
+              <FormattedMessage {...messages.save} />
+            </Button>
+            <Button onClick={this.handleCloseNewDialog}>
               <FormattedMessage {...messages.close} />
             </Button>
           </DialogActions>
