@@ -240,6 +240,7 @@
   "arasaacadmin.containers.WorldLocationsView.descriptionTooLong": "La descripción no puede exceder los 1800 caracteres (aproximadamente 300 palabras)",
   "arasaacadmin.containers.WorldLocationsView.edit": "Editar",
   "arasaacadmin.containers.WorldLocationsView.header": "ARASAAC en el mundo - Moderación y Gestión",
+  "arasaacadmin.containers.WorldLocationsView.refresh": "Actualizar",
   "arasaacadmin.containers.WorldLocationsView.linkType": "Tipo",
   "arasaacadmin.containers.WorldLocationsView.links": "Enlaces",
   "arasaacadmin.containers.WorldLocationsView.location": "Ubicación",

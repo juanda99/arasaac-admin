@@ -38,9 +38,11 @@ import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
 import OpenInNewIcon from '@material-ui/icons/OpenInNew'
 import AddIcon from '@material-ui/icons/Add'
 import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate'
+import RefreshIcon from '@material-ui/icons/Refresh'
 
 import View from 'components/View'
 import api from 'services'
+import resizeImages from 'utils/imageResize'
 import { makeSelectHasUser } from 'containers/App/selectors'
 import messages from './messages'
 
@@ -601,7 +603,8 @@ export class WorldLocationsView extends PureComponent {
       if (editFormData.newFiles && editFormData.newFiles.length > 0) {
         const formData = new FormData()
         formData.append('formData', JSON.stringify(payload))
-        editFormData.newFiles.forEach(file => {
+        const processedFiles = await resizeImages(editFormData.newFiles)
+        processedFiles.forEach(file => {
           formData.append('images', file)
         })
         requestData = formData
@@ -835,7 +838,8 @@ export class WorldLocationsView extends PureComponent {
 
       const formData = new FormData()
       formData.append('formData', JSON.stringify(payload))
-      ;(newFormData.files || []).forEach(f => {
+      const processedFiles = await resizeImages(newFormData.files || [])
+      processedFiles.forEach(f => {
         formData.append('images', f)
       })
 
@@ -957,6 +961,17 @@ export class WorldLocationsView extends PureComponent {
               onClick={this.handleOpenNewDialog}
             >
               <FormattedMessage {...messages.newInitiative} />
+            </Button>
+
+            <Button
+              id="world-refresh-btn"
+              variant="outlined"
+              color="primary"
+              startIcon={<RefreshIcon />}
+              onClick={this.fetchLocations}
+              disabled={loading}
+            >
+              <FormattedMessage {...messages.refresh} />
             </Button>
 
             <TextField

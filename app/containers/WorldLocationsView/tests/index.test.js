@@ -451,4 +451,12 @@ describe('<WorldLocationsView />', () => {
     expect(wrapper.state('newDialogOpen')).toBe(false)
     expect(wrapper.state('snackbarOpen')).toBe(true)
   })
+
+  it('refetches locations when clicking the refresh button', () => {
+    const api = require('services').default || require('services')
+    const wrapper = shallow(<WorldLocationsView {...mockProps} />)
+    const initialCallCount = api.WORLD_LOCATIONS_REQUEST.mock.calls.length
+    wrapper.find('#world-refresh-btn').simulate('click')
+    expect(api.WORLD_LOCATIONS_REQUEST.mock.calls.length).toBeGreaterThan(initialCallCount)
+  })
 })

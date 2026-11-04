@@ -82,8 +82,13 @@ const api = {
       status: status !== undefined ? status : undefined,
       tipo: tipo || undefined,
       search: search || undefined,
+      _t: Date.now(),
     })
-    return callApi(`${PRIVATE_API_ROOT}/world${query ? `?${query}` : ''}`, null, token)
+    return callApi(
+      `${PRIVATE_API_ROOT}/world${query ? `?${query}` : ''}`,
+      { config: { cache: 'no-store' } },
+      token,
+    )
   },
   WORLD_LOCATION_REQUEST: ({ id, token }) => callApi(`${PRIVATE_API_ROOT}/world/${id}`, null, token),
   WORLD_LOCATION_CREATE_REQUEST: ({ data, token }) => {

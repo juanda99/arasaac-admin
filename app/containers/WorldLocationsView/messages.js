@@ -5,6 +5,10 @@ export default defineMessages({
     id: 'arasaacadmin.containers.WorldLocationsView.header',
     defaultMessage: 'ARASAAC in the World - Moderation & Management',
   },
+  refresh: {
+    id: 'arasaacadmin.containers.WorldLocationsView.refresh',
+    defaultMessage: 'Refresh',
+  },
   pendingTab: {
     id: 'arasaacadmin.containers.WorldLocationsView.pendingTab',
     defaultMessage: 'Pending Review',
