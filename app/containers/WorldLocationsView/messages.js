@@ -176,6 +176,11 @@ export default defineMessages({
     id: 'arasaacadmin.containers.WorldLocationsView.maxPhotosReached',
     defaultMessage: 'Maximum of 15 photos allowed',
   },
+  maxTotalSizeExceeded: {
+    id: 'arasaacadmin.containers.WorldLocationsView.maxTotalSizeExceeded',
+    defaultMessage:
+      'The selected photos exceed the maximum allowed size of 100MB. Please reduce the number of photos or their size.',
+  },
   deletePhoto: {
     id: 'arasaacadmin.containers.WorldLocationsView.deletePhoto',
     defaultMessage: 'Delete photo',

@@ -459,4 +459,61 @@ describe('<WorldLocationsView />', () => {
     wrapper.find('#world-refresh-btn').simulate('click')
     expect(api.WORLD_LOCATIONS_REQUEST.mock.calls.length).toBeGreaterThan(initialCallCount)
   })
+
+  it('blocks saving new initiative when files exceed 100MB and warns user', async () => {
+    const api = require('services').default || require('services')
+    api.WORLD_LOCATION_CREATE_REQUEST.mockClear()
+
+    const wrapper = shallow(<WorldLocationsView {...mockProps} />)
+    wrapper.instance().handleOpenNewDialog()
+
+    wrapper.instance().handleNewInputChange('name')({ target: { value: 'Iniciativa Pesada' } })
+    wrapper.instance().handleNewInputChange('tipo')({ target: { value: 'Salud' } })
+    wrapper.instance().handleNewInputChange('description')({ target: { value: 'Descripción' } })
+    wrapper.instance().handleNewInputChange('latitude')({ target: { value: '41.65' } })
+    wrapper.instance().handleNewInputChange('longitude')({ target: { value: '-0.88' } })
+
+    const hugeFile = { name: 'huge.bin', type: 'application/octet-stream', size: 105 * 1024 * 1024 }
+    wrapper.setState({
+      newFormData: {
+        ...wrapper.state('newFormData'),
+        files: [hugeFile],
+      },
+    })
+
+    await wrapper.instance().handleSaveNew()
+
+    expect(api.WORLD_LOCATION_CREATE_REQUEST).not.toHaveBeenCalled()
+    expect(wrapper.state('snackbarMessage')).toBe(
+      'The selected photos exceed the maximum allowed size of 100MB. Please reduce the number of photos or their size.',
+    )
+  })
+
+  it('displays size exceeded message when server responds with 413 on save', async () => {
+    const api = require('services').default || require('services')
+    api.WORLD_LOCATION_CREATE_REQUEST.mockRejectedValue({
+      response: {
+        status: 413,
+        data: {
+          message: 'The uploaded files exceed the maximum allowed size (100MB). Please reduce the number or size of photos.',
+          error: 'maxFileSize exceeded',
+        },
+      },
+    })
+
+    const wrapper = shallow(<WorldLocationsView {...mockProps} />)
+    wrapper.instance().handleOpenNewDialog()
+
+    wrapper.instance().handleNewInputChange('name')({ target: { value: 'Iniciativa Test' } })
+    wrapper.instance().handleNewInputChange('tipo')({ target: { value: 'Salud' } })
+    wrapper.instance().handleNewInputChange('description')({ target: { value: 'Descripción' } })
+    wrapper.instance().handleNewInputChange('latitude')({ target: { value: '41.65' } })
+    wrapper.instance().handleNewInputChange('longitude')({ target: { value: '-0.88' } })
+
+    await wrapper.instance().handleSaveNew()
+
+    expect(wrapper.state('snackbarMessage')).toBe(
+      'The selected photos exceed the maximum allowed size of 100MB. Please reduce the number of photos or their size.',
+    )
+  })
 })

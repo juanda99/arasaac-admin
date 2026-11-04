@@ -246,6 +246,7 @@
   "arasaacadmin.containers.WorldLocationsView.location": "Location",
   "arasaacadmin.containers.WorldLocationsView.mainWeb": "Main Website",
   "arasaacadmin.containers.WorldLocationsView.maxPhotosReached": "Maximum of 15 photos allowed",
+  "arasaacadmin.containers.WorldLocationsView.maxTotalSizeExceeded": "The selected photos exceed the maximum allowed size of 100MB. Please reduce the number of photos or their size.",
   "arasaacadmin.containers.WorldLocationsView.name": "Name",
   "arasaacadmin.containers.WorldLocationsView.nameRequired": "Name is required",
   "arasaacadmin.containers.WorldLocationsView.newInitiative": "New Initiative",

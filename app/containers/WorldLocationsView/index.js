@@ -47,6 +47,7 @@ import { makeSelectHasUser } from 'containers/App/selectors'
 import messages from './messages'
 
 export const MAX_IMAGES = 15
+export const MAX_TOTAL_SIZE = 100 * 1024 * 1024 // 100 MB
 export const MAX_DESCRIPTION_LENGTH = 1800
 export const MAX_DESCRIPTION_WORDS = 300
 
@@ -604,6 +605,12 @@ export class WorldLocationsView extends PureComponent {
         const formData = new FormData()
         formData.append('formData', JSON.stringify(payload))
         const processedFiles = await resizeImages(editFormData.newFiles)
+        const totalSize = processedFiles.reduce((acc, f) => acc + (f.size || 0), 0)
+        if (totalSize > MAX_TOTAL_SIZE) {
+          this.setState({ actionLoading: false })
+          this.showSnackbar(formatMessage(messages.maxTotalSizeExceeded))
+          return
+        }
         processedFiles.forEach(file => {
           formData.append('images', file)
         })
@@ -621,7 +628,19 @@ export class WorldLocationsView extends PureComponent {
       this.fetchLocations()
     } catch (err) {
       this.setState({ actionLoading: false })
-      this.showSnackbar(err.message || 'Error updating location')
+      const serverData = err.response && err.response.data
+      const isPayloadTooLarge =
+        (err.response && err.response.status === 413) ||
+        (serverData &&
+          serverData.error &&
+          typeof serverData.error === 'string' &&
+          serverData.error.toLowerCase().includes('maxfilesize'))
+      const errorMsg = isPayloadTooLarge
+        ? formatMessage(messages.maxTotalSizeExceeded)
+        : (serverData && (serverData.message || serverData.error)) ||
+          err.message ||
+          'Error updating location'
+      this.showSnackbar(errorMsg)
     }
   }
 
@@ -839,6 +858,12 @@ export class WorldLocationsView extends PureComponent {
       const formData = new FormData()
       formData.append('formData', JSON.stringify(payload))
       const processedFiles = await resizeImages(newFormData.files || [])
+      const totalSize = processedFiles.reduce((acc, f) => acc + (f.size || 0), 0)
+      if (totalSize > MAX_TOTAL_SIZE) {
+        this.setState({ actionLoading: false })
+        this.showSnackbar(formatMessage(messages.maxTotalSizeExceeded))
+        return
+      }
       processedFiles.forEach(f => {
         formData.append('images', f)
       })
@@ -853,7 +878,19 @@ export class WorldLocationsView extends PureComponent {
       this.fetchLocations()
     } catch (err) {
       this.setState({ actionLoading: false })
-      this.showSnackbar(err.message || 'Error creating location')
+      const serverData = err.response && err.response.data
+      const isPayloadTooLarge =
+        (err.response && err.response.status === 413) ||
+        (serverData &&
+          serverData.error &&
+          typeof serverData.error === 'string' &&
+          serverData.error.toLowerCase().includes('maxfilesize'))
+      const errorMsg = isPayloadTooLarge
+        ? formatMessage(messages.maxTotalSizeExceeded)
+        : (serverData && (serverData.message || serverData.error)) ||
+          err.message ||
+          'Error creating location'
+      this.showSnackbar(errorMsg)
     }
   }
 
